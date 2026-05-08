@@ -1,7 +1,7 @@
 User-agent: *
   Allow: /
 
-  Sitemap: https://YOUR-USERNAME.github.io/kerala-ticket-results/sitemap.xml
+  Sitemap: https://keralaticketresults.in/sitemap.xml
 
   # Block common bad bots
   User-agent: SemrushBot
