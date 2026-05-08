@@ -1,0 +1,11 @@
+User-agent: *
+  Allow: /
+
+  Sitemap: https://YOUR-USERNAME.github.io/kerala-ticket-results/sitemap.xml
+
+  # Block common bad bots
+  User-agent: SemrushBot
+  Disallow: /
+  User-agent: AhrefsBot
+  Disallow: /
+  
