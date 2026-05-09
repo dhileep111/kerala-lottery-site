@@ -1,0 +1,53 @@
+name: 🚀 Update Lottery Results
+
+on:
+  workflow_dispatch:
+    inputs:
+      lottery_page:
+        description: 'Which lottery page to update? (e.g., karunya, akshaya)'
+        required: true
+        type: choice
+        options:
+          - karunya
+          - akshaya
+          - win-win
+          - sthree-sakthi
+          - fifty-fifty
+          - karunya-plus
+          - nirmal
+      draw_code:
+        description: 'Draw Code (e.g., KR-753)'
+        required: true
+        type: string
+      first_prize:
+        description: '1st Prize Number (e.g., KN 844574)'
+        required: true
+        type: string
+
+jobs:
+  update-website:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install BeautifulSoup
+        run: pip install beautifulsoup4
+
+      - name: Run Python Script
+        run: python update_results.py "${{ github.event.inputs.lottery_page }}" "${{ github.event.inputs.draw_code }}" "${{ github.event.inputs.first_prize }}"
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "Lottery Updater Bot"
+          git config --global user.email "bot@keralaticketresults.in"
+          git add index.html ${{ github.event.inputs.lottery_page }}.html
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update: ${{ github.event.inputs.draw_code }} Results" && git push)
