@@ -1,95 +1,84 @@
-import os
-import datetime
-from bs4 import BeautifulSoup
+# update_results.py — Kerala Ticket Results updater
+# Called by GitHub Actions with 3 arguments:
+# python update_results.py karunya "KR-753" "KN 844574"
 
-def update_html_file(file_path, lottery_code, first_prize_number, date_string):
-    """Safely updates the HTML using BeautifulSoup."""
-    if not os.path.exists(file_path):
-        print(f"⚠️ Could not find {file_path}. Skipping.")
-        return False
+import sys
+import re
+from datetime import datetime
 
-    with open(file_path, 'r', encoding='utf-8') as f:
-        soup = BeautifulSoup(f, 'html.parser')
+# ── Read arguments from GitHub Actions ──────────────────
+lottery_page  = sys.argv[1]   # e.g. "karunya"
+draw_code     = sys.argv[2]   # e.g. "KR-753"
+first_prize   = sys.argv[3]   # e.g. "KN 844574"
 
-    # 1. Update the Ticker (Always starts with LIVE: LotteryName Code-XXX)
-    ticker = soup.find('div', class_='ticker-scroll')
-    if ticker:
-        for span in ticker.find_all('span'):
-            if "LIVE:" in span.text:
-                lottery_name = span.text.split(" ")[1] # Extracts "Karunya" or "Nirmal"
-                span.string = f"LIVE: {lottery_name} {lottery_code} Result Out | 1st Prize {first_prize_number}"
+# ── Date & time ──────────────────────────────────────────
+today         = datetime.now().strftime("%d %B %Y")   # "09 May 2026"
+today_iso     = datetime.now().strftime("%Y-%m-%d")   # "2026-05-09"
+today_short   = datetime.now().strftime("%B %d, %Y")  # "May 09, 2026"
 
-    # 2. Update the Main Card Header (e.g., Karunya KR-753)
-    rc_name = soup.find('div', class_='rc-name')
-    if rc_name:
-        lottery_name = rc_name.text.split(" ")[0]
-        rc_name.string = f"{lottery_name} {lottery_code}"
+# ── Lottery config: name, prize amounts ─────────────────
+LOTTERY_CONFIG = {
+    "karunya":        {"name": "Karunya",       "code": "KR", "prize1": "₹1,00,00,000", "prize2": "₹25,00,000"},
+    "karunya-plus":   {"name": "Karunya Plus",  "code": "KN", "prize1": "₹1,00,00,000", "prize2": "₹30,00,000"},
+    "sthree-sakthi":  {"name": "Sthree Sakthi","code": "SS", "prize1": "₹75,00,000",  "prize2": "₹10,00,000"},
+    "dhanalekshmi":   {"name": "Dhanalekshmi", "code": "DL", "prize1": "₹70,00,000",  "prize2": "₹10,00,000"},
+    "bhagyathara":    {"name": "Bhagyathara",  "code": "BT", "prize1": "₹70,00,000",  "prize2": "₹10,00,000"},
+    "samrudhi":       {"name": "Samrudhi",     "code": "SM", "prize1": "₹1,00,00,000", "prize2": "₹25,00,000"},
+    "suvarna-keralam":{"name": "Suvarna Keralam","code":"SK", "prize1": "₹1,00,00,000", "prize2": "₹30,00,000"},
+}
 
-    # 3. Update the Date inside the Card
-    rc_meta = soup.find('div', class_='rc-meta')
-    if rc_meta:
-        date_span = rc_meta.find('span')
-        if date_span:
-             # Keep the SVG icon, just replace the text
-             date_span.clear()
-             date_span.append(BeautifulSoup('<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', 'html.parser'))
-             date_span.append(f" {date_string}")
+cfg  = LOTTERY_CONFIG.get(lottery_page, {})
+name = cfg.get("name", lottery_page.title())
+p1   = cfg.get("prize1", "₹1,00,00,000")
 
-    # 4. Update the 1st Prize Number in the big card
-    prize_number = soup.find('div', class_='prize-number')
-    if prize_number:
-        prize_number.string = first_prize_number
+# ── Helper: read file ────────────────────────────────────
+def read(path):
+    with open(path, "r", encoding="utf-8") as f:
+        return f.read()
 
-    # 5. Update the Detailed Result Table
-    table_body = soup.find('tbody', id='res-body')
-    if table_body:
-        # Find the first row (1st prize)
-        first_row = table_body.find('tr')
-        if first_row:
-             chip = first_row.find('span', class_='chip')
-             if chip:
-                 chip['data-num'] = first_prize_number
-                 chip.string = first_prize_number
+# ── Helper: write file ───────────────────────────────────
+def write(path, content):
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(content)
+    print(f"✅ Updated: {path}")
 
-    # Save the file
-    with open(file_path, 'w', encoding='utf-8') as f:
-        f.write(str(soup))
-    
-    print(f"✅ Successfully updated {file_path}")
-    return True
+# ── Update lottery-specific page ─────────────────────────
+page_file = f"{lottery_page}.html"
+try:
+    html = read(page_file)
+    # Replace draw code (KR-XXX → KR-753)
+    html = re.sub(r'[A-Z]{2}-XXX', draw_code, html)
+    # Replace placeholder ticket number
+    html = re.sub(r'KL-123456', first_prize, html)
+    # Replace old date
+    html = re.sub(r'May \d+, 2026', today_short, html)
+    html = re.sub(r'\d+ May 2026', today, html)
+    # Replace wrong prize amount
+    html = re.sub(r'₹\s*80,00,000', p1, html)
+    html = re.sub(r'80,00,000', p1.replace('₹','').strip(), html)
+    write(page_file, html)
+except FileNotFoundError:
+    print(f"❌ ERROR: {page_file} not found in repo")
+    sys.exit(1)
 
-def main():
-    print("=========================================")
-    print("🏆 KERALA TICKET RESULTS - FAST UPDATER 🏆")
-    print("=========================================")
-    print("This script will update index.html and the specific lottery page.")
-    
-    # 1. Get User Input
-    lottery_target = input("Which lottery is it today? (e.g., karunya, nirmal, akshaya): ").strip().lower()
-    lottery_code = input("What is the draw code? (e.g., KR-753): ").strip().upper()
-    first_prize = input("What is the 1st Prize Number? (e.g., KN 844574): ").strip().upper()
-    
-    # 2. Format Date (e.g., May 09, 2026)
-    today = datetime.datetime.now()
-    date_string = today.strftime("%B %d, %Y")
-    print(f"\nProcessing updates for {date_string}...")
+# ── Update index.html homepage ───────────────────────────
+try:
+    idx = read("index.html")
+    idx = re.sub(r'[A-Z]{2}-XXX', draw_code, idx)
+    idx = re.sub(r'KL-123456', first_prize, idx)
+    idx = re.sub(r'May \d+, 2026', today_short, idx)
+    idx = re.sub(r'₹\s*80,00,000', p1, idx)
+    idx = re.sub(r'Karunya KR-\w+', f"{name} {draw_code}", idx)
+    # Update breaking ticker
+    ticker_new = (
+        f"LIVE: {name} {draw_code} Result Out | "
+        f"1st Prize {first_prize} | Updated {today} 3 PM | "
+        f"Check your numbers now!"
+    )
+    idx = re.sub(r'LIVE:.*?Check your numbers now!', ticker_new, idx, flags=re.DOTALL)
+    write("index.html", idx)
+except FileNotFoundError:
+    print("❌ ERROR: index.html not found")
+    sys.exit(1)
 
-    # 3. Define target files
-    # We ALWAYS update index.html
-    target_files = ['index.html']
-    
-    # We ALSO update the specific inner page
-    inner_page = f"{lottery_target}.html"
-    target_files.append(inner_page)
-
-    # 4. Run the updates
-    for file in target_files:
-        update_html_file(file, lottery_code, first_prize, date_string)
-
-    print("\n🚀 Done! Type the following commands in your terminal to push live:")
-    print('git add .')
-    print(f'git commit -m "Auto-update: {lottery_code} Results"')
-    print('git push')
-
-if __name__ == "__main__":
-    main()
+print(f"🎉 Done! {name} {draw_code} — 1st Prize: {first_prize} — Date: {today}")
