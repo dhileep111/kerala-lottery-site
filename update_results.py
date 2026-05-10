@@ -54,8 +54,8 @@ else:
         lottery_page = auto_lottery_list[0]
         print(f"Setting up today's {LOTTERY_CONFIG[lottery_page]['name']} draw.")
     else:
-        print(f"⚠️ ERROR: Could not find a lottery assigned to weekday {weekday_idx}. Exiting.")
-        sys.exit(0) # Exit cleanly, don't crash
+        print(f"⚠️ ERROR: Could not find a lottery assigned to weekday {weekday_idx}. Defaulting to Suvarna Keralam to prevent crash.")
+        lottery_page = "suvarna-keralam" # Fallback to prevent crash
         
     code = LOTTERY_CONFIG[lottery_page]['code']
     draw_code = f"{code}-XXX"
