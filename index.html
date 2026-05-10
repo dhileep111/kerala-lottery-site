@@ -352,5 +352,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if(s==='dark'){document.getElementById('iSun').style.display='none';document.getElementById('iMoon').style.display='';}
   })();
   </script>
+    <script>
+  // Automatic Schedule Highlighter
+  document.addEventListener("DOMContentLoaded", function() {
+    // Get today's day (0 = Sunday, 1 = Monday, ... 6 = Saturday)
+    const today = new Date().getDay();
+    
+    // Map JS days to your table rows (Assuming your table rows have IDs or you select them by index)
+    // Adjust these index numbers based on how your table is structured
+    const rowMapping = {
+      1: 0, // Monday -> Row 1
+      2: 1, // Tuesday -> Row 2
+      3: 2, // Wednesday -> Row 3
+      4: 3, // Thursday -> Row 4
+      5: 4, // Friday -> Row 5
+      6: 5, // Saturday -> Row 6
+      0: 6  // Sunday -> Row 7
+    };
+
+    const targetRowIndex = rowMapping[today];
+    
+    // Select all rows in your schedule table body
+    // You might need to add a class to your table body like <tbody class="schedule-body">
+    const scheduleRows = document.querySelectorAll('.schedule-body tr');
+    
+    if (scheduleRows.length > 0 && targetRowIndex !== undefined) {
+      // Remove any existing active highlights
+      scheduleRows.forEach(row => {
+        row.style.backgroundColor = ''; 
+        row.style.fontWeight = 'normal';
+      });
+      
+      // Highlight today's row (Example: light yellow background)
+      const activeRow = scheduleRows[targetRowIndex];
+      if (activeRow) {
+         activeRow.style.backgroundColor = '#fff3cd'; // Bootstrap warning color
+         activeRow.style.fontWeight = 'bold';
+      }
+    }
+  });
+</script>
   </body>
   </html>
