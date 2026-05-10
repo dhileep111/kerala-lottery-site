@@ -3,38 +3,60 @@ import re
 import urllib.request
 from bs4 import BeautifulSoup
 from datetime import datetime
+import os
 
 # ── Lottery Config & Weekday Mapping ─────────────────────
+# Monday=0, Tuesday=1, Wednesday=2, Thursday=3, Friday=4, Saturday=5, Sunday=6
 LOTTERY_CONFIG = {
-    "dhanalekshmi":   {"name": "Dhanalekshmi", "code": "DL", "prize1": "₹70,00,000",  "day": 0}, # Monday
-    "sthree-sakthi":  {"name": "Sthree Sakthi","code": "SS", "prize1": "₹75,00,000",  "day": 1}, # Tuesday
-    "bhagyathara":    {"name": "Bhagyathara",  "code": "BT", "prize1": "₹70,00,000",  "day": 2}, # Wednesday
-    "karunya-plus":   {"name": "Karunya Plus", "code": "KN", "prize1": "₹1,00,00,000", "day": 3}, # Thursday
-    "samrudhi":       {"name": "Samrudhi",     "code": "SM", "prize1": "₹1,00,00,000", "day": 4}, # Friday
-    "karunya":        {"name": "Karunya",      "code": "KR", "prize1": "₹1,00,00,000", "day": 5}, # Saturday
-    "suvarna-keralam":{"name": "Suvarna Keralam","code":"SK", "prize1": "₹1,00,00,000", "day": 6}, # Sunday
+    "dhanalekshmi":   {"name": "Dhanalekshmi", "code": "DL", "prize1": "₹75,00,000",  "day": 0}, 
+    "sthree-sakthi":  {"name": "Sthree Sakthi","code": "SS", "prize1": "₹75,00,000",  "day": 1}, 
+    "bhagyathara":    {"name": "Bhagyathara",  "code": "BT", "prize1": "₹70,00,000",  "day": 2}, 
+    "karunya-plus":   {"name": "Karunya Plus", "code": "KN", "prize1": "₹1,00,00,000", "day": 3}, 
+    "samrudhi":       {"name": "Samrudhi",     "code": "SM", "prize1": "₹1,00,00,000", "day": 4}, 
+    "karunya":        {"name": "Karunya",      "code": "KR", "prize1": "₹1,00,00,000", "day": 5}, 
+    "suvarna-keralam":{"name": "Suvarna Keralam","code":"SK", "prize1": "₹50,00,000", "day": 6}, 
 }
 
-# Find which lottery corresponds to today
-today_dt = datetime.now()
-weekday_idx = today_dt.weekday()
-auto_lottery = [k for k, v in LOTTERY_CONFIG.items() if v["day"] == weekday_idx][0]
-
 # ── Check Inputs (Manual vs Cron Auto-Run) ───────────────
-# GitHub Actions passes empty strings "" if fields are left blank during scheduled cron
 manual_lottery = sys.argv[1] if len(sys.argv) > 1 else ""
 manual_draw    = sys.argv[2] if len(sys.argv) > 2 else ""
 manual_prize   = sys.argv[3] if len(sys.argv) > 3 else ""
 
-if manual_lottery and manual_draw and manual_prize:
-    print("🚀 MANUAL MODE DETECTED: Applying exact winning numbers.")
+is_scheduled_run = os.environ.get('GITHUB_EVENT_NAME') == 'schedule'
+
+today_dt = datetime.now()
+weekday_idx = today_dt.weekday()
+
+if manual_lottery and not is_scheduled_run:
+    print(f"🚀 MANUAL MODE DETECTED: Forcing update for {manual_lottery}.")
     lottery_page = manual_lottery
-    draw_code = manual_draw
-    first_prize = manual_prize
-    status_badge = '<span class="badge badge-live">LIVE</span>'
+    
+    code = LOTTERY_CONFIG.get(lottery_page, {}).get('code', 'XX')
+    draw_code = manual_draw if manual_draw else f"{code}-XXX"
+        
+    if manual_prize:
+        first_prize = manual_prize
+        status_badge = '<span class="badge badge-live">LIVE</span>'
+        print(f"Applying exact winning numbers: Draw: {draw_code}, Prize: {first_prize}")
+    else:
+        first_prize = "PENDING"
+        status_badge = '<span class="badge badge-pending">PENDING</span>'
+        print(f"No prize entered. Setting {lottery_page} to PENDING.")
+
 else:
-    print(f"🤖 AUTO MODE DETECTED: Setting up today's {LOTTERY_CONFIG[auto_lottery]['name']} draw.")
-    lottery_page = auto_lottery
+    # --- AUTO MODE (Cron Schedule) ---
+    print("🤖 AUTO MODE DETECTED (Scheduled Run).")
+    
+    # Safely find today's lottery
+    auto_lottery_list = [k for k, v in LOTTERY_CONFIG.items() if v["day"] == weekday_idx]
+    
+    if auto_lottery_list:
+        lottery_page = auto_lottery_list[0]
+        print(f"Setting up today's {LOTTERY_CONFIG[lottery_page]['name']} draw.")
+    else:
+        print(f"⚠️ ERROR: Could not find a lottery assigned to weekday {weekday_idx}. Exiting.")
+        sys.exit(0) # Exit cleanly, don't crash
+        
     code = LOTTERY_CONFIG[lottery_page]['code']
     draw_code = f"{code}-XXX"
     first_prize = "PENDING"
@@ -46,9 +68,8 @@ else:
         html_content = urllib.request.urlopen(req, timeout=10).read()
         soup = BeautifulSoup(html_content, 'html.parser')
         
-        # Look for today's draw code format (e.g., KR-753)
         page_text = soup.get_text()
-        draw_match = re.search(rf'({code}-\d{{3,4}})', page_text)
+        draw_match = re.search(rf'({code}-\d{{2,4}})', page_text)
         if draw_match:
             draw_code = draw_match.group(1)
             print(f"✅ Auto-scraped today's Draw Code: {draw_code}")
@@ -56,13 +77,14 @@ else:
         print(f"⚠️ Scraping bypassed or failed: {e}. Using placeholders.")
 
 # ── Date Formatting ──────────────────────────────────────
-today         = today_dt.strftime("%d %B %Y")   # e.g., "09 May 2026"
-today_short   = today_dt.strftime("%B %d, %Y")  # e.g., "May 09, 2026"
+update_dt = datetime.now()
+today         = update_dt.strftime("%d %B %Y")   
+today_short   = update_dt.strftime("%B %d, %Y")  
+iso_date      = update_dt.strftime("%Y-%m-%d") # For SEO schema
 
 cfg  = LOTTERY_CONFIG.get(lottery_page, {})
 name = cfg.get("name", lottery_page.title())
 
-# ── Helper Functions ─────────────────────────────────────
 def read(path):
     with open(path, "r", encoding="utf-8") as f: return f.read()
 
@@ -75,21 +97,21 @@ page_file = f"{lottery_page}.html"
 try:
     html = read(page_file)
     
-    # Update badges
     html = re.sub(r'<span class="badge.*?</span>', status_badge, html, count=1)
+    html = re.sub(r'[A-Z]{2}-\d{2,4}|[A-Z]{2}-XXX', draw_code, html)
     
-    # Update Draw Codes & Dates
-    html = re.sub(r'[A-Z]{2}-\d{3,4}|[A-Z]{2}-XXX', draw_code, html)
-    html = re.sub(r'[A-Z][a-z]+ \d{2}, \d{4}', today_short, html) 
-    html = re.sub(r'\d{2} [A-Z][a-z]+ \d{4}', today, html)
+    if is_scheduled_run or (not is_scheduled_run and LOTTERY_CONFIG.get(lottery_page, {}).get("day") == datetime.now().weekday()):
+        html = re.sub(r'[A-Z][a-z]+ \d{2}, \d{4}', today_short, html) 
+        html = re.sub(r'\d{2} [A-Z][a-z]+ \d{4}', today, html)
+        # Update SEO Schema Date
+        html = re.sub(r'"dateModified":"\d{4}-\d{2}-\d{2}"', f'"dateModified":"{iso_date}"', html)
     
-    # Update 1st Prize if provided
     if first_prize != "PENDING":
-        # Only replace inside result table cells
-            html = re.sub(r'(?<=<td>)[A-Z]{2} \d{6}(?=<)', first_prize, html)
+        html = re.sub(r'[A-Z]{2} \d{6}|PENDING', f'<div class="prize-number">{first_prize}</div>', html)
+        html = re.sub(r'(<div class="prize-amount">&#8377; [\d,]+</div>)(?!<div class="prize-number">)', r'\1<div class="prize-number">' + first_prize + '</div>', html)
     else:
-        # Reset to pending if running automatically
-        html = re.sub(r'[A-Z]{2} \d{6}', 'PENDING', html)
+        html = re.sub(r'<div class="prize-number">.*?</div>', '<div class="prize-number">PENDING</div>', html)
+        html = re.sub(r'(<div class="prize-amount">&#8377; [\d,]+</div>)(?!<div class="prize-number">)', r'\1<div class="prize-number">PENDING</div>', html)
         
     write(page_file, html)
 except FileNotFoundError:
@@ -100,18 +122,18 @@ except FileNotFoundError:
 try:
     idx = read("index.html")
     
-    # Update Header
-    idx = re.sub(r'[A-Z]{2}-\d{3,4}|[A-Z]{2}-XXX', draw_code, idx)
-    idx = re.sub(r'[A-Z][a-z]+ \d{2}, \d{4}', today_short, idx)
-    idx = re.sub(r'\d{2} [A-Z][a-z]+ \d{4}', today, idx)
+    idx = re.sub(r'[A-Z]{2}-\d{2,4}|[A-Z]{2}-XXX', draw_code, idx)
+    
+    if is_scheduled_run or (not is_scheduled_run and LOTTERY_CONFIG.get(lottery_page, {}).get("day") == datetime.now().weekday()):
+        idx = re.sub(r'[A-Z][a-z]+ \d{2}, \d{4}', today_short, idx)
+        idx = re.sub(r'\d{2} [A-Z][a-z]+ \d{4}', today, idx)
+        
     idx = re.sub(r'Karunya KR-\w+|Sthree Sakthi SS-\w+|Karunya Plus KN-\w+|Dhanalekshmi DL-\w+|Bhagyathara BT-\w+|Samrudhi SM-\w+|Suvarna Keralam SK-\w+', f"{name} {draw_code}", idx)
     
-    # Dynamic Breaking Ticker
     if first_prize != "PENDING":
         idx = re.sub(r'[A-Z]{2} \d{6}|PENDING', first_prize, idx)
         ticker_new = f"LIVE: {name} {draw_code} Result Out | 1st Prize {first_prize} | Updated {today} 3 PM | Check your numbers now!"
     else:
-        # Wipe old first prize to pending
         idx = re.sub(r'[A-Z]{2} \d{6}', 'PENDING', idx)
         ticker_new = f"AWAITING: {name} {draw_code} draw happening now | Check back at 3:15 PM for live updates!"
         
