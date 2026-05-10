@@ -85,7 +85,8 @@ try:
     
     # Update 1st Prize if provided
     if first_prize != "PENDING":
-        html = re.sub(r'[A-Z]{2} \d{6}|PENDING', first_prize, html)
+        # Only replace inside result table cells
+            html = re.sub(r'(?<=<td>)[A-Z]{2} \d{6}(?=<)', first_prize, html)
     else:
         # Reset to pending if running automatically
         html = re.sub(r'[A-Z]{2} \d{6}', 'PENDING', html)
