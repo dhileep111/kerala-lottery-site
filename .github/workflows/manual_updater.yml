@@ -8,13 +8,13 @@ on:
         required: true
         type: choice
         options:
-          - karunya
-          - akshaya
-          - win-win
-          - sthree-sakthi
-          - fifty-fifty
+         - karunya
           - karunya-plus
-          - nirmal
+          - sthree-sakthi
+          - dhanalekshmi
+          - bhagyathara
+          - samrudhi
+          - suvarna-keralam
       draw_code:
         description: 'Draw Code (e.g., KR-753)'
         required: true
@@ -49,5 +49,5 @@ jobs:
         run: |
           git config --global user.name "Lottery Updater Bot"
           git config --global user.email "bot@keralaticketresults.in"
-          git add index.html ${{ github.event.inputs.lottery_page }}.html
+          git add -A
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update: ${{ github.event.inputs.draw_code }} Results" && git push)
