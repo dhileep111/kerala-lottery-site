@@ -1,6 +1,9 @@
 name: 🚀 Update Lottery Results
 
 on:
+  schedule:
+    # 9:35 AM UTC is exactly 3:05 PM IST
+    - cron: '35 9 * * *'
   workflow_dispatch:
     inputs:
       lottery_page:
