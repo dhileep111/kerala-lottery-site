@@ -2,12 +2,11 @@ name: 🚀 Update Lottery Results
 
 on:
   schedule:
-    # 9:35 AM UTC is exactly 3:05 PM IST
     - cron: '35 9 * * *'
   workflow_dispatch:
     inputs:
       lottery_page:
-        description: 'Which lottery page to update? (e.g., karunya, akshaya)'
+        description: 'Which lottery page to update?'
         required: true
         type: choice
         options:
@@ -18,6 +17,7 @@ on:
           - bhagyathara
           - samrudhi
           - suvarna-keralam
+          - bumper
       draw_code:
         description: 'Draw Code (e.g., KR-753)'
         required: true
@@ -32,25 +32,14 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: Install BeautifulSoup
-        run: pip install beautifulsoup4
-
-      - name: Run Python Script
+      - name: Run structured data updater
         run: python update_results.py "${{ github.event.inputs.lottery_page }}" "${{ github.event.inputs.draw_code }}" "${{ github.event.inputs.first_prize }}"
-
       - name: Commit and Push Changes
         run: |
           git config --global user.name "Lottery Updater Bot"
           git config --global user.email "bot@keralaticketresults.in"
-          git add -A
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update: ${{ github.event.inputs.draw_code }} Results" && git push)
+          git add data/results.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update structured result data" && git push)
