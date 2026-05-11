@@ -1,0 +1,10 @@
+User-agent: *
+  Allow: /
+
+  Sitemap: https://keralaticketresults.in/sitemap.xml
+
+  # Block common bad bots
+  User-agent: SemrushBot
+  Disallow: /
+  User-agent: AhrefsBot
+  Disallow: /

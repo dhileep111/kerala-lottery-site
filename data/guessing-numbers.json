@@ -1,0 +1,14 @@
+[
+  { "number": "4567", "label": "Lucky Number" },
+  { "number": "8921", "label": "Hot Pick" },
+  { "number": "3344", "label": "Repeat Pick" },
+  { "number": "7788", "label": "Mirror Number" },
+  { "number": "1122", "label": "Double Pick" },
+  { "number": "9090", "label": "Pattern Pick" },
+  { "number": "5678", "label": "Sequential" },
+  { "number": "2468", "label": "Even Series" },
+  { "number": "1357", "label": "Odd Series" },
+  { "number": "6543", "label": "Reverse" },
+  { "number": "3141", "label": "Pi Number" },
+  { "number": "0786", "label": "Lucky 786" }
+]
