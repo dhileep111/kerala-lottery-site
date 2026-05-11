@@ -17,7 +17,7 @@ export default function HomePage() {
           <div className="section__header">
             <div>
               <h1>Kerala Lottery Result Today</h1>
-              <p className="section__subtitle">Data-driven result pages with pending/live/verified status instead of hardcoded template numbers.</p>
+              <p className="section__subtitle">Fast Kerala Lottery updates with clear pending, live, and verified status for every draw.</p>
             </div>
             <Link className="button" href="/check-ticket">Check Ticket</Link>
           </div>
