@@ -36,6 +36,12 @@ export function Header() {
           </div>
         </nav>
       </header>
+      <nav className="mobile-quickbar" aria-label="Mobile quick navigation">
+        <Link href="/">Home</Link>
+        <Link href="/results/karunya">Results</Link>
+        <Link href="/check-ticket">Check</Link>
+        <Link href="/claim-guide">Claim</Link>
+      </nav>
     </>
   );
 }
