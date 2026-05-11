@@ -12,8 +12,7 @@ export default function PrivacyPolicyPage() {
       <div className="container">
         <div className="hero">
           <h1>Privacy Policy</h1>
-          <p>Last updated: May 11, 2026. You can edit this page later with your final contact email, analytics tools, and AdSense publisher details.</p>
-        </div>
+          </div>
 
         <section className="content-card">
           <h2>Who We Are</h2>
@@ -66,7 +65,7 @@ export default function PrivacyPolicyPage() {
 
         <section className="content-card">
           <h2>Contact</h2>
-          <p>For privacy questions, corrections, or data requests, contact us at: <strong>your-email@example.com</strong>.</p>
+          <p>For privacy questions, corrections, or data requests, contact us at: <strong>contact@keralaticketresults.in</strong>.</p>
           <p>Replace this placeholder email with your real website contact email before applying for AdSense.</p>
         </section>
       </div>
