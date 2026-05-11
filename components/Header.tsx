@@ -33,6 +33,7 @@ export function Header() {
             <Link href="/claim-guide">Claim Guide</Link>
             <Link href="/guessing-numbers">Guessing</Link>
             <Link href="/about">About</Link>
+            <Link href="/contact">Contact</Link>
           </div>
         </nav>
       </header>

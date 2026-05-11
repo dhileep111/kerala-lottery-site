@@ -9,6 +9,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/claim-guide/',
     '/guessing-numbers/',
     '/about/',
+    '/privacy-policy/',
+    '/contact/',
     ...lotteries.map((lottery) => `/results/${lottery.slug}/`)
   ].map((path) => ({ url: `${site.url}${path}`, lastModified: now, changeFrequency: 'daily' as const, priority: path === '' ? 1 : 0.8 }));
 }

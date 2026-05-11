@@ -25,6 +25,8 @@ export function Footer() {
             <Link href="/guessing-numbers">Guessing Numbers</Link>
             <Link href="/claim-guide">How to Claim Prize</Link>
             <Link href="/about">About & Disclaimer</Link>
+            <Link href="/privacy-policy">Privacy Policy</Link>
+            <Link href="/contact">Contact Us</Link>
           </div>
         </div>
         <div className="footer__bottom">© 2026 Kerala Ticket Results. Informational use only. Verify with official Kerala Lottery publications before claims.</div>
