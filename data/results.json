@@ -1,5 +1,37 @@
 [
   {
+    "lotterySlug": "bhagyathara",
+    "drawCode": "BT-53",
+    "drawDate": "2026-05-11",
+    "displayDate": "May 11, 2026",
+    "status": "pending",
+    "sourceName": "Awaiting official publication",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-05-11T12:30:26.211799Z",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹5,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹1,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "karunya",
     "drawCode": "KR-XXX",
     "drawDate": "2026-05-11",
@@ -9,10 +41,26 @@
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-05-11T09:35:00Z",
     "prizes": [
-      { "tier": "1st Prize", "amount": "₹1,00,00,000", "numbers": [] },
-      { "tier": "2nd Prize", "amount": "₹5,00,000", "numbers": [] },
-      { "tier": "3rd Prize", "amount": "₹1,00,000", "numbers": [] },
-      { "tier": "Consolation Prize", "amount": "₹5,000", "numbers": [] }
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹5,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹1,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": []
+      }
     ]
   }
 ]
