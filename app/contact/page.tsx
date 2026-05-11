@@ -16,9 +16,8 @@ export default function ContactPage() {
 
         <section className="content-card">
           <h2>Email</h2>
-          <p><strong>your-email@example.com</strong></p>
-          <p>Replace this placeholder with your real email address before publishing or applying for Google AdSense.</p>
-        </section>
+          <p><strong>contact@keralaticketresults.in</strong></p>
+         </section>
 
         <section className="content-card">
           <h2>Result Corrections</h2>
