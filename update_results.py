@@ -6,7 +6,6 @@ from datetime import datetime
 import os
 
 # ── OFFICIAL 2026 SCHEDULE ───────────────────────────────
-# Monday=0, Tuesday=1, Wednesday=2, Thursday=3, Friday=4, Saturday=5, Sunday=6
 LOTTERY_CONFIG = {
     "bhagyathara":    {"name": "Bhagyathara",  "code": "BT", "day": 0}, # Monday
     "sthree-sakthi":  {"name": "Sthree Sakthi","code": "SS", "day": 1}, # Tuesday
@@ -23,7 +22,6 @@ manual_prize   = sys.argv[3] if len(sys.argv) > 3 else ""
 
 is_scheduled_run = os.environ.get('GITHUB_EVENT_NAME') == 'schedule'
 
-# GitHub Actions uses UTC time. 9:35 AM UTC is 3:05 PM IST.
 today_dt = datetime.now()
 weekday_idx = today_dt.weekday()
 
@@ -84,47 +82,61 @@ def write(path, content):
     with open(path, "w", encoding="utf-8") as f: f.write(content)
     print(f"✅ Saved: {path}")
 
+# ── 1. Update Specific Lottery Page ──
 try:
     page_file = f"{lottery_page}.html"
     html = read(page_file)
     
+    # 1. Update Badge
     html = re.sub(r'<span class="badge.*?</span>', status_badge, html, count=1)
-    html = re.sub(r'[A-Z]{2}-\d{2,4}|[A-Z]{2}-XXX', draw_code, html)
     
+    # 2. Update Draw Code (Target specifically inside the rc-name div)
+    html = re.sub(r'<div class="rc-name">.*?</div>', f'<div class="rc-name">{name} {draw_code}</div>', html)
+    
+    # 3. Update Dates
     if is_scheduled_run or (not is_scheduled_run and LOTTERY_CONFIG.get(lottery_page, {}).get("day") == datetime.now().weekday()):
-        html = re.sub(r'[A-Z][a-z]+ \d{2}, \d{4}', today_short, html) 
-        html = re.sub(r'\d{2} [A-Z][a-z]+ \d{4}', today, html)
+        # Title/Hero date
+        html = re.sub(r'— [A-Z][a-z]+ \d{2}, \d{4}</h1>', f'— {today_short}</h1>', html)
+        # Meta Card date
+        html = re.sub(r'</svg> [A-Z][a-z]+ \d{2}, \d{4}</span>', f'</svg> {today_short}</span>', html)
+        # Schema date
         html = re.sub(r'"dateModified":"\d{4}-\d{2}-\d{2}"', f'"dateModified":"{iso_date}"', html)
     
+    # 4. Update Prize Number
     if first_prize != "PENDING":
-        html = re.sub(r'[A-Z]{2} \d{6}|PENDING', f'<div class="prize-number">{first_prize}</div>', html)
-        html = re.sub(r'(<div class="prize-amount">&#8377; [\d,]+</div>)(?!<div class="prize-number">)', r'\1<div class="prize-number">' + first_prize + '</div>', html)
+        html = re.sub(r'<div class="prize-number">.*?</div>', f'<div class="prize-number">{first_prize}</div>', html)
     else:
         html = re.sub(r'<div class="prize-number">.*?</div>', '<div class="prize-number">PENDING</div>', html)
-        html = re.sub(r'(<div class="prize-amount">&#8377; [\d,]+</div>)(?!<div class="prize-number">)', r'\1<div class="prize-number">PENDING</div>', html)
         
     write(page_file, html)
 except FileNotFoundError:
     print(f"❌ ERROR: {page_file} not found.")
 
+# ── 2. Update Homepage (index.html) ──
 try:
     idx = read("index.html")
-    idx = re.sub(r'[A-Z]{2}-\d{2,4}|[A-Z]{2}-XXX', draw_code, idx)
     
+    # 1. Update the Main Card Title
+    idx = re.sub(r'<div class="rc-name">.*?</div>', f'<div class="rc-name">{name} {draw_code}</div>', idx)
+    
+    # 2. Update Dates
     if is_scheduled_run or (not is_scheduled_run and LOTTERY_CONFIG.get(lottery_page, {}).get("day") == datetime.now().weekday()):
-        idx = re.sub(r'[A-Z][a-z]+ \d{2}, \d{4}', today_short, idx)
-        idx = re.sub(r'\d{2} [A-Z][a-z]+ \d{4}', today, idx)
-        
-    idx = re.sub(r'Karunya KR-\w+|Sthree Sakthi SS-\w+|Karunya Plus KN-\w+|Dhanalekshmi DL-\w+|Bhagyathara BT-\w+|Samrudhi SM-\w+|Suvarna Keralam SK-\w+', f"{name} {draw_code}", idx)
+        idx = re.sub(r'</svg> [A-Z][a-z]+ \d{2}, \d{4}</span>', f'</svg> {today_short}</span>', idx)
     
+    # 3. Update Ticker AND Homepage Main Card Prize
     if first_prize != "PENDING":
-        idx = re.sub(r'[A-Z]{2} \d{6}|PENDING', first_prize, idx)
+        # Update Main Card Prize
+        idx = re.sub(r'<div class="prize-number">.*?</div>', f'<div class="prize-number">{first_prize}</div>', idx)
+        # Update Ticker
         ticker_new = f"LIVE: {name} {draw_code} Result Out | 1st Prize {first_prize} | Updated {today} 3 PM | Check your numbers now!"
     else:
-        idx = re.sub(r'[A-Z]{2} \d{6}', 'PENDING', idx)
+        # Reset Main Card Prize
+        idx = re.sub(r'<div class="prize-number">.*?</div>', '<div class="prize-number">PENDING</div>', idx)
+        # Reset Ticker
         ticker_new = f"AWAITING: {name} {draw_code} draw happening now | Check back at 3:15 PM for live updates!"
         
-    idx = re.sub(r'(?:LIVE|AWAITING):.*?Check (?:your numbers now!|back at 3:15 PM for live updates!)', ticker_new, idx, flags=re.DOTALL)
+    # Apply ticker replacement carefully
+    idx = re.sub(r'(?:LIVE|AWAITING):.*?Check (?:your numbers now!|back at 3:15 PM for live updates!)', ticker_new, idx)
     
     write("index.html", idx)
 except FileNotFoundError:
