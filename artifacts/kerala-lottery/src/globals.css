@@ -33,6 +33,29 @@ body {
 a { color: inherit; text-decoration: none; }
 a:hover { color: var(--primary); }
 
+/* Links inside content cards should be clearly visible */
+.content-card a, .hero a, .tamil-section a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.content-card a:hover, .hero a:hover, .tamil-section a:hover {
+  color: var(--primary-dark);
+}
+
+/* Keyboard focus ring — accessibility */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .ticker__track { animation: none; }
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
 .container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
 .ticker { background: linear-gradient(90deg, #15803d, #16a34a); color: white; overflow: hidden; padding: 7px 0; }
 .ticker__inner { display: flex; gap: 12px; align-items: center; min-width: 0; }
@@ -128,7 +151,7 @@ th:last-child, td:last-child { text-align: right; font-weight: 800; color: var(-
 .content-card ul, .content-card ol { padding-left: 22px; }
 .content-card li { margin-bottom: 8px; }
 .hero { margin-bottom: 22px; }
-.footer { background: #eef2f7; border-top: 1px solid var(--border); margin-top: 64px; padding: 42px 0 20px; }
+.footer { background: #eef2f7; border-top: 1px solid var(--border); margin-top: 64px; padding: 42px 0 20px; content-visibility: auto; contain-intrinsic-size: 0 300px; }
 .footer__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 28px; margin-bottom: 32px; }
 .footer h3 { color: var(--primary); margin-bottom: 10px; }
 .footer a, .footer p { color: var(--muted-foreground); font-size: 13px; display: block; margin-bottom: 6px; }
@@ -312,16 +335,16 @@ th:last-child, td:last-child { text-align: right; font-weight: 800; color: var(-
   flex-wrap: wrap;
   gap: 4px;
   font-size: 13px;
-  color: var(--muted-fg, #6b7280);
+  color: var(--muted-foreground);
   padding: 10px 0 4px;
   margin-bottom: 8px;
 }
 .breadcrumb a {
-  color: var(--primary, #2563eb);
+  color: var(--primary);
   text-decoration: none;
 }
 .breadcrumb a:hover { text-decoration: underline; }
-.breadcrumb span[aria-hidden] { color: var(--muted-fg, #9ca3af); }
+.breadcrumb span[aria-hidden] { color: var(--muted-foreground); }
 
 /* ── Tamil section ───────────────────────────────────── */
 .tamil-section {
