@@ -1,0 +1,107 @@
+name: 🚀 Update Lottery Results
+
+on:
+  schedule:
+    # Phase 1: 3:05 PM IST = 09:35 UTC — publish live result with first prize
+    - cron: '35 9 * * *'
+    # Phase 2: 4:45 PM IST = 11:15 UTC — update to verified with full prize table
+    - cron: '15 11 * * *'
+  workflow_dispatch:
+    inputs:
+      lottery_page:
+        description: 'Which lottery?'
+        required: true
+        type: choice
+        options:
+          - karunya
+          - karunya-plus
+          - sthree-sakthi
+          - dhanalekshmi
+          - bhagyathara
+          - samrudhi
+          - suvarna-keralam
+          - bumper
+      draw_code:
+        description: 'Draw Code (e.g. KR-753)'
+        required: true
+        type: string
+      first_prize:
+        description: '1st Prize Number (e.g. KN 844574)'
+        required: true
+        type: string
+      full_results:
+        description: 'Full prize table after 4:30 PM. Format: 1st:KN 844574 / consolation:RA 844574,RB 844574 / 2nd:KU 399061 / 3rd:AB 123456 / 4th:1234,5678 / 5th:0123,4567 / 6th:0001,0002 / 7th:1111,2222 / 8th:9999,8888'
+        required: false
+        type: string
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python deps
+        run: pip install beautifulsoup4
+
+      - name: Update results.json
+        run: |
+          python update_results.py \
+            "${{ github.event.inputs.lottery_page }}" \
+            "${{ github.event.inputs.draw_code }}" \
+            "${{ github.event.inputs.first_prize }}" \
+            "${{ github.event.inputs.full_results }}"
+
+      - name: Commit data changes
+        run: |
+          git config --global user.name "Lottery Bot"
+          git config --global user.email "bot@keralaticketresults.in"
+          git add artifacts/kerala-lottery/src/data/results.json
+          git diff --staged --quiet || (git commit -m "data: ${{ github.event.inputs.draw_code }} result" && git push)
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install & Build
+        working-directory: artifacts/kerala-lottery
+        env:
+          PORT: "3000"
+          BASE_PATH: "/"
+        run: pnpm install && pnpm run build
+
+      - name: Pre-render all routes
+        run: node prerender.mjs
+
+      - name: Generate sitemap
+        run: node generate-sitemap.mjs
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: artifacts/kerala-lottery/dist/public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

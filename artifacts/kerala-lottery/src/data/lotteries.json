@@ -1,0 +1,74 @@
+[
+  {
+    "slug": "bhagyathara",
+    "name": "Bhagyathara",
+    "code": "BT",
+    "drawDay": "Monday",
+    "drawDayIndex": 1,
+    "drawTime": "3:00 PM",
+    "firstPrizeAmount": "₹1,00,00,000"
+  },
+  {
+    "slug": "sthree-sakthi",
+    "name": "Sthree Sakthi",
+    "code": "SS",
+    "drawDay": "Tuesday",
+    "drawDayIndex": 2,
+    "drawTime": "3:00 PM",
+    "firstPrizeAmount": "₹1,00,00,000"
+  },
+  {
+    "slug": "dhanalekshmi",
+    "name": "Dhanalekshmi",
+    "code": "DL",
+    "drawDay": "Wednesday",
+    "drawDayIndex": 3,
+    "drawTime": "3:00 PM",
+    "firstPrizeAmount": "₹1,00,00,000"
+  },
+  {
+    "slug": "karunya-plus",
+    "name": "Karunya Plus",
+    "code": "KN",
+    "drawDay": "Thursday",
+    "drawDayIndex": 4,
+    "drawTime": "3:00 PM",
+    "firstPrizeAmount": "₹1,00,00,000"
+  },
+  {
+    "slug": "suvarna-keralam",
+    "name": "Suvarna Keralam",
+    "code": "SK",
+    "drawDay": "Friday",
+    "drawDayIndex": 5,
+    "drawTime": "3:00 PM",
+    "firstPrizeAmount": "₹1,00,00,000"
+  },
+  {
+    "slug": "karunya",
+    "name": "Karunya",
+    "code": "KR",
+    "drawDay": "Saturday",
+    "drawDayIndex": 6,
+    "drawTime": "3:00 PM",
+    "firstPrizeAmount": "₹1,00,00,000"
+  },
+  {
+    "slug": "samrudhi",
+    "name": "Samrudhi",
+    "code": "SM",
+    "drawDay": "Sunday",
+    "drawDayIndex": 0,
+    "drawTime": "3:00 PM",
+    "firstPrizeAmount": "₹1,00,00,000"
+  },
+  {
+    "slug": "bumper",
+    "name": "Kerala Bumper",
+    "code": "BR",
+    "drawDay": "Special Draws",
+    "drawDayIndex": -1,
+    "drawTime": "2:00 PM",
+    "firstPrizeAmount": "Varies by bumper"
+  }
+]
