@@ -113,7 +113,10 @@ export function Header() {
         <Link href="/" className={location === '/' ? 'active' : ''}>
           <span>🏠</span> Home
         </Link>
-        <Link href="/results/bhagyathara" className={location.startsWith('/results') ? 'active' : ''}>
+        <Link
+          href={latest ? `/results/${latest.lottery.slug}` : '/results/karunya'}
+          className={location.startsWith('/results') ? 'active' : ''}
+        >
           <span>🎯</span> Results
         </Link>
         <Link href="/check-ticket" className={location === '/check-ticket' ? 'active' : ''}>
