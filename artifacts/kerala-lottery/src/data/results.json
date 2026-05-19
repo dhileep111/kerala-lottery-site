@@ -193,7 +193,7 @@
       },
       {
         "tier": "8th Prize",
-        "amount": "₹100",
+        "amount": "₹200",
         "numbers": [
           "0158",
           "0179",
@@ -280,6 +280,11 @@
           "9216",
           "9247"
         ]
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
       }
     ]
   },
@@ -292,7 +297,7 @@
     "sourceName": "Manual admin update",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-05-18T11:17:01.862105Z",
-    "summary": "Result for Bhagyathara  BT-54. 9/9 tiers updated.",
+    "summary": "Result for Bhagyathara BT-54. 9/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -1066,7 +1071,7 @@
       },
       {
         "tier": "8th Prize",
-        "amount": "₹100",
+        "amount": "₹200",
         "numbers": [
           "0180",
           "0242",
@@ -1161,6 +1166,11 @@
           "9975",
           "9981"
         ]
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
       }
     ]
   },
@@ -1365,7 +1375,7 @@
       },
       {
         "tier": "8th Prize",
-        "amount": "₹100",
+        "amount": "₹200",
         "numbers": [
           "0050",
           "0101",
@@ -1460,6 +1470,11 @@
           "9710",
           "9753"
         ]
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
       }
     ]
   },
@@ -1516,6 +1531,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -1588,7 +1608,7 @@
     "sourceName": "Manual admin update",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-05-12T11:58:42.276737Z",
-    "summary": "Full result data for Sthree Sakthi SS-519.",
+    "summary": "Result for Sthree Sakthi SS-519. 1/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -1634,6 +1654,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -1648,7 +1673,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-05-11T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-629.",
+    "summary": "Result for Bhagyathara BT-629. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -1706,7 +1731,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-05-10T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-52.",
+    "summary": "Result for Samrudhi SM-52. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -1764,7 +1789,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-05-09T09:00:00Z",
-    "summary": "Historical record for Karunya KR-753.",
+    "summary": "Result for Karunya KR-753. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -1808,6 +1833,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -1822,7 +1852,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-05-08T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-51.",
+    "summary": "Result for Suvarna Keralam SK-51. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -1866,6 +1896,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -1880,7 +1915,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-05-07T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-631.",
+    "summary": "Result for Karunya Plus KN-631. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -1924,6 +1959,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -1938,7 +1978,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-05-06T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-51.",
+    "summary": "Result for Dhanalekshmi DL-51. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -1996,7 +2036,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-05-05T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-518.",
+    "summary": "Result for Sthree Sakthi SS-518. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2040,6 +2080,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -2054,7 +2099,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-05-04T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-628.",
+    "summary": "Result for Bhagyathara BT-628. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2112,7 +2157,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-05-03T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-51.",
+    "summary": "Result for Samrudhi SM-51. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2170,7 +2215,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-05-02T09:00:00Z",
-    "summary": "Historical record for Karunya KR-752.",
+    "summary": "Result for Karunya KR-752. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2214,6 +2259,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -2228,7 +2278,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-05-01T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-50.",
+    "summary": "Result for Suvarna Keralam SK-50. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2272,6 +2322,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -2286,7 +2341,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-30T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-630.",
+    "summary": "Result for Karunya Plus KN-630. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2330,6 +2385,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -2344,7 +2404,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-29T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-50.",
+    "summary": "Result for Dhanalekshmi DL-50. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2402,7 +2462,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-28T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-517.",
+    "summary": "Result for Sthree Sakthi SS-517. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2446,6 +2506,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -2460,7 +2525,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-27T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-627.",
+    "summary": "Result for Bhagyathara BT-627. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2518,7 +2583,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-26T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-50.",
+    "summary": "Result for Samrudhi SM-50. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2576,7 +2641,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-25T09:00:00Z",
-    "summary": "Historical record for Karunya KR-751.",
+    "summary": "Result for Karunya KR-751. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2620,6 +2685,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -2634,7 +2704,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-24T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-49.",
+    "summary": "Result for Suvarna Keralam SK-49. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2678,6 +2748,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -2692,7 +2767,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-23T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-629.",
+    "summary": "Result for Karunya Plus KN-629. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2736,6 +2811,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -2750,7 +2830,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-22T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-49.",
+    "summary": "Result for Dhanalekshmi DL-49. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2808,7 +2888,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-21T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-516.",
+    "summary": "Result for Sthree Sakthi SS-516. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2852,6 +2932,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -2866,7 +2951,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-20T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-626.",
+    "summary": "Result for Bhagyathara BT-626. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2924,7 +3009,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-19T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-49.",
+    "summary": "Result for Samrudhi SM-49. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -2982,7 +3067,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-18T09:00:00Z",
-    "summary": "Historical record for Karunya KR-750.",
+    "summary": "Result for Karunya KR-750. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3026,6 +3111,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -3040,7 +3130,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-17T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-48.",
+    "summary": "Result for Suvarna Keralam SK-48. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3084,6 +3174,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -3098,7 +3193,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-16T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-628.",
+    "summary": "Result for Karunya Plus KN-628. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3142,6 +3237,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -3156,7 +3256,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-15T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-48.",
+    "summary": "Result for Dhanalekshmi DL-48. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3214,7 +3314,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-14T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-515.",
+    "summary": "Result for Sthree Sakthi SS-515. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3258,6 +3358,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -3272,7 +3377,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-13T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-625.",
+    "summary": "Result for Bhagyathara BT-625. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3330,7 +3435,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-12T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-48.",
+    "summary": "Result for Samrudhi SM-48. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3388,7 +3493,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-11T09:00:00Z",
-    "summary": "Historical record for Karunya KR-749.",
+    "summary": "Result for Karunya KR-749. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3432,6 +3537,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -3446,7 +3556,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-10T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-47.",
+    "summary": "Result for Suvarna Keralam SK-47. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3490,6 +3600,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -3504,7 +3619,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-09T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-627.",
+    "summary": "Result for Karunya Plus KN-627. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3548,6 +3663,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -3562,7 +3682,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-08T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-47.",
+    "summary": "Result for Dhanalekshmi DL-47. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3620,7 +3740,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-07T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-514.",
+    "summary": "Result for Sthree Sakthi SS-514. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3664,6 +3784,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -3678,7 +3803,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-06T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-624.",
+    "summary": "Result for Bhagyathara BT-624. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3736,7 +3861,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-05T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-47.",
+    "summary": "Result for Samrudhi SM-47. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3794,7 +3919,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-04T09:00:00Z",
-    "summary": "Historical record for Karunya KR-748.",
+    "summary": "Result for Karunya KR-748. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3838,6 +3963,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -3852,7 +3982,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-03T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-46.",
+    "summary": "Result for Suvarna Keralam SK-46. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3896,6 +4026,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -3910,7 +4045,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-02T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-626.",
+    "summary": "Result for Karunya Plus KN-626. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -3954,6 +4089,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -3968,7 +4108,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-04-01T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-46.",
+    "summary": "Result for Dhanalekshmi DL-46. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4026,7 +4166,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-31T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-513.",
+    "summary": "Result for Sthree Sakthi SS-513. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4070,6 +4210,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -4084,7 +4229,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-30T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-623.",
+    "summary": "Result for Bhagyathara BT-623. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4142,7 +4287,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-29T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-46.",
+    "summary": "Result for Samrudhi SM-46. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4200,7 +4345,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-28T09:00:00Z",
-    "summary": "Historical record for Karunya KR-747.",
+    "summary": "Result for Karunya KR-747. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4244,6 +4389,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -4258,7 +4408,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-27T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-45.",
+    "summary": "Result for Suvarna Keralam SK-45. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4302,6 +4452,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -4316,7 +4471,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-26T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-625.",
+    "summary": "Result for Karunya Plus KN-625. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4360,6 +4515,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -4374,7 +4534,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-25T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-45.",
+    "summary": "Result for Dhanalekshmi DL-45. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4432,7 +4592,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-24T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-512.",
+    "summary": "Result for Sthree Sakthi SS-512. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4476,6 +4636,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -4490,7 +4655,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-23T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-622.",
+    "summary": "Result for Bhagyathara BT-622. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4548,7 +4713,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-22T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-45.",
+    "summary": "Result for Samrudhi SM-45. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4606,7 +4771,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-21T09:00:00Z",
-    "summary": "Historical record for Karunya KR-746.",
+    "summary": "Result for Karunya KR-746. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4650,6 +4815,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -4664,7 +4834,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-20T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-44.",
+    "summary": "Result for Suvarna Keralam SK-44. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4708,6 +4878,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -4722,7 +4897,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-19T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-624.",
+    "summary": "Result for Karunya Plus KN-624. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4766,6 +4941,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -4780,7 +4960,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-18T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-44.",
+    "summary": "Result for Dhanalekshmi DL-44. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4838,7 +5018,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-17T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-511.",
+    "summary": "Result for Sthree Sakthi SS-511. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4882,6 +5062,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -4896,7 +5081,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-16T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-621.",
+    "summary": "Result for Bhagyathara BT-621. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -4954,7 +5139,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-15T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-44.",
+    "summary": "Result for Samrudhi SM-44. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5012,7 +5197,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-14T09:00:00Z",
-    "summary": "Historical record for Karunya KR-745.",
+    "summary": "Result for Karunya KR-745. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5056,6 +5241,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -5070,7 +5260,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-13T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-43.",
+    "summary": "Result for Suvarna Keralam SK-43. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5114,6 +5304,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -5128,7 +5323,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-12T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-623.",
+    "summary": "Result for Karunya Plus KN-623. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5172,6 +5367,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -5186,7 +5386,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-11T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-43.",
+    "summary": "Result for Dhanalekshmi DL-43. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5244,7 +5444,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-10T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-510.",
+    "summary": "Result for Sthree Sakthi SS-510. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5288,6 +5488,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -5302,7 +5507,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-09T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-620.",
+    "summary": "Result for Bhagyathara BT-620. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5360,7 +5565,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-08T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-43.",
+    "summary": "Result for Samrudhi SM-43. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5418,7 +5623,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-07T09:00:00Z",
-    "summary": "Historical record for Karunya KR-744.",
+    "summary": "Result for Karunya KR-744. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5462,6 +5667,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -5476,7 +5686,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-06T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-42.",
+    "summary": "Result for Suvarna Keralam SK-42. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5520,6 +5730,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -5534,7 +5749,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-05T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-622.",
+    "summary": "Result for Karunya Plus KN-622. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5578,6 +5793,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -5592,7 +5812,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-04T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-42.",
+    "summary": "Result for Dhanalekshmi DL-42. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5650,7 +5870,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-03T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-509.",
+    "summary": "Result for Sthree Sakthi SS-509. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5694,6 +5914,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -5708,7 +5933,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-02T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-619.",
+    "summary": "Result for Bhagyathara BT-619. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5766,7 +5991,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-03-01T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-42.",
+    "summary": "Result for Samrudhi SM-42. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5824,7 +6049,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-28T09:00:00Z",
-    "summary": "Historical record for Karunya KR-743.",
+    "summary": "Result for Karunya KR-743. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5868,6 +6093,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -5882,7 +6112,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-27T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-41.",
+    "summary": "Result for Suvarna Keralam SK-41. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5926,6 +6156,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -5940,7 +6175,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-26T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-621.",
+    "summary": "Result for Karunya Plus KN-621. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -5984,6 +6219,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -5998,7 +6238,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-25T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-41.",
+    "summary": "Result for Dhanalekshmi DL-41. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6056,7 +6296,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-24T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-508.",
+    "summary": "Result for Sthree Sakthi SS-508. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6100,6 +6340,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -6114,7 +6359,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-23T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-618.",
+    "summary": "Result for Bhagyathara BT-618. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6172,7 +6417,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-22T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-41.",
+    "summary": "Result for Samrudhi SM-41. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6230,7 +6475,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-21T09:00:00Z",
-    "summary": "Historical record for Karunya KR-742.",
+    "summary": "Result for Karunya KR-742. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6274,6 +6519,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -6288,7 +6538,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-20T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-40.",
+    "summary": "Result for Suvarna Keralam SK-40. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6332,6 +6582,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -6346,7 +6601,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-19T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-620.",
+    "summary": "Result for Karunya Plus KN-620. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6390,6 +6645,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -6404,7 +6664,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-18T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-40.",
+    "summary": "Result for Dhanalekshmi DL-40. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6462,7 +6722,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-17T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-507.",
+    "summary": "Result for Sthree Sakthi SS-507. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6506,6 +6766,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -6520,7 +6785,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-16T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-617.",
+    "summary": "Result for Bhagyathara BT-617. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6578,7 +6843,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-15T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-40.",
+    "summary": "Result for Samrudhi SM-40. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6636,7 +6901,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-14T09:00:00Z",
-    "summary": "Historical record for Karunya KR-741.",
+    "summary": "Result for Karunya KR-741. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6680,6 +6945,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -6694,7 +6964,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-13T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-39.",
+    "summary": "Result for Suvarna Keralam SK-39. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6738,6 +7008,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -6752,7 +7027,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-12T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-619.",
+    "summary": "Result for Karunya Plus KN-619. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6796,6 +7071,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -6810,7 +7090,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-11T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-39.",
+    "summary": "Result for Dhanalekshmi DL-39. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6868,7 +7148,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-10T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-506.",
+    "summary": "Result for Sthree Sakthi SS-506. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6912,6 +7192,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -6926,7 +7211,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-09T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-616.",
+    "summary": "Result for Bhagyathara BT-616. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -6984,7 +7269,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-08T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-39.",
+    "summary": "Result for Samrudhi SM-39. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7042,7 +7327,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-07T09:00:00Z",
-    "summary": "Historical record for Karunya KR-740.",
+    "summary": "Result for Karunya KR-740. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7086,6 +7371,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -7100,7 +7390,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-06T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-38.",
+    "summary": "Result for Suvarna Keralam SK-38. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7144,6 +7434,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -7158,7 +7453,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-05T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-618.",
+    "summary": "Result for Karunya Plus KN-618. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7202,6 +7497,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -7216,7 +7516,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-04T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-38.",
+    "summary": "Result for Dhanalekshmi DL-38. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7274,7 +7574,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-03T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-505.",
+    "summary": "Result for Sthree Sakthi SS-505. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7318,6 +7618,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -7332,7 +7637,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-02T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-615.",
+    "summary": "Result for Bhagyathara BT-615. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7390,7 +7695,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-02-01T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-38.",
+    "summary": "Result for Samrudhi SM-38. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7448,7 +7753,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-31T09:00:00Z",
-    "summary": "Historical record for Karunya KR-739.",
+    "summary": "Result for Karunya KR-739. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7492,6 +7797,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -7506,7 +7816,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-30T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-37.",
+    "summary": "Result for Suvarna Keralam SK-37. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7550,6 +7860,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -7564,7 +7879,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-29T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-617.",
+    "summary": "Result for Karunya Plus KN-617. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7608,6 +7923,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -7622,7 +7942,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-28T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-37.",
+    "summary": "Result for Dhanalekshmi DL-37. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7680,7 +8000,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-27T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-504.",
+    "summary": "Result for Sthree Sakthi SS-504. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7724,6 +8044,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -7738,7 +8063,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-26T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-614.",
+    "summary": "Result for Bhagyathara BT-614. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7796,7 +8121,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-25T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-37.",
+    "summary": "Result for Samrudhi SM-37. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7854,7 +8179,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-24T09:00:00Z",
-    "summary": "Historical record for Karunya KR-738.",
+    "summary": "Result for Karunya KR-738. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7898,6 +8223,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -7912,7 +8242,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-23T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-36.",
+    "summary": "Result for Suvarna Keralam SK-36. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7956,6 +8286,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -7970,7 +8305,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-22T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-616.",
+    "summary": "Result for Karunya Plus KN-616. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8014,6 +8349,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -8028,7 +8368,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-21T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-36.",
+    "summary": "Result for Dhanalekshmi DL-36. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8086,7 +8426,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-20T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-503.",
+    "summary": "Result for Sthree Sakthi SS-503. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8130,6 +8470,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -8144,7 +8489,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-19T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-613.",
+    "summary": "Result for Bhagyathara BT-613. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8202,7 +8547,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-18T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-36.",
+    "summary": "Result for Samrudhi SM-36. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8260,7 +8605,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-17T09:00:00Z",
-    "summary": "Historical record for Karunya KR-737.",
+    "summary": "Result for Karunya KR-737. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8304,6 +8649,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -8318,7 +8668,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-16T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-35.",
+    "summary": "Result for Suvarna Keralam SK-35. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8362,6 +8712,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -8376,7 +8731,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-15T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-615.",
+    "summary": "Result for Karunya Plus KN-615. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8420,6 +8775,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -8434,7 +8794,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-14T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-35.",
+    "summary": "Result for Dhanalekshmi DL-35. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8492,7 +8852,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-13T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-502.",
+    "summary": "Result for Sthree Sakthi SS-502. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8536,6 +8896,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -8550,7 +8915,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-12T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-612.",
+    "summary": "Result for Bhagyathara BT-612. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8608,7 +8973,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-11T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-35.",
+    "summary": "Result for Samrudhi SM-35. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8666,7 +9031,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-10T09:00:00Z",
-    "summary": "Historical record for Karunya KR-736.",
+    "summary": "Result for Karunya KR-736. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8710,6 +9075,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -8724,7 +9094,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-09T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-34.",
+    "summary": "Result for Suvarna Keralam SK-34. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8768,6 +9138,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -8782,7 +9157,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-08T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-614.",
+    "summary": "Result for Karunya Plus KN-614. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8826,6 +9201,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -8840,7 +9220,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-07T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-34.",
+    "summary": "Result for Dhanalekshmi DL-34. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8898,7 +9278,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-06T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-501.",
+    "summary": "Result for Sthree Sakthi SS-501. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -8942,6 +9322,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -8956,7 +9341,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-05T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-611.",
+    "summary": "Result for Bhagyathara BT-611. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -9014,7 +9399,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-04T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-34.",
+    "summary": "Result for Samrudhi SM-34. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -9072,7 +9457,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-03T09:00:00Z",
-    "summary": "Historical record for Karunya KR-735.",
+    "summary": "Result for Karunya KR-735. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -9116,6 +9501,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -9130,7 +9520,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-02T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-33.",
+    "summary": "Result for Suvarna Keralam SK-33. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -9174,6 +9564,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -9188,7 +9583,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-01-01T09:00:00Z",
-    "summary": "Historical record for Karunya Plus KN-613.",
+    "summary": "Result for Karunya Plus KN-613. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -9232,6 +9627,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -9246,7 +9646,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2025-12-31T09:00:00Z",
-    "summary": "Historical record for Dhanalekshmi DL-33.",
+    "summary": "Result for Dhanalekshmi DL-33. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -9304,7 +9704,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2025-12-30T09:00:00Z",
-    "summary": "Historical record for Sthree Sakthi SS-500.",
+    "summary": "Result for Sthree Sakthi SS-500. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -9348,6 +9748,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -9362,7 +9767,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2025-12-29T09:00:00Z",
-    "summary": "Historical record for Bhagyathara BT-610.",
+    "summary": "Result for Bhagyathara BT-610. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -9420,7 +9825,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2025-12-28T09:00:00Z",
-    "summary": "Historical record for Samrudhi SM-33.",
+    "summary": "Result for Samrudhi SM-33. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -9478,7 +9883,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2025-12-27T09:00:00Z",
-    "summary": "Historical record for Karunya KR-734.",
+    "summary": "Result for Karunya KR-734. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -9522,6 +9927,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -9536,7 +9946,7 @@
     "sourceName": "Awaiting official publication",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2025-12-26T00:00:00Z",
-    "summary": "Historical record for Suvarna Keralam SK-32.",
+    "summary": "Result for Suvarna Keralam SK-32. 0/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -9580,6 +9990,11 @@
       },
       {
         "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
