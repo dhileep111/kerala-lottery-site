@@ -1,0 +1,162 @@
+name: 🚀 Update Lottery Results
+
+on:
+  schedule:
+    # Phase 1: 3:05 PM IST = 09:35 UTC — publish live result with first prize
+    - cron: '35 9 * * *'
+    # Phase 2: 4:45 PM IST = 11:15 UTC — update to verified with full prize table
+    - cron: '15 11 * * *'
+  workflow_dispatch:
+    inputs:
+      lottery_page:
+        description: 'Which lottery?'
+        required: true
+        type: choice
+        options:
+          - karunya
+          - karunya-plus
+          - sthree-sakthi
+          - dhanalekshmi
+          - bhagyathara
+          - samrudhi
+          - suvarna-keralam
+          - bumper
+      draw_code:
+        description: 'Draw Code (e.g. KR-753)'
+        required: true
+        type: string
+      first_prize:
+        description: '1st Prize Number (e.g. KN 844574)'
+        required: true
+        type: string
+      full_results:
+        description: 'Full prize table after 4:30 PM. Format: 1st:KN 844574 / consolation:RA 844574,RB 844574 / 2nd:KU 399061 / 3rd:AB 123456 / 4th:1234,5678 / 5th:0123,4567 / 6th:0001,0002 / 7th:1111,2222 / 8th:9999,8888 / 9th:1234,5678'
+        required: false
+        type: string
+      guessing_a:
+        description: 'Guessing Board A (single digit, e.g. 4)'
+        required: false
+        type: string
+      guessing_b:
+        description: 'Guessing Board B (single digit, e.g. 7)'
+        required: false
+        type: string
+      guessing_c:
+        description: 'Guessing Board C (single digit, e.g. 2)'
+        required: false
+        type: string
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python deps
+        run: pip install beautifulsoup4
+
+      - name: Update results.json
+        run: |
+          python update_results.py \
+            "${{ github.event.inputs.lottery_page }}" \
+            "${{ github.event.inputs.draw_code }}" \
+            "${{ github.event.inputs.first_prize }}" \
+            "${{ github.event.inputs.full_results }}"
+
+      - name: Update guessing numbers
+        if: ${{ github.event.inputs.guessing_a != '' }}
+        run: |
+          python - << 'EOF'
+          import json, os, datetime
+          path = 'artifacts/kerala-lottery/src/data/guessing-numbers.json'
+          with open(path) as f:
+              data = json.load(f)
+          a = os.environ.get('A', '').strip()
+          b = os.environ.get('B', '').strip()
+          c = os.environ.get('C', '').strip()
+          if a: data['boards']['A'] = a
+          if b: data['boards']['B'] = b
+          if c: data['boards']['C'] = c
+          today = datetime.date.today()
+          data['updatedDate']  = today.strftime('%Y-%m-%d')
+          data['updatedLabel'] = today.strftime('%B %-d, %Y')
+          # Recompute all combos from A, B, C
+          A, B, C = data['boards']['A'], data['boards']['B'], data['boards']['C']
+          combo_map = {
+            'AB Combo': A+B, 'BC Combo': B+C, 'CA Combo': C+A,
+            'ABC Three Digit': A+B+C, 'BCA Three Digit': B+C+A, 'CAB Three Digit': C+A+B,
+            'Hot Pick':    A+A+B+C, 'Mirror Pick': B+B+C+A,
+            'Pattern Pick':C+C+A+B, 'Lucky Combo': A+B+C+A,
+            'Reverse Pick':C+B+A+C, 'Sequential':  C+B+C+A,
+            'Zero Start':  '0'+A+B+C, 'Double AB': A+B+A+B,
+            'Double BC':   B+C+B+C,
+          }
+          for item in data['numbers']:
+              if item['label'] in combo_map:
+                  item['value'] = combo_map[item['label']]
+              elif item['label'] == 'A Board': item['value'] = A
+              elif item['label'] == 'B Board': item['value'] = B
+              elif item['label'] == 'C Board': item['value'] = C
+          with open(path, 'w') as f:
+              json.dump(data, f, indent=2, ensure_ascii=False)
+          print(f'✅ Guessing numbers updated: A={A} B={B} C={C}')
+          EOF
+        env:
+          A: ${{ github.event.inputs.guessing_a }}
+          B: ${{ github.event.inputs.guessing_b }}
+          C: ${{ github.event.inputs.guessing_c }}
+
+      - name: Commit data changes
+        run: |
+          git config --global user.name "Lottery Bot"
+          git config --global user.email "bot@keralaticketresults.in"
+          git add artifacts/kerala-lottery/src/data/results.json
+          git diff --staged --quiet || (git commit -m "data: ${{ github.event.inputs.draw_code }} result" && git push)
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install & Build
+        working-directory: artifacts/kerala-lottery
+        env:
+          PORT: "3000"
+          BASE_PATH: "/"
+        run: pnpm install && pnpm run build
+
+      - name: Pre-render all routes
+        run: node prerender.mjs
+
+      - name: Generate sitemap
+        run: node generate-sitemap.mjs
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: artifacts/kerala-lottery/dist/public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
