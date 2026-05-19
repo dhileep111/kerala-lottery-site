@@ -11,6 +11,7 @@ const TIER_CONFIG: Record<string, { emoji: string; highlight: boolean; chipStyle
   '6th Prize':         { emoji: '6️⃣', highlight: false, chipStyle: 'chip' },
   '7th Prize':         { emoji: '7️⃣', highlight: false, chipStyle: 'chip' },
   '8th Prize':         { emoji: '8️⃣', highlight: false, chipStyle: 'chip' },
+  '9th Prize':         { emoji: '9️⃣', highlight: false, chipStyle: 'chip' },
 };
 
 export function ResultTable({ result, query = '' }: { result: Result; query?: string }) {
