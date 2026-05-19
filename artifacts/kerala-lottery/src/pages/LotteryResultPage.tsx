@@ -4,6 +4,7 @@ import { ResultCard } from '../components/ResultCard';
 import { ResultTable } from '../components/ResultTable';
 import { ResultDetails } from '../components/ResultDetails';
 import { TamilResultSection } from '../components/TamilResultSection';
+import { ShareResultButton } from '../components/ShareResultButton';
 import { getLatestResult, getLottery, site } from '../data';
 
 export default function LotteryResultPage() {
@@ -84,6 +85,7 @@ export default function LotteryResultPage() {
           <div style={{ height: 24 }} />
           <ResultDetails result={result} />
           <ResultTable result={result} />
+          <ShareResultButton lottery={lottery} result={result} />
         </section>
         <section className="content-card">
           <h2>Important Disclaimer</h2>
