@@ -24,10 +24,16 @@ export default function LotteryResultPage() {
     sourceUrl: 'https://statelottery.kerala.gov.in/',
     lastUpdated: new Date().toISOString(),
     prizes: [
-      { tier: '1st Prize', amount: lottery.firstPrizeAmount, numbers: [] },
-      { tier: '2nd Prize', amount: '₹5,00,000', numbers: [] },
-      { tier: '3rd Prize', amount: '₹1,00,000', numbers: [] },
-      { tier: 'Consolation Prize', amount: '₹5,000', numbers: [] }
+      { tier: '1st Prize',         amount: lottery.firstPrizeAmount, numbers: [] },
+      { tier: 'Consolation Prize', amount: '₹5,000',     numbers: [] },
+      { tier: '2nd Prize',         amount: '₹30,00,000', numbers: [] },
+      { tier: '3rd Prize',         amount: '₹5,00,000',  numbers: [] },
+      { tier: '4th Prize',         amount: '₹5,000',     numbers: [] },
+      { tier: '5th Prize',         amount: '₹2,000',     numbers: [] },
+      { tier: '6th Prize',         amount: '₹1,000',     numbers: [] },
+      { tier: '7th Prize',         amount: '₹500',       numbers: [] },
+      { tier: '8th Prize',         amount: '₹200',       numbers: [] },
+      { tier: '9th Prize',         amount: '₹100',       numbers: [] },
     ]
   };
 
