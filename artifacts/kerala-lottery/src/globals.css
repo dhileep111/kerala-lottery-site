@@ -359,3 +359,236 @@ th:last-child, td:last-child { text-align: right; font-weight: 800; color: var(-
   font-size: 15px;
   line-height: 1.75;
 }
+
+/* ════════════════════════════════════════════════
+   FEATURE: Lottery Selector (Homepage)
+   ════════════════════════════════════════════════ */
+.lottery-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.lottery-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  position: relative;
+  white-space: nowrap;
+}
+.lottery-pill:hover { transform: translateY(-1px); filter: brightness(0.97); }
+.lottery-pill--active { transform: translateY(-1px); }
+
+.lottery-pill__code {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+}
+.lottery-pill__name { font-weight: 800; }
+.lottery-pill__day {
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.65;
+}
+.lottery-pill__today {
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(255,255,255,0.35);
+  border-radius: 999px;
+  padding: 1px 7px;
+}
+.lottery-pill__dot {
+  width: 7px; height: 7px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+.lottery-pill__dot--verified { background: #16a34a; }
+.lottery-pill__dot--live     { background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.25); }
+.lottery-pill__dot--pending  { background: #d97706; }
+
+/* Selected result panel */
+.selected-result-panel {
+  border: 2px solid var(--border);
+  border-radius: 20px;
+  padding: 0;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+/* Quick link cards */
+.quick-link-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 22px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s, box-shadow 0.15s;
+  color: var(--foreground);
+}
+.quick-link-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  color: var(--foreground);
+}
+.quick-link-card__icon { font-size: 28px; }
+.quick-link-card strong { font-size: 16px; font-weight: 800; }
+.quick-link-card p { font-size: 13px; color: var(--muted-foreground); line-height: 1.5; margin: 0; }
+
+/* ════════════════════════════════════════════════
+   FEATURE: WhatsApp Share Button
+   ════════════════════════════════════════════════ */
+.share-result-block {
+  padding: 16px 24px 20px;
+  border-top: 1px solid var(--border);
+  background: #f8fafc;
+}
+.share-result-block__label {
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted-foreground);
+  margin-bottom: 10px;
+}
+.share-result-block__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border-radius: 10px;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.12s, opacity 0.12s;
+}
+.share-btn:hover { transform: translateY(-1px); opacity: 0.92; }
+.share-btn:active { transform: scale(0.97); }
+
+.share-btn--whatsapp {
+  background: #25D366;
+  color: white;
+}
+.share-btn--whatsapp-tamil {
+  background: #128C7E;
+  color: white;
+}
+.share-btn--copy {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  border: 1px solid var(--border);
+}
+.share-btn--copied {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* ════════════════════════════════════════════════
+   FEATURE: AI Ticket Checker
+   ════════════════════════════════════════════════ */
+.ai-explanation-card {
+  background: linear-gradient(135deg, #f0fdf4, #eff6ff);
+  border: 2px solid #a7f3d0;
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+.ai-explanation-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.ai-explanation-card__icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.ai-explanation-card__title {
+  font-weight: 800;
+  font-size: 15px;
+  color: #166534;
+}
+.ai-explanation-card__sub {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 1px;
+}
+.ai-explanation-card__trigger {
+  margin-left: auto;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.ai-explanation-card__trigger:hover { background: var(--primary-dark); }
+
+.ai-explanation-card__loading {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+  gap: 4px;
+}
+.ai-dot {
+  width: 8px; height: 8px;
+  border-radius: 999px;
+  background: var(--primary);
+  animation: ai-bounce 1.2s ease-in-out infinite;
+}
+.ai-dot:nth-child(2) { animation-delay: 0.2s; }
+.ai-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes ai-bounce {
+  0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; }
+  40%            { transform: scale(1.0); opacity: 1; }
+}
+
+.ai-explanation-card__text {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: #1e293b;
+  white-space: pre-wrap;
+}
+.ai-explanation-card__retry {
+  margin-top: 10px;
+  background: none;
+  border: 1px solid #a7f3d0;
+  border-radius: 8px;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.ai-explanation-card__retry:hover { background: #dcfce7; }
