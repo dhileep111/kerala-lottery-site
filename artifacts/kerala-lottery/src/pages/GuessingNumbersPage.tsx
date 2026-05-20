@@ -98,21 +98,6 @@ export default function GuessingNumbersPage() {
           </div>
         </section>
 
-        {/* How to update — admin guide */}
-        <section className="content-card guess-update-guide">
-          <h2>📅 How to Update Guessing Numbers</h2>
-          <p>Guessing numbers are updated by editing <code>src/data/guessing-numbers.json</code> in the repository. Change the three values under <code>"boards"</code> — all combinations auto-derive from A, B, C. Update <code>"updatedDate"</code> and <code>"updatedLabel"</code> to today's date, then push to GitHub. The site rebuilds automatically.</p>
-          <div className="guess-update-guide__code">
-{`{
-  "updatedDate": "2026-05-20",
-  "updatedLabel": "May 20, 2026",
-  "boards": { "A": "5", "B": "3", "C": "8" },
-  ...
-}`}
-          </div>
-          <p style={{ marginTop: 12, fontSize: 13, color: '#6b7280' }}>Tip: You can also add this as a manual input in the GitHub Actions workflow so you can update A, B, C boards from your phone without opening a code editor.</p>
-        </section>
-
         {/* Disclaimer */}
         <section className="content-card" style={{ borderLeft: '4px solid #f59e0b', background: '#fffbeb' }}>
           <h2>⚠️ Disclaimer</h2>
