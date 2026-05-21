@@ -68,11 +68,18 @@ export function ResultTable({ result, query = '' }: { result: Result; query?: st
                         {prize.numbers.map((number) => {
                           const ticket = getTicketText(number);
                           const meta = getNumberMeta(number);
+                          const district = typeof number === 'object' && number !== null && 'district' in number ? (number as any).district : null;
                           const match = normalizedQuery && ticket.toLowerCase().includes(normalizedQuery);
                           return (
-                            <span key={ticket} className={`${cfg.chipStyle} ${match ? 'chip--match' : ''}`}>
+                            <span key={ticket} className={`${cfg.chipStyle} ${match ? 'chip--match' : ''}`} style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
                               {ticket}
                               {meta && <span className="chip-meta"> ({meta})</span>}
+                              {district && (
+                                <span style={{ fontSize: 10, fontWeight: 600, color: '#6b7280', display: 'flex', alignItems: 'center', gap: 3, marginTop: 2 }}>
+                                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                  {district}
+                                </span>
+                              )}
                             </span>
                           );
                         })}
