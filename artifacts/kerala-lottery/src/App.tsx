@@ -15,6 +15,7 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TermsPage from "./pages/TermsPage";
 import LotteryResultPage from "./pages/LotteryResultPage";
 import DrawArchivePage from "./pages/DrawArchivePage";
+import FirstPrizePage from "./pages/FirstPrizePage";
 import NotFound from "./pages/not-found";
 
 function Router() {
@@ -34,6 +35,8 @@ function Router() {
         <Route path="/lottery-offices" component={LotteryOfficesPage} />
         <Route path="/privacy-policy" component={PrivacyPolicyPage} />
         <Route path="/terms" component={TermsPage} />
+        <Route path="/results/:slug/first-prize" component={FirstPrizePage} />
+        <Route path="/results/:slug/:drawCode/first-prize" component={FirstPrizePage} />
         <Route path="/results/:slug/:drawCode" component={DrawArchivePage} />
         <Route path="/results/:slug" component={LotteryResultPage} />
         <Route component={NotFound} />
