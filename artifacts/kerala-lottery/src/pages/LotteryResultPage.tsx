@@ -1,4 +1,4 @@
-import { useParams } from 'wouter';
+import { useParams, Link } from 'wouter';
 import { JsonLd } from '../components/JsonLd';
 import { ResultCard } from '../components/ResultCard';
 import { ResultTable } from '../components/ResultTable';
@@ -85,6 +85,13 @@ export default function LotteryResultPage() {
           <div style={{ height: 24 }} />
           <ResultDetails result={result} />
           <ResultTable result={result} />
+          {result.status !== 'pending' && (
+            <div style={{ padding: '12px 20px 16px', borderTop: '1px solid var(--border)', background: '#fafafa', display: 'flex', justifyContent: 'center' }}>
+              <Link href={`/results/${lottery.slug}/first-prize`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#f59e0b,#d97706)', color: 'white', padding: '10px 24px', borderRadius: 12, fontWeight: 800, fontSize: 14, textDecoration: 'none' }}>
+                🥇 View 1st Prize Winner Page →
+              </Link>
+            </div>
+          )}
           <ShareResultButton lottery={lottery} result={result} />
         </section>
         <section className="content-card">
