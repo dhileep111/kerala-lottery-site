@@ -14,7 +14,10 @@
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "DF 314005"
+          {
+            "ticket": "DF 314005",
+            "district": "Kasaragod"
+          }
         ]
       },
       {
@@ -361,7 +364,10 @@
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "SJ 587861"
+          {
+            "ticket": "SJ 587861",
+            "district": "Kannur"
+          }
         ]
       },
       {
@@ -793,7 +799,10 @@
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "BW 788952"
+          {
+            "ticket": "BW 788952",
+            "district": "Kottayam"
+          }
         ]
       },
       {
@@ -1089,7 +1098,10 @@
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "MF 143965"
+          {
+            "ticket": "MF 143965",
+            "district": "Kottayam"
+          }
         ]
       },
       {
@@ -1375,7 +1387,10 @@
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "KG 684929"
+          {
+            "ticket": "KG 684929",
+            "district": "Kollam"
+          }
         ]
       },
       {
@@ -5386,14 +5401,17 @@
     "status": "verified",
     "sourceName": "Manual admin update",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-05-21T12:19:09.142662Z",
-    "summary": "Result for Karunya Plus KN-624. 10/10 tiers updated.",
+    "lastUpdated": "2026-05-21T16:32:50+05:30",
+    "summary": "Result for Karunya Plus KN-624. 9/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "PN 945080"
+          {
+            "ticket": "PN 945080",
+            "district": "Attingal"
+          }
         ]
       },
       {
@@ -5417,14 +5435,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "PT 771990"
+          {
+            "ticket": "PT 771990",
+            "district": "Thiruvananthapuram"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "PV 714581"
+          {
+            "ticket": "PV 714581",
+            "district": "Adoor"
+          }
         ]
       },
       {
@@ -5518,11 +5542,6 @@
           "2200",
           "2206",
           "2221",
-          "2511",
-          "2558",
-          "2602",
-          "2672",
-          "2807",
           "2819",
           "2926",
           "3052",
@@ -5601,6 +5620,7 @@
           "1697",
           "1731",
           "1747",
+          "2039",
           "2103",
           "2279",
           "2391",
@@ -5709,6 +5729,11 @@
           "1808",
           "1876",
           "1884",
+          "1904",
+          "1944",
+          "2015",
+          "2028",
+          "2049",
           "2110",
           "2115",
           "2207",
