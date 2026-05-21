@@ -5381,18 +5381,20 @@
   {
     "lotterySlug": "karunya-plus",
     "drawCode": "KN-624",
-    "drawDate": "2026-03-19",
-    "displayDate": "March 19, 2026",
-    "status": "pending",
-    "sourceName": "Awaiting official publication",
+    "drawDate": "2026-05-21",
+    "displayDate": "May 21, 2026",
+    "status": "live",
+    "sourceName": "Manual admin update",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-03-19T09:00:00Z",
-    "summary": "Result for Karunya Plus KN-624. 0/10 tiers updated.",
+    "lastUpdated": "2026-05-21T10:16:11.808715Z",
+    "summary": "Result for Karunya Plus KN-624. 1/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
-        "numbers": []
+        "numbers": [
+          "PN 945080"
+        ]
       },
       {
         "tier": "Consolation Prize",
@@ -5401,32 +5403,32 @@
       },
       {
         "tier": "2nd Prize",
-        "amount": "₹1,00,000",
+        "amount": "₹30,00,000",
         "numbers": []
       },
       {
         "tier": "3rd Prize",
-        "amount": "₹5,000",
+        "amount": "₹5,00,000",
         "numbers": []
       },
       {
         "tier": "4th Prize",
-        "amount": "₹2,000",
+        "amount": "₹5,000",
         "numbers": []
       },
       {
         "tier": "5th Prize",
-        "amount": "₹1,000",
+        "amount": "₹2,000",
         "numbers": []
       },
       {
         "tier": "6th Prize",
-        "amount": "₹500",
+        "amount": "₹1,000",
         "numbers": []
       },
       {
         "tier": "7th Prize",
-        "amount": "₹200",
+        "amount": "₹500",
         "numbers": []
       },
       {
