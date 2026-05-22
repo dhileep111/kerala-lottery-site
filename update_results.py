@@ -225,10 +225,11 @@ def upsert(results, new):
 def main():
     lotteries    = load_json(LOTTERIES_PATH)
     results      = load_json(RESULTS_PATH)
-    manual_lot   = sys.argv[1] if len(sys.argv)>1 else ""
-    manual_draw  = sys.argv[2] if len(sys.argv)>2 else ""
-    manual_prize = sys.argv[3] if len(sys.argv)>3 else ""
-    full_results = sys.argv[4] if len(sys.argv)>4 else ""
+    # Read from env vars (safe for JSON/special chars) with sys.argv fallback
+    manual_lot   = os.environ.get("LOTTERY_PAGE",  sys.argv[1] if len(sys.argv)>1 else "")
+    manual_draw  = os.environ.get("DRAW_CODE",     sys.argv[2] if len(sys.argv)>2 else "")
+    manual_prize = os.environ.get("FIRST_PRIZE",   sys.argv[3] if len(sys.argv)>3 else "")
+    full_results = os.environ.get("FULL_RESULTS",  sys.argv[4] if len(sys.argv)>4 else "")
     is_scheduled = os.environ.get("GITHUB_EVENT_NAME")=="schedule"
     now          = datetime.now(timezone.utc)
 
