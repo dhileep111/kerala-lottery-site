@@ -7,17 +7,14 @@
     "status": "live",
     "sourceName": "Manual admin update",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-05-22T11:58:02.475429Z",
+    "lastUpdated": "2026-05-22T12:10:56.658872Z",
     "summary": "Result for Suvarna Keralam SK-53. 1/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          {
-            "ticket": "RE 885786",
-            "district": "Pattambi"
-          }
+          "{ticket:RE"
         ]
       },
       {
@@ -28,22 +25,12 @@
       {
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
-        "numbers": [
-          {
-            "ticket": "RE 318008",
-            "district": "Moovattupuzha"
-          }
-        ]
+        "numbers": []
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
-        "numbers": [
-          {
-            "ticket": "RH 864462",
-            "district": "Adoor"
-          }
-        ]
+        "numbers": []
       },
       {
         "tier": "4th Prize",
