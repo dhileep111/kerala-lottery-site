@@ -24,7 +24,21 @@ export function getLottery(slug: string) {
 }
 
 export function getTicketText(number: WinningNumber) {
-  return typeof number === 'string' ? number : number.ticket;
+  if (typeof number === 'string') {
+    // Defensive: handle broken JSON strings like '{ticket:RE' stored by old workflow
+    if (number.startsWith('{')) {
+      try {
+        const parsed = JSON.parse(number);
+        return parsed.ticket ?? number;
+      } catch {
+        // Extract ticket pattern XX 123456 from malformed string
+        const m = number.match(/([A-Z]{2})\s*(\d{6})/);
+        if (m) return `${m[1]} ${m[2]}`;
+      }
+    }
+    return number;
+  }
+  return number.ticket;
 }
 
 export function getNumberMeta(number: WinningNumber) {
