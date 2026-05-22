@@ -14,7 +14,10 @@
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "{ticket:RE"
+          {
+            "ticket": "RE 885786",
+            "district": "Pattambi"
+          }
         ]
       },
       {
@@ -25,12 +28,22 @@
       {
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
-        "numbers": []
+        "numbers": [
+          {
+            "ticket": "RE 318008",
+            "district": "Moovattupuzha"
+          }
+        ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
-        "numbers": []
+        "numbers": [
+          {
+            "ticket": "RH 864462",
+            "district": "Adoor"
+          }
+        ]
       },
       {
         "tier": "4th Prize",
