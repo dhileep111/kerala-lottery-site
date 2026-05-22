@@ -25,16 +25,17 @@ export function getLottery(slug: string) {
 
 export function getTicketText(number: WinningNumber) {
   if (typeof number === 'string') {
-    // Defensive: handle broken JSON strings like '{ticket:RE' stored by old workflow
     if (number.startsWith('{')) {
+      // Try full JSON parse first: {"ticket":"RE 885786","district":"Pattambi"}
       try {
         const parsed = JSON.parse(number);
-        return parsed.ticket ?? number;
-      } catch {
-        // Extract ticket pattern XX 123456 from malformed string
-        const m = number.match(/([A-Z]{2})\s*(\d{6})/);
-        if (m) return `${m[1]} ${m[2]}`;
-      }
+        if (parsed.ticket) return String(parsed.ticket);
+      } catch { /* malformed */ }
+      // Truncated string like '{ticket:RE' — extract any XX NNNNNN pattern
+      const m = number.match(/([A-Z]{2})\s*(\d{6})/);
+      if (m) return `${m[1]} ${m[2]}`;
+      // Absolute fallback: hide broken data, show placeholder
+      return 'Result updating…';
     }
     return number;
   }
