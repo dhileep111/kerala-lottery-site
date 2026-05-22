@@ -69,15 +69,19 @@ jobs:
         run: pip install beautifulsoup4
 
       - name: Update results.json
+        env:
+          LOTTERY_PAGE:  ${{ github.event.inputs.lottery_page }}
+          DRAW_CODE:     ${{ github.event.inputs.draw_code }}
+          FIRST_PRIZE:   ${{ github.event.inputs.first_prize }}
+          FULL_RESULTS:  ${{ github.event.inputs.full_results }}
+          GUESSING_A:    ${{ github.event.inputs.guessing_a }}
+          GUESSING_B:    ${{ github.event.inputs.guessing_b }}
+          GUESSING_C:    ${{ github.event.inputs.guessing_c }}
         run: |
-          python update_results.py \
-            "${{ github.event.inputs.lottery_page }}" \
-            "${{ github.event.inputs.draw_code }}" \
-            "${{ github.event.inputs.first_prize }}" \
-            "${{ github.event.inputs.full_results }}"
+          python update_results.py
 
       - name: Update guessing numbers
-        if: ${{ github.event.inputs.guessing_a != '' }}
+        if: ${{ env.GUESSING_A != '' }}
         run: |
           python - << 'EOF'
           import json, os, datetime
@@ -115,9 +119,9 @@ jobs:
           print(f'✅ Guessing numbers updated: A={A} B={B} C={C}')
           EOF
         env:
-          A: ${{ github.event.inputs.guessing_a }}
-          B: ${{ github.event.inputs.guessing_b }}
-          C: ${{ github.event.inputs.guessing_c }}
+          A: ${{ env.GUESSING_A }}
+          B: ${{ env.GUESSING_B }}
+          C: ${{ env.GUESSING_C }}
 
       - name: Commit data changes
         run: |
