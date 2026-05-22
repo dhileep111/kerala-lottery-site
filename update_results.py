@@ -151,30 +151,64 @@ def scrape_draw_code(code):
 def get_tiers(slug):
     return LOTTERY_PRIZES.get(slug, LOTTERY_PRIZES["samrudhi"])
 
+def parse_ticket(value):
+    """Parse ticket — plain string 'RE 885786' or JSON object {"ticket":"RE 885786","district":"Pattambi"}"""
+    if not value or value == "PENDING":
+        return value
+    v = value.strip()
+    if v.startswith('{'):
+        try:
+            return json.loads(v)
+        except Exception:
+            pass
+    return v
+
+def rejoin_json_splits(raw_list):
+    """Fix JSON objects that got split by comma: ['{"ticket":"XX 123', '"district":"Y"}'] → [{"ticket":"XX 123","district":"Y"}]"""
+    result = []
+    buf = ""
+    depth = 0
+    for item in raw_list:
+        depth += item.count('{') - item.count('}')
+        buf = (buf + "," + item) if buf else item
+        if depth <= 0:
+            result.append(parse_ticket(buf.strip()))
+            buf = ""
+            depth = 0
+    if buf:
+        result.append(parse_ticket(buf.strip()))
+    return result
+
 def parse_prizes(text, first_prize, slug):
+    first_prize_parsed = parse_ticket(first_prize)
     tiers = get_tiers(slug)
     if not text or not text.strip():
         prizes = []
         for t in tiers:
-            nums = [first_prize] if t["tier"]=="1st Prize" and first_prize and first_prize!="PENDING" else []
-            prizes.append({"tier":t["tier"],"amount":t["amount"],"numbers":nums})
+            has_first = first_prize_parsed and first_prize_parsed != "PENDING"
+            nums = [first_prize_parsed] if t["tier"] == "1st Prize" and has_first else []
+            prizes.append({"tier": t["tier"], "amount": t["amount"], "numbers": nums})
         return prizes
     parsed = {}
     for line in re.split(r"\n| / ", text):
         line = line.strip()
-        if not line or ":" not in line: continue
-        key,_,vals = line.partition(":")
-        canonical  = TIER_MAP.get(key.strip().lower())
-        if not canonical: print(f"⚠️ Unknown key: '{key}'"); continue
-        parsed[canonical] = [n.strip() for n in vals.split(",") if n.strip()]
+        if not line or ":" not in line:
+            continue
+        key, _, vals = line.partition(":")
+        canonical = TIER_MAP.get(key.strip().lower())
+        if not canonical:
+            print(f"⚠️ Unknown key: '{key}'")
+            continue
+        raw_vals = [v.strip() for v in vals.split(",") if v.strip()]
+        parsed[canonical] = rejoin_json_splits(raw_vals)
         print(f"  ✓ {canonical}: {parsed[canonical]}")
     prizes = []
     for t in tiers:
         tier = t["tier"]
-        nums = parsed.get(tier,[])
-        if tier=="1st Prize" and not nums and first_prize and first_prize!="PENDING":
-            nums = [first_prize]
-        prizes.append({"tier":tier,"amount":t["amount"],"numbers":nums})
+        nums = parsed.get(tier, [])
+        if tier == "1st Prize" and not nums and first_prize_parsed and first_prize_parsed != "PENDING":
+            nums = [first_prize_parsed]
+        prizes.append({"tier": tier, "amount": t["amount"], "numbers": nums})
     return prizes
 
 def upsert(results, new):
