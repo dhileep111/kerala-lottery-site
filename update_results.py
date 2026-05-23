@@ -109,6 +109,18 @@ LOTTERY_PRIZES = {
         {"tier": "7th Prize",        "amount": "₹200"},
         {"tier": "8th Prize",        "amount": "₹100"},
     ],
+    "bumper": [
+        {"tier": "1st Prize",        "amount": "₹12,00,00,000"},
+        {"tier": "Consolation Prize","amount": "₹1,00,000"},
+        {"tier": "2nd Prize",        "amount": "₹1,00,00,000"},
+        {"tier": "3rd Prize",        "amount": "₹10,00,000"},
+        {"tier": "4th Prize",        "amount": "₹5,00,000"},
+        {"tier": "5th Prize",        "amount": "₹5,000"},
+        {"tier": "6th Prize",        "amount": "₹2,000"},
+        {"tier": "7th Prize",        "amount": "₹1,000"},
+        {"tier": "8th Prize",        "amount": "₹500"},
+        {"tier": "9th Prize",        "amount": "₹300"},
+    ],
 }
 
 TIER_MAP = {
@@ -150,6 +162,9 @@ def scrape_draw_code(code):
 
 def get_tiers(slug):
     return LOTTERY_PRIZES.get(slug, LOTTERY_PRIZES["samrudhi"])
+
+def is_bumper_slug(slug):
+    return slug == "bumper"
 
 def parse_ticket(value):
     """Parse ticket — plain string 'RE 885786' or JSON object {"ticket":"RE 885786","district":"Pattambi"}"""
