@@ -6,6 +6,8 @@ export type Lottery = {
   drawDayIndex: number;
   drawTime: string;
   firstPrizeAmount: string;
+  isBumper?: boolean;
+  claimDays?: number;
 };
 
 export type WinningNumber = string | {
