@@ -6,7 +6,9 @@
     "drawDay": "Monday",
     "drawDayIndex": 1,
     "drawTime": "3:00 PM",
-    "firstPrizeAmount": "₹1,00,00,000"
+    "firstPrizeAmount": "₹1,00,00,000",
+    "isBumper": false,
+    "claimDays": 30
   },
   {
     "slug": "sthree-sakthi",
@@ -15,7 +17,9 @@
     "drawDay": "Tuesday",
     "drawDayIndex": 2,
     "drawTime": "3:00 PM",
-    "firstPrizeAmount": "₹1,00,00,000"
+    "firstPrizeAmount": "₹1,00,00,000",
+    "isBumper": false,
+    "claimDays": 30
   },
   {
     "slug": "dhanalekshmi",
@@ -24,7 +28,9 @@
     "drawDay": "Wednesday",
     "drawDayIndex": 3,
     "drawTime": "3:00 PM",
-    "firstPrizeAmount": "₹1,00,00,000"
+    "firstPrizeAmount": "₹1,00,00,000",
+    "isBumper": false,
+    "claimDays": 30
   },
   {
     "slug": "karunya-plus",
@@ -33,7 +39,9 @@
     "drawDay": "Thursday",
     "drawDayIndex": 4,
     "drawTime": "3:00 PM",
-    "firstPrizeAmount": "₹1,00,00,000"
+    "firstPrizeAmount": "₹1,00,00,000",
+    "isBumper": false,
+    "claimDays": 30
   },
   {
     "slug": "suvarna-keralam",
@@ -42,7 +50,9 @@
     "drawDay": "Friday",
     "drawDayIndex": 5,
     "drawTime": "3:00 PM",
-    "firstPrizeAmount": "₹1,00,00,000"
+    "firstPrizeAmount": "₹1,00,00,000",
+    "isBumper": false,
+    "claimDays": 30
   },
   {
     "slug": "karunya",
@@ -51,7 +61,9 @@
     "drawDay": "Saturday",
     "drawDayIndex": 6,
     "drawTime": "3:00 PM",
-    "firstPrizeAmount": "₹1,00,00,000"
+    "firstPrizeAmount": "₹1,00,00,000",
+    "isBumper": false,
+    "claimDays": 30
   },
   {
     "slug": "samrudhi",
@@ -60,7 +72,9 @@
     "drawDay": "Sunday",
     "drawDayIndex": 0,
     "drawTime": "3:00 PM",
-    "firstPrizeAmount": "₹1,00,00,000"
+    "firstPrizeAmount": "₹1,00,00,000",
+    "isBumper": false,
+    "claimDays": 30
   },
   {
     "slug": "bumper",
@@ -69,6 +83,8 @@
     "drawDay": "Special Draws",
     "drawDayIndex": -1,
     "drawTime": "2:00 PM",
-    "firstPrizeAmount": "Varies by bumper"
+    "firstPrizeAmount": "₹12,00,00,000",
+    "isBumper": true,
+    "claimDays": 90
   }
 ]
