@@ -1,4 +1,4 @@
-import { getNumberMeta, getTicketText } from '../data';
+import { getLottery, getNumberMeta, getTicketText } from '../data';
 import type { Result } from '../types';
 
 const TIER_CONFIG: Record<string, { emoji: string; highlight: boolean; chipStyle: string }> = {
@@ -12,12 +12,23 @@ const TIER_CONFIG: Record<string, { emoji: string; highlight: boolean; chipStyle
   '7th Prize':         { emoji: '7️⃣', highlight: false, chipStyle: 'chip' },
   '8th Prize':         { emoji: '8️⃣', highlight: false, chipStyle: 'chip' },
   '9th Prize':         { emoji: '9️⃣', highlight: false, chipStyle: 'chip' },
+  '10th Prize':        { emoji: '🔟', highlight: false, chipStyle: 'chip' },
 };
+
+// For bumper: 1st–4th prizes are full-ticket winners (not 4-digit)
+// For regular: only 1st–3rd are full tickets; 4th+ are 4-digit numbers
+const FULL_TICKET_TIERS_BUMPER  = new Set(['1st Prize', '2nd Prize', '3rd Prize', '4th Prize', 'Consolation Prize']);
+const FULL_TICKET_TIERS_REGULAR = new Set(['1st Prize', '2nd Prize', '3rd Prize', 'Consolation Prize']);
 
 export function ResultTable({ result, query = '' }: { result: Result; query?: string }) {
   const normalizedQuery = query.trim().toLowerCase();
+  const lottery = getLottery(result.lotterySlug);
+  const isBumper = lottery?.isBumper ?? false;
+  const claimDays = lottery?.claimDays ?? 30;
+  const fullTicketTiers = isBumper ? FULL_TICKET_TIERS_BUMPER : FULL_TICKET_TIERS_REGULAR;
+
   const filledCount = result.prizes.filter(p => p.numbers.length > 0).length;
-  const totalCount = result.prizes.length;
+  const totalCount  = result.prizes.length;
   const isFullResult = filledCount >= totalCount - 1;
 
   return (
@@ -29,7 +40,12 @@ export function ResultTable({ result, query = '' }: { result: Result; query?: st
           </svg>
           Full Prize Table
         </div>
-        <div className="rt-status">
+        <div className="rt-status" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {isBumper && (
+            <span style={{ fontSize: 11, fontWeight: 700, background: '#fef3c7', color: '#78350f', padding: '2px 8px', borderRadius: 20 }}>
+              🎪 Bumper Draw
+            </span>
+          )}
           {isFullResult
             ? <span className="rt-badge rt-badge--complete">✅ Complete Result</span>
             : <span className="rt-badge rt-badge--partial">{filledCount}/{totalCount} tiers updated</span>
@@ -50,6 +66,7 @@ export function ResultTable({ result, query = '' }: { result: Result; query?: st
             {result.prizes.map((prize) => {
               const cfg = TIER_CONFIG[prize.tier] ?? { emoji: '•', highlight: false, chipStyle: 'chip' };
               const isPending = prize.numbers.length === 0;
+              const isFullTicketTier = fullTicketTiers.has(prize.tier);
 
               return (
                 <tr key={prize.tier} className={cfg.highlight ? 'tr--highlight' : ''}>
@@ -64,14 +81,20 @@ export function ResultTable({ result, query = '' }: { result: Result; query?: st
                         Pending
                       </span>
                     ) : (
-                      <div className="chips">
-                        {prize.numbers.map((number) => {
-                          const ticket = getTicketText(number);
-                          const meta = getNumberMeta(number);
-                          const district = typeof number === 'object' && number !== null && 'district' in number ? (number as any).district : null;
+                      <div className={`chips ${isFullTicketTier ? 'chips--full-ticket' : ''}`}>
+                        {prize.numbers.map((number, idx) => {
+                          const ticket   = getTicketText(number);
+                          const meta     = getNumberMeta(number);
+                          const district = typeof number === 'object' && number !== null && 'district' in number
+                            ? (number as any).district : null;
                           const match = normalizedQuery && ticket.toLowerCase().includes(normalizedQuery);
+
                           return (
-                            <span key={ticket} className={`${cfg.chipStyle} ${match ? 'chip--match' : ''}`} style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+                            <span
+                              key={`${ticket}-${idx}`}
+                              className={`${cfg.chipStyle} ${match ? 'chip--match' : ''}`}
+                              style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
+                            >
                               {ticket}
                               {meta && <span className="chip-meta"> ({meta})</span>}
                               {district && (
@@ -101,7 +124,16 @@ export function ResultTable({ result, query = '' }: { result: Result; query?: st
           <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
           </svg>
-          Full result published after 4:30 PM official PDF. Refresh this page for updates.
+          {isBumper
+            ? 'Bumper result published after 4:30 PM official PDF. All prize tiers will be updated.'
+            : 'Full result published after 4:30 PM official PDF. Refresh this page for updates.'
+          }
+        </div>
+      )}
+
+      {isBumper && (
+        <div style={{ padding: '10px 18px', background: '#fffbeb', borderTop: '1px solid #fde68a', fontSize: 12, color: '#78350f', fontWeight: 600, borderRadius: '0 0 14px 14px' }}>
+          🎪 Bumper Draw — Prize claim deadline is <strong>{claimDays} days</strong> from draw date. Prizes above ₹1,00,000 must be claimed at the Directorate of Kerala Lotteries, Thiruvananthapuram.
         </div>
       )}
 
@@ -118,6 +150,7 @@ export function ResultTable({ result, query = '' }: { result: Result; query?: st
         .tier-name  { font-size: 13px; }
         .td-numbers { max-width: 560px; }
         .td-amount  { text-align: right; font-weight: 800; color: var(--primary); white-space: nowrap; }
+        .chips--full-ticket { flex-direction: column; align-items: flex-start; gap: 6px; }
         .chip--gold { background: linear-gradient(135deg, #fef3c7, #fde68a); border-color: #f59e0b; color: #78350f; font-size: 15px; padding: 6px 14px; font-weight: 900; letter-spacing: .06em; }
         .chip--silver { background: linear-gradient(135deg, #f1f5f9, #e2e8f0); border-color: #94a3b8; color: #1e293b; font-weight: 800; }
         .chip--bronze { background: linear-gradient(135deg, #fff7ed, #fed7aa); border-color: #f97316; color: #7c2d12; font-weight: 700; }
@@ -126,7 +159,7 @@ export function ResultTable({ result, query = '' }: { result: Result; query?: st
         .pending-dot { width: 7px; height: 7px; border-radius: 50%; background: #f97316; animation: blink 1.2s ease-in-out infinite; flex-shrink: 0; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         .chip-meta { font-weight: 400; font-size: 11px; opacity: .7; font-family: inherit; }
-        .rt-footer { display: flex; align-items: center; gap: 6px; padding: 10px 18px; font-size: 12px; color: var(--muted-fg, #6b7280); background: var(--muted, #f9fafb); border-top: 1px solid var(--border); border-radius: 0 0 14px 14px; }
+        .rt-footer { display: flex; align-items: center; gap: 6px; padding: 10px 18px; font-size: 12px; color: var(--muted-fg, #6b7280); background: var(--muted, #f9fafb); border-top: 1px solid var(--border); }
         @media (max-width: 640px) {
           .result-table-card { border: 0; background: transparent; box-shadow: none; }
           .table-wrap { overflow: visible; }
