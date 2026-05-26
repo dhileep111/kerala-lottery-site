@@ -1,10 +1,11 @@
-import { guessingData } from '../data';
+import { Link } from 'wouter';
+import { guessingData, lotteries, getTodayLottery, getTomorrowLottery } from '../data';
 
 const TYPE_CONFIG = {
-  board:  { label: 'Board Numbers',      desc: 'Single digit A, B, C board values',       bg: '#f0fdf4', border: '#bbf7d0', badge: '#16a34a', badgeText: 'white' },
-  combo:  { label: 'Two Digit Combos',   desc: 'AB, BC, CA board combinations',            bg: '#eff6ff', border: '#bfdbfe', badge: '#2563eb', badgeText: 'white' },
-  triple: { label: 'Three Digit Combos', desc: 'Three-digit board arrangements',           bg: '#fdf4ff', border: '#e9d5ff', badge: '#7c3aed', badgeText: 'white' },
-  four:   { label: 'Four Digit Picks',   desc: 'Last 4 digits — check against your ticket', bg: '#fffbeb', border: '#fde68a', badge: '#d97706', badgeText: 'white' },
+  board:  { bg: '#f0fdf4', border: '#bbf7d0' },
+  combo:  { bg: '#eff6ff', border: '#bfdbfe' },
+  triple: { bg: '#fdf4ff', border: '#e9d5ff' },
+  four:   { bg: '#fffbeb', border: '#fde68a' },
 };
 
 function BoardCard({ letter, value }: { letter: string; value: string }) {
@@ -31,32 +32,71 @@ function NumberCard({ item }: { item: typeof guessingData.numbers[0] }) {
 
 export default function GuessingNumbersPage() {
   const { boards, numbers, updatedLabel } = guessingData;
-
   const byType = (type: string) => numbers.filter(n => n.type === type);
+  const todayLottery    = getTodayLottery();
+  const tomorrowLottery = getTomorrowLottery();
+  const mainLotteries   = lotteries.filter(l => !l.isBumper);
 
   return (
     <main className="page">
       <div className="container">
 
-        {/* Hero */}
         <div className="hero">
-          <h1>Kerala Lottery Guessing Numbers</h1>
-          <p>Today's guessing numbers for all Kerala lottery draws. For entertainment only — not guaranteed winning numbers.</p>
+          <h1>Kerala Lottery Guessing Numbers Today</h1>
+          <p>ABC board numbers and 4-digit combinations for all Kerala lottery draws. Updated daily before 3 PM IST. கேரளா லாட்டரி கணிப்பு எண்கள்.</p>
         </div>
 
-        {/* Update badge */}
-        <div className="guess-update-bar">
+        <div className="guess-update-bar" style={{ marginBottom: 24 }}>
           <span className="guess-update-bar__dot" />
           <span>Updated: <strong>{updatedLabel}</strong></span>
           <span className="guess-update-bar__sep" />
-          <span>Updated daily before 3 PM IST</span>
+          <span>Updated nightly</span>
         </div>
 
-        {/* A B C Boards — hero row */}
+        {/* Per-lottery quick links */}
         <section className="guess-section">
           <div className="guess-section__header">
-            <h2>Today's Board Numbers</h2>
-            <p>Base A, B, C values — all other combinations are derived from these</p>
+            <h2>Guessing Numbers by Lottery</h2>
+            <p>Click any lottery for dedicated guessing numbers, hot/cold numbers, and Tamil guide</p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12, marginBottom: 8 }}>
+            {mainLotteries.map(lottery => {
+              const isToday    = todayLottery.slug    === lottery.slug;
+              const isTomorrow = tomorrowLottery.slug === lottery.slug;
+              return (
+                <Link
+                  key={lottery.slug}
+                  href={`/guessing-numbers/${lottery.slug}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <div style={{
+                    background: isToday ? '#f0fdf4' : isTomorrow ? '#eff6ff' : 'white',
+                    border: `2px solid ${isToday ? '#16a34a' : isTomorrow ? '#2563eb' : '#e2e8f0'}`,
+                    borderRadius: 14, padding: '14px 16px', cursor: 'pointer',
+                    transition: 'transform 0.15s, box-shadow 0.15s',
+                  }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform='translateY(-2px)'; (e.currentTarget as HTMLDivElement).style.boxShadow='0 6px 16px rgba(0,0,0,0.08)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform='none'; (e.currentTarget as HTMLDivElement).style.boxShadow='none'; }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+                      <span style={{ fontSize: 11, fontFamily: 'ui-monospace,monospace', fontWeight: 900, background: '#f1f5f9', color: '#374151', padding: '2px 7px', borderRadius: 5 }}>{lottery.code}</span>
+                      {isToday && <span style={{ fontSize: 10, fontWeight: 700, background: '#16a34a', color: 'white', padding: '2px 7px', borderRadius: 10 }}>TODAY</span>}
+                      {isTomorrow && <span style={{ fontSize: 10, fontWeight: 700, background: '#2563eb', color: 'white', padding: '2px 7px', borderRadius: 10 }}>TOMORROW</span>}
+                    </div>
+                    <div style={{ fontWeight: 800, fontSize: 14, color: '#0f172a' }}>{lottery.name}</div>
+                    <div style={{ fontSize: 12, color: '#6b7280', marginTop: 3 }}>{lottery.drawDay} • {lottery.drawTime}</div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ABC boards */}
+        <section className="guess-section">
+          <div className="guess-section__header">
+            <h2>Today's ABC Board Numbers</h2>
+            <p>Base A, B, C values — all combinations derive from these three digits</p>
           </div>
           <div className="board-row">
             <BoardCard letter="A" value={boards.A} />
@@ -65,45 +105,44 @@ export default function GuessingNumbersPage() {
           </div>
         </section>
 
-        {/* Two digit combos */}
         <section className="guess-section">
-          <div className="guess-section__header">
-            <h2>Two Digit Combinations</h2>
-            <p>AB, BC, CA pairings derived from today's boards</p>
-          </div>
-          <div className="guess-grid guess-grid--3">
-            {byType('combo').map(n => <NumberCard key={n.label} item={n} />)}
-          </div>
+          <div className="guess-section__header"><h2>Two Digit Combinations</h2></div>
+          <div className="guess-grid guess-grid--3">{byType('combo').map(n => <NumberCard key={n.label} item={n} />)}</div>
         </section>
 
-        {/* Three digit */}
         <section className="guess-section">
-          <div className="guess-section__header">
-            <h2>Three Digit Numbers</h2>
-            <p>ABC, BCA, CAB arrangements</p>
-          </div>
-          <div className="guess-grid guess-grid--3">
-            {byType('triple').map(n => <NumberCard key={n.label} item={n} />)}
-          </div>
+          <div className="guess-section__header"><h2>Three Digit Numbers</h2></div>
+          <div className="guess-grid guess-grid--3">{byType('triple').map(n => <NumberCard key={n.label} item={n} />)}</div>
         </section>
 
-        {/* Four digit picks */}
         <section className="guess-section">
           <div className="guess-section__header">
             <h2>Four Digit Picks</h2>
-            <p>Check these against the last 4 digits of your ticket number</p>
+            <p>Check against last 4 digits of your ticket number</p>
           </div>
-          <div className="guess-grid guess-grid--4">
-            {byType('four').map(n => <NumberCard key={n.label} item={n} />)}
+          <div className="guess-grid guess-grid--4">{byType('four').map(n => <NumberCard key={n.label} item={n} />)}</div>
+        </section>
+
+        {/* Tamil hub section */}
+        <section className="content-card tamil-section" lang="ta" style={{ marginBottom: 20 }}>
+          <h2>🇮🇳 கேரளா லாட்டரி கணிப்பு எண்கள்</h2>
+          <p>இன்றைய A பலகை: <strong>{boards.A}</strong> | B பலகை: <strong>{boards.B}</strong> | C பலகை: <strong>{boards.C}</strong></p>
+          <p style={{ marginTop: 8 }}>AB கலவை: {boards.A+boards.B} | BC கலவை: {boards.B+boards.C} | CA கலவை: {boards.C+boards.A}</p>
+          <p style={{ marginTop: 8, fontSize: 13 }}>ஒவ்வொரு லாட்டரிக்கும் தனி எண்களுக்கு கீழே உள்ள லிங்கை கிளிக் செய்யவும்:</p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
+            {mainLotteries.map(l => (
+              <Link key={l.slug} href={`/guessing-numbers/${l.slug}`}
+                style={{ background: '#dcfce7', color: '#166534', border: '1px solid #86efac', padding: '5px 12px', borderRadius: 8, fontSize: 13, fontWeight: 700, textDecoration: 'none', fontFamily: "'Noto Sans Tamil', sans-serif" }}>
+                {l.name} கணிப்பு
+              </Link>
+            ))}
           </div>
         </section>
 
-        {/* Disclaimer */}
         <section className="content-card" style={{ borderLeft: '4px solid #f59e0b', background: '#fffbeb' }}>
           <h2>⚠️ Disclaimer</h2>
-          <p>Guessing numbers are provided for entertainment purposes only. Lottery is a game of chance and no number can be predicted or guaranteed. This website does not encourage lottery participation. Please play responsibly and within your financial means.</p>
+          <p>Guessing numbers are for entertainment only. No number can be predicted or guaranteed. Play responsibly.</p>
         </section>
-
       </div>
     </main>
   );
