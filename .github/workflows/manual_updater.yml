@@ -2,47 +2,30 @@ name: 🚀 Update Lottery Results
 
 on:
   schedule:
-    # Phase 1: 3:05 PM IST = 09:35 UTC — publish live result with first prize
+    # Phase 1: 3:05 PM IST = 09:35 UTC — 1st prize live
     - cron: '35 9 * * *'
-    # Phase 2: 4:45 PM IST = 11:15 UTC — update to verified with full prize table
+    # Phase 2: 4:45 PM IST = 11:15 UTC — full result verified
     - cron: '15 11 * * *'
   workflow_dispatch:
     inputs:
-      lottery_page:
-        description: 'Which lottery?'
-        required: true
-        type: choice
-        options:
-          - karunya
-          - karunya-plus
-          - sthree-sakthi
-          - dhanalekshmi
-          - bhagyathara
-          - samrudhi
-          - suvarna-keralam
-          - bumper
-      draw_code:
-        description: 'Draw Code (e.g. KR-753)'
-        required: true
-        type: string
       first_prize:
-        description: '1st Prize Number (e.g. KN 844574)'
+        description: '1st Prize ticket number ONLY — e.g. KU 144057 (no JSON, no district)'
         required: true
         type: string
       full_results:
-        description: 'Full prize table after 4:30 PM. Format: 1st:KN 844574 / consolation:RA 844574,RB 844574 / 2nd:KU 399061 / 3rd:AB 123456 / 4th:1234,5678 / 5th:0123,4567 / 6th:0001,0002 / 7th:1111,2222 / 8th:9999,8888 / 9th:1234,5678'
+        description: 'Full FIELD 4 from converter (leave blank for 3 PM live update)'
         required: false
         type: string
       guessing_a:
-        description: 'Guessing Board A (single digit, e.g. 4)'
+        description: 'Guessing Board A (single digit)'
         required: false
         type: string
       guessing_b:
-        description: 'Guessing Board B (single digit, e.g. 7)'
+        description: 'Guessing Board B (single digit)'
         required: false
         type: string
       guessing_c:
-        description: 'Guessing Board C (single digit, e.g. 2)'
+        description: 'Guessing Board C (single digit)'
         required: false
         type: string
 
@@ -56,6 +39,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -66,70 +50,116 @@ jobs:
           python-version: '3.11'
 
       - name: Install Python deps
-        run: pip install beautifulsoup4
+        run: pip install beautifulsoup4 requests
 
+      # ── AUTO-DETECT today's lottery & draw code ─────────────
+      - name: Auto-detect lottery and draw code
+        id: detect
+        run: |
+          python3 - << 'EOF'
+          import json, datetime, os
+
+          DATA = 'artifacts/kerala-lottery/src/data'
+          with open(f'{DATA}/lotteries.json') as f:
+              lotteries = json.load(f)
+          with open(f'{DATA}/results.json') as f:
+              results = json.load(f)
+
+          # Today's draw — JS day convention: Sun=0, Mon=1...Sat=6
+          today_js = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=5, minutes=30))).weekday()
+          today_js = (today_js + 1) % 7  # convert Python Mon=0 to JS Sun=0
+
+          # Find today's lottery (skip bumper)
+          today_lottery = next(
+              (l for l in lotteries if l['drawDayIndex'] == today_js and not l.get('isBumper')),
+              lotteries[0]
+          )
+          slug = today_lottery['slug']
+          code_prefix = today_lottery['code']
+
+          # Find latest draw number for this lottery
+          draws = [r for r in results if r['lotterySlug'] == slug and '-' in r['drawCode']]
+          if draws:
+              nums = []
+              for d in draws:
+                  try:
+                      nums.append(int(d['drawCode'].split('-')[1]))
+                  except:
+                      pass
+              next_num = max(nums) + 1 if nums else 1
+          else:
+              next_num = 1
+
+          draw_code = f'{code_prefix}-{next_num}'
+
+          # Write to env file
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f'slug={slug}\n')
+              f.write(f'draw_code={draw_code}\n')
+              f.write(f'lottery_name={today_lottery["name"]}\n')
+
+          print(f'✅ Today: {today_lottery["name"]} | Draw code: {draw_code}')
+          EOF
+
+      # ── UPDATE RESULTS ────────────────────────────────────────
       - name: Update results.json
         env:
-          LOTTERY_PAGE:  ${{ github.event.inputs.lottery_page }}
-          DRAW_CODE:     ${{ github.event.inputs.draw_code }}
+          LOTTERY_PAGE:  ${{ steps.detect.outputs.slug }}
+          DRAW_CODE:     ${{ steps.detect.outputs.draw_code }}
           FIRST_PRIZE:   ${{ github.event.inputs.first_prize }}
           FULL_RESULTS:  ${{ github.event.inputs.full_results }}
           GUESSING_A:    ${{ github.event.inputs.guessing_a }}
           GUESSING_B:    ${{ github.event.inputs.guessing_b }}
           GUESSING_C:    ${{ github.event.inputs.guessing_c }}
-        run: |
-          python update_results.py
+        run: python update_results.py
 
+      # ── UPDATE GUESSING NUMBERS ───────────────────────────────
       - name: Update guessing numbers
-        if: ${{ env.GUESSING_A != '' }}
+        if: ${{ github.event.inputs.guessing_a != '' }}
+        env:
+          A: ${{ github.event.inputs.guessing_a }}
+          B: ${{ github.event.inputs.guessing_b }}
+          C: ${{ github.event.inputs.guessing_c }}
         run: |
-          python - << 'EOF'
+          python3 - << 'EOF'
           import json, os, datetime
           path = 'artifacts/kerala-lottery/src/data/guessing-numbers.json'
           with open(path) as f:
               data = json.load(f)
-          a = os.environ.get('A', '').strip()
-          b = os.environ.get('B', '').strip()
-          c = os.environ.get('C', '').strip()
-          if a: data['boards']['A'] = a
-          if b: data['boards']['B'] = b
-          if c: data['boards']['C'] = c
+          A = os.environ.get('A','').strip()
+          B = os.environ.get('B','').strip()
+          C = os.environ.get('C','').strip()
+          if A: data['boards']['A'] = A
+          if B: data['boards']['B'] = B
+          if C: data['boards']['C'] = C
           today = datetime.date.today()
           data['updatedDate']  = today.strftime('%Y-%m-%d')
           data['updatedLabel'] = today.strftime('%B %-d, %Y')
-          # Recompute all combos from A, B, C
-          A, B, C = data['boards']['A'], data['boards']['B'], data['boards']['C']
           combo_map = {
-            'AB Combo': A+B, 'BC Combo': B+C, 'CA Combo': C+A,
-            'ABC Three Digit': A+B+C, 'BCA Three Digit': B+C+A, 'CAB Three Digit': C+A+B,
-            'Hot Pick':    A+A+B+C, 'Mirror Pick': B+B+C+A,
-            'Pattern Pick':C+C+A+B, 'Lucky Combo': A+B+C+A,
-            'Reverse Pick':C+B+A+C, 'Sequential':  C+B+C+A,
-            'Zero Start':  '0'+A+B+C, 'Double AB': A+B+A+B,
-            'Double BC':   B+C+B+C,
+            'AB Combo':A+B,'BC Combo':B+C,'CA Combo':C+A,
+            'ABC Three Digit':A+B+C,'BCA Three Digit':B+C+A,'CAB Three Digit':C+A+B,
+            'Hot Pick':A+A+B+C,'Mirror Pick':B+B+C+A,'Pattern Pick':C+C+A+B,
+            'Lucky Combo':A+B+C+A,'Reverse Pick':C+B+A+C,'Sequential':C+B+C+A,
+            'Zero Start':'0'+A+B+C,'Double AB':A+B+A+B,'Double BC':B+C+B+C,
           }
           for item in data['numbers']:
-              if item['label'] in combo_map:
-                  item['value'] = combo_map[item['label']]
-              elif item['label'] == 'A Board': item['value'] = A
-              elif item['label'] == 'B Board': item['value'] = B
-              elif item['label'] == 'C Board': item['value'] = C
-          with open(path, 'w') as f:
-              json.dump(data, f, indent=2, ensure_ascii=False)
-          print(f'✅ Guessing numbers updated: A={A} B={B} C={C}')
+              if item['label'] in combo_map: item['value']=combo_map[item['label']]
+              elif item['label']=='A Board': item['value']=A
+              elif item['label']=='B Board': item['value']=B
+              elif item['label']=='C Board': item['value']=C
+          with open(path,'w') as f:
+              json.dump(data,f,indent=2,ensure_ascii=False)
+          print(f'✅ Guessing numbers: A={A} B={B} C={C}')
           EOF
-        env:
-          A: ${{ env.GUESSING_A }}
-          B: ${{ env.GUESSING_B }}
-          C: ${{ env.GUESSING_C }}
 
+      # ── COMMIT ALL DATA CHANGES ───────────────────────────────
       - name: Commit data changes
         run: |
           git config --global user.name "Lottery Bot"
           git config --global user.email "bot@keralaticketresults.in"
           git add artifacts/kerala-lottery/src/data/results.json
           git add artifacts/kerala-lottery/src/data/guessing-numbers.json
-          git diff --staged --quiet || (git commit -m "data: ${{ github.event.inputs.draw_code }} result + guessing numbers" && git push)
+          git diff --staged --quiet || (git commit -m "data: ${{ steps.detect.outputs.draw_code }} result update" && git push)
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -143,9 +173,6 @@ jobs:
 
       - name: Install & Build
         working-directory: artifacts/kerala-lottery
-        env:
-          PORT: "3000"
-          BASE_PATH: "/"
         run: pnpm install && pnpm run build
 
       - name: Pre-render all routes
@@ -165,3 +192,30 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+      # ── POST-DEPLOY: TRIGGER MAKE.COM WEBHOOK ────────────────
+      - name: Notify Make.com for social posting
+        if: ${{ github.event.inputs.first_prize != '' }}
+        env:
+          MAKE_WEBHOOK: ${{ secrets.MAKE_WEBHOOK_URL }}
+          LOTTERY_NAME: ${{ steps.detect.outputs.lottery_name }}
+          DRAW_CODE: ${{ steps.detect.outputs.draw_code }}
+          FIRST_PRIZE: ${{ github.event.inputs.first_prize }}
+          IS_FULL: ${{ github.event.inputs.full_results != '' }}
+          SITE_URL: https://keralaticketresults.in
+        run: |
+          if [ -n "$MAKE_WEBHOOK" ]; then
+            curl -s -X POST "$MAKE_WEBHOOK" \
+              -H "Content-Type: application/json" \
+              -d "{
+                \"lottery\": \"$LOTTERY_NAME\",
+                \"draw_code\": \"$DRAW_CODE\",
+                \"first_prize\": \"$FIRST_PRIZE\",
+                \"is_full_result\": $IS_FULL,
+                \"result_url\": \"$SITE_URL/results/${{ steps.detect.outputs.slug }}\",
+                \"site_url\": \"$SITE_URL\"
+              }"
+            echo "✅ Make.com webhook triggered"
+          else
+            echo "⏭️ No webhook configured — skip"
+          fi
