@@ -128,7 +128,8 @@ jobs:
           git config --global user.name "Lottery Bot"
           git config --global user.email "bot@keralaticketresults.in"
           git add artifacts/kerala-lottery/src/data/results.json
-          git diff --staged --quiet || (git commit -m "data: ${{ github.event.inputs.draw_code }} result" && git push)
+          git add artifacts/kerala-lottery/src/data/guessing-numbers.json
+          git diff --staged --quiet || (git commit -m "data: ${{ github.event.inputs.draw_code }} result + guessing numbers" && git push)
 
       - name: Setup Node
         uses: actions/setup-node@v4
