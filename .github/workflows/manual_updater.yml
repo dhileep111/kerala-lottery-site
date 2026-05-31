@@ -201,10 +201,37 @@ jobs:
           LOTTERY_NAME: ${{ steps.detect.outputs.lottery_name }}
           DRAW_CODE: ${{ steps.detect.outputs.draw_code }}
           FIRST_PRIZE: ${{ github.event.inputs.first_prize }}
-          IS_FULL: ${{ github.event.inputs.full_results != '' }}
+          RESULT_URL: https://keralaticketresults.in/results/${{ steps.detect.outputs.slug }}
           SITE_URL: https://keralaticketresults.in
         run: |
           if [ -n "$MAKE_WEBHOOK" ]; then
+            FULL="${{ github.event.inputs.full_results }}"
+            if [ -n "$FULL" ]; then
+              IS_FULL="true"
+              STATUS_LINE="✅ Verified full result — all prizes published"
+            else
+              IS_FULL="false"
+              STATUS_LINE="🔴 Live update — full result coming at 4:30 PM"
+            fi
+
+            FB_MSG="🎰 $LOTTERY_NAME $DRAW_CODE Result Today
+
+🥇 1st Prize: $FIRST_PRIZE
+$STATUS_LINE
+
+📋 Full prize list → $RESULT_URL
+
+⚠️ Always verify at statelottery.kerala.gov.in before claiming any prize."
+
+            TG_MSG="🎰 *$LOTTERY_NAME $DRAW_CODE Result*
+
+🥇 1st Prize: \`$FIRST_PRIZE\`
+$STATUS_LINE
+
+📋 [View full prize table]($RESULT_URL)
+
+⚠️ Verify at statelottery.kerala.gov.in before claiming"
+
             curl -s -X POST "$MAKE_WEBHOOK" \
               -H "Content-Type: application/json" \
               -d "{
@@ -212,10 +239,12 @@ jobs:
                 \"draw_code\": \"$DRAW_CODE\",
                 \"first_prize\": \"$FIRST_PRIZE\",
                 \"is_full_result\": $IS_FULL,
-                \"result_url\": \"$SITE_URL/results/${{ steps.detect.outputs.slug }}\",
-                \"site_url\": \"$SITE_URL\"
+                \"result_url\": \"$RESULT_URL\",
+                \"site_url\": \"$SITE_URL\",
+                \"fb_message\": $(echo "$FB_MSG" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))'),
+                \"tg_message\": $(echo "$TG_MSG" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
               }"
-            echo "✅ Make.com webhook triggered"
+            echo "✅ Make.com webhook triggered — Facebook + Telegram will post"
           else
-            echo "⏭️ No webhook configured — skip"
+            echo "⏭️ No MAKE_WEBHOOK_URL secret — skip social posting"
           fi
