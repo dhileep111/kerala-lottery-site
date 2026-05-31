@@ -4,7 +4,7 @@
   "boards": {
     "A": "0",
     "B": "9",
-    "C": "5"
+    "C": "7"
   },
   "numbers": [
     {
@@ -22,7 +22,7 @@
     {
       "digits": 1,
       "label": "C Board",
-      "value": "5",
+      "value": "7",
       "type": "board"
     },
     {
@@ -34,75 +34,75 @@
     {
       "digits": 2,
       "label": "BC Combo",
-      "value": "95",
+      "value": "97",
       "type": "combo"
     },
     {
       "digits": 2,
       "label": "CA Combo",
-      "value": "50",
+      "value": "70",
       "type": "combo"
     },
     {
       "digits": 3,
       "label": "ABC Three Digit",
-      "value": "095",
+      "value": "097",
       "type": "triple"
     },
     {
       "digits": 3,
       "label": "BCA Three Digit",
-      "value": "950",
+      "value": "970",
       "type": "triple"
     },
     {
       "digits": 3,
       "label": "CAB Three Digit",
-      "value": "509",
+      "value": "709",
       "type": "triple"
     },
     {
       "digits": 4,
       "label": "Hot Pick",
-      "value": "0095",
+      "value": "0097",
       "type": "four",
       "hot": true
     },
     {
       "digits": 4,
       "label": "Mirror Pick",
-      "value": "9950",
+      "value": "9970",
       "type": "four"
     },
     {
       "digits": 4,
       "label": "Pattern Pick",
-      "value": "5509",
+      "value": "7709",
       "type": "four"
     },
     {
       "digits": 4,
       "label": "Lucky Combo",
-      "value": "0950",
+      "value": "0970",
       "type": "four",
       "hot": true
     },
     {
       "digits": 4,
       "label": "Reverse Pick",
-      "value": "5905",
+      "value": "7907",
       "type": "four"
     },
     {
       "digits": 4,
       "label": "Sequential",
-      "value": "5950",
+      "value": "7970",
       "type": "four"
     },
     {
       "digits": 4,
       "label": "Zero Start",
-      "value": "0095",
+      "value": "0097",
       "type": "four"
     },
     {
@@ -114,7 +114,7 @@
     {
       "digits": 4,
       "label": "Double BC",
-      "value": "9595",
+      "value": "9797",
       "type": "four"
     }
   ]
