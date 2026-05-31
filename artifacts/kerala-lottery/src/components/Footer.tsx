@@ -37,7 +37,7 @@ export function Footer() {
                 <FacebookIcon />
                 <span>Facebook Page</span>
               </a>
-              <a href="https://whatsapp.com/channel/keralaticketresults" target="_blank" rel="noopener noreferrer" className="footer__social-link footer__social-link--whatsapp">
+              <a href="https://whatsapp.com/channel/0029Vb8NAhPEKyZKaZ8blq22" target="_blank" rel="noopener noreferrer" className="footer__social-link footer__social-link--whatsapp">
                 <WhatsAppIcon />
                 <span>WhatsApp</span>
               </a>
