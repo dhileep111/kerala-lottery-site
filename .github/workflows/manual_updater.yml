@@ -173,6 +173,9 @@ jobs:
 
       - name: Install & Build
         working-directory: artifacts/kerala-lottery
+        env:
+          PORT: "3000"
+          BASE_PATH: "/"
         run: pnpm install && pnpm run build
 
       - name: Pre-render all routes
