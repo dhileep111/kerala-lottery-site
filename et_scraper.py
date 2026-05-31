@@ -81,7 +81,9 @@ def fetch_et_article(lottery, draw_code, date):
     # ET URL pattern: /kerala-lottery-{name}-{code-lower}-result-out-today-{DD-MM-YYYY}-rs-1-crore-...
     base = f"kerala-lottery-{et_name}-{draw_code.lower()}-result-out-today-{date_str}"
     # Search ET directly
-    search_url = f"https://economictimes.indiatimes.com/searchresult.cms?query={urllib.parse.quote(f'kerala lottery {lottery[chr(110)+chr(97)+chr(109)+chr(101)]} {draw_code} result {date.strftime(chr(37)+chr(100)+chr(32)+chr(37)+chr(66)+chr(32)+chr(37)+chr(89)]}')}"
+    lottery_name = lottery['name']
+    date_simple = date.strftime('%d %B %Y')
+    search_url = "https://economictimes.indiatimes.com/searchresult.cms?query=" + urllib.parse.quote(f'kerala lottery {lottery_name} {draw_code} result {date_simple}')
 
     # Try the ET sitemap/search API
     api_url = f"https://economictimes.indiatimes.com/news/new-updates/{base}-rs-1-crore-prize-winning-number-and-full-list-here"
