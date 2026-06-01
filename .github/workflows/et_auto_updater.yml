@@ -2,8 +2,8 @@ name: 🤖 Auto-fetch Result from ET
 
 on:
   schedule:
-    # 3:45 PM IST = 10:15 UTC — ET publishes results by 3:40 PM
-    - cron: '15 10 * * *'
+    # 4:50 PM IST = 11:20 UTC — full result available after PDF release
+    - cron: '20 11 * * *'
   workflow_dispatch:
     inputs:
       force_date:
