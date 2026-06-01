@@ -1,7 +1,7 @@
 [
   {
     "lotterySlug": "bhagyathara",
-    "drawCode": "BT-630",
+    "drawCode": "BT-56",
     "drawDate": "2026-06-01",
     "displayDate": "June 01, 2026",
     "status": "live",
@@ -6538,69 +6538,6 @@
     ]
   },
   {
-    "lotterySlug": "karunya-plus",
-    "drawCode": "KN-632",
-    "drawDate": "2026-05-14",
-    "displayDate": "May 14, 2026",
-    "status": "pending",
-    "sourceName": "Awaiting official publication",
-    "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-05-14T11:27:17.615942Z",
-    "summary": "Result for Karunya Plus KN-632. 0/9 tiers updated.",
-    "prizes": [
-      {
-        "tier": "1st Prize",
-        "amount": "₹1,00,00,000",
-        "numbers": []
-      },
-      {
-        "tier": "Consolation Prize",
-        "amount": "₹5,000",
-        "numbers": []
-      },
-      {
-        "tier": "2nd Prize",
-        "amount": "₹1,00,000",
-        "numbers": []
-      },
-      {
-        "tier": "3rd Prize",
-        "amount": "₹5,000",
-        "numbers": []
-      },
-      {
-        "tier": "4th Prize",
-        "amount": "₹2,000",
-        "numbers": []
-      },
-      {
-        "tier": "5th Prize",
-        "amount": "₹1,000",
-        "numbers": []
-      },
-      {
-        "tier": "6th Prize",
-        "amount": "₹500",
-        "numbers": []
-      },
-      {
-        "tier": "7th Prize",
-        "amount": "₹200",
-        "numbers": []
-      },
-      {
-        "tier": "8th Prize",
-        "amount": "₹200",
-        "numbers": []
-      },
-      {
-        "tier": "9th Prize",
-        "amount": "₹100",
-        "numbers": []
-      }
-    ]
-  },
-  {
     "lotterySlug": "dhanalekshmi",
     "drawCode": "DL-52",
     "drawDate": "2026-05-13",
@@ -6724,64 +6661,6 @@
     ]
   },
   {
-    "lotterySlug": "bhagyathara",
-    "drawCode": "BT-629",
-    "drawDate": "2026-05-11",
-    "displayDate": "May 11, 2026",
-    "status": "pending",
-    "sourceName": "Awaiting official publication",
-    "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-05-11T09:00:00Z",
-    "summary": "Result for Bhagyathara BT-629. 0/9 tiers updated.",
-    "prizes": [
-      {
-        "tier": "1st Prize",
-        "amount": "₹1,00,00,000",
-        "numbers": []
-      },
-      {
-        "tier": "Consolation Prize",
-        "amount": "₹5,000",
-        "numbers": []
-      },
-      {
-        "tier": "2nd Prize",
-        "amount": "₹1,00,000",
-        "numbers": []
-      },
-      {
-        "tier": "3rd Prize",
-        "amount": "₹5,000",
-        "numbers": []
-      },
-      {
-        "tier": "4th Prize",
-        "amount": "₹2,000",
-        "numbers": []
-      },
-      {
-        "tier": "5th Prize",
-        "amount": "₹1,000",
-        "numbers": []
-      },
-      {
-        "tier": "6th Prize",
-        "amount": "₹500",
-        "numbers": []
-      },
-      {
-        "tier": "7th Prize",
-        "amount": "₹200",
-        "numbers": []
-      },
-      {
-        "tier": "8th Prize",
-        "amount": "₹100",
-        "numbers": []
-      }
-    ]
-  },
-  {
     "lotterySlug": "samrudhi",
     "drawCode": "SM-52",
     "drawDate": "2026-05-10",
@@ -6834,69 +6713,6 @@
       },
       {
         "tier": "8th Prize",
-        "amount": "₹100",
-        "numbers": []
-      }
-    ]
-  },
-  {
-    "lotterySlug": "karunya",
-    "drawCode": "KR-753",
-    "drawDate": "2026-05-09",
-    "displayDate": "May 09, 2026",
-    "status": "pending",
-    "sourceName": "Awaiting official publication",
-    "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-05-09T09:00:00Z",
-    "summary": "Result for Karunya KR-753. 0/10 tiers updated.",
-    "prizes": [
-      {
-        "tier": "1st Prize",
-        "amount": "₹1,00,00,000",
-        "numbers": []
-      },
-      {
-        "tier": "Consolation Prize",
-        "amount": "₹5,000",
-        "numbers": []
-      },
-      {
-        "tier": "2nd Prize",
-        "amount": "₹1,00,000",
-        "numbers": []
-      },
-      {
-        "tier": "3rd Prize",
-        "amount": "₹5,000",
-        "numbers": []
-      },
-      {
-        "tier": "4th Prize",
-        "amount": "₹2,000",
-        "numbers": []
-      },
-      {
-        "tier": "5th Prize",
-        "amount": "₹1,000",
-        "numbers": []
-      },
-      {
-        "tier": "6th Prize",
-        "amount": "₹500",
-        "numbers": []
-      },
-      {
-        "tier": "7th Prize",
-        "amount": "₹200",
-        "numbers": []
-      },
-      {
-        "tier": "8th Prize",
-        "amount": "₹200",
-        "numbers": []
-      },
-      {
-        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
@@ -6966,69 +6782,6 @@
     ]
   },
   {
-    "lotterySlug": "karunya-plus",
-    "drawCode": "KN-631",
-    "drawDate": "2026-05-07",
-    "displayDate": "May 07, 2026",
-    "status": "pending",
-    "sourceName": "Awaiting official publication",
-    "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-05-07T09:00:00Z",
-    "summary": "Result for Karunya Plus KN-631. 0/10 tiers updated.",
-    "prizes": [
-      {
-        "tier": "1st Prize",
-        "amount": "₹1,00,00,000",
-        "numbers": []
-      },
-      {
-        "tier": "Consolation Prize",
-        "amount": "₹5,000",
-        "numbers": []
-      },
-      {
-        "tier": "2nd Prize",
-        "amount": "₹1,00,000",
-        "numbers": []
-      },
-      {
-        "tier": "3rd Prize",
-        "amount": "₹5,000",
-        "numbers": []
-      },
-      {
-        "tier": "4th Prize",
-        "amount": "₹2,000",
-        "numbers": []
-      },
-      {
-        "tier": "5th Prize",
-        "amount": "₹1,000",
-        "numbers": []
-      },
-      {
-        "tier": "6th Prize",
-        "amount": "₹500",
-        "numbers": []
-      },
-      {
-        "tier": "7th Prize",
-        "amount": "₹200",
-        "numbers": []
-      },
-      {
-        "tier": "8th Prize",
-        "amount": "₹200",
-        "numbers": []
-      },
-      {
-        "tier": "9th Prize",
-        "amount": "₹100",
-        "numbers": []
-      }
-    ]
-  },
-  {
     "lotterySlug": "dhanalekshmi",
     "drawCode": "DL-51",
     "drawDate": "2026-05-06",
@@ -7038,127 +6791,6 @@
     "sourceUrl": "https://statelottery.kerala.gov.in/",
     "lastUpdated": "2026-05-06T09:00:00Z",
     "summary": "Result for Dhanalekshmi DL-51. 0/9 tiers updated.",
-    "prizes": [
-      {
-        "tier": "1st Prize",
-        "amount": "₹1,00,00,000",
-        "numbers": []
-      },
-      {
-        "tier": "Consolation Prize",
-        "amount": "₹5,000",
-        "numbers": []
-      },
-      {
-        "tier": "2nd Prize",
-        "amount": "₹1,00,000",
-        "numbers": []
-      },
-      {
-        "tier": "3rd Prize",
-        "amount": "₹5,000",
-        "numbers": []
-      },
-      {
-        "tier": "4th Prize",
-        "amount": "₹2,000",
-        "numbers": []
-      },
-      {
-        "tier": "5th Prize",
-        "amount": "₹1,000",
-        "numbers": []
-      },
-      {
-        "tier": "6th Prize",
-        "amount": "₹500",
-        "numbers": []
-      },
-      {
-        "tier": "7th Prize",
-        "amount": "₹200",
-        "numbers": []
-      },
-      {
-        "tier": "8th Prize",
-        "amount": "₹100",
-        "numbers": []
-      }
-    ]
-  },
-  {
-    "lotterySlug": "sthree-sakthi",
-    "drawCode": "SS-518",
-    "drawDate": "2026-05-05",
-    "displayDate": "May 05, 2026",
-    "status": "pending",
-    "sourceName": "Awaiting official publication",
-    "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-05-05T09:00:00Z",
-    "summary": "Result for Sthree Sakthi SS-518. 0/10 tiers updated.",
-    "prizes": [
-      {
-        "tier": "1st Prize",
-        "amount": "₹1,00,00,000",
-        "numbers": []
-      },
-      {
-        "tier": "Consolation Prize",
-        "amount": "₹5,000",
-        "numbers": []
-      },
-      {
-        "tier": "2nd Prize",
-        "amount": "₹1,00,000",
-        "numbers": []
-      },
-      {
-        "tier": "3rd Prize",
-        "amount": "₹5,000",
-        "numbers": []
-      },
-      {
-        "tier": "4th Prize",
-        "amount": "₹2,000",
-        "numbers": []
-      },
-      {
-        "tier": "5th Prize",
-        "amount": "₹1,000",
-        "numbers": []
-      },
-      {
-        "tier": "6th Prize",
-        "amount": "₹500",
-        "numbers": []
-      },
-      {
-        "tier": "7th Prize",
-        "amount": "₹200",
-        "numbers": []
-      },
-      {
-        "tier": "8th Prize",
-        "amount": "₹200",
-        "numbers": []
-      },
-      {
-        "tier": "9th Prize",
-        "amount": "₹100",
-        "numbers": []
-      }
-    ]
-  },
-  {
-    "lotterySlug": "bhagyathara",
-    "drawCode": "BT-628",
-    "drawDate": "2026-05-04",
-    "displayDate": "May 04, 2026",
-    "status": "pending",
-    "sourceName": "Awaiting official publication",
-    "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-05-04T09:00:00Z",
-    "summary": "Result for Bhagyathara BT-628. 0/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -7260,69 +6892,6 @@
       },
       {
         "tier": "8th Prize",
-        "amount": "₹100",
-        "numbers": []
-      }
-    ]
-  },
-  {
-    "lotterySlug": "karunya",
-    "drawCode": "KR-752",
-    "drawDate": "2026-05-02",
-    "displayDate": "May 02, 2026",
-    "status": "pending",
-    "sourceName": "Awaiting official publication",
-    "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-05-02T09:00:00Z",
-    "summary": "Result for Karunya KR-752. 0/10 tiers updated.",
-    "prizes": [
-      {
-        "tier": "1st Prize",
-        "amount": "₹1,00,00,000",
-        "numbers": []
-      },
-      {
-        "tier": "Consolation Prize",
-        "amount": "₹5,000",
-        "numbers": []
-      },
-      {
-        "tier": "2nd Prize",
-        "amount": "₹1,00,000",
-        "numbers": []
-      },
-      {
-        "tier": "3rd Prize",
-        "amount": "₹5,000",
-        "numbers": []
-      },
-      {
-        "tier": "4th Prize",
-        "amount": "₹2,000",
-        "numbers": []
-      },
-      {
-        "tier": "5th Prize",
-        "amount": "₹1,000",
-        "numbers": []
-      },
-      {
-        "tier": "6th Prize",
-        "amount": "₹500",
-        "numbers": []
-      },
-      {
-        "tier": "7th Prize",
-        "amount": "₹200",
-        "numbers": []
-      },
-      {
-        "tier": "8th Prize",
-        "amount": "₹200",
-        "numbers": []
-      },
-      {
-        "tier": "9th Prize",
         "amount": "₹100",
         "numbers": []
       }
