@@ -157,6 +157,9 @@ const lotteryRoutes = lotteries.map(l => {
 const archiveRoutes = results.map(r => {
   const lottery = getLottery(r.lotterySlug);
   if (!lottery) return null;
+  // Skip pending results with no prize data — don't create empty pages for Google
+  const hasData = r.prizes && r.prizes.some(p => p.numbers && p.numbers.length > 0);
+  if (r.status === 'pending' && !hasData) return null;
   const drawCodeLower = r.drawCode.toLowerCase().replace(/\s+/g,'-');
   const firstP  = getFirstPrize(r);
   const district= getDistrict(r.prizes?.find(p=>p.tier==='1st Prize')?.numbers?.[0]);
