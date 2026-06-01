@@ -1,287 +1,145 @@
-#!/usr/bin/env python3
-"""
-et_scraper.py — Kerala Lottery Auto-Scraper
-Fetches full results from Economic Times at 3:45 PM IST.
-ET URL pattern: /news/new-updates/kerala-lottery-[name]-[code]-result-out-today-[DD-MM-YYYY]-rs-1-crore-prize-winning-number-and-full-list-here/articleshow/[ID].cms
-"""
+name: 🤖 Auto-fetch Result from ET
 
-import re, os, sys, json, datetime, urllib.request, urllib.parse
+on:
+  schedule:
+    # 4:50 PM IST = 11:20 UTC — full result available after PDF release
+    - cron: '20 11 * * *'
+  workflow_dispatch:
+    inputs:
+      force_date:
+        description: 'Force a specific date (YYYY-MM-DD) for testing'
+        required: false
+        type: string
 
-HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36',
-    'Accept': 'text/html,application/xhtml+xml,*/*',
-    'Accept-Language': 'en-US,en;q=0.9',
-    'Cache-Control': 'no-cache',
-}
+jobs:
+  auto-scrape-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
-# ET URL name per lottery slug
-ET_NAMES = {
-    'karunya':         'karunya',
-    'karunya-plus':    'karunya-plus',
-    'sthree-sakthi':   'sthree-sakthi',
-    'dhanalekshmi':    'dhanalekshmi',
-    'suvarna-keralam': 'suvarna-keralam',
-    'bhagyathara':     'bhagyathara',
-    'samrudhi':        'samrudhi',
-}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-# Goodreturns URL per lottery (fallback)
-GR_SLUGS = {
-    'karunya':         'karunya',
-    'karunya-plus':    'karunya-plus',
-    'sthree-sakthi':   'sthree-sakthi',
-    'dhanalekshmi':    'dhanalekshmi',
-    'suvarna-keralam': 'suvarna-keralam',
-    'bhagyathara':     'bhagyathara',
-    'samrudhi':        'samrudhi',
-}
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-def fetch(url, timeout=20):
-    req = urllib.request.Request(url, headers=HEADERS)
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            return r.read().decode('utf-8', errors='ignore')
-    except Exception as e:
-        print(f"  Fetch failed: {e}")
-        return ""
+      - name: Install Python deps
+        run: pip install requests beautifulsoup4
 
-def get_today_lottery():
-    DATA = 'artifacts/kerala-lottery/src/data'
-    with open(f'{DATA}/lotteries.json') as f:
-        lotteries = json.load(f)
-    with open(f'{DATA}/results.json') as f:
-        results = json.load(f)
-    ist = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
-    today_js = (datetime.datetime.now(ist).weekday() + 1) % 7
-    lottery = next((l for l in lotteries if l['drawDayIndex'] == today_js and not l.get('isBumper')), None)
-    if not lottery:
-        print("No lottery today"); sys.exit(0)
-    draws = [r for r in results if r['lotterySlug'] == lottery['slug'] and '-' in r.get('drawCode','')]
-    nums = [int(d['drawCode'].split('-')[1]) for d in draws if d['drawCode'].split('-')[1].isdigit()]
-    next_num = max(nums) + 1 if nums else 1
-    return lottery, f"{lottery['code']}-{next_num}"
+      - name: Run ET scraper
+        id: scraper
+        run: |
+          python et_scraper.py
+          # Read scraper output
+          if [ -f /tmp/et_first_prize.txt ] && [ -s /tmp/et_first_prize.txt ]; then
+            echo "first_prize=$(cat /tmp/et_first_prize.txt)" >> $GITHUB_OUTPUT
+            echo "full_results=$(cat /tmp/et_full_results.txt)" >> $GITHUB_OUTPUT
+            echo "slug=$(cat /tmp/et_slug.txt)" >> $GITHUB_OUTPUT
+            echo "draw_code=$(cat /tmp/et_draw_code.txt)" >> $GITHUB_OUTPUT
+            echo "found=true" >> $GITHUB_OUTPUT
+            echo "✅ Scraper found result: $(cat /tmp/et_first_prize.txt)"
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+            echo "⚠️ Scraper found no result — skipping deploy"
+          fi
 
-def find_article_via_google(lottery_name, draw_code, date_str):
-    """Use Google to find ET article URL."""
-    query = f'site:economictimes.indiatimes.com "kerala lottery" "{lottery_name}" "{draw_code}" result {date_str}'
-    url = f"https://www.google.com/search?q={urllib.parse.quote(query)}"
-    html = fetch(url)
-    if not html:
-        return None
-    links = re.findall(r'href="(https://economictimes\.indiatimes\.com/[^"&]+articleshow[^"&]+)"', html)
-    for link in links:
-        if draw_code.lower() in link.lower():
-            return link
-    return None
+      - name: Update results.json
+        if: steps.scraper.outputs.found == 'true'
+        env:
+          LOTTERY_PAGE:  ${{ steps.scraper.outputs.slug }}
+          DRAW_CODE:     ${{ steps.scraper.outputs.draw_code }}
+          FIRST_PRIZE:   ${{ steps.scraper.outputs.first_prize }}
+          FULL_RESULTS:  ${{ steps.scraper.outputs.full_results }}
+        run: python update_results.py
 
-def fetch_et_article(lottery, draw_code, date):
-    """Try to fetch ET article using the known URL pattern."""
-    et_name = ET_NAMES.get(lottery['slug'], lottery['slug'])
-    date_str = date.strftime('%d-%m-%Y')
-    # ET URL pattern: /kerala-lottery-{name}-{code-lower}-result-out-today-{DD-MM-YYYY}-rs-1-crore-...
-    base = f"kerala-lottery-{et_name}-{draw_code.lower()}-result-out-today-{date_str}"
-    # Search ET directly
-    lottery_name = lottery['name']
-    date_simple = date.strftime('%d %B %Y')
-    search_url = "https://economictimes.indiatimes.com/searchresult.cms?query=" + urllib.parse.quote(f'kerala lottery {lottery_name} {draw_code} result {date_simple}')
+      - name: Commit data changes
+        if: steps.scraper.outputs.found == 'true'
+        run: |
+          git config --global user.name "ET Auto Bot"
+          git config --global user.email "bot@keralaticketresults.in"
+          git add artifacts/kerala-lottery/src/data/results.json
+          git diff --staged --quiet || (git commit -m "auto: ${{ steps.scraper.outputs.draw_code }} from ET scraper" && git push)
 
-    # Try the ET sitemap/search API
-    api_url = f"https://economictimes.indiatimes.com/news/new-updates/{base}-rs-1-crore-prize-winning-number-and-full-list-here"
-    print(f"  Trying ET URL: {api_url}")
-    html = fetch(api_url + "/articleshow/999999999.cms")
-    if html and len(html) > 5000 and 'articleshow' in html:
-        return html
+      - name: Setup Node
+        if: steps.scraper.outputs.found == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
 
-    # Try Google search to find the actual article ID
-    print("  Trying Google to find ET article...")
-    query = f'kerala lottery {lottery["name"]} {draw_code} result site:economictimes.indiatimes.com'
-    google_url = f"https://www.google.com/search?q={urllib.parse.quote(query)}"
-    google_html = fetch(google_url)
-    if google_html:
-        links = re.findall(r'href="(https://economictimes[^"&]+articleshow[^"&]+)"', google_html)
-        for link in links:
-            if draw_code.lower().replace('-','-') in link.lower() or lottery['slug'] in link.lower():
-                print(f"  Found via Google: {link}")
-                article_html = fetch(link)
-                if article_html and len(article_html) > 5000:
-                    return article_html
-    return None
+      - name: Setup pnpm
+        if: steps.scraper.outputs.found == 'true'
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
 
-def fetch_keralalotteries_net(lottery_slug, draw_code):
-    """Third fallback: keralalotteries.net — fastest to publish full results."""
-    # URL pattern: keralalotteries.net/2026/05/samrudhi-kerala-lottery-result-sm-57-today-31-05-2026.html
-    ist = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
-    now = datetime.datetime.now(ist)
-    date_str = now.strftime('%d-%m-%Y')
-    slug_map = {
-        'samrudhi': 'samrudhi', 'karunya': 'karunya',
-        'karunya-plus': 'karunya-plus', 'sthree-sakthi': 'sthree-sakthi',
-        'dhanalekshmi': 'dhanalekshmi', 'suvarna-keralam': 'suvarna-keralam',
-        'bhagyathara': 'bhagyathara',
-    }
-    name = slug_map.get(lottery_slug, lottery_slug)
-    code_lower = draw_code.lower().replace('-','-')
-    month = now.strftime('%Y/%m')
-    url = f"https://www.keralalotteries.net/{month}/{name}-kerala-lottery-result-{code_lower}-today-{date_str}.html"
-    print(f"  Trying keralalotteries.net: {url}")
-    return fetch(url)
-    """Fallback: fetch from Goodreturns."""
-    gr_slug = GR_SLUGS.get(lottery_slug, lottery_slug)
-    url = f"https://www.goodreturns.in/kerala-lottery-results-{gr_slug}.html"
-    print(f"  Trying Goodreturns: {url}")
-    return fetch(url)
+      - name: Install & Build
+        if: steps.scraper.outputs.found == 'true'
+        working-directory: artifacts/kerala-lottery
+        env:
+          PORT: "3000"
+          BASE_PATH: "/"
+        run: pnpm install && pnpm run build
 
-def parse_prizes(html, lottery_slug):
-    """Extract prize data from HTML page."""
-    text = re.sub(r'<script[^>]*>.*?</script>', ' ', html, flags=re.DOTALL)
-    text = re.sub(r'<style[^>]*>.*?</style>', ' ', text, flags=re.DOTALL)
-    text = re.sub(r'<[^>]+>', ' ', text)
-    text = re.sub(r'&nbsp;|&#160;', ' ', text)
-    text = re.sub(r'&amp;', '&', text)
-    text = re.sub(r'\s+', ' ', text).strip()
+      - name: Pre-render all routes
+        if: steps.scraper.outputs.found == 'true'
+        run: node prerender.mjs
 
-    prizes = {}
+      - name: Generate sitemap
+        if: steps.scraper.outputs.found == 'true'
+        run: node generate-sitemap.mjs
 
-    # 1st Prize
-    for pat in [
-        r'1st Prize[^:]*:\s*([A-Z]{2})\s*(\d{6})',
-        r'[Ff]irst\s+[Pp]rize[^:]*:\s*([A-Z]{2})\s*(\d{6})',
-        r'([A-Z]{2})\s+(\d{6})\s+wins the Rs 1 crore',
-        r'Ticket holder of ([A-Z]{2}) (\d{6}) wins the Rs 1 crore',
-    ]:
-        m = re.search(pat, text)
-        if m:
-            t, n = m.group(1), m.group(2)
-            # Try to find district
-            d_m = re.search(rf'{t}\s+{n}\s+\(([^)]+)\)', text)
-            dist = d_m.group(1).strip().title() if d_m else None
-            prizes['1st'] = [json.dumps({'ticket':f'{t} {n}','district':dist}) if dist else f'{t} {n}']
-            print(f"  1st: {t} {n}" + (f" ({dist})" if dist else ""))
-            break
+      - name: Setup Pages
+        if: steps.scraper.outputs.found == 'true'
+        uses: actions/configure-pages@v5
 
-    # 2nd Prize
-    for pat in [
-        r'2nd Prize[^:]*:\s*([A-Z]{2})\s*(\d{6})',
-        r'[Ss]econd\s+[Pp]rize[^:]*:\s*([A-Z]{2})\s*(\d{6})',
-        r'([A-Z]{2})\s+(\d{6}) wins the Rs 25 lakh',
-        r'Ticket holder of ([A-Z]{2}) (\d{6}) wins the Rs 25',
-    ]:
-        m = re.search(pat, text)
-        if m:
-            t, n = m.group(1), m.group(2)
-            d_m = re.search(rf'{t}\s+{n}\s+\(([^)]+)\)', text)
-            dist = d_m.group(1).strip().title() if d_m else None
-            prizes['2nd'] = [json.dumps({'ticket':f'{t} {n}','district':dist}) if dist else f'{t} {n}']
-            print(f"  2nd: {t} {n}" + (f" ({dist})" if dist else ""))
-            break
+      - name: Upload artifact
+        if: steps.scraper.outputs.found == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: artifacts/kerala-lottery/dist/public
 
-    # 3rd Prize
-    for pat in [
-        r'3rd Prize[^:]*:\s*([A-Z]{2})\s*(\d{6})',
-        r'[Tt]hird\s+[Pp]rize[^:]*:\s*([A-Z]{2})\s*(\d{6})',
-    ]:
-        m = re.search(pat, text)
-        if m:
-            t, n = m.group(1), m.group(2)
-            d_m = re.search(rf'{t}\s+{n}\s+\(([^)]+)\)', text)
-            dist = d_m.group(1).strip().title() if d_m else None
-            prizes['3rd'] = [json.dumps({'ticket':f'{t} {n}','district':dist}) if dist else f'{t} {n}']
-            print(f"  3rd: {t} {n}" + (f" ({dist})" if dist else ""))
-            break
+      - name: Deploy to GitHub Pages
+        if: steps.scraper.outputs.found == 'true'
+        id: deployment
+        uses: actions/deploy-pages@v5
 
-    # Consolation: tickets with same last 6 digits
-    if '1st' in prizes:
-        first_ticket = prizes['1st'][0]
-        try:
-            first_6 = json.loads(first_ticket)['ticket'].split()[1]
-            first_s  = json.loads(first_ticket)['ticket'].split()[0]
-        except:
-            parts = first_ticket.split()
-            first_6, first_s = parts[1], parts[0]
-        cons = [f'{s} {first_6}' for s in re.findall(rf'([A-Z]{{2}})\s+{re.escape(first_6)}', text) if s != first_s]
-        # Remove duplicates
-        seen = set(); unique_cons = []
-        for c in cons:
-            if c not in seen: seen.add(c); unique_cons.append(c)
-        if unique_cons:
-            prizes['consolation'] = unique_cons
-            print(f"  Consolation: {len(unique_cons)} tickets")
-
-    # 4th-9th: 4-digit number blocks
-    NOISE = {'2026','2025','2024','2023','1000','2000','3000','4000','5000','0000','9999'}
-    for tier, labels in [
-        ('4th', ['Fourth prize','4th prize','4th Prize']),
-        ('5th', ['Fifth prize','5th prize','5th Prize']),
-        ('6th', ['Sixth prize','6th prize','6th Prize']),
-        ('7th', ['Seventh prize','7th prize','7th Prize']),
-        ('8th', ['Eighth prize','8th prize','8th Prize']),
-        ('9th', ['Ninth prize','9th prize','9th Prize']),
-    ]:
-        for label in labels:
-            idx = text.find(label)
-            if idx == -1: continue
-            chunk = text[idx:idx+3000]
-            # Stop at next tier
-            for stop in ['First prize','Second prize','Third prize','1st Prize','2nd Prize','3rd Prize',
-                         'Fifth prize','Sixth prize','Seventh prize','Eighth prize','Ninth prize',
-                         '5th Prize','6th Prize','7th Prize','8th Prize','9th Prize']:
-                stop_idx = chunk.find(stop, 10)
-                if stop_idx > 0: chunk = chunk[:stop_idx]
-            nums = [n for n in re.findall(r'\b(\d{4})\b', chunk) if n not in NOISE]
-            if len(nums) >= 2:
-                prizes[tier] = nums
-                print(f"  {tier}: {len(nums)} numbers")
-                break
-
-    return prizes
-
-def build_full_results(prizes):
-    order = ['1st','consolation','2nd','3rd','4th','5th','6th','7th','8th','9th']
-    parts = []
-    for t in order:
-        if t in prizes and prizes[t]:
-            parts.append(f'{t}:{",".join(str(v) for v in prizes[t])}')
-    return ' / '.join(parts)
-
-def main():
-    ist = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
-    now  = datetime.datetime.now(ist)
-    print(f"Scraper running: {now.strftime('%H:%M IST, %d %b %Y')}")
-
-    lottery, draw_code = get_today_lottery()
-    print(f"Lottery: {lottery['name']} | Draw: {draw_code}")
-
-    # Try ET first, then Goodreturns, then keralalotteries.net
-    html = fetch_et_article(lottery, draw_code, now)
-    source = "ET"
-    if not html or len(html) < 3000:
-        html = fetch_goodreturns(lottery['slug'])
-        source = "Goodreturns"
-    if not html or len(html) < 3000:
-        html = fetch_keralalotteries_net(lottery['slug'], draw_code)
-        source = "keralalotteries.net"
-
-    if not html or len(html) < 3000:
-        print("Could not fetch result from any source. Will retry."); sys.exit(0)
-
-    print(f"  Parsing from {source}...")
-    prizes = parse_prizes(html, lottery['slug'])
-
-    if '1st' not in prizes:
-        print("Could not extract 1st prize. Result may not be published yet."); sys.exit(0)
-
-    first_prize_raw = prizes['1st'][0]
-    try:    first_prize = json.loads(first_prize_raw)['ticket']
-    except: first_prize = first_prize_raw.split()[0] + ' ' + first_prize_raw.split()[1] if ' ' in first_prize_raw else first_prize_raw
-
-    full_results = build_full_results(prizes)
-    print(f"\n✅ {draw_code}: {first_prize} | {len(prizes)} tiers from {source}")
-
-    with open('/tmp/et_first_prize.txt','w') as f: f.write(first_prize)
-    with open('/tmp/et_full_results.txt','w') as f: f.write(full_results)
-    with open('/tmp/et_slug.txt','w') as f: f.write(lottery['slug'])
-    with open('/tmp/et_draw_code.txt','w') as f: f.write(draw_code)
-    print("Done ✅")
-
-if __name__ == '__main__':
-    main()
+      - name: Notify Make.com
+        if: steps.scraper.outputs.found == 'true'
+        env:
+          MAKE_WEBHOOK: ${{ secrets.MAKE_WEBHOOK_URL }}
+          LOTTERY_NAME: ${{ steps.scraper.outputs.slug }}
+          DRAW_CODE: ${{ steps.scraper.outputs.draw_code }}
+          FIRST_PRIZE: ${{ steps.scraper.outputs.first_prize }}
+          RESULT_URL: https://keralaticketresults.in/results/${{ steps.scraper.outputs.slug }}
+          HAS_FULL: ${{ steps.scraper.outputs.full_results != '' }}
+        run: |
+          python3 - << 'PYEOF'
+          import os, json, urllib.request
+          webhook = os.environ.get('MAKE_WEBHOOK','')
+          if not webhook:
+              exit(0)
+          lottery   = os.environ.get('LOTTERY_NAME','')
+          draw_code = os.environ.get('DRAW_CODE','')
+          prize     = os.environ.get('FIRST_PRIZE','')
+          url       = os.environ.get('RESULT_URL','')
+          is_full   = os.environ.get('HAS_FULL','false').lower()=='true'
+          status    = 'Verified full result' if is_full else 'Auto-fetched from ET - full result may follow'
+          fb  = lottery+' '+draw_code+' Result Today\n\n1st Prize: '+prize+'\n'+status+'\n\nFull prize list: '+url
+          tg  = '*'+lottery+' '+draw_code+' Result*\n\n1st Prize: '+prize+'\n'+status+'\n\n[View full prize table]('+url+')'
+          payload = {'lottery':lottery,'draw_code':draw_code,'first_prize':prize,'is_full_result':is_full,'result_url':url,'fb_message':fb,'tg_message':tg}
+          data = json.dumps(payload).encode('utf-8')
+          req = urllib.request.Request(webhook,data=data,headers={'Content-Type':'application/json'})
+          try:
+              resp = urllib.request.urlopen(req,timeout=10)
+              print('Webhook sent:', resp.status)
+          except Exception as e:
+              print('Webhook error:', e)
+          PYEOF
