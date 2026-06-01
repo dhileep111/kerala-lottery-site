@@ -2,7 +2,9 @@ name: 🤖 Auto-fetch Result from ET
 
 on:
   schedule:
-    # 4:50 PM IST = 11:20 UTC — full result available after PDF release
+    # 3:50 PM IST = 10:20 UTC — ET publishes 1st/2nd/3rd within 40 min of draw
+    - cron: '20 10 * * *'
+    # 4:50 PM IST = 11:20 UTC — full result with all prize tiers after PDF
     - cron: '20 11 * * *'
   workflow_dispatch:
     inputs:
