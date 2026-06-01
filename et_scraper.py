@@ -56,7 +56,12 @@ def get_today_lottery():
     lottery = next((l for l in lotteries if l['drawDayIndex'] == today_js and not l.get('isBumper')), None)
     if not lottery:
         print("No lottery today"); sys.exit(0)
-    draws = [r for r in results if r['lotterySlug'] == lottery['slug'] and '-' in r.get('drawCode','')]
+    ist_now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=5, minutes=30)))
+    today_str = ist_now.strftime('%Y-%m-%d')
+    today_result = next((r for r in results if r['lotterySlug'] == lottery['slug'] and r.get('drawDate','') == today_str), None)
+    if today_result:
+        return lottery, today_result['drawCode']
+    draws = [r for r in results if r['lotterySlug'] == lottery['slug'] and '-' in r.get('drawCode','') and r.get('drawDate','') != today_str]
     nums = [int(d['drawCode'].split('-')[1]) for d in draws if d['drawCode'].split('-')[1].isdigit()]
     next_num = max(nums) + 1 if nums else 1
     return lottery, f"{lottery['code']}-{next_num}"
@@ -107,7 +112,24 @@ def fetch_et_article(lottery, draw_code, date):
                     return article_html
     return None
 
-def fetch_goodreturns(lottery_slug):
+def fetch_keralalotteries_net(lottery_slug, draw_code):
+    """Third fallback: keralalotteries.net — fastest to publish full results."""
+    # URL pattern: keralalotteries.net/2026/05/samrudhi-kerala-lottery-result-sm-57-today-31-05-2026.html
+    ist = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
+    now = datetime.datetime.now(ist)
+    date_str = now.strftime('%d-%m-%Y')
+    slug_map = {
+        'samrudhi': 'samrudhi', 'karunya': 'karunya',
+        'karunya-plus': 'karunya-plus', 'sthree-sakthi': 'sthree-sakthi',
+        'dhanalekshmi': 'dhanalekshmi', 'suvarna-keralam': 'suvarna-keralam',
+        'bhagyathara': 'bhagyathara',
+    }
+    name = slug_map.get(lottery_slug, lottery_slug)
+    code_lower = draw_code.lower().replace('-','-')
+    month = now.strftime('%Y/%m')
+    url = f"https://www.keralalotteries.net/{month}/{name}-kerala-lottery-result-{code_lower}-today-{date_str}.html"
+    print(f"  Trying keralalotteries.net: {url}")
+    return fetch(url)
     """Fallback: fetch from Goodreturns."""
     gr_slug = GR_SLUGS.get(lottery_slug, lottery_slug)
     url = f"https://www.goodreturns.in/kerala-lottery-results-{gr_slug}.html"
@@ -234,12 +256,15 @@ def main():
     lottery, draw_code = get_today_lottery()
     print(f"Lottery: {lottery['name']} | Draw: {draw_code}")
 
-    # Try ET first, then Goodreturns
+    # Try ET first, then Goodreturns, then keralalotteries.net
     html = fetch_et_article(lottery, draw_code, now)
     source = "ET"
     if not html or len(html) < 3000:
         html = fetch_goodreturns(lottery['slug'])
         source = "Goodreturns"
+    if not html or len(html) < 3000:
+        html = fetch_keralalotteries_net(lottery['slug'], draw_code)
+        source = "keralalotteries.net"
 
     if not html or len(html) < 3000:
         print("Could not fetch result from any source. Will retry."); sys.exit(0)
