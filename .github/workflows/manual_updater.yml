@@ -77,20 +77,33 @@ jobs:
           slug = today_lottery['slug']
           code_prefix = today_lottery['code']
 
-          # Find latest draw number for this lottery
-          draws = [r for r in results if r['lotterySlug'] == slug and '-' in r['drawCode']]
-          if draws:
+          # Check if today already has a result — reuse that draw code
+          ist_now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=5, minutes=30)))
+          today_str = ist_now.strftime('%Y-%m-%d')
+
+          today_result = next(
+              (r for r in results if r['lotterySlug'] == slug and r.get('drawDate','') == today_str),
+              None
+          )
+
+          if today_result:
+              # Already exists for today — reuse same draw code (this is an update run)
+              draw_code = today_result['drawCode']
+              print(f'Reusing existing draw for today: {draw_code}')
+          else:
+              # New draw — increment from last completed draw
+              draws = [r for r in results
+                       if r['lotterySlug'] == slug
+                       and '-' in r.get('drawCode','')
+                       and r.get('drawDate','') != today_str]
               nums = []
               for d in draws:
-                  try:
-                      nums.append(int(d['drawCode'].split('-')[1]))
-                  except:
-                      pass
+                  try: nums.append(int(d['drawCode'].split('-')[1]))
+                  except: pass
               next_num = max(nums) + 1 if nums else 1
-          else:
-              next_num = 1
+              draw_code = f'{code_prefix}-{next_num}'
 
-          draw_code = f'{code_prefix}-{next_num}'
+          print(f'Draw code: {draw_code}')
 
           # Write to env file
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
