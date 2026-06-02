@@ -7,8 +7,8 @@
     "status": "verified",
     "sourceName": "Manual admin update",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-06-02T11:28:27.932352Z",
-    "summary": "Result for Sthree Sakthi SS-522. 9/10 tiers updated.",
+    "lastUpdated": "2026-06-02T11:41:32.249189Z",
+    "summary": "Result for Sthree Sakthi SS-522. 10/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -20,7 +20,19 @@
       {
         "tier": "Consolation Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "SB 292349",
+          "SC 292349",
+          "SD 292349",
+          "SE 292349",
+          "SF 292349",
+          "SG 292349",
+          "SH 292349",
+          "SJ 292349",
+          "SK 292349",
+          "SL 292349",
+          "SM 292349"
+        ]
       },
       {
         "tier": "2nd Prize",
