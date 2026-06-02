@@ -1,37 +1,39 @@
 #!/usr/bin/env python3
 """
-et_scraper.py — Kerala Lottery Auto-Scraper v5
-Run at 3:50 PM: gets 1st/2nd/3rd prizes from ET article
-Run at 4:50 PM: gets full result including all 4-digit prizes
-
-Sources tried in order:
-1. Economic Times (via sitemap article discovery)
-2. Goodreturns
-3. keralalotteries.net
+et_scraper.py — Kerala Lottery Auto-Scraper
+Fetches full results from Economic Times at 3:45 PM IST.
+ET URL pattern: /news/new-updates/kerala-lottery-[name]-[code]-result-out-today-[DD-MM-YYYY]-rs-1-crore-prize-winning-number-and-full-list-here/articleshow/[ID].cms
 """
+
 import re, os, sys, json, datetime, urllib.request, urllib.parse
 
 HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36',
     'Accept': 'text/html,application/xhtml+xml,*/*',
-    'Accept-Language': 'en-IN,en;q=0.9',
-    'Referer': 'https://www.google.com/',
+    'Accept-Language': 'en-US,en;q=0.9',
+    'Cache-Control': 'no-cache',
 }
 
+# ET URL name per lottery slug
 ET_NAMES = {
-    'karunya':'karunya','karunya-plus':'karunya-plus',
-    'sthree-sakthi':'sthree-sakthi','dhanalekshmi':'dhanalekshmi',
-    'suvarna-keralam':'suvarna-keralam','bhagyathara':'bhagyathara','samrudhi':'samrudhi',
+    'karunya':         'karunya',
+    'karunya-plus':    'karunya-plus',
+    'sthree-sakthi':   'sthree-sakthi',
+    'dhanalekshmi':    'dhanalekshmi',
+    'suvarna-keralam': 'suvarna-keralam',
+    'bhagyathara':     'bhagyathara',
+    'samrudhi':        'samrudhi',
 }
 
-LOTTERY_FULL_NAMES = {
-    'karunya': 'Karunya',
-    'karunya-plus': 'Karunya Plus',
-    'sthree-sakthi': 'Sthree Sakthi',
-    'dhanalekshmi': 'Dhanalekshmi',
-    'suvarna-keralam': 'Suvarna Keralam',
-    'bhagyathara': 'Bhagyathara',
-    'samrudhi': 'Samrudhi',
+# Goodreturns URL per lottery (fallback)
+GR_SLUGS = {
+    'karunya':         'karunya',
+    'karunya-plus':    'karunya-plus',
+    'sthree-sakthi':   'sthree-sakthi',
+    'dhanalekshmi':    'dhanalekshmi',
+    'suvarna-keralam': 'suvarna-keralam',
+    'bhagyathara':     'bhagyathara',
+    'samrudhi':        'samrudhi',
 }
 
 def fetch(url, timeout=20):
@@ -40,7 +42,7 @@ def fetch(url, timeout=20):
         with urllib.request.urlopen(req, timeout=timeout) as r:
             return r.read().decode('utf-8', errors='ignore')
     except Exception as e:
-        print(f"  Fetch error {url[:60]}: {e}")
+        print(f"  Fetch failed: {e}")
         return ""
 
 def get_today_lottery():
@@ -49,221 +51,249 @@ def get_today_lottery():
         lotteries = json.load(f)
     with open(f'{DATA}/results.json') as f:
         results = json.load(f)
-
-    ist     = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
-    ist_now = datetime.datetime.now(ist)
-    today_s = ist_now.strftime('%Y-%m-%d')
-    today_j = (ist_now.weekday() + 1) % 7
-
-    lottery = next((l for l in lotteries if l['drawDayIndex'] == today_j and not l.get('isBumper')), None)
+    ist = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
+    today_js = (datetime.datetime.now(ist).weekday() + 1) % 7
+    lottery = next((l for l in lotteries if l['drawDayIndex'] == today_js and not l.get('isBumper')), None)
     if not lottery:
         print("No lottery today"); sys.exit(0)
+    draws = [r for r in results if r['lotterySlug'] == lottery['slug'] and '-' in r.get('drawCode','')]
+    nums = [int(d['drawCode'].split('-')[1]) for d in draws if d['drawCode'].split('-')[1].isdigit()]
+    next_num = max(nums) + 1 if nums else 1
+    return lottery, f"{lottery['code']}-{next_num}"
 
-    # Reuse today's draw code if already exists
-    today_r = next((r for r in results
-                    if r['lotterySlug'] == lottery['slug'] and r.get('drawDate','') == today_s), None)
-    if today_r:
-        return lottery, today_r['drawCode'], ist_now
+def find_article_via_google(lottery_name, draw_code, date_str):
+    """Use Google to find ET article URL."""
+    query = f'site:economictimes.indiatimes.com "kerala lottery" "{lottery_name}" "{draw_code}" result {date_str}'
+    url = f"https://www.google.com/search?q={urllib.parse.quote(query)}"
+    html = fetch(url)
+    if not html:
+        return None
+    links = re.findall(r'href="(https://economictimes\.indiatimes\.com/[^"&]+articleshow[^"&]+)"', html)
+    for link in links:
+        if draw_code.lower() in link.lower():
+            return link
+    return None
 
-    # Compute next draw number from verified/live only
-    draws = [r for r in results
-             if r['lotterySlug'] == lottery['slug']
-             and r['status'] in ('verified','live')]
-    nums = []
-    for d in draws:
-        try: nums.append(int(d['drawCode'].split('-')[1]))
-        except: pass
-    next_n = max(nums) + 1 if nums else 1
-    return lottery, f"{lottery['code']}-{next_n}", ist_now
-
-def find_et_article(lottery, draw_code, date):
-    """Find ET article URL via sitemap or search."""
-    et_name  = ET_NAMES.get(lottery['slug'], lottery['slug'])
+def fetch_et_article(lottery, draw_code, date):
+    """Try to fetch ET article using the known URL pattern."""
+    et_name = ET_NAMES.get(lottery['slug'], lottery['slug'])
     date_str = date.strftime('%d-%m-%Y')
-    slug_pat = f"kerala-lottery-{et_name}-{draw_code.lower()}-result"
+    # ET URL pattern: /kerala-lottery-{name}-{code-lower}-result-out-today-{DD-MM-YYYY}-rs-1-crore-...
+    base = f"kerala-lottery-{et_name}-{draw_code.lower()}-result-out-today-{date_str}"
+    # Search ET directly
+    lottery_name = lottery['name']
+    date_simple = date.strftime('%d %B %Y')
+    search_url = "https://economictimes.indiatimes.com/searchresult.cms?query=" + urllib.parse.quote(f'kerala lottery {lottery_name} {draw_code} result {date_simple}')
 
-    # 1. Try ET news sitemap (daily sitemap)
-    sitemap_url = f"https://economictimes.indiatimes.com/news/new-updates/sitemap.xml"
-    sitemap = fetch(sitemap_url)
-    if sitemap:
-        urls = re.findall(r'<loc>(https://economictimes[^<]+)</loc>', sitemap)
-        for u in urls:
-            if slug_pat in u.lower() or (draw_code.lower() in u.lower() and et_name in u.lower()):
-                print(f"  ET article via sitemap: {u[:80]}")
-                return fetch(u)
-
-    # 2. Try ET search page
-    query = urllib.parse.quote(f'kerala lottery {lottery["name"]} {draw_code} result today')
-    search = fetch(f"https://economictimes.indiatimes.com/searchresult.cms?query={query}")
-    if search:
-        links = re.findall(r'"(https://economictimes[^"]+articleshow/\d+[^"]*)"', search)
-        for link in links:
-            if et_name in link.lower() or draw_code.lower() in link.lower():
-                print(f"  ET article via search: {link[:80]}")
-                html = fetch(link)
-                if html and len(html) > 3000:
-                    return html
-
-    # 3. Try constructed URL with today's date (ET uses predictable pattern)
-    # ET article IDs are sequential — try a range around today's expected ID
-    # (roughly 121000000 + days since Jan 2026 * 50)
-    base = f"https://economictimes.indiatimes.com/news/new-updates/{slug_pat}-out-today-{date_str}-rs-1-crore-prize-winning-number-and-full-list-here"
-    # Try without articleshow ID - ET sometimes serves the article at base URL
-    html = fetch(base)
-    if html and len(html) > 5000 and ('prize' in html.lower() or draw_code.lower() in html.lower()):
-        print(f"  ET article via base URL")
+    # Try the ET sitemap/search API
+    api_url = f"https://economictimes.indiatimes.com/news/new-updates/{base}-rs-1-crore-prize-winning-number-and-full-list-here"
+    print(f"  Trying ET URL: {api_url}")
+    html = fetch(api_url + "/articleshow/999999999.cms")
+    if html and len(html) > 5000 and 'articleshow' in html:
         return html
 
-    print(f"  ET: article not found for {draw_code}")
-    return ""
+    # Try Google search to find the actual article ID
+    print("  Trying Google to find ET article...")
+    query = f'kerala lottery {lottery["name"]} {draw_code} result site:economictimes.indiatimes.com'
+    google_url = f"https://www.google.com/search?q={urllib.parse.quote(query)}"
+    google_html = fetch(google_url)
+    if google_html:
+        links = re.findall(r'href="(https://economictimes[^"&]+articleshow[^"&]+)"', google_html)
+        for link in links:
+            if draw_code.lower().replace('-','-') in link.lower() or lottery['slug'] in link.lower():
+                print(f"  Found via Google: {link}")
+                article_html = fetch(link)
+                if article_html and len(article_html) > 5000:
+                    return article_html
+    return None
 
-def fetch_goodreturns(lottery_slug):
-    url = f"https://www.goodreturns.in/kerala-lottery-results-{lottery_slug}.html"
+def fetch_keralalotteries_net(lottery_slug, draw_code):
+    """Third fallback: keralalotteries.net — fastest to publish full results."""
+    # URL pattern: keralalotteries.net/2026/05/samrudhi-kerala-lottery-result-sm-57-today-31-05-2026.html
+    ist = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
+    now = datetime.datetime.now(ist)
+    date_str = now.strftime('%d-%m-%Y')
+    slug_map = {
+        'samrudhi': 'samrudhi', 'karunya': 'karunya',
+        'karunya-plus': 'karunya-plus', 'sthree-sakthi': 'sthree-sakthi',
+        'dhanalekshmi': 'dhanalekshmi', 'suvarna-keralam': 'suvarna-keralam',
+        'bhagyathara': 'bhagyathara',
+    }
+    name = slug_map.get(lottery_slug, lottery_slug)
+    code_lower = draw_code.lower().replace('-','-')
+    month = now.strftime('%Y/%m')
+    url = f"https://www.keralalotteries.net/{month}/{name}-kerala-lottery-result-{code_lower}-today-{date_str}.html"
+    print(f"  Trying keralalotteries.net: {url}")
+    return fetch(url)
+    """Fallback: fetch from Goodreturns."""
+    gr_slug = GR_SLUGS.get(lottery_slug, lottery_slug)
+    url = f"https://www.goodreturns.in/kerala-lottery-results-{gr_slug}.html"
     print(f"  Trying Goodreturns: {url}")
     return fetch(url)
 
-def fetch_keralalotteries(lottery_slug, draw_code, date):
-    date_str = date.strftime('%d-%m-%Y')
-    month    = date.strftime('%Y/%m')
-    url = f"https://www.keralalotteries.net/{month}/{lottery_slug}-kerala-lottery-result-{draw_code.lower()}-today-{date_str}.html"
-    print(f"  Trying keralalotteries.net: {url}")
-    return fetch(url)
-
-def fetch_lotteryresultsnow(lottery_slug, draw_code, date):
-    """lotteryresultsnow.com — very fast publisher, less blocking."""
-    date_str = date.strftime('%d-%m-%Y')
-    name     = LOTTERY_FULL_NAMES.get(lottery_slug, lottery_slug).lower().replace(' ','-')
-    url = f"https://lotteryresultsnow.com/{name}-{draw_code.lower()}-lottery-result-{date_str}/"
-    print(f"  Trying lotteryresultsnow.com: {url}")
-    return fetch(url)
-
-def parse_prizes(html):
+def parse_prizes(html, lottery_slug):
+    """Extract prize data from HTML page."""
     text = re.sub(r'<script[^>]*>.*?</script>', ' ', html, flags=re.DOTALL)
-    text = re.sub(r'<style[^>]*>.*?</style>',  ' ', text, flags=re.DOTALL)
+    text = re.sub(r'<style[^>]*>.*?</style>', ' ', text, flags=re.DOTALL)
     text = re.sub(r'<[^>]+>', ' ', text)
     text = re.sub(r'&nbsp;|&#160;', ' ', text)
     text = re.sub(r'&amp;', '&', text)
     text = re.sub(r'\s+', ' ', text).strip()
 
     prizes = {}
-    NOISE  = {'2026','2025','2024','2023','1000','2000','3000','4000','5000','0000','9999'}
 
-    def find_ticket(patterns):
-        for pat in patterns:
-            m = re.search(pat + r'[^A-Z0-9]{0,20}([A-Z]{2})\s+(\d{6})(?:\s+\(([^)]+)\))?', text, re.IGNORECASE)
-            if m:
-                t, n = m.group(1).upper(), m.group(2)
-                dist = m.group(3).strip().title() if m.group(3) else None
-                val = json.dumps({'ticket':f'{t} {n}','district':dist}) if dist else f'{t} {n}'
-                return [val]
-        return None
-
-    # Also check inline paragraph format: "BJ 659839 wins the Rs 1 crore"
-    def find_ticket_prose(prize_label):
-        m = re.search(
-            rf'([A-Z]{{2}})\s+(\d{{6}})\s+wins?\s+the\s+Rs\s+[0-9,]+\s+{prize_label}',
-            text, re.IGNORECASE
-        )
+    # 1st Prize
+    for pat in [
+        r'1st Prize[^:]*:\s*([A-Z]{2})\s*(\d{6})',
+        r'[Ff]irst\s+[Pp]rize[^:]*:\s*([A-Z]{2})\s*(\d{6})',
+        r'([A-Z]{2})\s+(\d{6})\s+wins the Rs 1 crore',
+        r'Ticket holder of ([A-Z]{2}) (\d{6}) wins the Rs 1 crore',
+    ]:
+        m = re.search(pat, text)
         if m:
-            return [f'{m.group(1)} {m.group(2)}']
-        return None
+            t, n = m.group(1), m.group(2)
+            # Try to find district
+            d_m = re.search(rf'{t}\s+{n}\s+\(([^)]+)\)', text)
+            dist = d_m.group(1).strip().title() if d_m else None
+            prizes['1st'] = [json.dumps({'ticket':f'{t} {n}','district':dist}) if dist else f'{t} {n}']
+            print(f"  1st: {t} {n}" + (f" ({dist})" if dist else ""))
+            break
 
-    r1 = find_ticket([r'1st Prize[^:]*:', r'First Prize[^:]*:', r'1st\s+Prize\s*[-–]']) \
-         or find_ticket_prose('(first|1 crore|1st)')
-    if r1: prizes['1st'] = r1; print(f"  1st: {r1[0][:30]}")
+    # 2nd Prize
+    for pat in [
+        r'2nd Prize[^:]*:\s*([A-Z]{2})\s*(\d{6})',
+        r'[Ss]econd\s+[Pp]rize[^:]*:\s*([A-Z]{2})\s*(\d{6})',
+        r'([A-Z]{2})\s+(\d{6}) wins the Rs 25 lakh',
+        r'Ticket holder of ([A-Z]{2}) (\d{6}) wins the Rs 25',
+    ]:
+        m = re.search(pat, text)
+        if m:
+            t, n = m.group(1), m.group(2)
+            d_m = re.search(rf'{t}\s+{n}\s+\(([^)]+)\)', text)
+            dist = d_m.group(1).strip().title() if d_m else None
+            prizes['2nd'] = [json.dumps({'ticket':f'{t} {n}','district':dist}) if dist else f'{t} {n}']
+            print(f"  2nd: {t} {n}" + (f" ({dist})" if dist else ""))
+            break
 
-    r2 = find_ticket([r'2nd Prize[^:]*:', r'Second Prize[^:]*:']) \
-         or find_ticket_prose('(second|25 lakh|2nd)')
-    if r2: prizes['2nd'] = r2; print(f"  2nd: {r2[0][:30]}")
+    # 3rd Prize
+    for pat in [
+        r'3rd Prize[^:]*:\s*([A-Z]{2})\s*(\d{6})',
+        r'[Tt]hird\s+[Pp]rize[^:]*:\s*([A-Z]{2})\s*(\d{6})',
+    ]:
+        m = re.search(pat, text)
+        if m:
+            t, n = m.group(1), m.group(2)
+            d_m = re.search(rf'{t}\s+{n}\s+\(([^)]+)\)', text)
+            dist = d_m.group(1).strip().title() if d_m else None
+            prizes['3rd'] = [json.dumps({'ticket':f'{t} {n}','district':dist}) if dist else f'{t} {n}']
+            print(f"  3rd: {t} {n}" + (f" ({dist})" if dist else ""))
+            break
 
-    r3 = find_ticket([r'3rd Prize[^:]*:', r'Third Prize[^:]*:']) \
-         or find_ticket_prose('(third|5 lakh|3rd)')
-    if r3: prizes['3rd'] = r3; print(f"  3rd: {r3[0][:30]}")
-
-    # Consolation
+    # Consolation: same 6 digits, all other series
     if '1st' in prizes:
+        first_ticket = prizes['1st'][0]
         try:
-            raw  = prizes['1st'][0]
-            obj  = json.loads(raw)
-            first_6, first_s = obj['ticket'].split()[1], obj['ticket'].split()[0]
+            first_6 = json.loads(first_ticket)['ticket'].split()[1]
+            first_s  = json.loads(first_ticket)['ticket'].split()[0]
         except:
-            parts = prizes['1st'][0].split()
-            first_6, first_s = (parts[1],parts[0]) if len(parts)>1 else ('','')
-        if first_6:
-            cons = [f'{s} {first_6}' for s in re.findall(rf'([A-Z]{{2}})\s+{re.escape(first_6)}',text) if s!=first_s]
-            seen=set(); unique=[]
-            for c in cons:
-                if c not in seen: seen.add(c); unique.append(c)
-            if unique: prizes['consolation']=unique; print(f"  Consolation: {len(unique)}")
+            parts = first_ticket.split()
+            first_6, first_s = (parts[1], parts[0]) if len(parts) > 1 else ('', '')
 
-    # 4th–9th
+        if first_6:
+            # Try regex first
+            cons = [f'{s} {first_6}' for s in re.findall(rf'([A-Z]{{2}})\s+{re.escape(first_6)}', text) if s != first_s]
+            seen = set(); unique_cons = []
+            for c in cons:
+                if c not in seen: seen.add(c); unique_cons.append(c)
+
+            # Fallback: generate from series when ET writes "All other series with NNNNNN"
+            if not unique_cons and first_s and len(first_s) == 2:
+                prefix = first_s[0]
+                won_second = first_s[1]
+                # Kerala lottery uses letters A-Z except I and Q for series
+                all_letters = [c for c in 'ABCDEFGHJKLMNOPRSTUVWXYZ']
+                unique_cons = [f'{prefix}{l} {first_6}' for l in all_letters if l != won_second][:11]
+                print(f"  Consolation: generated {len(unique_cons)} series tickets")
+            else:
+                print(f"  Consolation: {len(unique_cons)} tickets found")
+
+            if unique_cons:
+                prizes['consolation'] = unique_cons
+
+    # 4th-9th: 4-digit number blocks
+    NOISE = {'2026','2025','2024','2023','1000','2000','3000','4000','5000','0000','9999'}
     for tier, labels in [
-        ('4th',['4th Prize','Fourth Prize','4th prize']),
-        ('5th',['5th Prize','Fifth Prize','5th prize']),
-        ('6th',['6th Prize','Sixth Prize','6th prize']),
-        ('7th',['7th Prize','Seventh Prize','7th prize']),
-        ('8th',['8th Prize','Eighth Prize','8th prize']),
-        ('9th',['9th Prize','Ninth Prize','9th prize']),
+        ('4th', ['Fourth prize','4th prize','4th Prize']),
+        ('5th', ['Fifth prize','5th prize','5th Prize']),
+        ('6th', ['Sixth prize','6th prize','6th Prize']),
+        ('7th', ['Seventh prize','7th prize','7th Prize']),
+        ('8th', ['Eighth prize','8th prize','8th Prize']),
+        ('9th', ['Ninth prize','9th prize','9th Prize']),
     ]:
         for label in labels:
             idx = text.find(label)
-            if idx==-1: continue
-            chunk = text[idx:idx+4000]
-            for stop in ['1st Prize','2nd Prize','3rd Prize','5th Prize','6th Prize',
-                         '7th Prize','8th Prize','9th Prize','10th Prize']:
-                si=chunk.find(stop,15)
-                if si>0: chunk=chunk[:si]
-            nums=[n for n in re.findall(r'\b(\d{4})\b',chunk) if n not in NOISE]
-            if len(nums)>=2:
-                prizes[tier]=nums; print(f"  {tier}: {len(nums)} numbers"); break
+            if idx == -1: continue
+            chunk = text[idx:idx+3000]
+            # Stop at next tier
+            for stop in ['First prize','Second prize','Third prize','1st Prize','2nd Prize','3rd Prize',
+                         'Fifth prize','Sixth prize','Seventh prize','Eighth prize','Ninth prize',
+                         '5th Prize','6th Prize','7th Prize','8th Prize','9th Prize']:
+                stop_idx = chunk.find(stop, 10)
+                if stop_idx > 0: chunk = chunk[:stop_idx]
+            nums = [n for n in re.findall(r'\b(\d{4})\b', chunk) if n not in NOISE]
+            if len(nums) >= 2:
+                prizes[tier] = nums
+                print(f"  {tier}: {len(nums)} numbers")
+                break
 
     return prizes
 
 def build_full_results(prizes):
-    order=['1st','consolation','2nd','3rd','4th','5th','6th','7th','8th','9th']
-    return ' / '.join(f'{t}:{",".join(str(v) for v in prizes[t])}' for t in order if t in prizes and prizes[t])
+    order = ['1st','consolation','2nd','3rd','4th','5th','6th','7th','8th','9th']
+    parts = []
+    for t in order:
+        if t in prizes and prizes[t]:
+            parts.append(f'{t}:{",".join(str(v) for v in prizes[t])}')
+    return ' / '.join(parts)
 
 def main():
     ist = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
-    now = datetime.datetime.now(ist)
-    print(f"Scraper v5: {now.strftime('%H:%M IST, %d %b %Y')}")
+    now  = datetime.datetime.now(ist)
+    print(f"Scraper running: {now.strftime('%H:%M IST, %d %b %Y')}")
 
-    lottery, draw_code, _ = get_today_lottery()
+    lottery, draw_code = get_today_lottery()
     print(f"Lottery: {lottery['name']} | Draw: {draw_code}")
 
-    html, source = "", ""
-    attempts = [
-        ("ET",              lambda: find_et_article(lottery, draw_code, now)),
-        ("Goodreturns",     lambda: fetch_goodreturns(lottery['slug'])),
-        ("keralalotteries", lambda: fetch_keralalotteries(lottery['slug'], draw_code, now)),
-        ("lotteryresultsnow", lambda: fetch_lotteryresultsnow(lottery['slug'], draw_code, now)),
-    ]
+    # Try ET first, then Goodreturns, then keralalotteries.net
+    html = fetch_et_article(lottery, draw_code, now)
+    source = "ET"
+    if not html or len(html) < 3000:
+        html = fetch_goodreturns(lottery['slug'])
+        source = "Goodreturns"
+    if not html or len(html) < 3000:
+        html = fetch_keralalotteries_net(lottery['slug'], draw_code)
+        source = "keralalotteries.net"
 
-    for name, fn in attempts:
-        h = fn()
-        if h and len(h) > 2000:
-            html, source = h, name
-            print(f"  ✅ Got HTML from {name} ({len(h):,} bytes)")
-            break
+    if not html or len(html) < 3000:
+        print("Could not fetch result from any source. Will retry."); sys.exit(0)
 
-    if not html:
-        print("❌ No source returned result — exiting"); sys.exit(0)
+    print(f"  Parsing from {source}...")
+    prizes = parse_prizes(html, lottery['slug'])
 
-    prizes = parse_prizes(html)
     if '1st' not in prizes:
-        print("❌ Could not extract 1st prize"); sys.exit(0)
+        print("Could not extract 1st prize. Result may not be published yet."); sys.exit(0)
 
-    try:    first_prize = json.loads(prizes['1st'][0])['ticket']
-    except: first_prize = str(prizes['1st'][0]).split()[0]+' '+str(prizes['1st'][0]).split()[1] if ' ' in str(prizes['1st'][0]) else str(prizes['1st'][0])
+    first_prize_raw = prizes['1st'][0]
+    try:    first_prize = json.loads(first_prize_raw)['ticket']
+    except: first_prize = first_prize_raw.split()[0] + ' ' + first_prize_raw.split()[1] if ' ' in first_prize_raw else first_prize_raw
 
-    full_results  = build_full_results(prizes)
-    tiers_found   = len([t for t in ['1st','2nd','3rd','4th','5th','6th','7th','8th','9th'] if t in prizes])
-    print(f"\n✅ {draw_code}: {first_prize} | {tiers_found}/9 tiers | source: {source}")
+    full_results = build_full_results(prizes)
+    print(f"\n✅ {draw_code}: {first_prize} | {len(prizes)} tiers from {source}")
 
-    with open('/tmp/et_first_prize.txt','w')  as f: f.write(first_prize)
+    with open('/tmp/et_first_prize.txt','w') as f: f.write(first_prize)
     with open('/tmp/et_full_results.txt','w') as f: f.write(full_results)
-    with open('/tmp/et_slug.txt','w')         as f: f.write(lottery['slug'])
-    with open('/tmp/et_draw_code.txt','w')    as f: f.write(draw_code)
+    with open('/tmp/et_slug.txt','w') as f: f.write(lottery['slug'])
+    with open('/tmp/et_draw_code.txt','w') as f: f.write(draw_code)
     print("Done ✅")
 
 if __name__ == '__main__':
