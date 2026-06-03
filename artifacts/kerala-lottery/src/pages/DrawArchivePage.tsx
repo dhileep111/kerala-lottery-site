@@ -8,6 +8,15 @@ import { ShareResultButton } from '../components/ShareResultButton';
 
 export default function DrawArchivePage() {
   const params = useParams<{ slug: string; drawCode: string }>();
+
+  // Guard: trailing slash on lottery page causes drawCode="" — redirect to correct page
+  if (!params.drawCode || params.drawCode === '' || params.drawCode === '/') {
+    if (typeof window !== 'undefined') {
+      window.location.replace(`/results/${params.slug}`);
+    }
+    return null;
+  }
+
   const lottery = getLottery(params.slug);
   const result = getResultByDraw(params.slug, params.drawCode);
 
