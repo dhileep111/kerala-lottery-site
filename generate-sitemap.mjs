@@ -41,6 +41,9 @@ const staticPages = [
   { url: '/privacy-policy',    priority: '0.40', changefreq: 'yearly'  },
   { url: '/terms',             priority: '0.40', changefreq: 'yearly'  },
   { url: '/lottery-offices',   priority: '0.50', changefreq: 'monthly' },
+  { url: '/privacy-policy',    priority: '0.30', changefreq: 'yearly'  },
+  { url: '/terms',             priority: '0.30', changefreq: 'yearly'  },
+  { url: '/disclaimer',        priority: '0.30', changefreq: 'yearly'  },
   { url: '/download-forms',    priority: '0.50', changefreq: 'monthly' },
 ];
 
