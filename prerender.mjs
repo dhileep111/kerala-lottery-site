@@ -219,7 +219,17 @@ const lotteryGuessingRoutes = [
     content: `<main><h1>Samrudhi Guessing Numbers Today</h1><p>Samrudhi draws every Sunday at 3:00 PM. ABC board guessing numbers and 4-digit picks for today and tomorrow. சம்ருத்தி லாட்டரி கணிப்பு எண்கள். For entertainment only.</p></main>`,
   },
 ];
-const allRoutes = [...staticRoutes, ...lotteryGuessingRoutes, ...lotteryRoutes, ...archiveRoutes];
+// Redirect pages for malformed URLs that Google has already indexed
+const redirectRoutes = [
+  {
+    path: '/results/bumper/br-109)',
+    title: 'Vishu Bumper BR-109 Result — Redirecting',
+    desc: 'Kerala Vishu Bumper BR-109 lottery result redirect.',
+    content: `<main><h1>Vishu Bumper BR-109 Result</h1><p>Redirecting to correct page...</p><script>window.location.replace('/results/bumper/br-109/');</script><a href="/results/bumper/br-109/">View BR-109 Result</a></main>`,
+  },
+];
+
+const allRoutes = [...staticRoutes, ...redirectRoutes, ...lotteryGuessingRoutes, ...lotteryRoutes, ...archiveRoutes];
 
 // ── Generate HTML ─────────────────────────────────────────
 function makeHtml(route) {

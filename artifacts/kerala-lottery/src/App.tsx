@@ -39,6 +39,12 @@ function Router() {
         <Route path="/terms" component={TermsPage} />
         <Route path="/results/:slug/first-prize" component={FirstPrizePage} />
         <Route path="/results/:slug/:drawCode/first-prize" component={FirstPrizePage} />
+        <Route path="/results/bumper/br-109)">
+          <RedirectTo to="/results/bumper/br-109/" />
+        </Route>
+        <Route path="/results/bumper/br-109)/">
+          <RedirectTo to="/results/bumper/br-109/" />
+        </Route>
         <Route path="/results/:slug/:drawCode" component={DrawArchivePage} />
         <Route path="/results/:slug" component={LotteryResultPage} />
         <Route component={NotFound} />
@@ -46,6 +52,13 @@ function Router() {
       <Footer />
     </>
   );
+}
+
+// Redirect component for bad URLs
+function RedirectTo({ to }: { to: string }) {
+  const [, navigate] = useLocation();
+  useEffect(() => { navigate(to, { replace: true }); }, []);
+  return null;
 }
 
 function App() {
