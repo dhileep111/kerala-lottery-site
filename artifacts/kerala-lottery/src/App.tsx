@@ -20,21 +20,11 @@ import DrawArchivePage from "./pages/DrawArchivePage";
 import FirstPrizePage from "./pages/FirstPrizePage";
 import NotFound from "./pages/not-found";
 
-// Strip trailing slashes: /results/samrudhi/ → /results/samrudhi
-function TrailingSlashHandler() {
-  const [location, navigate] = useLocation();
-  useEffect(() => {
-    if (location !== "/" && location.endsWith("/")) {
-      navigate(location.slice(0, -1), { replace: true });
-    }
-  }, [location]);
-  return null;
-}
+
 
 function Router() {
   return (
     <>
-      <TrailingSlashHandler />
       <Header />
       <Switch>
         <Route path="/" component={HomePage} />
@@ -76,7 +66,7 @@ function RedirectTo({ to }: { to: string }) {
 
 function App() {
   return (
-    <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+    <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")} >
       <Router />
     </WouterRouter>
   );

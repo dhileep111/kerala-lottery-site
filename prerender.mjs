@@ -148,7 +148,7 @@ const lotteryRoutes = lotteries.map(l => {
     path:    `/results/${l.slug}`,
     title:   `${l.name} Lottery Result Today | Kerala ${l.code} — ${firstP !== 'Pending' ? firstP : 'Draw at ' + l.drawTime}`,
     desc:    `${l.name} (${l.code}) Kerala lottery result today. ${firstP !== 'Pending' ? `1st Prize: ${firstP}${district ? ` sold in ${district}` : ''}.` : `Draw every ${l.drawDay} at ${l.drawTime}.`} Updated daily.`,
-    canonical: `${SITE}/results/${l.slug}/`,
+    canonical: `${SITE}/results/${l.slug}`,
     content:  buildResultContent(l, result),
   };
 });
@@ -167,7 +167,7 @@ const archiveRoutes = results.map(r => {
     path:     `/results/${r.lotterySlug}/${drawCodeLower}`,
     title:    `${lottery.name} ${r.drawCode} Result ${r.displayDate} | 1st Prize ${firstP}`,
     desc:     `${lottery.name} ${r.drawCode} lottery result for ${r.displayDate}. 1st Prize: ${firstP}${district ? ` sold in ${district}` : ''}. Full prize table with all winning numbers.`,
-    canonical:`${SITE}/results/${r.lotterySlug}/${drawCodeLower}/`,
+    canonical:`${SITE}/results/${r.lotterySlug}/${drawCodeLower}`,
     lastmod:  r.lastUpdated,
     content:  buildResultContent(lottery, r),
   };
@@ -233,9 +233,7 @@ const allRoutes = [...staticRoutes, ...redirectRoutes, ...lotteryGuessingRoutes,
 
 // ── Generate HTML ─────────────────────────────────────────
 function makeHtml(route) {
-  const canonical = route.canonical 
-    ? (route.canonical.endsWith('/') ? route.canonical : route.canonical + '/')
-    : (route.path === '/' ? `${SITE}/` : `${SITE}${route.path}/`);
+  const canonical = route.canonical || `${SITE}${route.path}`;
   let html = baseHtml;
 
   html = html.replace(/<title>.*?<\/title>/, `<title>${e(route.title)}</title>`);
