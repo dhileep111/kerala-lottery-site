@@ -1,4 +1,5 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { useEffect } from "react";
+import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import HomePage from "./pages/HomePage";
@@ -19,9 +20,21 @@ import DrawArchivePage from "./pages/DrawArchivePage";
 import FirstPrizePage from "./pages/FirstPrizePage";
 import NotFound from "./pages/not-found";
 
+// Strip trailing slashes: /results/samrudhi/ → /results/samrudhi
+function TrailingSlashHandler() {
+  const [location, navigate] = useLocation();
+  useEffect(() => {
+    if (location !== "/" && location.endsWith("/")) {
+      navigate(location.slice(0, -1), { replace: true });
+    }
+  }, [location]);
+  return null;
+}
+
 function Router() {
   return (
     <>
+      <TrailingSlashHandler />
       <Header />
       <Switch>
         <Route path="/" component={HomePage} />
