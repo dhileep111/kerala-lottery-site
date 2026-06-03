@@ -65,7 +65,7 @@ const archivePages = results.map(r => {
 
 // ── Build XML ─────────────────────────────────────────────
 function urlEntry({ url, priority, changefreq, lastmod }) {
-  const loc     = `${SITE}${url}`;
+  const loc     = url === '/' ? `${SITE}/` : `${SITE}${url}/`;
   const modDate = lastmod ? new Date(lastmod).toISOString() : now;
   return [
     '  <url>',
