@@ -7,6 +7,7 @@ import { ScheduleGrid } from '../components/ScheduleGrid';
 import { RecentResults } from '../components/RecentResults';
 import { ShareResultButton } from '../components/ShareResultButton';
 import { getLatestResult, getLottery, getResultWithLottery, lotteries, site } from '../data';
+import NextDrawCountdown from '../components/NextDrawCountdown';
 
 // Per-lottery accent colors
 const LOTTERY_COLORS: Record<string, { primary: string; light: string; border: string; text: string }> = {
@@ -27,6 +28,18 @@ function getLotteryColor(slug: string) {
 // Day of week helper
 const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 function getTodayDayIndex() { return new Date().getDay(); }
+
+// Which lottery draws next, IST-aware. Before ~4 PM IST it's today's lottery
+// (counting down to / publishing the 3 PM draw); after the result window it's tomorrow's.
+function getUpcomingLottery() {
+  const now = new Date();
+  const minsFromUtcMidnightIST = now.getUTCHours() * 60 + now.getUTCMinutes() + 330; // IST = UTC+5:30
+  const istMinutes = minsFromUtcMidnightIST % 1440;
+  const istDay = (now.getUTCDay() + Math.floor(minsFromUtcMidnightIST / 1440)) % 7;
+  const drawWindowEndMins = 15 * 60 + 60; // 3:00 PM + 60-min result window
+  const targetDay = istMinutes < drawWindowEndMins ? istDay : (istDay + 1) % 7;
+  return lotteries.find(l => !l.isBumper && l.drawDayIndex === targetDay);
+}
 
 function LotterySelector({ selected, onSelect }: { selected: string; onSelect: (slug: string) => void }) {
   const todayIdx = getTodayDayIndex();
@@ -119,6 +132,11 @@ export default function HomePage() {
               </div>
             </div>
           ) : null}
+
+          {/* Live countdown to the next daily 3 PM IST draw */}
+          <div style={{ marginTop: 24 }}>
+            <NextDrawCountdown lotteryName={getUpcomingLottery()?.name} />
+          </div>
         </section>
 
         <RecentResults />
