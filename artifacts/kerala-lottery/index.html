@@ -109,6 +109,17 @@
       })();
     </script>
 
+    <!-- OneSignal Web Push -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(function (OneSignal) {
+        OneSignal.init({
+          appId: "0d43f582-c449-4e7d-9946-b66ed2cb65e9",
+        });
+      });
+    </script>
+
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
