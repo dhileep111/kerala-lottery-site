@@ -14,6 +14,7 @@ export function cleanSlug(raw: string): string {
     .toLowerCase()
     .replace(/%20/g, '-')
     .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9/-]/g, '')
     .replace(/\/+/g, '/');
 }
 
