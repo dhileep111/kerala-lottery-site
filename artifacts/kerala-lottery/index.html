@@ -85,6 +85,21 @@
       }(window.location));
     </script>
 
+    <!-- Strip stray parentheses from legacy bad URLs (e.g. /results/bumper/br-109))
+         so the clean path resolves AND the canonical below points to the clean URL. -->
+    <script type="text/javascript">
+      (function() {
+        var p = window.location.pathname;
+        var clean = p.replace(/[)(]/g, '');
+        if (clean !== p) {
+          window.history.replaceState(
+            null, null,
+            clean + window.location.search + window.location.hash
+          );
+        }
+      })();
+    </script>
+
     <!-- Canonical tag — always points to clean URL, never ?p= or ?/ -->
     <script type="text/javascript">
       (function() {
