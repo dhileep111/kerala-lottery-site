@@ -20,6 +20,22 @@ const results   = JSON.parse(readFileSync(`${dataDir}/results.json`,   'utf8'));
 const SITE     = 'https://keralaticketresults.in';
 const OG_IMAGE = `${SITE}/opengraph.jpg`;
 
+// Tamil lottery names + weekdays (mirrors TamilResultSection.tsx)
+const TAMIL_NAMES = {
+  karunya:           'கருண்யா',
+  'karunya-plus':    'கருண்யா பிளஸ்',
+  'sthree-sakthi':   'ஸ்ரீ சக்தி',
+  dhanalekshmi:      'தனலட்சுமி',
+  bhagyathara:       'பாக்யதாரா',
+  samrudhi:          'சம்ருத்தி',
+  'suvarna-keralam': 'சுவர்ண கேரளம்',
+  bumper:            'பம்பர்',
+};
+const TAMIL_DAYS = {
+  Monday: 'திங்கள்கிழமை', Tuesday: 'செவ்வாய்கிழமை', Wednesday: 'புதன்கிழமை',
+  Thursday: 'வியாழன்கிழமை', Friday: 'வெள்ளிக்கிழமை', Saturday: 'சனிக்கிழமை', Sunday: 'ஞாயிற்றுக்கிழமை',
+};
+
 // ── Helpers ───────────────────────────────────────────────
 const e  = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const ea = s => String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;');
@@ -49,6 +65,8 @@ function buildResultContent(lottery, result) {
   if (!result) return '';
   const firstPrize = getFirstPrize(result);
   const isPending  = result.status === 'pending';
+  const tName      = TAMIL_NAMES[lottery.slug] ?? lottery.name;
+  const tDay       = TAMIL_DAYS[lottery.drawDay] ?? lottery.drawDay;
 
   // Prize rows
   const prizeRows = result.prizes.map(prize => {
@@ -98,6 +116,11 @@ function buildResultContent(lottery, result) {
     <p>Always verify your winning numbers at <a href="https://statelottery.kerala.gov.in">statelottery.kerala.gov.in</a> 
        before making any claim.</p>
   </section>
+  <section lang="ta">
+    <h2>${e(tName)} லாட்டரி ரிசல்ட் — தமிழில்</h2>
+    <p>${isPending ? `கேரளா ${e(tName)} லாட்டரி இன்றைய முடிவு இன்னும் வெளியிடப்படவில்லை — மதியம் 3 மணிக்குப் பிறகு பாருங்கள்.` : `இன்றைய ${e(tName)} லாட்டரி முதல் பரிசு எண்: ${e(firstPrize)}. முழு பரிசு அட்டவணையை மேலே பாருங்கள்.`}</p>
+    <p>கேரளா ${e(tName)} லாட்டரி (${e(lottery.code)}) ஒவ்வொரு ${e(tDay)}யும் மதியம் 3:00 மணிக்கு நடத்தப்படுகிறது.</p>
+  </section>
   <p><em>This page is published by Kerala Ticket Results (keralaticketresults.in), an independent informational website 
      not affiliated with the Kerala Government.</em></p>
 </main>`.trim();
@@ -144,10 +167,11 @@ const lotteryRoutes = lotteries.map(l => {
   const result  = getResultForSlug(l.slug);
   const firstP  = result ? getFirstPrize(result) : 'Pending';
   const district= result ? getDistrict(result?.prizes?.find(p=>p.tier==='1st Prize')?.numbers?.[0]) : null;
+  const tName   = TAMIL_NAMES[l.slug] ?? l.name;
   return {
     path:    `/results/${l.slug}`,
-    title:   `${l.name} Lottery Result Today | Kerala ${l.code} — ${firstP !== 'Pending' ? firstP : 'Draw at ' + l.drawTime}`,
-    desc:    `${l.name} (${l.code}) Kerala lottery result today. ${firstP !== 'Pending' ? `1st Prize: ${firstP}${district ? ` sold in ${district}` : ''}.` : `Draw every ${l.drawDay} at ${l.drawTime}.`} Updated daily.`,
+    title:   `${l.name} Lottery Result Today ${l.code} | ${tName} லாட்டரி ரிசல்ட்`,
+    desc:    `${l.name} (${l.code}) Kerala lottery result today. ${firstP !== 'Pending' ? `1st Prize: ${firstP}${district ? ` sold in ${district}` : ''}.` : `Draw every ${l.drawDay} at ${l.drawTime}.`} ${tName} லாட்டரி இன்றைய முடிவு — தினமும் புதுப்பிக்கப்படும்.`,
     canonical: `${SITE}/results/${l.slug}`,
     content:  buildResultContent(l, result),
   };
@@ -163,10 +187,11 @@ const archiveRoutes = results.map(r => {
   const drawCodeLower = r.drawCode.toLowerCase().replace(/\s+/g,'-');
   const firstP  = getFirstPrize(r);
   const district= getDistrict(r.prizes?.find(p=>p.tier==='1st Prize')?.numbers?.[0]);
+  const tName   = TAMIL_NAMES[lottery.slug] ?? lottery.name;
   return {
     path:     `/results/${r.lotterySlug}/${drawCodeLower}`,
-    title:    `${lottery.name} ${r.drawCode} Result ${r.displayDate} | 1st Prize ${firstP}`,
-    desc:     `${lottery.name} ${r.drawCode} lottery result for ${r.displayDate}. 1st Prize: ${firstP}${district ? ` sold in ${district}` : ''}. Full prize table with all winning numbers.`,
+    title:    `${lottery.name} ${r.drawCode} Result ${r.displayDate} | ${tName} ரிசல்ட்`,
+    desc:     `${lottery.name} ${r.drawCode} lottery result ${r.displayDate} — 1st Prize ${firstP}${district ? `, sold in ${district}` : ''}. ${tName} லாட்டரி ${r.drawCode} இன்றைய முடிவு மற்றும் முழு பரிசு பட்டியல்.`,
     canonical:`${SITE}/results/${r.lotterySlug}/${drawCodeLower}`,
     lastmod:  r.lastUpdated,
     content:  buildResultContent(lottery, r),
