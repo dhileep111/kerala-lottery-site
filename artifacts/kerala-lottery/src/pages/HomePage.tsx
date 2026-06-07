@@ -97,7 +97,7 @@ export default function HomePage() {
     <main className="page">
       <JsonLd data={{ '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: site.url, potentialAction: { '@type': 'SearchAction', target: `${site.url}/check-ticket?q={search_term_string}`, 'query-input': 'required name=search_term_string' } }} />
       <div className="container">
-        <div className="notice">கேரளா லாட்டரி முடிவுகள் தினமும் மதியம் 3 மணிக்கு புதுப்பிக்கப்படும். இந்த தளம் அதிகாரப்பூர்வ அரசு தளம் அல்ல. தகவல் நோக்கங்களுக்காக மட்டுமே.</div>
+        <div className="notice">கேரளா லாட்டரி முடிவுகள் தினமும் மதியம் 3 மணிக்கு இங்கே புதுப்பிக்கப்படும். உங்கள் லாட்டரியைத் தேர்ந்தெடுத்து இன்றைய முடிவைப் பாருங்கள்.</div>
 
         {/* Hero with lottery selector */}
         <section className="section">
