@@ -78,7 +78,7 @@ export default function LotteryResultPage() {
         </nav>
         <div className="hero">
           <h1>{lottery.name} Kerala Lottery Result Today</h1>
-          <p>{lottery.name} draws every {lottery.drawDay} at {lottery.drawTime}. Result status: {result.status}. Always verify winning numbers with official Kerala Lottery publications before prize claims.</p>
+          <p>{lottery.name} winning numbers and full prize table, updated daily at {lottery.drawTime} IST. {lottery.name} draws every {lottery.drawDay}.</p>
         </div>
         <section className="section">
           <ResultCard lottery={lottery} result={result} />
