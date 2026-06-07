@@ -6,6 +6,10 @@ on:
     - cron: '20 10 * * *'
     # 4:50 PM IST = 11:20 UTC — full result with all prize tiers after PDF
     - cron: '20 11 * * *'
+    # 6:30 PM IST = 13:00 UTC — lower tiers (8th/9th) often land only after the PDF settles
+    - cron: '0 13 * * *'
+    # 7:30 PM IST = 14:00 UTC — final sweep to fill any still-missing tiers
+    - cron: '0 14 * * *'
   workflow_dispatch:
     inputs:
       force_date:
