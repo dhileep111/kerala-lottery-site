@@ -71,6 +71,9 @@ export function Footer() {
         <div className="footer__bottom">
           © 2026 Kerala Ticket Results. Informational use only. Not affiliated with Kerala Government.
           Verify with official Kerala Lottery publications before claims.
+          <div lang="ta" style={{ marginTop: 6, fontSize: 12, opacity: 0.85 }}>
+            இந்த தளம் கேரளா அரசின் அதிகாரப்பூர்வ தளம் அல்ல — தகவல் நோக்கங்களுக்காக மட்டுமே. பரிசு கோர முன்பு அதிகாரப்பூர்வ முடிவைச் சரிபார்க்கவும்.
+          </div>
           <div style={{ marginTop: 8, display: 'flex', justifyContent: 'center', gap: 20, flexWrap: 'wrap' }}>
             <a href="https://t.me/keralaticketresults" target="_blank" rel="noopener noreferrer" style={{ color: '#2aabee', fontSize: 12, textDecoration: 'none', fontWeight: 600 }}>📢 t.me/keralaticketresults</a>
             <a href="https://www.facebook.com/profile.php?id=61590479131975" target="_blank" rel="noopener noreferrer" style={{ color: '#1877f2', fontSize: 12, textDecoration: 'none', fontWeight: 600 }}>📘 Kerala Ticket Results</a>
