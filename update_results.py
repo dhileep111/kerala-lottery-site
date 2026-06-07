@@ -228,6 +228,15 @@ def parse_prizes(text, first_prize, slug):
         prizes.append({"tier": tier, "amount": t["amount"], "numbers": nums})
     return prizes
 
+def merge_prize_numbers(old_prizes, new_prizes):
+    """Keep prize numbers a previous run already captured when this run is empty for a tier.
+    Lets a later scrape fill late-published tiers (8th/9th) without blanking earlier ones."""
+    old_by_tier = {p["tier"]: p.get("numbers", []) for p in (old_prizes or [])}
+    for p in new_prizes:
+        if not p.get("numbers") and old_by_tier.get(p["tier"]):
+            p["numbers"] = old_by_tier[p["tier"]]
+    return new_prizes
+
 def upsert(results, new):
     for i,r in enumerate(results):
         if r["lotterySlug"]==new["lotterySlug"] and r["drawCode"]==new["drawCode"]:
@@ -265,6 +274,10 @@ def main():
 
     slug   = lottery["slug"]
     prizes = parse_prizes(full_results, first_prize, slug)
+    # Merge with any previously-captured tiers so a later run fills late tiers (8th/9th)
+    existing = next((r for r in results if r["lotterySlug"]==slug and r["drawCode"]==draw_code), None)
+    if existing:
+        prizes = merge_prize_numbers(existing.get("prizes"), prizes)
     filled = sum(1 for p in prizes if p["numbers"])
     status = "verified" if filled>=len(prizes)-1 else ("live" if filled>=1 else "pending")
 
