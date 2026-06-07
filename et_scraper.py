@@ -130,7 +130,9 @@ def parse_prizes(html):
     r3 = find_ticket([r'3rd Prize[^:]*:', r'Third Prize[^:]*:'])
     if r3: prizes['3rd'] = r3; print(f"  3rd: {r3[0][:30]}")
 
-    # Consolation: same 6 digits as 1st prize
+    # Consolation: the 1st-prize 6-digit number across the OTHER series of this draw.
+    # The series are listed in the Consolation section, so read THAT section only —
+    # searching the whole page grabs stray letters or misses non-adjacent layouts.
     if '1st' in prizes:
         try:
             obj = json.loads(prizes['1st'][0])
@@ -139,20 +141,28 @@ def parse_prizes(html):
             parts = prizes['1st'][0].split()
             first_6, first_s = (parts[1], parts[0]) if len(parts) > 1 else ('', '')
         if first_6:
-            found = [f'{s} {first_6}' for s in re.findall(rf'([A-Z]{{2}})\s+{re.escape(first_6)}', text) if s != first_s]
-            seen = set(); unique = []
-            for c in found:
-                if c not in seen: seen.add(c); unique.append(c)
-            # Fallback: generate from series when ET writes "All other series with NNNNNN"
-            if not unique and first_s and len(first_s) == 2:
-                prefix = first_s[0]
-                won_l  = first_s[1]
-                letters = [c for c in 'ABCDEFGHJKLMNOPRSTUVWXYZ']
-                unique = [f'{prefix}{l} {first_6}' for l in letters if l != won_l][:11]
-                print(f"  Consolation: generated {len(unique)} series tickets")
+            cons_section = ''
+            for lbl in ['Consolation Prize', 'Cons Prize', 'Consolation']:
+                idx = text.find(lbl)
+                if idx != -1:
+                    chunk = text[idx: idx + 1500]
+                    for stop in ['2nd Prize', 'Second Prize', '3rd Prize']:
+                        si = chunk.find(stop, len(lbl))
+                        if si > 0: chunk = chunk[:si]
+                    cons_section = chunk
+                    break
+            series = []
+            # Validation: the consolation number must match the 1st-prize number
+            if cons_section and first_6 in cons_section:
+                for s in re.findall(r'\b([A-Z]{2})\b', cons_section):
+                    if s != first_s and s != 'RS' and s not in series:
+                        series.append(s)
+            if series:
+                prizes['consolation'] = [f'{s} {first_6}' for s in series]
+                print(f"  Consolation: {len(series)} series from section")
             else:
-                print(f"  Consolation: {len(unique)} tickets")
-            if unique: prizes['consolation'] = unique
+                # Don't guess series from an alphabet — wrong series is worse than none.
+                print("  Consolation: could not parse series reliably — leaving empty")
 
     # 4th–9th prizes
     for tier, labels in [
