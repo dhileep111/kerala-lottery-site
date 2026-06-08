@@ -164,7 +164,15 @@ def parse_prizes(html):
                 # Don't guess series from an alphabet — wrong series is worse than none.
                 print("  Consolation: could not parse series reliably — leaving empty")
 
-    # 4th–9th prizes
+    # 4th–9th prizes — each tier stops only at LATER tiers
+    tier_stops = {
+        '4th': ['5th Prize','Fifth Prize'],
+        '5th': ['6th Prize','Sixth Prize'],
+        '6th': ['7th Prize','Seventh Prize'],
+        '7th': ['8th Prize','Eighth Prize'],
+        '8th': ['9th Prize','Ninth Prize'],
+        '9th': [],
+    }
     for tier, labels in [
         ('4th', ['4th Prize','Fourth Prize']),
         ('5th', ['5th Prize','Fifth Prize']),
@@ -176,10 +184,13 @@ def parse_prizes(html):
         for label in labels:
             idx = text.find(label)
             if idx == -1: continue
-            chunk = text[idx:idx+4000]
-            for stop in ['1st Prize','2nd Prize','3rd Prize','5th Prize','6th Prize',
-                         '7th Prize','8th Prize','9th Prize','10th Prize']:
+            window = 8000 if tier in ('7th','8th','9th') else 4000
+            chunk = text[idx:idx+window]
+            for stop in tier_stops.get(tier, []):
                 si = chunk.find(stop, 15)
+                if si > 0: chunk = chunk[:si]
+            for stop in ['Disclaimer','Kerala Government Gazette','prize winners are advised']:
+                si = chunk.lower().find(stop.lower(), 15)
                 if si > 0: chunk = chunk[:si]
             nums = [n for n in re.findall(r'\b(\d{4})\b', chunk) if n not in NOISE]
             if len(nums) >= 2:
