@@ -7,72 +7,79 @@
     "status": "verified",
     "sourceName": "Manual admin update",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-06-08T14:53:08.799962Z",
+    "lastUpdated": "2026-06-08T15:03:07.061988Z",
     "summary": "Result for Bhagyathara BT-57. 10/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "MR 852787"
+          {
+            "ticket": "BE 603224",
+            "district": "Idukki"
+          }
         ]
       },
       {
         "tier": "Consolation Prize",
         "amount": "₹5,000",
         "numbers": [
-          "BT 852787",
-          "SM 852787",
-          "MO 852787",
-          "MP 852787"
+          "BA 603224",
+          "BB 603224",
+          "BC 603224",
+          "BD 603224",
+          "BF 603224",
+          "BG 603224",
+          "BH 603224",
+          "BJ 603224",
+          "BK 603224",
+          "BL 603224",
+          "BM 603224"
         ]
       },
       {
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "MO 478093"
+          {
+            "ticket": "BL 523669",
+            "district": "Cherthala"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "MP 356724"
+          {
+            "ticket": "BJ 743869",
+            "district": "Thamarassery"
+          }
         ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
         "numbers": [
-          "4577",
-          "7705",
-          "0450",
-          "5317",
-          "5371",
-          "5137",
-          "5173",
-          "5731",
-          "5713",
-          "3517",
-          "3571",
-          "3157",
-          "3175",
-          "3715",
-          "1537",
-          "1573",
-          "1357",
-          "1375",
-          "1753",
-          "1735",
-          "7531",
-          "7513",
-          "7351",
-          "7315",
-          "7153",
-          "7135",
-          "1967",
-          "1991"
+          "0107",
+          "0631",
+          "1129",
+          "1164",
+          "1176",
+          "2622",
+          "3020",
+          "3492",
+          "3593",
+          "4958",
+          "6949",
+          "6971",
+          "7272",
+          "7740",
+          "7859",
+          "7975",
+          "8231",
+          "9503",
+          "9683"
         ]
       },
       {
