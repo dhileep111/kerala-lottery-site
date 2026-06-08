@@ -256,7 +256,10 @@ def main():
     manual_draw  = os.environ.get("DRAW_CODE",     sys.argv[2] if len(sys.argv)>2 else "")
     manual_prize = os.environ.get("FIRST_PRIZE",   sys.argv[3] if len(sys.argv)>3 else "")
     full_results = os.environ.get("FULL_RESULTS",  sys.argv[4] if len(sys.argv)>4 else "")
-    is_scheduled = os.environ.get("GITHUB_EVENT_NAME")=="schedule"
+    is_scheduled = (
+    os.environ.get("GITHUB_EVENT_NAME")=="schedule"
+    and not os.environ.get("ET_MODE")  # ET workflow sets ET_MODE=true so we use env vars even on schedule
+)
     now          = datetime.now(timezone.utc)
 
     if manual_lot and not is_scheduled:
