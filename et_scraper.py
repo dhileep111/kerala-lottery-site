@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 """
-et_scraper.py v6 - Kerala Lottery Auto-Scraper
+et_scraper.py v7 - Kerala Lottery Auto-Scraper
 Runs at 3:50 PM and 4:50 PM IST via GitHub Actions cron.
-Sources: ET (via search) → Goodreturns → keralalotteries.net → lotteryresultsnow.com
+Sources: ET (via search + Google) → Goodreturns → keralalotteries.net → lotteryresultsnow.com
+
+v7 fix: removed ET direct URL guesses (they always redirect to the generic index page).
+        Added Google search to find the real ET articleshow URL.
+        Tightened is_fresh_result_page: draw code must be within 5000 chars of a prize mention.
 """
 import re, os, sys, json, datetime, urllib.request, urllib.parse
 
@@ -19,8 +23,9 @@ ET_NAMES = {
     'suvarna-keralam':'suvarna-keralam', 'bhagyathara':'bhagyathara', 'samrudhi':'samrudhi',
 }
 
-def fetch(url, timeout=20):
-    req = urllib.request.Request(url, headers=HEADERS)
+def fetch(url, timeout=20, extra_headers=None):
+    h = {**HEADERS, **(extra_headers or {})}
+    req = urllib.request.Request(url, headers=h)
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
             return r.read().decode('utf-8', errors='ignore')
@@ -52,54 +57,91 @@ def get_today_lottery():
     next_n = max(nums) + 1 if nums else 1
     return lottery, f"{lottery['code']}-{next_n}", now
 
-# ── Source 1: Economic Times ──────────────────────────────
+# ── Freshness validator ───────────────────────────────────
 def is_fresh_result_page(html, draw_code):
-    """Validate that the HTML actually contains today's result, not a generic/stale page."""
+    """
+    Validate that the HTML actually contains today's result, not a generic/stale page.
+    Key fix: draw code must appear CLOSE to a prize mention (within 5000 chars).
+    ET's index page has BT-57 buried in old article snippets far from any prize table.
+    """
     if not html or len(html) < 3000:
         return False
     lower = html.lower()
-    # Must mention the draw code (e.g. BT-57) — case-insensitive
-    if draw_code.lower() not in lower:
-        print(f"  ⚠ Page does not mention draw code {draw_code} — likely stale, skipping")
+    dc = draw_code.lower()  # e.g. "bt-57"
+
+    if dc not in lower:
+        print(f"  ⚠ Draw code {draw_code} not found — stale page, skipping")
         return False
-    # Must have 1st prize context
-    if '1st prize' not in lower and 'first prize' not in lower:
-        print(f"  ⚠ No '1st prize' text found — skipping")
+
+    has_1st  = '1st prize' in lower
+    has_frst = 'first prize' in lower
+    if not has_1st and not has_frst:
+        print(f"  ⚠ No prize text found — skipping")
         return False
+
+    # Draw code must appear within 5000 chars of a prize mention
+    idx_dc    = lower.find(dc)
+    idx_prize = lower.find('1st prize') if has_1st else lower.find('first prize')
+    if abs(idx_dc - idx_prize) > 5000:
+        print(f"  ⚠ Draw code and prize are {abs(idx_dc - idx_prize)} chars apart — index page, skipping")
+        return False
+
     return True
+
+# ── Source 1: Economic Times ──────────────────────────────
+def google_search_et_url(lottery_name, draw_code, date_str):
+    """Use Google to find the real ET articleshow URL for today's result."""
+    query = urllib.parse.quote(f'site:economictimes.indiatimes.com {lottery_name} {draw_code} result {date_str}')
+    url = f"https://www.google.com/search?q={query}&num=5"
+    # Use Googlebot UA to reduce chance of block
+    html = fetch(url, extra_headers={
+        'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
+    })
+    if not html:
+        return []
+    links = re.findall(r'https://economictimes\.indiatimes\.com[^"&\s<>]*articleshow/\d+[^"&\s<>]*', html)
+    seen = []
+    for l in links:
+        if l not in seen:
+            seen.append(l)
+    return seen
 
 def try_economic_times(lottery, draw_code, date):
     et_name  = ET_NAMES.get(lottery['slug'], lottery['slug'])
     date_str = date.strftime('%d-%m-%Y')
-    # Try ET search to get actual article URL
+
+    # 1. ET's own search — only accept articleshow links mentioning this lottery/draw
     query = urllib.parse.quote(f'kerala lottery {lottery["name"]} {draw_code} result today')
     search_html = fetch(f"https://economictimes.indiatimes.com/searchresult.cms?query={query}")
     if search_html:
-        # Only accept articleshow links (actual articles, not index/category pages)
         links = re.findall(r'"(https://economictimes[^"]+articleshow/\d+[^"]*)"', search_html)
         for link in links:
-            link_lower = link.lower()
-            # Must reference this lottery name or draw code — skip generic index pages
-            if et_name not in link_lower and draw_code.lower() not in link_lower:
-                print(f"  ET: skipping unrelated link: {link[:80]}")
+            ll = link.lower()
+            if et_name not in ll and draw_code.lower() not in ll:
+                print(f"  ET: skipping unrelated: {link[:80]}")
                 continue
             print(f"  ET search hit: {link[:80]}")
             h = fetch(link)
             if is_fresh_result_page(h, draw_code):
                 return h
-            else:
-                print(f"  ET: articleshow page failed freshness check")
-    # Try direct URL with draw code in path (more specific, less likely to be stale)
-    base = f"https://economictimes.indiatimes.com/news/new-updates/kerala-lottery-{et_name}-{draw_code.lower()}-result-out-today-{date_str}-rs-1-crore-prize-winning-number-and-full-list-here"
-    h = fetch(base)
-    if is_fresh_result_page(h, draw_code):
-        return h
-    # Try alternate URL pattern without date (some articles use shorter slugs)
-    alt = f"https://economictimes.indiatimes.com/news/new-updates/kerala-lottery-result-today-{date_str}-{et_name}-{draw_code.lower()}-winning-numbers"
-    h = fetch(alt)
-    if is_fresh_result_page(h, draw_code):
-        return h
-    print(f"  ET: not found or stale")
+            print(f"  ET: article failed freshness check")
+
+    # 2. Google search — finds the real article ET search misses for fresh publishes
+    print(f"  ET: trying Google to find article...")
+    for link in google_search_et_url(lottery['name'], draw_code, date_str):
+        ll = link.lower()
+        if et_name not in ll and draw_code.lower() not in ll:
+            continue
+        print(f"  Google→ET: {link[:80]}")
+        h = fetch(link)
+        if is_fresh_result_page(h, draw_code):
+            return h
+        print(f"  Google→ET: failed freshness check")
+
+    # NOTE: No guessed direct URLs — ET always redirects unknown slugs to the generic
+    # category index page (kerala-lottery-result-toda...) which has BT-XX in old snippets
+    # and falsely passes naive freshness checks.
+    print(f"  ET: not found")
     return ""
 
 # ── Source 2: Goodreturns ─────────────────────────────────
@@ -133,7 +175,11 @@ def try_lotteryresultsnow(lottery_slug, draw_code, date):
     date_str = date.strftime('%d-%m-%Y')
     url = f"https://lotteryresultsnow.com/{name}-{draw_code.lower()}-lottery-result-{date_str}/"
     print(f"  lotteryresultsnow: {url}")
-    return fetch(url)
+    h = fetch(url)
+    if is_fresh_result_page(h, draw_code):
+        return h
+    print(f"  lotteryresultsnow: stale or not found")
+    return ""
 
 # ── Prize parser ──────────────────────────────────────────
 def parse_prizes(html):
@@ -165,9 +211,6 @@ def parse_prizes(html):
     r3 = find_ticket([r'3rd Prize[^:]*:', r'Third Prize[^:]*:'])
     if r3: prizes['3rd'] = r3; print(f"  3rd: {r3[0][:30]}")
 
-    # Consolation: the 1st-prize 6-digit number across the OTHER series of this draw.
-    # The series are listed in the Consolation section, so read THAT section only —
-    # searching the whole page grabs stray letters or misses non-adjacent layouts.
     if '1st' in prizes:
         try:
             obj = json.loads(prizes['1st'][0])
@@ -187,7 +230,6 @@ def parse_prizes(html):
                     cons_section = chunk
                     break
             series = []
-            # Validation: the consolation number must match the 1st-prize number
             if cons_section and first_6 in cons_section:
                 for s in re.findall(r'\b([A-Z]{2})\b', cons_section):
                     if s != first_s and s != 'RS' and s not in series:
@@ -196,10 +238,8 @@ def parse_prizes(html):
                 prizes['consolation'] = [f'{s} {first_6}' for s in series]
                 print(f"  Consolation: {len(series)} series from section")
             else:
-                # Don't guess series from an alphabet — wrong series is worse than none.
                 print("  Consolation: could not parse series reliably — leaving empty")
 
-    # 4th–9th prizes — each tier stops only at LATER tiers
     tier_stops = {
         '4th': ['5th Prize','Fifth Prize'],
         '5th': ['6th Prize','Sixth Prize'],
@@ -240,17 +280,17 @@ def build_full_results(prizes):
 def main():
     ist = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
     now = datetime.datetime.now(ist)
-    print(f"Scraper v6: {now.strftime('%H:%M IST, %d %b %Y')}")
+    print(f"Scraper v7: {now.strftime('%H:%M IST, %d %b %Y')}")
 
     lottery, draw_code, _ = get_today_lottery()
     print(f"Lottery: {lottery['name']} | Draw: {draw_code}")
 
     html, source = "", ""
     for name, fn in [
-        ("ET",              lambda: try_economic_times(lottery, draw_code, now)),
-        ("Goodreturns",     lambda: try_goodreturns(lottery['slug'], draw_code)),
-        ("keralalotteries", lambda: try_keralalotteries(lottery['slug'], draw_code, now)),
-        ("lotteryresultsnow", lambda: try_lotteryresultsnow(lottery['slug'], draw_code, now)),
+        ("ET",               lambda: try_economic_times(lottery, draw_code, now)),
+        ("Goodreturns",      lambda: try_goodreturns(lottery['slug'], draw_code)),
+        ("keralalotteries",  lambda: try_keralalotteries(lottery['slug'], draw_code, now)),
+        ("lotteryresultsnow",lambda: try_lotteryresultsnow(lottery['slug'], draw_code, now)),
     ]:
         h = fn()
         if h and len(h) > 2000:
