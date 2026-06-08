@@ -237,9 +237,21 @@ def merge_prize_numbers(old_prizes, new_prizes):
             p["numbers"] = old_by_tier[p["tier"]]
     return new_prizes
 
-def upsert(results, new):
+def is_manual_verified_result(result):
+    return (
+        result.get("status") == "verified"
+        and result.get("sourceName") == "Manual admin update"
+    )
+
+def upsert(results, new, *, protect_manual=False):
     for i,r in enumerate(results):
         if r["lotterySlug"]==new["lotterySlug"] and r["drawCode"]==new["drawCode"]:
+            # Manual admin updates are the source of truth. ET/scheduled runs are allowed
+            # to add missing draws, but must never overwrite a verified manual correction
+            # later in the evening when GitHub cron jobs are delayed.
+            if protect_manual and is_manual_verified_result(r):
+                print(f"⏭️  Skipped: {new['drawCode']} is already verified by manual admin update — auto scraper will not overwrite it.")
+                return results
             # Never overwrite a verified result with a pending/live one (e.g. from scheduled run)
             if r.get("status") == "verified" and new.get("status") in ("pending", "live"):
                 print(f"⏭️  Skipped: {new['drawCode']} is already verified — will not overwrite with '{new['status']}'.")
@@ -256,16 +268,17 @@ def main():
     manual_draw  = os.environ.get("DRAW_CODE",     sys.argv[2] if len(sys.argv)>2 else "")
     manual_prize = os.environ.get("FIRST_PRIZE",   sys.argv[3] if len(sys.argv)>3 else "")
     full_results = os.environ.get("FULL_RESULTS",  sys.argv[4] if len(sys.argv)>4 else "")
+    is_et_mode    = os.environ.get("ET_MODE") == "true"
     is_scheduled = (
-    os.environ.get("GITHUB_EVENT_NAME")=="schedule"
-    and not os.environ.get("ET_MODE")  # ET workflow sets ET_MODE=true so we use env vars even on schedule
-)
+        os.environ.get("GITHUB_EVENT_NAME")=="schedule"
+        and not is_et_mode  # ET workflow sets ET_MODE=true so we use env vars even on schedule
+    )
     now          = datetime.now(timezone.utc)
 
     if manual_lot and not is_scheduled:
         lottery = next((l for l in lotteries if l["slug"]==manual_lot),None)
         if not lottery: raise SystemExit(f"❌ Unknown slug: '{manual_lot}'")
-        print(f"🚀 Manual: {lottery['name']}")
+        print(f"{'🤖 ET auto' if is_et_mode else '🚀 Manual'}: {lottery['name']}")
         draw_code   = (manual_draw or f"{lottery['code']}-XXX").strip()  # strip accidental spaces
         first_prize = manual_prize or "PENDING"
     else:
@@ -290,14 +303,14 @@ def main():
         "drawDate":    now.strftime("%Y-%m-%d"),
         "displayDate": now.strftime("%B %d, %Y"),
         "status":      status,
-        "sourceName":  "Manual admin update" if manual_prize else "Awaiting official publication",
+        "sourceName":  "ET auto scraper" if is_et_mode else ("Manual admin update" if manual_prize else "Awaiting official publication"),
         "sourceUrl":   "https://statelottery.kerala.gov.in/",
         "lastUpdated": now.isoformat().replace("+00:00","Z"),
         "summary":     f"Result for {lottery['name']} {draw_code}. {filled}/{len(prizes)} tiers updated.",
         "prizes":      prizes,
     }
 
-    save_json(RESULTS_PATH, upsert(results, result))
+    save_json(RESULTS_PATH, upsert(results, result, protect_manual=is_et_mode or is_scheduled))
     print(f"\n🎉 {lottery['name']} {draw_code} | Prize: {first_prize} | Tiers: {filled}/9")
 
 if __name__=="__main__":

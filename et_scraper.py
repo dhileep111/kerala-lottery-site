@@ -71,7 +71,8 @@ def is_fresh_result_page(html, draw_code):
     """
     Check on PLAIN TEXT (not raw HTML) so tag/script bloat doesn't inflate distances.
     Real result page: draw code and '1st prize' are within ~2000 plain-text chars.
-    Generic index page: they may both exist but are thousands of plain-text chars apart.
+    Generic index/guessing pages may contain the draw code and prize words, but should not
+    be trusted as final result sources.
     """
     if not html or len(html) < 3000:
         return False
@@ -82,6 +83,15 @@ def is_fresh_result_page(html, draw_code):
 
     if dc not in lower:
         print(f"  ⚠ '{draw_code}' not in page text — stale, skipping")
+        return False
+
+    early_text = lower[:2500]
+    bad_article_markers = (
+        'guessing', 'prediction', 'predict', 'lucky number', 'lucky numbers',
+        'probable', 'expected result', 'winning chance'
+    )
+    if any(marker in early_text for marker in bad_article_markers):
+        print("  ⚠ Guessing/prediction article — not an official result page, skipping")
         return False
 
     has_1st  = '1st prize' in lower
@@ -119,6 +129,12 @@ def google_search_et_url(lottery_name, draw_code, date_str):
             seen.append(l)
     return seen
 
+def is_result_article_url(url):
+    """Reject ET articles that are about guesses/predictions instead of published results."""
+    u = urllib.parse.unquote(url).lower()
+    blocked = ('guess', 'prediction', 'predict', 'lucky-number', 'lucky-numbers')
+    return not any(word in u for word in blocked)
+
 def try_economic_times(lottery, draw_code, date):
     et_name  = ET_NAMES.get(lottery['slug'], lottery['slug'])
     date_str = date.strftime('%d-%m-%Y')
@@ -134,6 +150,9 @@ def try_economic_times(lottery, draw_code, date):
             if et_name not in ll and draw_code.lower() not in ll:
                 print(f"  ET: skipping unrelated: {link[:80]}")
                 continue
+            if not is_result_article_url(link):
+                print(f"  ET: skipping guessing/prediction article: {link[:80]}")
+                continue
             if link in seen:
                 continue
             seen.append(link)
@@ -147,6 +166,9 @@ def try_economic_times(lottery, draw_code, date):
     print(f"  ET: trying Google to find article...")
     for link in google_search_et_url(lottery['name'], draw_code, date_str):
         if et_name not in link.lower() and draw_code.lower() not in link.lower():
+            continue
+        if not is_result_article_url(link):
+            print(f"  Google→ET: skipping guessing/prediction article: {link[:80]}")
             continue
         print(f"  Google→ET: {link[:80]}")
         h = fetch(link)
