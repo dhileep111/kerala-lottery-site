@@ -53,6 +53,21 @@ def get_today_lottery():
     return lottery, f"{lottery['code']}-{next_n}", now
 
 # ── Source 1: Economic Times ──────────────────────────────
+def is_fresh_result_page(html, draw_code):
+    """Validate that the HTML actually contains today's result, not a generic/stale page."""
+    if not html or len(html) < 3000:
+        return False
+    lower = html.lower()
+    # Must mention the draw code (e.g. BT-57) — case-insensitive
+    if draw_code.lower() not in lower:
+        print(f"  ⚠ Page does not mention draw code {draw_code} — likely stale, skipping")
+        return False
+    # Must have 1st prize context
+    if '1st prize' not in lower and 'first prize' not in lower:
+        print(f"  ⚠ No '1st prize' text found — skipping")
+        return False
+    return True
+
 def try_economic_times(lottery, draw_code, date):
     et_name  = ET_NAMES.get(lottery['slug'], lottery['slug'])
     date_str = date.strftime('%d-%m-%Y')
@@ -60,26 +75,42 @@ def try_economic_times(lottery, draw_code, date):
     query = urllib.parse.quote(f'kerala lottery {lottery["name"]} {draw_code} result today')
     search_html = fetch(f"https://economictimes.indiatimes.com/searchresult.cms?query={query}")
     if search_html:
+        # Only accept articleshow links (actual articles, not index/category pages)
         links = re.findall(r'"(https://economictimes[^"]+articleshow/\d+[^"]*)"', search_html)
         for link in links:
-            if et_name in link.lower() or draw_code.lower() in link.lower():
-                print(f"  ET search hit: {link[:80]}")
-                h = fetch(link)
-                if h and len(h) > 3000:
-                    return h
-    # Try base URL without articleshow ID
+            link_lower = link.lower()
+            # Must reference this lottery name or draw code — skip generic index pages
+            if et_name not in link_lower and draw_code.lower() not in link_lower:
+                print(f"  ET: skipping unrelated link: {link[:80]}")
+                continue
+            print(f"  ET search hit: {link[:80]}")
+            h = fetch(link)
+            if is_fresh_result_page(h, draw_code):
+                return h
+            else:
+                print(f"  ET: articleshow page failed freshness check")
+    # Try direct URL with draw code in path (more specific, less likely to be stale)
     base = f"https://economictimes.indiatimes.com/news/new-updates/kerala-lottery-{et_name}-{draw_code.lower()}-result-out-today-{date_str}-rs-1-crore-prize-winning-number-and-full-list-here"
     h = fetch(base)
-    if h and len(h) > 3000 and 'prize' in h.lower():
+    if is_fresh_result_page(h, draw_code):
         return h
-    print(f"  ET: not found")
+    # Try alternate URL pattern without date (some articles use shorter slugs)
+    alt = f"https://economictimes.indiatimes.com/news/new-updates/kerala-lottery-result-today-{date_str}-{et_name}-{draw_code.lower()}-winning-numbers"
+    h = fetch(alt)
+    if is_fresh_result_page(h, draw_code):
+        return h
+    print(f"  ET: not found or stale")
     return ""
 
 # ── Source 2: Goodreturns ─────────────────────────────────
-def try_goodreturns(lottery_slug):
+def try_goodreturns(lottery_slug, draw_code):
     url = f"https://www.goodreturns.in/kerala-lottery-results-{lottery_slug}.html"
     print(f"  Goodreturns: {url}")
-    return fetch(url)
+    h = fetch(url)
+    if is_fresh_result_page(h, draw_code):
+        return h
+    print(f"  Goodreturns: stale or missing draw code")
+    return ""
 
 # ── Source 3: keralalotteries.net ────────────────────────
 def try_keralalotteries(lottery_slug, draw_code, date):
@@ -87,7 +118,11 @@ def try_keralalotteries(lottery_slug, draw_code, date):
     month    = date.strftime('%Y/%m')
     url = f"https://www.keralalotteries.net/{month}/{lottery_slug}-kerala-lottery-result-{draw_code.lower()}-today-{date_str}.html"
     print(f"  keralalotteries.net: {url}")
-    return fetch(url)
+    h = fetch(url)
+    if is_fresh_result_page(h, draw_code):
+        return h
+    print(f"  keralalotteries.net: stale or not found")
+    return ""
 
 # ── Source 4: lotteryresultsnow.com ──────────────────────
 def try_lotteryresultsnow(lottery_slug, draw_code, date):
@@ -213,7 +248,7 @@ def main():
     html, source = "", ""
     for name, fn in [
         ("ET",              lambda: try_economic_times(lottery, draw_code, now)),
-        ("Goodreturns",     lambda: try_goodreturns(lottery['slug'])),
+        ("Goodreturns",     lambda: try_goodreturns(lottery['slug'], draw_code)),
         ("keralalotteries", lambda: try_keralalotteries(lottery['slug'], draw_code, now)),
         ("lotteryresultsnow", lambda: try_lotteryresultsnow(lottery['slug'], draw_code, now)),
     ]:
