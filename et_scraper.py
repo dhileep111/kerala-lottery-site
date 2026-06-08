@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """
-et_scraper.py v7 - Kerala Lottery Auto-Scraper
-Runs at 3:50 PM and 4:50 PM IST via GitHub Actions cron.
+et_scraper.py v8 - Kerala Lottery Auto-Scraper
 Sources: ET (via search + Google) → Goodreturns → keralalotteries.net → lotteryresultsnow.com
 
-v7 fix: removed ET direct URL guesses (they always redirect to the generic index page).
-        Added Google search to find the real ET articleshow URL.
-        Tightened is_fresh_result_page: draw code must be within 5000 chars of a prize mention.
+v8 fix: freshness check now works on stripped plain text (not raw HTML).
+        Raw HTML has huge gaps between draw code in <title> and prize table deep in page.
+        Plain text collapses this — real result pages have them within ~2000 chars of each other.
 """
 import re, os, sys, json, datetime, urllib.request, urllib.parse
 
@@ -32,6 +31,16 @@ def fetch(url, timeout=20, extra_headers=None):
     except Exception as e:
         print(f"  Fetch failed: {e}")
         return ""
+
+def html_to_text(html):
+    """Strip HTML tags and collapse whitespace to plain text for proximity checks."""
+    text = re.sub(r'<script[^>]*>.*?</script>', ' ', html, flags=re.DOTALL)
+    text = re.sub(r'<style[^>]*>.*?</style>',   ' ', text, flags=re.DOTALL)
+    text = re.sub(r'<[^>]+>', ' ', text)
+    text = re.sub(r'&nbsp;|&#160;', ' ', text)
+    text = re.sub(r'&amp;', '&', text)
+    text = re.sub(r'\s+', ' ', text).strip()
+    return text
 
 def get_today_lottery():
     DATA = 'artifacts/kerala-lottery/src/data'
@@ -60,41 +69,45 @@ def get_today_lottery():
 # ── Freshness validator ───────────────────────────────────
 def is_fresh_result_page(html, draw_code):
     """
-    Validate that the HTML actually contains today's result, not a generic/stale page.
-    Key fix: draw code must appear CLOSE to a prize mention (within 5000 chars).
-    ET's index page has BT-57 buried in old article snippets far from any prize table.
+    Check on PLAIN TEXT (not raw HTML) so tag/script bloat doesn't inflate distances.
+    Real result page: draw code and '1st prize' are within ~2000 plain-text chars.
+    Generic index page: they may both exist but are thousands of plain-text chars apart.
     """
     if not html or len(html) < 3000:
         return False
-    lower = html.lower()
-    dc = draw_code.lower()  # e.g. "bt-57"
+
+    text  = html_to_text(html)
+    lower = text.lower()
+    dc    = draw_code.lower()
 
     if dc not in lower:
-        print(f"  ⚠ Draw code {draw_code} not found — stale page, skipping")
+        print(f"  ⚠ '{draw_code}' not in page text — stale, skipping")
         return False
 
     has_1st  = '1st prize' in lower
     has_frst = 'first prize' in lower
     if not has_1st and not has_frst:
-        print(f"  ⚠ No prize text found — skipping")
+        print(f"  ⚠ No prize text in page — skipping")
         return False
 
-    # Draw code must appear within 5000 chars of a prize mention
     idx_dc    = lower.find(dc)
     idx_prize = lower.find('1st prize') if has_1st else lower.find('first prize')
-    if abs(idx_dc - idx_prize) > 5000:
-        print(f"  ⚠ Draw code and prize are {abs(idx_dc - idx_prize)} chars apart — index page, skipping")
+    dist = abs(idx_dc - idx_prize)
+
+    # In plain text a real result page has them within ~2000 chars
+    if dist > 3000:
+        print(f"  ⚠ '{draw_code}' and prize are {dist} plain-text chars apart — index page, skipping")
         return False
 
+    print(f"  ✓ Freshness OK — '{draw_code}' and prize are {dist} plain-text chars apart")
     return True
 
 # ── Source 1: Economic Times ──────────────────────────────
 def google_search_et_url(lottery_name, draw_code, date_str):
     """Use Google to find the real ET articleshow URL for today's result."""
     query = urllib.parse.quote(f'site:economictimes.indiatimes.com {lottery_name} {draw_code} result {date_str}')
-    url = f"https://www.google.com/search?q={query}&num=5"
-    # Use Googlebot UA to reduce chance of block
-    html = fetch(url, extra_headers={
+    url   = f"https://www.google.com/search?q={query}&num=5"
+    html  = fetch(url, extra_headers={
         'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
     })
     if not html:
@@ -110,27 +123,30 @@ def try_economic_times(lottery, draw_code, date):
     et_name  = ET_NAMES.get(lottery['slug'], lottery['slug'])
     date_str = date.strftime('%d-%m-%Y')
 
-    # 1. ET's own search — only accept articleshow links mentioning this lottery/draw
+    # 1. ET's own search — only follow articleshow links for this lottery/draw
     query = urllib.parse.quote(f'kerala lottery {lottery["name"]} {draw_code} result today')
     search_html = fetch(f"https://economictimes.indiatimes.com/searchresult.cms?query={query}")
     if search_html:
         links = re.findall(r'"(https://economictimes[^"]+articleshow/\d+[^"]*)"', search_html)
+        seen  = []
         for link in links:
             ll = link.lower()
             if et_name not in ll and draw_code.lower() not in ll:
                 print(f"  ET: skipping unrelated: {link[:80]}")
                 continue
+            if link in seen:
+                continue
+            seen.append(link)
             print(f"  ET search hit: {link[:80]}")
             h = fetch(link)
             if is_fresh_result_page(h, draw_code):
                 return h
             print(f"  ET: article failed freshness check")
 
-    # 2. Google search — finds the real article ET search misses for fresh publishes
+    # 2. Google search for real article (ET search misses fresh publishes)
     print(f"  ET: trying Google to find article...")
     for link in google_search_et_url(lottery['name'], draw_code, date_str):
-        ll = link.lower()
-        if et_name not in ll and draw_code.lower() not in ll:
+        if et_name not in link.lower() and draw_code.lower() not in link.lower():
             continue
         print(f"  Google→ET: {link[:80]}")
         h = fetch(link)
@@ -138,9 +154,6 @@ def try_economic_times(lottery, draw_code, date):
             return h
         print(f"  Google→ET: failed freshness check")
 
-    # NOTE: No guessed direct URLs — ET always redirects unknown slugs to the generic
-    # category index page (kerala-lottery-result-toda...) which has BT-XX in old snippets
-    # and falsely passes naive freshness checks.
     print(f"  ET: not found")
     return ""
 
@@ -171,7 +184,7 @@ def try_lotteryresultsnow(lottery_slug, draw_code, date):
     names = {'karunya':'karunya','karunya-plus':'karunya-plus','sthree-sakthi':'sthree-sakthi',
              'dhanalekshmi':'dhanalekshmi','suvarna-keralam':'suvarna-keralam',
              'bhagyathara':'bhagyathara','samrudhi':'samrudhi'}
-    name = names.get(lottery_slug, lottery_slug)
+    name     = names.get(lottery_slug, lottery_slug)
     date_str = date.strftime('%d-%m-%Y')
     url = f"https://lotteryresultsnow.com/{name}-{draw_code.lower()}-lottery-result-{date_str}/"
     print(f"  lotteryresultsnow: {url}")
@@ -183,12 +196,7 @@ def try_lotteryresultsnow(lottery_slug, draw_code, date):
 
 # ── Prize parser ──────────────────────────────────────────
 def parse_prizes(html):
-    text = re.sub(r'<script[^>]*>.*?</script>', ' ', html, flags=re.DOTALL)
-    text = re.sub(r'<style[^>]*>.*?</style>',  ' ', text, flags=re.DOTALL)
-    text = re.sub(r'<[^>]+>', ' ', text)
-    text = re.sub(r'&nbsp;|&#160;', ' ', text)
-    text = re.sub(r'&amp;', '&', text)
-    text = re.sub(r'\s+', ' ', text).strip()
+    text = html_to_text(html)
 
     prizes = {}
     NOISE  = {'2026','2025','2024','2023','1000','2000','3000','4000','5000','0000','9999'}
@@ -280,7 +288,7 @@ def build_full_results(prizes):
 def main():
     ist = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
     now = datetime.datetime.now(ist)
-    print(f"Scraper v7: {now.strftime('%H:%M IST, %d %b %Y')}")
+    print(f"Scraper v8: {now.strftime('%H:%M IST, %d %b %Y')}")
 
     lottery, draw_code, _ = get_today_lottery()
     print(f"Lottery: {lottery['name']} | Draw: {draw_code}")
