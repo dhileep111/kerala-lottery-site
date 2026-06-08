@@ -5,9 +5,9 @@ Sources: ET (via search + Google) → Goodreturns → keralalotteries.net → lo
 
 v8 fix: freshness check now works on stripped plain text (not raw HTML).
         Raw HTML has huge gaps between draw code in <title> and prize table deep in page.
-        Plain text collapses this — real result pages have them within ~2000 chars of each other.
+        Plain text collapses this and lets the freshness check compare meaningful positions.
 """
-import re, os, sys, json, datetime, urllib.request, urllib.parse
+import re, os, sys, json, datetime, html as html_lib, urllib.request, urllib.parse
 
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36',
@@ -36,9 +36,10 @@ def html_to_text(html):
     """Strip HTML tags and collapse whitespace to plain text for proximity checks."""
     text = re.sub(r'<script[^>]*>.*?</script>', ' ', html, flags=re.DOTALL)
     text = re.sub(r'<style[^>]*>.*?</style>',   ' ', text, flags=re.DOTALL)
+    text = re.sub(r'<br\s*/?>', ' ', text, flags=re.IGNORECASE)
+    text = re.sub(r'</(?:p|div|li|h[1-6]|tr|td|th)>', ' ', text, flags=re.IGNORECASE)
     text = re.sub(r'<[^>]+>', ' ', text)
-    text = re.sub(r'&nbsp;|&#160;', ' ', text)
-    text = re.sub(r'&amp;', '&', text)
+    text = html_lib.unescape(text)
     text = re.sub(r'\s+', ' ', text).strip()
     return text
 
@@ -70,7 +71,7 @@ def get_today_lottery():
 def is_fresh_result_page(html, draw_code):
     """
     Check on PLAIN TEXT (not raw HTML) so tag/script bloat doesn't inflate distances.
-    Real result page: draw code and '1st prize' are within ~2000 plain-text chars.
+    Real result pages keep the draw code and '1st prize' reasonably close in plain text.
     Generic index/guessing pages may contain the draw code and prize words, but should not
     be trusted as final result sources.
     """
@@ -100,12 +101,22 @@ def is_fresh_result_page(html, draw_code):
         print(f"  ⚠ No prize text in page — skipping")
         return False
 
-    idx_dc    = lower.find(dc)
-    idx_prize = lower.find('1st prize') if has_1st else lower.find('first prize')
-    dist = abs(idx_dc - idx_prize)
+    dc_positions = [m.start() for m in re.finditer(re.escape(dc), lower)]
+    prize_positions = [m.start() for m in re.finditer(r'\b(?:1st|first)\s+prize\b', lower)]
+    dist = min(abs(d - p) for d in dc_positions for p in prize_positions)
 
-    # In plain text a real result page has them within ~2000 chars
-    if dist > 3000:
+    result_markers = (
+        'winning numbers today', 'winner takes home', 'secured the first prize',
+        'ticket number', 'date of draw', 'today lottery series', 'check winning list',
+        'winners numbers'
+    )
+    has_result_marker = any(marker in lower for marker in result_markers)
+    max_dist = 6000 if has_result_marker else 3000
+
+    # In plain text a real result page keeps the draw code and prize table close.
+    # ET pages sometimes include a large nav/synopsis block before the prize table,
+    # so allow a wider window only when result-specific article markers are present.
+    if dist > max_dist:
         print(f"  ⚠ '{draw_code}' and prize are {dist} plain-text chars apart — index page, skipping")
         return False
 
@@ -138,6 +149,22 @@ def is_result_article_url(url):
 def try_economic_times(lottery, draw_code, date):
     et_name  = ET_NAMES.get(lottery['slug'], lottery['slug'])
     date_str = date.strftime('%d-%m-%Y')
+
+    # 0. Optional exact ET URL for manual reruns/debugging when search pages lag.
+    for env_name in ('ET_ARTICLE_URL', 'RESULT_ARTICLE_URL', 'SOURCE_URL'):
+        direct_url = os.environ.get(env_name, '').strip()
+        if not direct_url:
+            continue
+        if 'economictimes.indiatimes.com' not in direct_url.lower():
+            continue
+        if not is_result_article_url(direct_url):
+            print(f"  ET: skipping {env_name} guessing/prediction article: {direct_url[:80]}")
+            continue
+        print(f"  ET direct ({env_name}): {direct_url[:80]}")
+        h = fetch(direct_url)
+        if is_fresh_result_page(h, draw_code):
+            return h
+        print(f"  ET direct ({env_name}): failed freshness check")
 
     # 1. ET's own search — only follow articleshow links for this lottery/draw
     query = urllib.parse.quote(f'kerala lottery {lottery["name"]} {draw_code} result today')
@@ -223,22 +250,49 @@ def parse_prizes(html):
     prizes = {}
     NOISE  = {'2026','2025','2024','2023','1000','2000','3000','4000','5000','0000','9999'}
 
-    def find_ticket(patterns):
-        for pat in patterns:
-            m = re.search(pat + r'[^A-Z0-9]{0,20}([A-Z]{2})\s+(\d{6})(?:\s+\(([^)]+)\))?', text, re.IGNORECASE)
-            if m:
-                t, n = m.group(1).upper(), m.group(2)
-                dist = m.group(3).strip().title() if m.group(3) else None
-                return [json.dumps({'ticket':f'{t} {n}','district':dist}) if dist else f'{t} {n}']
+    def section_after(labels, window=2500):
+        """Return text from the first matching label up to the next major prize label."""
+        label_pat = '|'.join(re.escape(label) for label in labels)
+        m = re.search(label_pat, text, re.IGNORECASE)
+        if not m:
+            return ''
+        chunk = text[m.start():m.start() + window]
+        stop = re.search(
+            r'\b(?:Consolation|1st|First|2nd|Second|3rd|Third|4th|Fourth|5th|Fifth|6th|Sixth|7th|Seventh|8th|Eighth|9th|Ninth)\s+Prize\b',
+            chunk[25:],
+            re.IGNORECASE,
+        )
+        if stop:
+            chunk = chunk[:25 + stop.start()]
+        return chunk
+
+    def find_ticket(labels):
+        chunk = section_after(labels, window=900)
+        if not chunk:
+            return None
+        m = re.search(r'\b([A-Z]{2})\s+(\d{6})(?:\s+\(([^)]+)\))?', chunk, re.IGNORECASE)
+        if m:
+            t, n = m.group(1).upper(), m.group(2)
+            dist = m.group(3).strip().title() if m.group(3) else None
+            return [json.dumps({'ticket':f'{t} {n}','district':dist}) if dist else f'{t} {n}']
         return None
 
-    r1 = find_ticket([r'1st Prize[^:]*:', r'First Prize[^:]*:'])
+    def extract_series():
+        # Prefer the page's explicit "Today Lottery Series" list when available.
+        m = re.search(r'Today\s+Lottery\s+Series\s*:?\s*((?:[A-Z]{2}\s*,?\s*){3,})', text, re.IGNORECASE)
+        if m:
+            return list(dict.fromkeys(s.upper() for s in re.findall(r'\b[A-Z]{2}\b', m.group(1))))
+        # Weekly Kerala lottery pages commonly use these 12 series; this is only a
+        # fallback for pages saying "all remaining series" without listing them nearby.
+        return ['BA','BB','BC','BD','BE','BF','BG','BH','BJ','BK','BL','BM']
+
+    r1 = find_ticket(['1st Prize', 'First Prize'])
     if r1: prizes['1st'] = r1; print(f"  1st: {r1[0][:30]}")
 
-    r2 = find_ticket([r'2nd Prize[^:]*:', r'Second Prize[^:]*:'])
+    r2 = find_ticket(['2nd Prize', 'Second Prize'])
     if r2: prizes['2nd'] = r2; print(f"  2nd: {r2[0][:30]}")
 
-    r3 = find_ticket([r'3rd Prize[^:]*:', r'Third Prize[^:]*:'])
+    r3 = find_ticket(['3rd Prize', 'Third Prize'])
     if r3: prizes['3rd'] = r3; print(f"  3rd: {r3[0][:30]}")
 
     if '1st' in prizes:
@@ -249,21 +303,23 @@ def parse_prizes(html):
             parts = prizes['1st'][0].split()
             first_6, first_s = (parts[1], parts[0]) if len(parts) > 1 else ('', '')
         if first_6:
-            cons_section = ''
-            for lbl in ['Consolation Prize', 'Cons Prize', 'Consolation']:
-                idx = text.find(lbl)
-                if idx != -1:
-                    chunk = text[idx: idx + 1500]
-                    for stop in ['2nd Prize', 'Second Prize', '3rd Prize']:
-                        si = chunk.find(stop, len(lbl))
-                        if si > 0: chunk = chunk[:si]
-                    cons_section = chunk
-                    break
             series = []
-            if cons_section and first_6 in cons_section:
-                for s in re.findall(r'\b([A-Z]{2})\b', cons_section):
-                    if s != first_s and s != 'RS' and s not in series:
+            for m in re.finditer(r'Consolation\s+Prize|Cons\s+Prize|Consolation', text, re.IGNORECASE):
+                chunk = text[m.start(): m.start() + 2200]
+                for stop in ['2nd Prize', 'Second Prize', '3rd Prize', 'Third Prize', '4th Prize', 'Fourth Prize', 'How to Check']:
+                    si = chunk.lower().find(stop.lower(), 20)
+                    if si > 0:
+                        chunk = chunk[:si]
+                for s in re.findall(rf'\b([A-Z]{{2}})\s+{re.escape(first_6)}\b', chunk, re.IGNORECASE):
+                    s = s.upper()
+                    if s != first_s and s not in series:
                         series.append(s)
+                if series:
+                    break
+
+            if not series and re.search(r'all\s+remaining\s+series[^.]{0,120}' + re.escape(first_6), text, re.IGNORECASE):
+                series = [s for s in extract_series() if s != first_s]
+
             if series:
                 prizes['consolation'] = [f'{s} {first_6}' for s in series]
                 print(f"  Consolation: {len(series)} series from section")
