@@ -2,14 +2,10 @@ name: 🤖 Auto-fetch Result from ET
 
 on:
   schedule:
-    # 3:50 PM IST = 10:20 UTC — ET publishes 1st/2nd/3rd within 40 min of draw
-    - cron: '20 10 * * *'
-    # 4:50 PM IST = 11:20 UTC — full result with all prize tiers after PDF
-    - cron: '20 11 * * *'
-    # 6:30 PM IST = 13:00 UTC — lower tiers (8th/9th) often land only after the PDF settles
-    - cron: '0 13 * * *'
-    # 7:30 PM IST = 14:00 UTC — final sweep to fill any still-missing tiers
-    - cron: '0 14 * * *'
+    - cron: '20 10 * * *'   # 3:50 PM IST — 1st/2nd/3rd prizes
+    - cron: '20 11 * * *'   # 4:50 PM IST — full result after PDF
+    - cron: '0 13 * * *'    # 6:30 PM IST — 8th/9th tier sweep
+    - cron: '0 14 * * *'    # 7:30 PM IST — final sweep
   workflow_dispatch:
     inputs:
       force_date:
@@ -44,26 +40,27 @@ jobs:
         id: scraper
         run: |
           python et_scraper.py
-          # Read scraper output
           if [ -f /tmp/et_first_prize.txt ] && [ -s /tmp/et_first_prize.txt ]; then
             echo "first_prize=$(cat /tmp/et_first_prize.txt)" >> $GITHUB_OUTPUT
             echo "full_results=$(cat /tmp/et_full_results.txt)" >> $GITHUB_OUTPUT
             echo "slug=$(cat /tmp/et_slug.txt)" >> $GITHUB_OUTPUT
             echo "draw_code=$(cat /tmp/et_draw_code.txt)" >> $GITHUB_OUTPUT
             echo "found=true" >> $GITHUB_OUTPUT
-            echo "✅ Scraper found result: $(cat /tmp/et_first_prize.txt)"
+            echo "✅ Scraper found: $(cat /tmp/et_first_prize.txt)"
           else
             echo "found=false" >> $GITHUB_OUTPUT
-            echo "⚠️ Scraper found no result — skipping deploy"
+            echo "⚠️ No result found — skipping deploy"
           fi
 
       - name: Update results.json
         if: steps.scraper.outputs.found == 'true'
         env:
-          LOTTERY_PAGE:  ${{ steps.scraper.outputs.slug }}
-          DRAW_CODE:     ${{ steps.scraper.outputs.draw_code }}
-          FIRST_PRIZE:   ${{ steps.scraper.outputs.first_prize }}
-          FULL_RESULTS:  ${{ steps.scraper.outputs.full_results }}
+          # ET_MODE=true tells update_results.py to use env vars even on scheduled run
+          ET_MODE: "true"
+          LOTTERY_PAGE: ${{ steps.scraper.outputs.slug }}
+          DRAW_CODE:    ${{ steps.scraper.outputs.draw_code }}
+          FIRST_PRIZE:  ${{ steps.scraper.outputs.first_prize }}
+          FULL_RESULTS: ${{ steps.scraper.outputs.full_results }}
         run: python update_results.py
 
       - name: Commit data changes
@@ -122,22 +119,21 @@ jobs:
         env:
           MAKE_WEBHOOK: ${{ secrets.MAKE_WEBHOOK_URL }}
           LOTTERY_NAME: ${{ steps.scraper.outputs.slug }}
-          DRAW_CODE: ${{ steps.scraper.outputs.draw_code }}
-          FIRST_PRIZE: ${{ steps.scraper.outputs.first_prize }}
-          RESULT_URL: https://keralaticketresults.in/results/${{ steps.scraper.outputs.slug }}
-          HAS_FULL: ${{ steps.scraper.outputs.full_results != '' }}
+          DRAW_CODE:    ${{ steps.scraper.outputs.draw_code }}
+          FIRST_PRIZE:  ${{ steps.scraper.outputs.first_prize }}
+          RESULT_URL:   https://keralaticketresults.in/results/${{ steps.scraper.outputs.slug }}
+          HAS_FULL:     ${{ steps.scraper.outputs.full_results != '' }}
         run: |
           python3 - << 'PYEOF'
           import os, json, urllib.request
           webhook = os.environ.get('MAKE_WEBHOOK','')
-          if not webhook:
-              exit(0)
+          if not webhook: exit(0)
           lottery   = os.environ.get('LOTTERY_NAME','')
           draw_code = os.environ.get('DRAW_CODE','')
           prize     = os.environ.get('FIRST_PRIZE','')
           url       = os.environ.get('RESULT_URL','')
           is_full   = os.environ.get('HAS_FULL','false').lower()=='true'
-          status    = 'Verified full result' if is_full else 'Auto-fetched from ET - full result may follow'
+          status    = 'Verified full result' if is_full else 'Auto-fetched — full result may follow'
           fb  = lottery+' '+draw_code+' Result Today\n\n1st Prize: '+prize+'\n'+status+'\n\nFull prize list: '+url
           tg  = '*'+lottery+' '+draw_code+' Result*\n\n1st Prize: '+prize+'\n'+status+'\n\n[View full prize table]('+url+')'
           payload = {'lottery':lottery,'draw_code':draw_code,'first_prize':prize,'is_full_result':is_full,'result_url':url,'fb_message':fb,'tg_message':tg}
