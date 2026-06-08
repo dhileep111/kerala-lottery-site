@@ -250,31 +250,34 @@ def parse_prizes(html):
     prizes = {}
     NOISE  = {'2026','2025','2024','2023','1000','2000','3000','4000','5000','0000','9999'}
 
-    def section_after(labels, window=2500):
-        """Return text from the first matching label up to the next major prize label."""
+    def matching_sections(labels, window=2500):
+        """Yield every matching prize-label section, trimmed at the next prize label.
+
+        ET articles often mention the prize structure before the actual winning
+        numbers.  A single ``re.search`` can therefore stop at a label like
+        ``1st Prize: Rs 1 Crore`` that has no ticket number and miss the later
+        ``Winning Numbers`` section.  Walk all label occurrences and let callers
+        pick the first section containing a valid ticket.
+        """
         label_pat = '|'.join(re.escape(label) for label in labels)
-        m = re.search(label_pat, text, re.IGNORECASE)
-        if not m:
-            return ''
-        chunk = text[m.start():m.start() + window]
-        stop = re.search(
-            r'\b(?:Consolation|1st|First|2nd|Second|3rd|Third|4th|Fourth|5th|Fifth|6th|Sixth|7th|Seventh|8th|Eighth|9th|Ninth)\s+Prize\b',
-            chunk[25:],
-            re.IGNORECASE,
-        )
-        if stop:
-            chunk = chunk[:25 + stop.start()]
-        return chunk
+        for m in re.finditer(label_pat, text, re.IGNORECASE):
+            chunk = text[m.start():m.start() + window]
+            stop = re.search(
+                r'\b(?:Consolation|1st|First|2nd|Second|3rd|Third|4th|Fourth|5th|Fifth|6th|Sixth|7th|Seventh|8th|Eighth|9th|Ninth)\s+Prize\b',
+                chunk[25:],
+                re.IGNORECASE,
+            )
+            if stop:
+                chunk = chunk[:25 + stop.start()]
+            yield chunk
 
     def find_ticket(labels):
-        chunk = section_after(labels, window=900)
-        if not chunk:
-            return None
-        m = re.search(r'\b([A-Z]{2})\s+(\d{6})(?:\s+\(([^)]+)\))?', chunk, re.IGNORECASE)
-        if m:
-            t, n = m.group(1).upper(), m.group(2)
-            dist = m.group(3).strip().title() if m.group(3) else None
-            return [json.dumps({'ticket':f'{t} {n}','district':dist}) if dist else f'{t} {n}']
+        for chunk in matching_sections(labels, window=900):
+            m = re.search(r'\b([A-Z]{2})\s+(\d{6})(?:\s+\(([^)]+)\))?', chunk, re.IGNORECASE)
+            if m:
+                t, n = m.group(1).upper(), m.group(2)
+                dist = m.group(3).strip().title() if m.group(3) else None
+                return [json.dumps({'ticket':f'{t} {n}','district':dist}) if dist else f'{t} {n}']
         return None
 
     def extract_series():
@@ -326,14 +329,6 @@ def parse_prizes(html):
             else:
                 print("  Consolation: could not parse series reliably — leaving empty")
 
-    tier_stops = {
-        '4th': ['5th Prize','Fifth Prize'],
-        '5th': ['6th Prize','Sixth Prize'],
-        '6th': ['7th Prize','Seventh Prize'],
-        '7th': ['8th Prize','Eighth Prize'],
-        '8th': ['9th Prize','Ninth Prize'],
-        '9th': [],
-    }
     for tier, labels in [
         ('4th', ['4th Prize','Fourth Prize']),
         ('5th', ['5th Prize','Fifth Prize']),
@@ -342,14 +337,8 @@ def parse_prizes(html):
         ('8th', ['8th Prize','Eighth Prize']),
         ('9th', ['9th Prize','Ninth Prize']),
     ]:
-        for label in labels:
-            idx = text.find(label)
-            if idx == -1: continue
-            window = 8000 if tier in ('7th','8th','9th') else 4000
-            chunk = text[idx:idx+window]
-            for stop in tier_stops.get(tier, []):
-                si = chunk.find(stop, 15)
-                if si > 0: chunk = chunk[:si]
+        window = 8000 if tier in ('7th','8th','9th') else 4000
+        for chunk in matching_sections(labels, window=window):
             for stop in ['Disclaimer','Kerala Government Gazette','prize winners are advised']:
                 si = chunk.lower().find(stop.lower(), 15)
                 if si > 0: chunk = chunk[:si]
@@ -371,7 +360,7 @@ def main():
     lottery, draw_code, _ = get_today_lottery()
     print(f"Lottery: {lottery['name']} | Draw: {draw_code}")
 
-    html, source = "", ""
+    html, source, prizes = "", "", {}
     for name, fn in [
         ("ET",               lambda: try_economic_times(lottery, draw_code, now)),
         ("Goodreturns",      lambda: try_goodreturns(lottery['slug'], draw_code)),
@@ -379,17 +368,20 @@ def main():
         ("lotteryresultsnow",lambda: try_lotteryresultsnow(lottery['slug'], draw_code, now)),
     ]:
         h = fn()
-        if h and len(h) > 2000:
-            html, source = h, name
-            print(f"  Got HTML from {name} ({len(h):,} bytes)")
-            break
+        if not h or len(h) <= 2000:
+            continue
+
+        print(f"  Got HTML from {name} ({len(h):,} bytes)")
+        parsed = parse_prizes(h)
+        if '1st' not in parsed:
+            print(f"  {name}: could not extract 1st prize — trying next source")
+            continue
+
+        html, source, prizes = h, name, parsed
+        break
 
     if not html:
-        print("No source returned result — exiting"); sys.exit(0)
-
-    prizes = parse_prizes(html)
-    if '1st' not in prizes:
-        print("Could not extract 1st prize"); sys.exit(0)
+        print("No source returned a parseable result — exiting"); sys.exit(0)
 
     try:    first_prize = json.loads(prizes['1st'][0])['ticket']
     except: first_prize = str(prizes['1st'][0])
