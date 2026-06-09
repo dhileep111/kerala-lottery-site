@@ -244,9 +244,25 @@ def try_lotteryresultsnow(lottery_slug, draw_code, date):
     return ""
 
 # ── Prize parser ──────────────────────────────────────────
-def parse_prizes(html):
-    text = html_to_text(html)
+def parse_prizes(html, draw_code=''):
+    full_text = html_to_text(html)
 
+    # ── KEY FIX: anchor to the draw_code's position ────────
+    # ET "result today" articles often contain yesterday's full result
+    # followed by today's result. If we parse the whole page, we pick
+    # up yesterday's prize numbers. Instead, find where THIS draw code
+    # appears and slice the text to start from there.
+    scoped_text = full_text
+    if draw_code:
+        dc_lower = draw_code.lower()
+        idx = full_text.lower().find(dc_lower)
+        if idx > 0:
+            # Start from 200 chars before the draw code so we catch labels
+            # that appear just before it (e.g. "Sthree Sakthi SS-523 Result")
+            scoped_text = full_text[max(0, idx - 200):]
+            print(f"  Anchored parse to '{draw_code}' at pos {idx} (scoped {len(scoped_text):,} of {len(full_text):,} chars)")
+
+    text = scoped_text
     prizes = {}
     NOISE  = {'2026','2025','2024','2023','1000','2000','3000','4000','5000','0000','9999'}
 
@@ -355,7 +371,7 @@ def build_full_results(prizes):
 def main():
     ist = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
     now = datetime.datetime.now(ist)
-    print(f"Scraper v8: {now.strftime('%H:%M IST, %d %b %Y')}")
+    print(f"Scraper v9: {now.strftime('%H:%M IST, %d %b %Y')}")
 
     lottery, draw_code, _ = get_today_lottery()
     print(f"Lottery: {lottery['name']} | Draw: {draw_code}")
@@ -372,7 +388,7 @@ def main():
             continue
 
         print(f"  Got HTML from {name} ({len(h):,} bytes)")
-        parsed = parse_prizes(h)
+        parsed = parse_prizes(h, draw_code)
         if '1st' not in parsed:
             print(f"  {name}: could not extract 1st prize — trying next source")
             continue
