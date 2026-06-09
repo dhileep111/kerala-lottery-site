@@ -368,19 +368,67 @@ def build_full_results(prizes):
     order = ['1st','consolation','2nd','3rd','4th','5th','6th','7th','8th','9th']
     return ' / '.join(f'{t}:{",".join(str(v) for v in prizes[t])}' for t in order if t in prizes and prizes[t])
 
+# ── Source 5: klresultstoday.com ─────────────────────────
+def try_klresultstoday(lottery_slug, draw_code, date):
+    # URL format: klresultstoday.com/sthree-sakthi-ss-523-result-today-09-06-2026/
+    slug_map = {
+        'sthree-sakthi': 'sthree-sakthi', 'karunya': 'karunya',
+        'karunya-plus': 'karunya-plus', 'dhanalekshmi': 'dhanalekshmi',
+        'suvarna-keralam': 'suvarna-keralam', 'bhagyathara': 'bhagyathara',
+        'samrudhi': 'samrudhi',
+    }
+    name     = slug_map.get(lottery_slug, lottery_slug)
+    dc_lower = draw_code.lower().replace('-','-')
+    date_str = date.strftime('%d-%m-%Y')
+    url = f"https://klresultstoday.com/{name}-{dc_lower}-result-today-{date_str}/"
+    print(f"  klresultstoday: {url}")
+    h = fetch(url)
+    if is_fresh_result_page(h, draw_code):
+        return h
+    print(f"  klresultstoday: stale or not found")
+    return ""
+
+
+def get_recent_prizes(lottery_slug, limit=3):
+    """Return set of ticket numbers from recent results of OTHER lotteries.
+    Used to detect cross-draw contamination (scraper returns yesterday's prize)."""
+    try:
+        with open('artifacts/kerala-lottery/src/data/results.json') as f:
+            results = json.load(f)
+        seen = set()
+        for r in results[:15]:  # check last 15 entries
+            if r['lotterySlug'] == lottery_slug:
+                continue  # skip same lottery
+            for p in r.get('prizes', []):
+                for num in p.get('numbers', []):
+                    ticket = num if isinstance(num, str) else num.get('ticket', '')
+                    parts = ticket.split()
+                    if len(parts) == 2:
+                        seen.add(ticket.upper())
+        return seen
+    except Exception:
+        return set()
+
+
 def main():
     ist = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
     now = datetime.datetime.now(ist)
-    print(f"Scraper v9: {now.strftime('%H:%M IST, %d %b %Y')}")
+    print(f"Scraper v10: {now.strftime('%H:%M IST, %d %b %Y')}")
 
     lottery, draw_code, _ = get_today_lottery()
     print(f"Lottery: {lottery['name']} | Draw: {draw_code}")
 
+    # Build set of known prizes from OTHER recent lotteries to detect contamination
+    other_recent_prizes = get_recent_prizes(lottery['slug'])
+    if other_recent_prizes:
+        print(f"  Cross-validation: loaded {len(other_recent_prizes)} known prizes from other draws")
+
     html, source, prizes = "", "", {}
     for name, fn in [
-        ("ET",               lambda: try_economic_times(lottery, draw_code, now)),
-        ("Goodreturns",      lambda: try_goodreturns(lottery['slug'], draw_code)),
-        ("keralalotteries",  lambda: try_keralalotteries(lottery['slug'], draw_code, now)),
+        ("klresultstoday",  lambda: try_klresultstoday(lottery['slug'], draw_code, now)),
+        ("ET",              lambda: try_economic_times(lottery, draw_code, now)),
+        ("Goodreturns",     lambda: try_goodreturns(lottery['slug'], draw_code)),
+        ("keralalotteries", lambda: try_keralalotteries(lottery['slug'], draw_code, now)),
         ("lotteryresultsnow",lambda: try_lotteryresultsnow(lottery['slug'], draw_code, now)),
     ]:
         h = fn()
@@ -391,6 +439,18 @@ def main():
         parsed = parse_prizes(h, draw_code)
         if '1st' not in parsed:
             print(f"  {name}: could not extract 1st prize — trying next source")
+            continue
+
+        # ── Cross-draw contamination check ────────────────
+        # If the extracted 1st prize matches a known prize from a DIFFERENT
+        # lottery's recent results, this source has stale/wrong data.
+        try:
+            p1_ticket = json.loads(parsed['1st'][0])['ticket'] if '{' in str(parsed['1st'][0]) else str(parsed['1st'][0])
+        except Exception:
+            p1_ticket = str(parsed['1st'][0])
+
+        if p1_ticket.upper() in other_recent_prizes:
+            print(f"  ⚠ {name}: 1st prize '{p1_ticket}' matches a DIFFERENT lottery's recent result — contaminated, skipping")
             continue
 
         html, source, prizes = h, name, parsed
