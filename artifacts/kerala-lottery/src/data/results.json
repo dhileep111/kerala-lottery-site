@@ -7,33 +7,54 @@
     "status": "verified",
     "sourceName": "Manual admin update",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-06-10T10:54:04.518218Z",
-    "summary": "Result for Dhanalekshmi DL-56. 8/9 tiers updated.",
+    "lastUpdated": "2026-06-10T11:26:58.804147Z",
+    "summary": "Result for Dhanalekshmi DL-56. 9/9 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "DT 927572"
+          {
+            "ticket": "DT 927572",
+            "district": "Chittur"
+          }
         ]
       },
       {
         "tier": "Consolation Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "DN 927572",
+          "DO 927572",
+          "DP 927572",
+          "DR 927572",
+          "DS 927572",
+          "DU 927572",
+          "DV 927572",
+          "DW 927572",
+          "DX 927572",
+          "DY 927572",
+          "DZ 927572"
+        ]
       },
       {
         "tier": "2nd Prize",
         "amount": "₹10,00,000",
         "numbers": [
-          "DV 826575"
+          {
+            "ticket": "DS 280490",
+            "district": "Punalur"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,000",
         "numbers": [
-          "DV 826575"
+          {
+            "ticket": "DV 826575",
+            "district": "Wayanadu"
+          }
         ]
       },
       {
@@ -78,7 +99,6 @@
         "amount": "₹500",
         "numbers": [
           "0017",
-          "2053",
           "2451",
           "3080",
           "3239",
@@ -123,8 +143,6 @@
           "1436",
           "1756",
           "1831",
-          "2035",
-          "2099",
           "2333",
           "2382",
           "2501",
