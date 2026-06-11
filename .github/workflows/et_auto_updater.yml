@@ -30,17 +30,29 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: Install Python deps
-        run: pip install requests beautifulsoup4
+          
+      # Removed "Install Python deps" because et_scraper.py uses standard libraries!
 
       - name: Run ET scraper
         id: scraper
+        env:
+          FORCE_DATE: ${{ github.event.inputs.force_date }}
         run: |
           python et_scraper.py
           if [ -f /tmp/et_first_prize.txt ] && [ -s /tmp/et_first_prize.txt ]; then
-            echo "first_prize=$(cat /tmp/et_first_prize.txt)" >> $GITHUB_OUTPUT
-            echo "full_results=$(cat /tmp/et_full_results.txt)" >> $GITHUB_OUTPUT
+            # Safe EOF delimiter method to prevent newline breaks in GitHub Actions
+            EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+            
+            echo "first_prize<<$EOF" >> $GITHUB_OUTPUT
+            cat /tmp/et_first_prize.txt >> $GITHUB_OUTPUT
+            echo "" >> $GITHUB_OUTPUT
+            echo "$EOF" >> $GITHUB_OUTPUT
+            
+            echo "full_results<<$EOF" >> $GITHUB_OUTPUT
+            cat /tmp/et_full_results.txt >> $GITHUB_OUTPUT
+            echo "" >> $GITHUB_OUTPUT
+            echo "$EOF" >> $GITHUB_OUTPUT
+            
             echo "slug=$(cat /tmp/et_slug.txt)" >> $GITHUB_OUTPUT
             echo "draw_code=$(cat /tmp/et_draw_code.txt)" >> $GITHUB_OUTPUT
             echo "found=true" >> $GITHUB_OUTPUT
@@ -53,7 +65,6 @@ jobs:
       - name: Update results.json
         if: steps.scraper.outputs.found == 'true'
         env:
-          # ET_MODE=true tells update_results.py to use env vars even on scheduled run
           ET_MODE: "true"
           LOTTERY_PAGE: ${{ steps.scraper.outputs.slug }}
           DRAW_CODE:    ${{ steps.scraper.outputs.draw_code }}
