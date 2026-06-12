@@ -90,17 +90,20 @@ function buildResultContent(lottery, result) {
 
   const firstDistrict = getDistrict(result.prizes.find(p=>p.tier==='1st Prize')?.numbers?.[0]);
 
+  // Lead paragraph: rich, specific, matches meta desc — Google picks THIS as snippet
+  const leadPara = isPending
+    ? `${e(lottery.name)} (${e(lottery.code)}) lottery result for ${e(result.displayDate)}. Draw held every ${e(lottery.drawDay)} at ${e(lottery.drawTime)} IST. Result will be updated here after official publication at 3 PM.`
+    : `${e(lottery.name)} (${e(lottery.code)}) lottery result for ${e(result.displayDate)} — 1st Prize: <strong>${e(firstPrize)}</strong>${firstDistrict ? ` sold in ${e(firstDistrict)}, Kerala` : ''}. Prize amount: ${e(lottery.firstPrizeAmount)}. Full prize table below.`;
+
   return `
 <main>
   <h1>${e(lottery.name)} ${e(result.drawCode)} Lottery Result — ${e(result.displayDate)}</h1>
-  <p>${e(lottery.name)} (${e(lottery.code)}) draws every ${e(lottery.drawDay)} at ${e(lottery.drawTime)}. 
-     Draw date: ${e(result.displayDate)}. Status: ${e(result.status)}.</p>
+  <p>${leadPara}</p>
   ${!isPending ? `
   <section>
-    <h2>1st Prize Winner</h2>
-    <p><strong>${e(firstPrize)}</strong>${firstDistrict ? ` — Sold in ${e(firstDistrict)}, Kerala` : ''}</p>
-    <p>Prize Amount: ${e(lottery.firstPrizeAmount)}</p>
-  </section>` : `<p>Result will be updated after the draw at ${e(lottery.drawTime)}.</p>`}
+    <h2>1st Prize — ${e(lottery.firstPrizeAmount)}</h2>
+    <p>Winning ticket: <strong>${e(firstPrize)}</strong>${firstDistrict ? ` — Sold in ${e(firstDistrict)}, Kerala` : ''}</p>
+  </section>` : ''}
   <section>
     <h2>${e(lottery.name)} ${e(result.drawCode)} Full Prize Table</h2>
     <table>
@@ -108,21 +111,16 @@ function buildResultContent(lottery, result) {
       <tbody>${prizeRows}</tbody>
     </table>
   </section>
-  <section>
-    <h2>How to Claim</h2>
-    <p>Winners must claim prizes within 30 days at the nearest District Lottery Office (up to ₹1,00,000) 
-       or at the Directorate of Kerala State Lotteries, Thiruvananthapuram (above ₹1,00,000). 
-       Carry original ticket, Aadhaar, PAN card, and bank details.</p>
-    <p>Always verify your winning numbers at <a href="https://statelottery.kerala.gov.in">statelottery.kerala.gov.in</a> 
-       before making any claim.</p>
-  </section>
   <section lang="ta">
     <h2>${e(tName)} லாட்டரி ரிசல்ட் — தமிழில்</h2>
     <p>${isPending ? `கேரளா ${e(tName)} லாட்டரி இன்றைய முடிவு இன்னும் வெளியிடப்படவில்லை — மதியம் 3 மணிக்குப் பிறகு பாருங்கள்.` : `இன்றைய ${e(tName)} லாட்டரி முதல் பரிசு எண்: ${e(firstPrize)}. முழு பரிசு அட்டவணையை மேலே பாருங்கள்.`}</p>
     <p>கேரளா ${e(tName)} லாட்டரி (${e(lottery.code)}) ஒவ்வொரு ${e(tDay)}யும் மதியம் 3:00 மணிக்கு நடத்தப்படுகிறது.</p>
   </section>
-  <p><em>This page is published by Kerala Ticket Results (keralaticketresults.in), an independent informational website 
-     not affiliated with the Kerala Government.</em></p>
+  <section>
+    <h2>How to Claim Your Prize</h2>
+    <p>Winners must claim prizes within 30 days at the nearest District Lottery Office (up to ₹1,00,000) or at the Directorate of Kerala State Lotteries, Thiruvananthapuram (above ₹1,00,000). Carry original ticket, Aadhaar, PAN card, and bank details. Always verify at <a href="https://statelottery.kerala.gov.in">statelottery.kerala.gov.in</a> before claiming.</p>
+  </section>
+  <p style="font-size:0.8em;color:#888"><em>Kerala Ticket Results (keralaticketresults.in) is an independent informational website not affiliated with the Kerala Government. Verify all results with the official Kerala Government Gazette before making any prize claim.</em></p>
 </main>`.trim();
 }
 
@@ -171,7 +169,7 @@ const lotteryRoutes = lotteries.map(l => {
   return {
     path:    `/results/${l.slug}`,
     title:   `${l.name} Lottery Result Today ${l.code} | ${tName} லாட்டரி ரிசல்ட்`,
-    desc:    `${l.name} (${l.code}) Kerala lottery result today. ${firstP !== 'Pending' ? `1st Prize: ${firstP}${district ? ` sold in ${district}` : ''}.` : `Draw every ${l.drawDay} at ${l.drawTime}.`} ${tName} லாட்டரி இன்றைய முடிவு — தினமும் புதுப்பிக்கப்படும்.`,
+    desc:    `${l.name} (${l.code}) Kerala lottery result today — ${firstP !== 'Pending' ? `1st Prize ${firstP}${district ? ` sold in ${district}` : ''}. Full prize table updated at 3 PM IST.` : `draws every ${l.drawDay} at ${l.drawTime} IST. Winning numbers updated daily.`}`,
     canonical: `${SITE}/results/${l.slug}`,
     content:  buildResultContent(l, result),
   };
