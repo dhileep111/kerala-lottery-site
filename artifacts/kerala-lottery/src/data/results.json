@@ -1,5 +1,101 @@
 [
   {
+    "lotterySlug": "bhagyathara",
+    "drawCode": "BT-58",
+    "drawDate": "2026-06-15",
+    "displayDate": "June 15, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-06-15T10:35:01.810272Z",
+    "summary": "Result for Bhagyathara BT-58. 5/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "BZ 838340"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": []
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          "BZ 838340"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "BY 905214"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "0548",
+          "0771",
+          "1056",
+          "1535",
+          "3226",
+          "4856",
+          "4892",
+          "5273",
+          "5403",
+          "6066",
+          "6573",
+          "6756",
+          "6889",
+          "7321",
+          "7791",
+          "8037",
+          "8126",
+          "9308",
+          "9710"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": [
+          "0888",
+          "4253",
+          "4835",
+          "5404",
+          "8040",
+          "8912"
+        ]
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "samrudhi",
     "drawCode": "SM-59",
     "drawDate": "2026-06-14",
