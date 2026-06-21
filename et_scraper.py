@@ -305,7 +305,33 @@ def parse_prizes(html, draw_code=''):
         # fallback for pages saying "all remaining series" without listing them nearby.
         return ['BA','BB','BC','BD','BE','BF','BG','BH','BJ','BK','BL','BM']
 
-    r1 = find_ticket(['1st Prize', 'First Prize'])
+    def find_first_prize_anchored():
+        # On multi-draw / live-blog pages there can be several "1st Prize" mentions.
+        # Pick the one nearest the target draw code so we never grab another draw's number.
+        mdc = re.match(r'([A-Za-z]+)-?(\d+)', draw_code)
+        dc_re = rf"{mdc.group(1)}\s*-?\s*{mdc.group(2)}" if mdc else re.escape(draw_code)
+        dc_positions = [m.start() for m in re.finditer(dc_re, text, re.IGNORECASE)]
+        if not dc_positions:
+            return None
+        best = None
+        for m in re.finditer(r'\b(?:1st|First)\s+Prize\b', text, re.IGNORECASE):
+            chunk = text[m.start(): m.start() + 900]
+            stop = re.search(r'\b(?:Consolation|2nd|Second|3rd|Third)\s+Prize\b', chunk[25:], re.IGNORECASE)
+            if stop:
+                chunk = chunk[:25 + stop.start()]
+            tm = re.search(r'\b([A-Z]{2})\s+(\d{6})(?:\s+\(([^)]+)\))?', chunk, re.IGNORECASE)
+            if not tm:
+                continue
+            dist = min(abs(m.start() - d) for d in dc_positions)
+            if best is None or dist < best[0]:
+                best = (dist, tm.group(1).upper(), tm.group(2), tm.group(3))
+        if not best:
+            return None
+        _, t, n, dpar = best
+        district = dpar.strip().title() if dpar else None
+        return [json.dumps({'ticket': f'{t} {n}', 'district': district}) if district else f'{t} {n}']
+
+    r1 = find_first_prize_anchored() or find_ticket(['1st Prize', 'First Prize'])
     if r1: prizes['1st'] = r1; print(f"  1st: {r1[0][:30]}")
 
     r2 = find_ticket(['2nd Prize', 'Second Prize'])
@@ -321,7 +347,8 @@ def parse_prizes(html, draw_code=''):
         except:
             parts = prizes['1st'][0].split()
             first_6, first_s = (parts[1], parts[0]) if len(parts) > 1 else ('', '')
-        if first_6:
+        if first_6 and first_s:
+            first_letter = first_s[0]
             series = []
             for m in re.finditer(r'Consolation\s+Prize|Cons\s+Prize|Consolation', text, re.IGNORECASE):
                 chunk = text[m.start(): m.start() + 2200]
@@ -329,15 +356,17 @@ def parse_prizes(html, draw_code=''):
                     si = chunk.lower().find(stop.lower(), 20)
                     if si > 0:
                         chunk = chunk[:si]
-                for s in re.findall(rf'\b([A-Z]{{2}})\s+{re.escape(first_6)}\b', chunk, re.IGNORECASE):
-                    s = s.upper()
-                    if s != first_s and s not in series:
-                        series.append(s)
+                # Kerala consolation = the 1st-prize 6-digit number across this draw's OTHER
+                # series, and every series in a draw shares the 1st-prize series' first letter
+                # (1st MN -> consolation MA, MB, ... MZ). So take 2-letter codes in this section
+                # that start with that letter — robust whether or not each code sits right next
+                # to the number (the old "SERIES NUMBER" adjacency missed list layouts).
+                if first_6 in chunk:
+                    for s in re.findall(r'\b([A-Z]{2})\b', chunk):
+                        if s[0] == first_letter and s != first_s and s != 'RS' and s not in series:
+                            series.append(s)
                 if series:
                     break
-
-            if not series and re.search(r'all\s+remaining\s+series[^.]{0,120}' + re.escape(first_6), text, re.IGNORECASE):
-                series = [s for s in extract_series() if s != first_s]
 
             if series:
                 prizes['consolation'] = [f'{s} {first_6}' for s in series]
