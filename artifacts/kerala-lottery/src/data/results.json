@@ -5,35 +5,56 @@
     "drawDate": "2026-06-21",
     "displayDate": "June 21, 2026",
     "status": "verified",
-    "sourceName": "ET auto scraper",
+    "sourceName": "Manual admin update",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-06-21T11:57:26.918623Z",
-    "summary": "Result for Samrudhi SM-60. 9/10 tiers updated.",
+    "lastUpdated": "2026-06-21T12:00:45.720463Z",
+    "summary": "Result for Samrudhi SM-60. 10/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "MN 784074"
+          {
+            "ticket": "MN 784074",
+            "district": "Irinjalakuda"
+          }
         ]
       },
       {
         "tier": "Consolation Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "MO 784074",
+          "MP 784074",
+          "MR 784074",
+          "MS 784074",
+          "MT 784074",
+          "MU 784074",
+          "MV 784074",
+          "MW 784074",
+          "MX 784074",
+          "MY 784074",
+          "MZ 784074"
+        ]
       },
       {
         "tier": "2nd Prize",
         "amount": "₹25,00,000",
         "numbers": [
-          "MR 120629"
+          {
+            "ticket": "MR 120629",
+            "district": "Payyanur"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "MU 282023"
+          {
+            "ticket": "MU 282023",
+            "district": "Irinjalakuda"
+          }
         ]
       },
       {
@@ -126,8 +147,6 @@
           "1566",
           "1687",
           "1718",
-          "1929",
-          "1961",
           "2166",
           "2229",
           "2572",
@@ -204,9 +223,6 @@
           "1481",
           "1643",
           "1708",
-          "1944",
-          "2304",
-          "2077",
           "2214",
           "2282",
           "2472",
@@ -308,10 +324,6 @@
           "1652",
           "1697",
           "1871",
-          "1903",
-          "1936",
-          "2068",
-          "2091",
           "2311",
           "2313",
           "2461",
@@ -419,7 +431,7 @@
           "8717",
           "8921",
           "8926",
-          "8988",
+          "8984",
           "9063",
           "9099",
           "9188",
