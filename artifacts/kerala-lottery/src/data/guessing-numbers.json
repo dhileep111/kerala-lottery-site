@@ -1,22 +1,22 @@
 {
-  "updatedDate": "2026-06-21",
-  "updatedLabel": "June 21, 2026",
+  "updatedDate": "2026-06-22",
+  "updatedLabel": "June 22, 2026",
   "boards": {
-    "A": "4",
-    "B": "8",
+    "A": "2",
+    "B": "4",
     "C": "9"
   },
   "numbers": [
     {
       "digits": 1,
       "label": "A Board",
-      "value": "4",
+      "value": "2",
       "type": "board"
     },
     {
       "digits": 1,
       "label": "B Board",
-      "value": "8",
+      "value": "4",
       "type": "board"
     },
     {
@@ -28,93 +28,93 @@
     {
       "digits": 2,
       "label": "AB Combo",
-      "value": "48",
+      "value": "24",
       "type": "combo"
     },
     {
       "digits": 2,
       "label": "BC Combo",
-      "value": "89",
+      "value": "49",
       "type": "combo"
     },
     {
       "digits": 2,
       "label": "CA Combo",
-      "value": "94",
+      "value": "92",
       "type": "combo"
     },
     {
       "digits": 3,
       "label": "ABC Three Digit",
-      "value": "489",
+      "value": "249",
       "type": "triple"
     },
     {
       "digits": 3,
       "label": "BCA Three Digit",
-      "value": "894",
+      "value": "492",
       "type": "triple"
     },
     {
       "digits": 3,
       "label": "CAB Three Digit",
-      "value": "948",
+      "value": "924",
       "type": "triple"
     },
     {
       "digits": 4,
       "label": "Hot Pick",
-      "value": "4489",
+      "value": "2249",
       "type": "four",
       "hot": true
     },
     {
       "digits": 4,
       "label": "Mirror Pick",
-      "value": "8894",
+      "value": "4492",
       "type": "four"
     },
     {
       "digits": 4,
       "label": "Pattern Pick",
-      "value": "9948",
+      "value": "9924",
       "type": "four"
     },
     {
       "digits": 4,
       "label": "Lucky Combo",
-      "value": "4894",
+      "value": "2492",
       "type": "four",
       "hot": true
     },
     {
       "digits": 4,
       "label": "Reverse Pick",
-      "value": "9849",
+      "value": "9429",
       "type": "four"
     },
     {
       "digits": 4,
       "label": "Sequential",
-      "value": "9894",
+      "value": "9492",
       "type": "four"
     },
     {
       "digits": 4,
       "label": "Zero Start",
-      "value": "0489",
+      "value": "0249",
       "type": "four"
     },
     {
       "digits": 4,
       "label": "Double AB",
-      "value": "4848",
+      "value": "2424",
       "type": "four"
     },
     {
       "digits": 4,
       "label": "Double BC",
-      "value": "8989",
+      "value": "4949",
       "type": "four"
     }
   ]
