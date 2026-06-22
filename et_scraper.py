@@ -350,27 +350,31 @@ def parse_prizes(html, draw_code=''):
         if first_6 and first_s:
             first_letter = first_s[0]
             series = []
-            for m in re.finditer(r'Consolation\s+Prize|Cons\s+Prize|Consolation', text, re.IGNORECASE):
-                chunk = text[m.start(): m.start() + 2200]
-                for stop in ['2nd Prize', 'Second Prize', '3rd Prize', 'Third Prize', '4th Prize', 'Fourth Prize', 'How to Check']:
-                    si = chunk.lower().find(stop.lower(), 20)
-                    if si > 0:
-                        chunk = chunk[:si]
-                # Kerala consolation = the 1st-prize 6-digit number across this draw's OTHER
-                # series, and every series in a draw shares the 1st-prize series' first letter
-                # (1st MN -> consolation MA, MB, ... MZ). So take 2-letter codes in this section
-                # that start with that letter — robust whether or not each code sits right next
-                # to the number (the old "SERIES NUMBER" adjacency missed list layouts).
-                if first_6 in chunk:
+            # Each consolation series is printed with the 1st-prize number (e.g. "BA 304203
+            # BB 304203"). That number is unique to this draw, so "<series> <number>" appears
+            # only for the 1st prize + consolation. The lookbehind avoids 3-letter runs and
+            # \s* tolerates extractor glue like "...304203BC 304203" that breaks \b matching.
+            for s in re.findall(rf'(?<![A-Z])([A-Z]{{2}})\s*{re.escape(first_6)}', text):
+                if s != first_s and s != 'RS' and s not in series:
+                    series.append(s)
+            # Fallback: a few sources list the series without repeating the number — read the
+            # Consolation section and take codes sharing the 1st-prize series' first letter.
+            if len(series) < 3:
+                for m in re.finditer(r'Consolation\s+Prize|Cons\s+Prize|Consolation', text, re.IGNORECASE):
+                    chunk = text[m.start(): m.start() + 2200]
+                    for stop in ['2nd Prize', 'Second Prize', '3rd Prize', 'Third Prize', 'How to Check']:
+                        si = chunk.lower().find(stop.lower(), 20)
+                        if si > 0:
+                            chunk = chunk[:si]
                     for s in re.findall(r'\b([A-Z]{2})\b', chunk):
                         if s[0] == first_letter and s != first_s and s != 'RS' and s not in series:
                             series.append(s)
-                if series:
-                    break
-
+                    if series:
+                        break
+            series = sorted(series)
             if series:
                 prizes['consolation'] = [f'{s} {first_6}' for s in series]
-                print(f"  Consolation: {len(series)} series from section")
+                print(f"  Consolation: {len(series)} series")
             else:
                 print("  Consolation: could not parse series reliably — leaving empty")
 
