@@ -127,7 +127,28 @@ function buildResultContent(lottery, result) {
 }
 
 // ── Static routes ─────────────────────────────────────────
+function buildChartContent() {
+  const sorted = [...results].sort(
+    (a, b) => (b.drawDate || '').localeCompare(a.drawDate || '') || (b.lastUpdated || '').localeCompare(a.lastUpdated || '')
+  );
+  const rows = sorted.slice(0, 150).map(r => {
+    const lottery = lotteries.find(l => l.slug === r.lotterySlug);
+    const fp = getFirstPrize(r);
+    const dist = getDistrict(r.prizes?.find(p => p.tier === '1st Prize')?.numbers?.[0]);
+    const href = `/results/${r.lotterySlug}/${String(r.drawCode || '').toLowerCase()}`;
+    return `<tr><td>${e(r.displayDate || r.drawDate)}</td><td>${e(lottery?.name || r.lotterySlug)} (${e(r.drawCode)})</td><td>${e(fp)}${dist ? ` (${e(dist)})` : ''}</td><td><a href="${ea(href)}">View result</a></td></tr>`;
+  }).join('');
+  return `<main>
+    <h1>Kerala Lottery Chart — All Results</h1>
+    <p>Every Kerala lottery result at a glance: the 1st prize for each daily draw — Karunya (KR), Sthree Sakthi (SS), Dhanalekshmi (DL), Bhagyathara (BT), Karunya Plus (KN), Suvarna Keralam (SK), Samrudhi (SM) and bumper draws — newest first. கேரளா லாட்டரி சார்ட் — தினசரி லாட்டரி முடிவுகள் ஒரே பக்கத்தில். Updated daily at 3:00 PM IST.</p>
+    <table class="table"><thead><tr><th>Date</th><th>Lottery</th><th>1st Prize</th><th>Result</th></tr></thead><tbody>${rows}</tbody></table>
+  </main>`;
+}
+
 const staticRoutes = [
+  { path: '/chart', title: 'Kerala Lottery Chart 2026 — All Results | கேரளா லாட்டரி சார்ட்',
+    desc: 'Kerala lottery chart: the 1st prize for every daily draw (Karunya, Bhagyathara, Samrudhi, Karunya Plus & more) in one table, newest first. கேரளா லாட்டரி சார்ட் தினசரி முடிவுகள். Updated 3 PM IST.',
+    content: buildChartContent() },
   { path: '/', title: 'Kerala Lottery Result Today — All Draws Updated at 3 PM IST',
     desc: 'Kerala Lottery result today for Karunya, Sthree Sakthi, Dhanalekshmi, Bhagyathara, Karunya Plus, Suvarna Keralam and Samrudhi. Updated daily at 3 PM IST.',
     content: `<main><h1>Kerala Lottery Result Today</h1><p>Kerala Lottery results are published daily at 3 PM IST. Check Karunya (KR), Sthree Sakthi (SS), Dhanalekshmi (DL), Bhagyathara (BT), Karunya Plus (KN), Suvarna Keralam (SK) and Samrudhi (SM) draw results here.</p></main>` },
