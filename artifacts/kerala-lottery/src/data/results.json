@@ -1,5 +1,103 @@
 [
   {
+    "lotterySlug": "dhanalekshmi",
+    "drawCode": "DL-58",
+    "drawDate": "2026-06-24",
+    "displayDate": "June 24, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-06-24T09:53:49.531280Z",
+    "summary": "Result for Dhanalekshmi DL-58. 6/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "DT 306547"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "DL 306547"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          "DT 129136"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "DY 333858"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "0666",
+          "1028",
+          "1558",
+          "1594",
+          "1615",
+          "2837",
+          "3444",
+          "4020",
+          "4639",
+          "5773",
+          "5794",
+          "6184",
+          "6809",
+          "7319",
+          "7326",
+          "8861",
+          "9026",
+          "9516",
+          "9977"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": [
+          "2128",
+          "2630",
+          "3862",
+          "4741",
+          "6979",
+          "8241"
+        ]
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "sthree-sakthi",
     "drawCode": "SS-525",
     "drawDate": "2026-06-23",
