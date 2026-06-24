@@ -19,6 +19,7 @@ import LotteryResultPage from "./pages/LotteryResultPage";
 import DrawArchivePage from "./pages/DrawArchivePage";
 import FirstPrizePage from "./pages/FirstPrizePage";
 import ChartPage from "./pages/ChartPage";
+import BumperPage from "./pages/BumperPage";
 import NotFound from "./pages/not-found";
 
 
@@ -32,6 +33,7 @@ function Router() {
         <Route path="/about" component={AboutPage} />
         <Route path="/check-ticket" component={CheckTicketPage} />
         <Route path="/chart" component={ChartPage} />
+        <Route path="/bumper" component={BumperPage} />
         <Route path="/claim-guide" component={ClaimGuidePage} />
         <Route path="/contact" component={ContactPage} />
         <Route path="/disclaimer" component={DisclaimerPage} />
