@@ -5,37 +5,56 @@
     "drawDate": "2026-06-24",
     "displayDate": "June 24, 2026",
     "status": "verified",
-    "sourceName": "ET auto scraper",
+    "sourceName": "Manual admin update",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-06-24T12:30:00.328390Z",
+    "lastUpdated": "2026-06-24T12:41:13.146442Z",
     "summary": "Result for Dhanalekshmi DL-58. 10/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "DT 306547"
+          {
+            "ticket": "DT 308547",
+            "district": "Moovattupuzha"
+          }
         ]
       },
       {
         "tier": "Consolation Prize",
         "amount": "₹5,000",
         "numbers": [
-          "DL 306547"
+          "DN 308547",
+          "DO 308547",
+          "DP 308547",
+          "DR 308547",
+          "DS 308547",
+          "DU 308547",
+          "DV 308547",
+          "DW 308547",
+          "DX 308547",
+          "DY 308547",
+          "DZ 308547"
         ]
       },
       {
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "DT 129136"
+          {
+            "ticket": "DT 129136",
+            "district": "Guruvayoor"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "DY 333858"
+          {
+            "ticket": "DY 333858",
+            "district": "Irinjalakuda"
+          }
         ]
       },
       {
@@ -123,9 +142,6 @@
           "1420",
           "1583",
           "1635",
-          "2007",
-          "2060",
-          "2082",
           "2370",
           "2397",
           "2465",
@@ -208,9 +224,6 @@
           "1792",
           "1807",
           "1877",
-          "1920",
-          "1957",
-          "1999",
           "2127",
           "2554",
           "2599",
@@ -332,11 +345,6 @@
           "1785",
           "1795",
           "1849",
-          "1970",
-          "1990",
-          "2047",
-          "2074",
-          "2098",
           "2106",
           "2133",
           "2136",
@@ -366,7 +374,7 @@
           "4561",
           "4671",
           "4673",
-          "4715",
+          "4710",
           "4890",
           "4892",
           "4920",
