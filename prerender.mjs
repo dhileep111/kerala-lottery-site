@@ -16,6 +16,7 @@ const dataDir = resolve(__dir, 'artifacts/kerala-lottery/src/data');
 const baseHtml  = readFileSync(`${distDir}/index.html`, 'utf8');
 const lotteries = JSON.parse(readFileSync(`${dataDir}/lotteries.json`, 'utf8'));
 const results   = JSON.parse(readFileSync(`${dataDir}/results.json`,   'utf8'));
+const bumpers   = JSON.parse(readFileSync(`${dataDir}/bumpers.json`,   'utf8'));
 
 const SITE     = 'https://keralaticketresults.in';
 const OG_IMAGE = `${SITE}/opengraph.jpg`;
@@ -145,7 +146,32 @@ function buildChartContent() {
   </main>`;
 }
 
+function buildBumperContent() {
+  const up = bumpers?.upcoming;
+  const past = [...results]
+    .filter(r => r.lotterySlug === 'bumper')
+    .sort((a, b) => (b.drawDate || '').localeCompare(a.drawDate || '') || (b.lastUpdated || '').localeCompare(a.lastUpdated || ''));
+  const upHtml = up ? `<h2>Next Bumper: ${e(up.name)} (${e(up.code)})</h2>
+    <p><strong>${e(up.drawDateLabel)}</strong> at ${e(up.drawTime)}. First prize <strong>${e(up.firstPrize)}</strong>. Ticket price ${e(up.ticketPrice)}. Series ${e(up.series)}. Draw held at ${e(up.venue)}.</p>` : '';
+  const rows = past.map(r => {
+    const fp = getFirstPrize(r);
+    const dist = getDistrict(r.prizes?.find(p => p.tier === '1st Prize')?.numbers?.[0]);
+    const href = `/results/bumper/${String(r.drawCode || '').toLowerCase()}`;
+    return `<tr><td>${e(r.displayDate || r.drawDate)}</td><td>Kerala Bumper (${e(r.drawCode)})</td><td>${e(fp)}${dist ? ` (${e(dist)})` : ''}</td><td><a href="${ea(href)}">View result</a></td></tr>`;
+  }).join('');
+  return `<main>
+    <h1>Kerala Bumper Lottery — Next Draw Date &amp; Results</h1>
+    <p>Kerala's seasonal bumper lotteries carry the year's biggest prizes (up to ₹12 crore): the Summer, Vishu, Monsoon, Thiruvonam (Onam), Pooja and Christmas–New Year bumpers. கேரளா பம்பர் லாட்டரி அடுத்த தேதி மற்றும் முடிவுகள்.</p>
+    ${upHtml}
+    <h2>Past Bumper Results</h2>
+    <table class="table"><thead><tr><th>Date</th><th>Draw</th><th>1st Prize</th><th>Result</th></tr></thead><tbody>${rows}</tbody></table>
+  </main>`;
+}
+
 const staticRoutes = [
+  { path: '/bumper', title: 'Kerala Bumper Lottery 2026 — Next Draw Date & Results | கேரளா பம்பர் லாட்டரி',
+    desc: 'Next Kerala bumper: Monsoon Bumper BR-110 on 18 July 2026, first prize ₹10 crore (₹250 ticket). Bumper draw dates, prize structure and past results. கேரளா அடுத்த பம்பர் லாட்டரி தேதி.',
+    content: buildBumperContent() },
   { path: '/chart', title: 'Kerala Lottery Chart 2026 — All Results | கேரளா லாட்டரி சார்ட்',
     desc: 'Kerala lottery chart: the 1st prize for every daily draw (Karunya, Bhagyathara, Samrudhi, Karunya Plus & more) in one table, newest first. கேரளா லாட்டரி சார்ட் தினசரி முடிவுகள். Updated 3 PM IST.',
     content: buildChartContent() },
