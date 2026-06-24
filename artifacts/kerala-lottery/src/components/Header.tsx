@@ -76,6 +76,7 @@ export function Header() {
             </div>
 
             <Link href="/chart">Chart</Link>
+            <Link href="/bumper">Bumper</Link>
             <Link href="/check-ticket">Check Ticket</Link>
             <Link href="/claim-guide">Claim Guide</Link>
             <Link href="/contact" className="nav__cta">Contact</Link>
@@ -111,6 +112,7 @@ export function Header() {
               <p className="mobile-menu__label">Tools</p>
               <Link href="/check-ticket" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>🎟️ Check Ticket</Link>
               <Link href="/chart" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>📊 Chart</Link>
+              <Link href="/bumper" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>🎉 Bumper</Link>
               <Link href="/claim-guide" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>📋 Claim Guide</Link>
               <Link href="/guessing-numbers" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>🔢 Guessing Numbers</Link>
               <Link href="/download-forms" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>📄 Download Forms</Link>
