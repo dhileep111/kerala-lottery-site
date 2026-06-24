@@ -1,0 +1,14 @@
+{
+  "_comment": "EDIT THIS when a new bumper is announced. Set drawDateISO in IST (+05:30). After the draw, its result flows into results.json via the scraper and shows under Past Bumpers automatically — then update this to the next bumper (e.g. Thiruvonam/Onam Bumper).",
+  "upcoming": {
+    "name": "Monsoon Bumper",
+    "code": "BR-110",
+    "drawDateISO": "2026-07-18T14:00:00+05:30",
+    "drawDateLabel": "Saturday, 18 July 2026",
+    "drawTime": "2:00 PM IST",
+    "firstPrize": "₹10 Crore",
+    "ticketPrice": "₹250",
+    "series": "MA, MB, MC, MD, ME",
+    "venue": "Gorky Bhavan, Bakery Junction, Thiruvananthapuram"
+  }
+}
