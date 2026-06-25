@@ -5,35 +5,56 @@
     "drawDate": "2026-06-25",
     "displayDate": "June 25, 2026",
     "status": "verified",
-    "sourceName": "ET auto scraper",
+    "sourceName": "Manual admin update",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-06-25T11:12:39.535708Z",
-    "summary": "Result for Karunya Plus KN-629. 9/10 tiers updated.",
+    "lastUpdated": "2026-06-25T12:13:01.319437Z",
+    "summary": "Result for Karunya Plus KN-629. 10/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "PG 184064"
+          {
+            "ticket": "PG 184064",
+            "district": "Thrissur"
+          }
         ]
       },
       {
         "tier": "Consolation Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "PA 184064",
+          "PB 184064",
+          "PC 184064",
+          "PD 184064",
+          "PE 184064",
+          "PF 184064",
+          "PH 184064",
+          "PJ 184064",
+          "PK 184064",
+          "PL 184064",
+          "PM 184064"
+        ]
       },
       {
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "PJ 190991"
+          {
+            "ticket": "PB 246602",
+            "district": "Thiruvananthapuram"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "PJ 190991"
+          {
+            "ticket": "PJ 190991",
+            "district": "Idukki"
+          }
         ]
       },
       {
@@ -44,7 +65,6 @@
           "0830",
           "1334",
           "1589",
-          "2004",
           "3044",
           "3991",
           "4247",
@@ -81,7 +101,6 @@
           "0873",
           "0979",
           "1706",
-          "2012",
           "2106",
           "2308",
           "2889",
@@ -213,7 +232,6 @@
           "1674",
           "1835",
           "1859",
-          "1964",
           "2157",
           "2440",
           "2474",
@@ -311,13 +329,10 @@
           "1866",
           "1876",
           "1881",
-          "2027",
-          "2040",
-          "2083",
           "2142",
           "2194",
-          "2255",
-          "2276",
+          "2259",
+          "2278",
           "2292",
           "2296",
           "2452",
@@ -358,7 +373,6 @@
           "4800",
           "4917",
           "5001",
-          "5004",
           "5094",
           "5171",
           "5417",
@@ -385,7 +399,7 @@
           "6485",
           "6573",
           "6603",
-          "6675",
+          "6765",
           "6815",
           "6913",
           "7178",
