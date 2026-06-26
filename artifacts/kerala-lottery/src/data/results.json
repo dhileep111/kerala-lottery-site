@@ -5,10 +5,10 @@
     "drawDate": "2026-06-26",
     "displayDate": "June 26, 2026",
     "status": "verified",
-    "sourceName": "ET auto scraper",
+    "sourceName": "Manual admin update",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-06-26T12:26:43.430728Z",
-    "summary": "Result for Suvarna Keralam SK-58. 9/10 tiers updated.",
+    "lastUpdated": "2026-06-26T13:05:52.818916Z",
+    "summary": "Result for Suvarna Keralam SK-58. 10/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -20,13 +20,25 @@
       {
         "tier": "Consolation Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "RN 618248",
+          "RO 618248",
+          "RP 618248",
+          "RR 618248",
+          "RS 618248",
+          "RT 618248",
+          "RU 618248",
+          "RV 618248",
+          "RX 618248",
+          "RY 618248",
+          "RZ 618248"
+        ]
       },
       {
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "RV 374659"
+          "RV 890583"
         ]
       },
       {
@@ -70,7 +82,7 @@
           "5291",
           "5675",
           "9089",
-          "9418"
+          "9410"
         ]
       },
       {
@@ -206,7 +218,7 @@
           "1610",
           "1705",
           "1743",
-          "1856",
+          "1866",
           "2016",
           "2022",
           "2126",
@@ -256,7 +268,7 @@
           "6408",
           "6621",
           "6639",
-          "7083",
+          "7082",
           "7098",
           "7152",
           "7306",
@@ -348,6 +360,7 @@
           "4801",
           "4922",
           "4931",
+          "5000",
           "5042",
           "5045",
           "5051",
