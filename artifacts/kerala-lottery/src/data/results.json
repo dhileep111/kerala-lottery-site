@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-06-27T10:56:13.397088Z",
+    "lastUpdated": "2026-06-27T11:46:22.344254Z",
     "summary": "Result for Karunya KR-759. 10/10 tiers updated.",
     "prizes": [
       {
@@ -53,7 +53,7 @@
         "numbers": [
           {
             "ticket": "KZ 498708",
-            "district": "Thrissur"
+            "district": "Guruvayoor"
           }
         ]
       },
