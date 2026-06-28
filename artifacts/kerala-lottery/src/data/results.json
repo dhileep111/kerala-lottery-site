@@ -5,28 +5,40 @@
     "drawDate": "2026-06-28",
     "displayDate": "June 28, 2026",
     "status": "verified",
-    "sourceName": "ET auto scraper",
+    "sourceName": "Manual admin update",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-06-28T12:00:53.523006Z",
-    "summary": "Result for Samrudhi SM-61. 9/10 tiers updated.",
+    "lastUpdated": "2026-06-28T12:08:33.748986Z",
+    "summary": "Result for Samrudhi SM-61. 10/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "ME 893044"
+          "ΜΕ 893044"
         ]
       },
       {
         "tier": "Consolation Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "ΜΑ 893044",
+          "MB 893044",
+          "MC 893044",
+          "MD 893044",
+          "MF 893044",
+          "MG 893044",
+          "MH 893044",
+          "MJ 893044",
+          "MK 893044",
+          "ML 893044",
+          "MM 893044"
+        ]
       },
       {
         "tier": "2nd Prize",
         "amount": "₹25,00,000",
         "numbers": [
-          "MD 124517"
+          "MK 646661"
         ]
       },
       {
@@ -339,7 +351,7 @@
           "3629",
           "3661",
           "3760",
-          "3777",
+          "3767",
           "3871",
           "3882",
           "4008",
@@ -424,10 +436,9 @@
           "9270",
           "9398",
           "9404",
-          "9458",
+          "9450",
           "9464",
           "9528",
-          "9557",
           "9532",
           "9604",
           "9613",
