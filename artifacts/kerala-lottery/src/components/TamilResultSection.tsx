@@ -41,6 +41,9 @@ export function TamilResultSection({ lottery, result }: Props) {
         <p>இன்றைய <strong>{tamilName} லாட்டரி</strong> முதல் பரிசு எண்: <strong>{firstPrize}</strong>. கீழே உள்ள பரிசு அட்டவணையில் முழு முடிவையும் பாருங்கள்.</p>
       )}
       <p>கேரளா {tamilName} லாட்டரி ({lottery.code}) ஒவ்வொரு {tamilDay}யும் மதியம் 3:00 மணிக்கு நடத்தப்படுகிறது.</p>
+      <p style={{ opacity: 0.75, fontSize: 14 }}>
+        {tamilName} lottery mudivugal, innathe {lottery.code} lottari result, kulukkal outcome — all updated here.
+      </p>
     </section>
   );
 }
