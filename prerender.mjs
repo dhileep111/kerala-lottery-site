@@ -168,7 +168,36 @@ function buildBumperContent() {
   </main>`;
 }
 
+function buildYesterdayContent() {
+  const istNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+  const y = new Date(istNow); y.setDate(y.getDate() - 1);
+  const targetYmd = `${y.getFullYear()}-${String(y.getMonth()+1).padStart(2,'0')}-${String(y.getDate()).padStart(2,'0')}`;
+  const nonBumper = results.filter(r => r.lotterySlug !== 'bumper');
+  const result = nonBumper.find(r => r.drawDate === targetYmd)
+    ?? [...nonBumper].filter(r => r.drawDate < targetYmd).sort((a,b)=> (b.drawDate||'').localeCompare(a.drawDate||''))[0];
+  if (!result) {
+    return `<main><h1>Yesterday's Kerala Lottery Result</h1><p>Yesterday's result will be published here shortly after the 3 PM draw.</p></main>`;
+  }
+  const lottery = lotteries.find(l => l.slug === result.lotterySlug);
+  const fp = getFirstPrize(result);
+  const dist = getDistrict(result.prizes?.find(p => p.tier === '1st Prize')?.numbers?.[0]);
+  const rows = (result.prizes || []).map(p => {
+    const nums = (p.numbers || []).map(n => `${getTicket(n)}${getDistrict(n) ? ` (${getDistrict(n)})` : ''}`).join(', ');
+    return `<tr><td>${e(p.tier)}${p.amount ? ` (${e(p.amount)})` : ''}</td><td>${e(nums)}</td></tr>`;
+  }).join('');
+  return `<main>
+    <h1>Yesterday's Kerala Lottery Result</h1>
+    <p>The full result of yesterday's Kerala lottery draw — all prize tiers, updated automatically. நேற்றைய கேரளா லாட்டரி முடிவு — அனைத்து பரிசு விவரங்களும்.</p>
+    <h2>${e(lottery?.name || result.lotterySlug)} — ${e(result.displayDate)} (${e(result.drawCode)})</h2>
+    <p>First prize: <strong>${e(fp)}</strong>${dist ? ` (${e(dist)})` : ''}</p>
+    <table class="table"><thead><tr><th>Prize</th><th>Winning Number(s)</th></tr></thead><tbody>${rows}</tbody></table>
+  </main>`;
+}
+
 const staticRoutes = [
+  { path: '/yesterday-result', title: "Yesterday's Kerala Lottery Result — All Prizes | நேற்றைய லாட்டரி முடிவு",
+    desc: "Yesterday's Kerala lottery result with full prize list — 1st to last tier. நேற்றைய கேரளா லாட்டரி முடிவு முழு பரிசு விவரங்களுடன். Updated daily at 3 PM IST.",
+    content: buildYesterdayContent() },
   { path: '/bumper', title: 'Kerala Bumper Lottery 2026 — Next Draw Date & Results | கேரளா பம்பர் லாட்டரி',
     desc: 'Next Kerala bumper: Monsoon Bumper BR-110 on 18 July 2026, first prize ₹10 crore (₹250 ticket). Bumper draw dates, prize structure and past results. கேரளா அடுத்த பம்பர் லாட்டரி தேதி.',
     content: buildBumperContent() },
