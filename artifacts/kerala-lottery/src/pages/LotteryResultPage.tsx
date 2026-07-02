@@ -5,6 +5,7 @@ import { ResultTable } from '../components/ResultTable';
 import { ResultDetails } from '../components/ResultDetails';
 import { TamilResultSection } from '../components/TamilResultSection';
 import { ShareResultButton } from '../components/ShareResultButton';
+import { DownloadPdfButton } from '../components/DownloadPdfButton';
 import { getLatestResult, getLottery, site } from '../data';
 
 export default function LotteryResultPage() {
@@ -85,6 +86,7 @@ export default function LotteryResultPage() {
           <div style={{ height: 24 }} />
           <ResultDetails result={result} />
           <ResultTable result={result} />
+          <DownloadPdfButton lottery={lottery} result={result} />
           {result.status !== 'pending' && (
             <div style={{ padding: '12px 20px 16px', borderTop: '1px solid var(--border)', background: '#fafafa', display: 'flex', justifyContent: 'center' }}>
               <Link href={`/results/${lottery.slug}/first-prize`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#f59e0b,#d97706)', color: 'white', padding: '10px 24px', borderRadius: 12, fontWeight: 800, fontSize: 14, textDecoration: 'none' }}>
