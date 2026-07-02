@@ -5,6 +5,7 @@ import { ResultDetails } from '../components/ResultDetails';
 import { ResultTable } from '../components/ResultTable';
 import { drawPath, getLottery, getResultByDraw, getResultsForLottery, site } from '../data';
 import { ShareResultButton } from '../components/ShareResultButton';
+import { DownloadPdfButton } from '../components/DownloadPdfButton';
 
 export default function DrawArchivePage() {
   const params = useParams<{ slug: string; drawCode: string }>();
@@ -75,6 +76,7 @@ export default function DrawArchivePage() {
           <div style={{ height: 24 }} />
           <ResultDetails result={result} />
           <ResultTable result={result} />
+          <DownloadPdfButton lottery={lottery} result={result} />
           <ShareResultButton lottery={lottery} result={result} />
         </section>
         {!!related.length && (
