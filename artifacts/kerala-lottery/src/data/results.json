@@ -1,5 +1,161 @@
 [
   {
+    "lotterySlug": "suvarna-keralam",
+    "drawCode": "SK-59",
+    "drawDate": "2026-07-03",
+    "displayDate": "July 03, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-07-03T09:53:56.296827Z",
+    "summary": "Result for Suvarna Keralam SK-59. 8/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          {
+            "ticket": "RL 545511",
+            "district": "Kottayam"
+          }
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "RA 545511",
+          "RB 545511",
+          "RC 545511",
+          "RD 545511",
+          "RE 545511",
+          "RF 545511",
+          "RG 545511",
+          "RH 545511",
+          "RJ 545511",
+          "RK 545511",
+          "RM 545511"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          {
+            "ticket": "RK 220205",
+            "district": "Kollam"
+          }
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          {
+            "ticket": "RK 989925",
+            "district": "Kozhikode"
+          }
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "0550",
+          "0974",
+          "1051",
+          "1744",
+          "2602",
+          "2856",
+          "3838",
+          "4884",
+          "5996",
+          "6418",
+          "6885",
+          "6995",
+          "7470",
+          "7656",
+          "8022",
+          "8730",
+          "9337",
+          "9683",
+          "9854"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": [
+          "1283",
+          "2594",
+          "2876",
+          "5755",
+          "8335",
+          "8831"
+        ]
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": [
+          "1309",
+          "1338",
+          "1520",
+          "1545",
+          "2509",
+          "2676",
+          "2976",
+          "3080",
+          "3996",
+          "4636",
+          "4939",
+          "5051",
+          "5075",
+          "6067",
+          "6154",
+          "6600",
+          "6704",
+          "6781",
+          "7517",
+          "7521",
+          "7637",
+          "7854",
+          "8266",
+          "8502",
+          "9978"
+        ]
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": [
+          "7314",
+          "5839",
+          "5427",
+          "5667",
+          "3444",
+          "3365",
+          "0454",
+          "8205",
+          "0802",
+          "5825",
+          "8556",
+          "2264"
+        ]
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "karunya-plus",
     "drawCode": "KN-630",
     "drawDate": "2026-07-02",
