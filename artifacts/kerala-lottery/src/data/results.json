@@ -1,5 +1,90 @@
 [
   {
+    "lotterySlug": "samrudhi",
+    "drawCode": "SM-62",
+    "drawDate": "2026-07-05",
+    "displayDate": "July 05, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-07-05T10:04:34.079919Z",
+    "summary": "Result for Samrudhi SM-62. 2/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          {
+            "ticket": "ME 893044",
+            "district": "Pattambi"
+          }
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "MA 893044",
+          "MD 893044",
+          "MF 893044",
+          "MG 893044",
+          "MH 893044",
+          "MJ 893044",
+          "ML 893044",
+          "MM 893044",
+          "MN 893044",
+          "MO 893044",
+          "MR 893044",
+          "MS 893044",
+          "MU 893044",
+          "MV 893044",
+          "MX 893044",
+          "MY 893044"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹25,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": []
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "karunya",
     "drawCode": "KR-760",
     "drawDate": "2026-07-04",
