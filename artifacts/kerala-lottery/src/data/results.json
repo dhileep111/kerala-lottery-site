@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-07-15T11:04:31.222083Z",
+    "lastUpdated": "2026-07-15T11:48:23.985376Z",
     "summary": "Result for Dhanalekshmi DL-61. 10/10 tiers updated.",
     "prizes": [
       {
@@ -53,7 +53,7 @@
         "numbers": [
           {
             "ticket": "DH 738109",
-            "district": "Kollam"
+            "district": "Karunagapally"
           }
         ]
       },
