@@ -43,18 +43,27 @@ def html_to_text(html):
     text = re.sub(r'\s+', ' ', text).strip()
     return text
 
-def is_bumper_day(now):
+def get_bumper_info():
+    """bumpers.json's announced bumper — name/code/date maintained manually,
+    see the file's _comment. Returns {} if unavailable."""
+    try:
+        with open('artifacts/kerala-lottery/src/data/bumpers.json') as f:
+            return json.load(f).get('upcoming') or {}
+    except Exception:
+        return {}
+
+def is_bumper_day(now, bumper_info=None):
     """Kerala Lottery Dept suspends that weekday's regular draw whenever a
     bumper is announced for the same date — so on a bumper day there is no
     real regular-lottery result to scrape. Check bumpers.json's announced
     draw date against today (IST) before assuming the weekday lottery ran."""
-    try:
-        with open('artifacts/kerala-lottery/src/data/bumpers.json') as f:
-            upcoming = json.load(f).get('upcoming') or {}
-        iso = upcoming.get('drawDateISO', '')
-        return iso[:10] == now.strftime('%Y-%m-%d')
-    except Exception:
-        return False
+    upcoming = bumper_info if bumper_info is not None else get_bumper_info()
+    iso = upcoming.get('drawDateISO', '')
+    return iso[:10] == now.strftime('%Y-%m-%d')
+
+def bumper_name_slug(name):
+    """'Monsoon Bumper' -> 'monsoon-bumper', matching goodreturns.in's URL scheme."""
+    return re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-')
 
 def get_today_lottery():
     DATA = 'artifacts/kerala-lottery/src/data'
@@ -67,10 +76,14 @@ def get_today_lottery():
     today_s = now.strftime('%Y-%m-%d')
     today_j = (now.weekday() + 1) % 7
 
-    if is_bumper_day(now):
-        print("Today is a bumper draw day — regular weekday lottery is suspended, skipping.")
-        print("Publish the bumper result via manual_updater.yml with lottery=bumper instead.")
-        sys.exit(0)
+    bumper_info = get_bumper_info()
+    if is_bumper_day(now, bumper_info):
+        lottery = next(l for l in lotteries if l['slug'] == 'bumper')
+        draw_code = bumper_info.get('code') or f"{lottery['code']}-XXX"
+        today_r = next((r for r in results if r['lotterySlug'] == 'bumper' and r.get('drawDate','') == today_s), None)
+        if today_r:
+            draw_code = today_r['drawCode']
+        return lottery, draw_code, now
 
     lottery = next((l for l in lotteries if l['drawDayIndex'] == today_j and not l.get('isBumper')), None)
     if not lottery:
@@ -169,21 +182,9 @@ def try_economic_times(lottery, draw_code, date):
     et_name  = ET_NAMES.get(lottery['slug'], lottery['slug'])
     date_str = date.strftime('%d-%m-%Y')
 
-    # 0. Optional exact ET URL for manual reruns/debugging when search pages lag.
-    for env_name in ('ET_ARTICLE_URL', 'RESULT_ARTICLE_URL', 'SOURCE_URL'):
-        direct_url = os.environ.get(env_name, '').strip()
-        if not direct_url:
-            continue
-        if 'economictimes.indiatimes.com' not in direct_url.lower():
-            continue
-        if not is_result_article_url(direct_url):
-            print(f"  ET: skipping {env_name} guessing/prediction article: {direct_url[:80]}")
-            continue
-        print(f"  ET direct ({env_name}): {direct_url[:80]}")
-        h = fetch(direct_url)
-        if is_fresh_result_page(h, draw_code):
-            return h
-        print(f"  ET direct ({env_name}): failed freshness check")
+    # Note: a manually supplied ET_ARTICLE_URL/RESULT_ARTICLE_URL/SOURCE_URL is
+    # tried first, for any domain, by try_direct_url() at the top of main()'s
+    # source list — no need to duplicate that check here.
 
     # 1. ET's own search — only follow articleshow links for this lottery/draw
     query = urllib.parse.quote(f'kerala lottery {lottery["name"]} {draw_code} result today')
@@ -226,13 +227,34 @@ def try_economic_times(lottery, draw_code, date):
     return ""
 
 # ── Source 2: Goodreturns ─────────────────────────────────
-def try_goodreturns(lottery_slug, draw_code):
-    url = f"https://www.goodreturns.in/kerala-lottery-results-{lottery_slug}.html"
+def try_goodreturns(lottery_slug, draw_code, bumper_info=None):
+    if lottery_slug == 'bumper':
+        name = (bumper_info or {}).get('name', '')
+        url_slug = bumper_name_slug(name) if name else 'bumper'
+    else:
+        url_slug = lottery_slug
+    url = f"https://www.goodreturns.in/kerala-lottery-results-{url_slug}.html"
     print(f"  Goodreturns: {url}")
     h = fetch(url)
     if is_fresh_result_page(h, draw_code):
         return h
     print(f"  Goodreturns: stale or missing draw code")
+    return ""
+
+# ── Source 0: Direct URL override ─────────────────────────
+def try_direct_url(draw_code):
+    """Manually supplied article URL (any domain) — for sources without a
+    predictable URL pattern, e.g. a bumper writeup on onmanorama.com found
+    by hand. Pass via ET_ARTICLE_URL / RESULT_ARTICLE_URL / SOURCE_URL."""
+    for env_name in ('ET_ARTICLE_URL', 'RESULT_ARTICLE_URL', 'SOURCE_URL'):
+        direct_url = os.environ.get(env_name, '').strip()
+        if not direct_url:
+            continue
+        print(f"  Direct ({env_name}): {direct_url[:80]}")
+        h = fetch(direct_url)
+        if is_fresh_result_page(h, draw_code):
+            return h
+        print(f"  Direct ({env_name}): failed freshness check")
     return ""
 
 # ── Source 3: keralalotteries.net ────────────────────────
@@ -475,14 +497,25 @@ def main():
     if other_recent_prizes:
         print(f"  Cross-validation: loaded {len(other_recent_prizes)} known prizes from other draws")
 
+    is_bumper = lottery['slug'] == 'bumper'
+    bumper_info = get_bumper_info() if is_bumper else None
+
+    sources = [("Direct", lambda: try_direct_url(draw_code))]
+    if is_bumper:
+        # klresultstoday/keralalotteries/lotteryresultsnow URL patterns are
+        # untested for bumper draws — Goodreturns' bumper page is confirmed working.
+        sources += [("Goodreturns", lambda: try_goodreturns(lottery['slug'], draw_code, bumper_info))]
+    else:
+        sources += [
+            ("klresultstoday",  lambda: try_klresultstoday(lottery['slug'], draw_code, now)),
+            ("ET",              lambda: try_economic_times(lottery, draw_code, now)),
+            ("Goodreturns",     lambda: try_goodreturns(lottery['slug'], draw_code)),
+            ("keralalotteries", lambda: try_keralalotteries(lottery['slug'], draw_code, now)),
+            ("lotteryresultsnow",lambda: try_lotteryresultsnow(lottery['slug'], draw_code, now)),
+        ]
+
     html, source, prizes = "", "", {}
-    for name, fn in [
-        ("klresultstoday",  lambda: try_klresultstoday(lottery['slug'], draw_code, now)),
-        ("ET",              lambda: try_economic_times(lottery, draw_code, now)),
-        ("Goodreturns",     lambda: try_goodreturns(lottery['slug'], draw_code)),
-        ("keralalotteries", lambda: try_keralalotteries(lottery['slug'], draw_code, now)),
-        ("lotteryresultsnow",lambda: try_lotteryresultsnow(lottery['slug'], draw_code, now)),
-    ]:
+    for name, fn in sources:
         h = fn()
         if not h or len(h) <= 2000:
             continue
