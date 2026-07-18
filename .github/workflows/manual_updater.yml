@@ -8,6 +8,14 @@ on:
   #   - cron: '15 11 * * *'  # 4:45 PM IST
   workflow_dispatch:
     inputs:
+      lottery:
+        description: 'Which draw is this result for?'
+        required: false
+        type: choice
+        default: 'auto'
+        options:
+          - auto
+          - bumper
       first_prize:
         description: '1st Prize ticket number ONLY — e.g. KU 144057 (no JSON, no district)'
         required: true
@@ -55,6 +63,8 @@ jobs:
       # ── AUTO-DETECT today's lottery & draw code ─────────────
       - name: Auto-detect lottery and draw code
         id: detect
+        env:
+          LOTTERY_CHOICE: ${{ github.event.inputs.lottery }}
         run: |
           python3 - << 'EOF'
           import json, datetime, os
@@ -65,22 +75,30 @@ jobs:
           with open(f'{DATA}/results.json') as f:
               results = json.load(f)
 
-          # Today's draw — JS day convention: Sun=0, Mon=1...Sat=6
-          today_js = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=5, minutes=30))).weekday()
-          today_js = (today_js + 1) % 7  # convert Python Mon=0 to JS Sun=0
-
-          # Find today's lottery (skip bumper)
-          today_lottery = next(
-              (l for l in lotteries if l['drawDayIndex'] == today_js and not l.get('isBumper')),
-              lotteries[0]
-          )
-          slug = today_lottery['slug']
-          code_prefix = today_lottery['code']
-
-          # Check if today already has a result — reuse that draw code
           ist_now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=5, minutes=30)))
           today_str = ist_now.strftime('%Y-%m-%d')
 
+          if os.environ.get('LOTTERY_CHOICE') == 'bumper':
+              # Bumper draws don't have a weekday — pull the code straight from bumpers.json
+              with open(f'{DATA}/bumpers.json') as f:
+                  bumper_info = json.load(f).get('upcoming', {})
+              today_lottery = next(l for l in lotteries if l['slug'] == 'bumper')
+              slug = today_lottery['slug']
+              code_prefix = bumper_info.get('code', today_lottery['code']).split('-')[0]
+          else:
+              # Today's draw — JS day convention: Sun=0, Mon=1...Sat=6
+              today_js = ist_now.weekday()
+              today_js = (today_js + 1) % 7  # convert Python Mon=0 to JS Sun=0
+
+              # Find today's lottery (skip bumper)
+              today_lottery = next(
+                  (l for l in lotteries if l['drawDayIndex'] == today_js and not l.get('isBumper')),
+                  lotteries[0]
+              )
+              slug = today_lottery['slug']
+              code_prefix = today_lottery['code']
+
+          # Check if today already has a result — reuse that draw code
           today_result = next(
               (r for r in results if r['lotterySlug'] == slug and r.get('drawDate','') == today_str),
               None
@@ -90,6 +108,9 @@ jobs:
               # Already exists for today — reuse same draw code (this is an update run)
               draw_code = today_result['drawCode']
               print(f'Reusing existing draw for today: {draw_code}')
+          elif os.environ.get('LOTTERY_CHOICE') == 'bumper' and bumper_info.get('code'):
+              # Bumper draw code is announced in advance — use it directly, don't guess by incrementing
+              draw_code = bumper_info['code']
           else:
               # New draw — increment from last completed draw
               draws = [r for r in results
