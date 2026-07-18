@@ -163,7 +163,20 @@ def scrape_draw_code(code):
     except Exception as e: print(f"⚠️ Scrape failed: {e}")
     return f"{code}-XXX"
 
+BUMPERS_PATH = DATA_DIR / "bumpers.json"
+
 def get_tiers(slug):
+    if slug == "bumper":
+        # Bumper prize structure (tier count + amounts) varies edition to edition —
+        # prefer the currently-announced bumper's own table from bumpers.json,
+        # falling back to the generic static table only if it hasn't been set.
+        try:
+            upcoming = load_json(BUMPERS_PATH).get("upcoming") or {}
+            tiers = upcoming.get("prizeTiers")
+            if tiers:
+                return tiers
+        except Exception:
+            pass
     return LOTTERY_PRIZES.get(slug, LOTTERY_PRIZES["samrudhi"])
 
 def is_bumper_slug(slug):
