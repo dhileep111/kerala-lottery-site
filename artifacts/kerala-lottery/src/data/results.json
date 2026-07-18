@@ -5,10 +5,10 @@
     "drawDate": "2026-07-18",
     "displayDate": "July 18, 2026",
     "status": "verified",
-    "sourceName": "ET auto scraper",
+    "sourceName": "Kerala State Lotteries official PDF",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-07-18T12:06:47.665452Z",
-    "summary": "Result for Kerala Bumper BR-110. 8/9 tiers updated.",
+    "lastUpdated": "2026-07-18T17:05:42+05:30",
+    "summary": "Result for Kerala Bumper BR-110. 8/8 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -37,6 +37,22 @@
           {
             "ticket": "MA 530984",
             "district": "Thrissur"
+          },
+          {
+            "ticket": "MB 884378",
+            "district": "Kattappana"
+          },
+          {
+            "ticket": "MC 351820",
+            "district": "Palakkad"
+          },
+          {
+            "ticket": "MD 557299",
+            "district": "Neyyattinkara"
+          },
+          {
+            "ticket": "ME 685578",
+            "district": "Alappuzha"
           }
         ]
       },
@@ -47,13 +63,50 @@
           {
             "ticket": "MA 816079",
             "district": "Palakkad"
+          },
+          {
+            "ticket": "MB 725332",
+            "district": "Palakkad"
+          },
+          {
+            "ticket": "MC 504425",
+            "district": "Wayanadu"
+          },
+          {
+            "ticket": "MD 323192",
+            "district": "Kattappana"
+          },
+          {
+            "ticket": "ME 739809",
+            "district": "Kottayam"
           }
         ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹3,00,000",
-        "numbers": []
+        "numbers": [
+          {
+            "ticket": "MA 838733",
+            "district": "Irinjalakuda"
+          },
+          {
+            "ticket": "MB 509385",
+            "district": "Palakkad"
+          },
+          {
+            "ticket": "MC 254807",
+            "district": "Karunagapally"
+          },
+          {
+            "ticket": "MD 536900",
+            "district": "Adoor"
+          },
+          {
+            "ticket": "ME 535035",
+            "district": "Karunagapally"
+          }
+        ]
       },
       {
         "tier": "5th Prize",
@@ -767,7 +820,7 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-07-18T11:17:53.326196Z",
+    "lastUpdated": "2026-07-18T11:06:17.159795Z",
     "summary": "Result for Karunya KR-762. 2/10 tiers updated.",
     "prizes": [
       {
