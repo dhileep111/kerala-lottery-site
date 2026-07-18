@@ -1,5 +1,5 @@
 {
-  "_comment": "EDIT THIS when a new bumper is announced. Set drawDateISO in IST (+05:30). After the draw, its result flows into results.json via the scraper and shows under Past Bumpers automatically — then update this to the next bumper (e.g. Thiruvonam/Onam Bumper).",
+  "_comment": "EDIT THIS when a new bumper is announced. Set drawDateISO in IST (+05:30). Also set prizeTiers to this bumper's actual per-tier amounts and tier count from the official notification (bumper prize structures vary edition to edition — do not assume the previous bumper's amounts or tier count still apply; some editions have no 9th Prize tier). After the draw, its result flows into results.json via the scraper and shows under Past Bumpers automatically — then update this to the next bumper (e.g. Thiruvonam/Onam Bumper).",
   "upcoming": {
     "name": "Monsoon Bumper",
     "code": "BR-110",
@@ -9,6 +9,17 @@
     "firstPrize": "₹10 Crore",
     "ticketPrice": "₹250",
     "series": "MA, MB, MC, MD, ME",
-    "venue": "Gorky Bhavan, Bakery Junction, Thiruvananthapuram"
+    "venue": "Gorky Bhavan, Bakery Junction, Thiruvananthapuram",
+    "prizeTiers": [
+      { "tier": "1st Prize",         "amount": "₹10,00,00,000" },
+      { "tier": "Consolation Prize", "amount": "₹1,00,000" },
+      { "tier": "2nd Prize",         "amount": "₹10,00,000" },
+      { "tier": "3rd Prize",         "amount": "₹5,00,000" },
+      { "tier": "4th Prize",         "amount": "₹3,00,000" },
+      { "tier": "5th Prize",         "amount": "₹5,000" },
+      { "tier": "6th Prize",         "amount": "₹1,000" },
+      { "tier": "7th Prize",         "amount": "₹500" },
+      { "tier": "8th Prize",         "amount": "₹250" }
+    ]
   }
 }
