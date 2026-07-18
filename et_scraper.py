@@ -43,6 +43,19 @@ def html_to_text(html):
     text = re.sub(r'\s+', ' ', text).strip()
     return text
 
+def is_bumper_day(now):
+    """Kerala Lottery Dept suspends that weekday's regular draw whenever a
+    bumper is announced for the same date — so on a bumper day there is no
+    real regular-lottery result to scrape. Check bumpers.json's announced
+    draw date against today (IST) before assuming the weekday lottery ran."""
+    try:
+        with open('artifacts/kerala-lottery/src/data/bumpers.json') as f:
+            upcoming = json.load(f).get('upcoming') or {}
+        iso = upcoming.get('drawDateISO', '')
+        return iso[:10] == now.strftime('%Y-%m-%d')
+    except Exception:
+        return False
+
 def get_today_lottery():
     DATA = 'artifacts/kerala-lottery/src/data'
     with open(f'{DATA}/lotteries.json') as f:
@@ -53,6 +66,12 @@ def get_today_lottery():
     now = datetime.datetime.now(ist)
     today_s = now.strftime('%Y-%m-%d')
     today_j = (now.weekday() + 1) % 7
+
+    if is_bumper_day(now):
+        print("Today is a bumper draw day — regular weekday lottery is suspended, skipping.")
+        print("Publish the bumper result via manual_updater.yml with lottery=bumper instead.")
+        sys.exit(0)
+
     lottery = next((l for l in lotteries if l['drawDayIndex'] == today_j and not l.get('isBumper')), None)
     if not lottery:
         print("No lottery today"); sys.exit(0)
