@@ -148,43 +148,15 @@ jobs:
         run: python update_results.py
 
       # ── UPDATE GUESSING NUMBERS ───────────────────────────────
+      # Always runs — auto-derives fresh boards from the latest verified result
+      # when guessing_a/b/c are left blank, so this never needs manual entry.
+      # Fill in guessing_a/b/c only when you want to hand-pick specific numbers.
       - name: Update guessing numbers
-        if: ${{ github.event.inputs.guessing_a != '' }}
         env:
-          A: ${{ github.event.inputs.guessing_a }}
-          B: ${{ github.event.inputs.guessing_b }}
-          C: ${{ github.event.inputs.guessing_c }}
-        run: |
-          python3 - << 'EOF'
-          import json, os, datetime
-          path = 'artifacts/kerala-lottery/src/data/guessing-numbers.json'
-          with open(path) as f:
-              data = json.load(f)
-          A = os.environ.get('A','').strip()
-          B = os.environ.get('B','').strip()
-          C = os.environ.get('C','').strip()
-          if A: data['boards']['A'] = A
-          if B: data['boards']['B'] = B
-          if C: data['boards']['C'] = C
-          today = datetime.date.today()
-          data['updatedDate']  = today.strftime('%Y-%m-%d')
-          data['updatedLabel'] = today.strftime('%B %-d, %Y')
-          combo_map = {
-            'AB Combo':A+B,'BC Combo':B+C,'CA Combo':C+A,
-            'ABC Three Digit':A+B+C,'BCA Three Digit':B+C+A,'CAB Three Digit':C+A+B,
-            'Hot Pick':A+A+B+C,'Mirror Pick':B+B+C+A,'Pattern Pick':C+C+A+B,
-            'Lucky Combo':A+B+C+A,'Reverse Pick':C+B+A+C,'Sequential':C+B+C+A,
-            'Zero Start':'0'+A+B+C,'Double AB':A+B+A+B,'Double BC':B+C+B+C,
-          }
-          for item in data['numbers']:
-              if item['label'] in combo_map: item['value']=combo_map[item['label']]
-              elif item['label']=='A Board': item['value']=A
-              elif item['label']=='B Board': item['value']=B
-              elif item['label']=='C Board': item['value']=C
-          with open(path,'w') as f:
-              json.dump(data,f,indent=2,ensure_ascii=False)
-          print(f'✅ Guessing numbers: A={A} B={B} C={C}')
-          EOF
+          GUESS_A: ${{ github.event.inputs.guessing_a }}
+          GUESS_B: ${{ github.event.inputs.guessing_b }}
+          GUESS_C: ${{ github.event.inputs.guessing_c }}
+        run: python update_guessing.py
 
       # ── COMMIT ALL DATA CHANGES ───────────────────────────────
       - name: Commit data changes
