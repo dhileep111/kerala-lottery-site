@@ -61,12 +61,19 @@ jobs:
           FULL_RESULTS: ${{ steps.scraper.outputs.full_results }}
         run: python update_results.py
 
+      # Keeps guessing-numbers.json fresh on every run — auto-derived from the
+      # latest verified result, no manual entry needed.
+      - name: Update guessing numbers
+        if: steps.scraper.outputs.found == 'true'
+        run: python update_guessing.py
+
       - name: Commit data changes
         if: steps.scraper.outputs.found == 'true'
         run: |
           git config --global user.name "ET Auto Bot"
           git config --global user.email "bot@keralaticketresults.in"
           git add artifacts/kerala-lottery/src/data/results.json
+          git add artifacts/kerala-lottery/src/data/guessing-numbers.json
           git diff --staged --quiet || (git commit -m "auto: ${{ steps.scraper.outputs.draw_code }} from ET scraper" && git push)
 
       - name: Setup Node
