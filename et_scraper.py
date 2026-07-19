@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 et_scraper.py v8 - Kerala Lottery Auto-Scraper
-Sources: ET (via search + Google) → Goodreturns → keralalotteries.net → lotteryresultsnow.com
+Sources: onmanorama.com (via Google) → ET (via search + Google) → Goodreturns → keralalotteries.net → lotteryresultsnow.com
 
 v8 fix: freshness check now works on stripped plain text (not raw HTML).
         Raw HTML has huge gaps between draw code in <title> and prize table deep in page.
@@ -156,21 +156,31 @@ def is_fresh_result_page(html, draw_code):
     return True
 
 # ── Source 1: Economic Times ──────────────────────────────
-def google_search_et_url(lottery_name, draw_code, date_str):
-    """Use Google to find the real ET articleshow URL for today's result."""
-    query = urllib.parse.quote(f'site:economictimes.indiatimes.com {lottery_name} {draw_code} result {date_str}')
+def google_site_search(site_query, url_pattern, terms):
+    """Use Google's site: search to find a real article URL matching
+    url_pattern, since ET/onmanorama article slugs aren't predictable the
+    way goodreturns.in/keralalotteries.net's fixed URL schemes are."""
+    query = urllib.parse.quote(f'site:{site_query} {terms}')
     url   = f"https://www.google.com/search?q={query}&num=5"
     html  = fetch(url, extra_headers={
         'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
     })
     if not html:
         return []
-    links = re.findall(r'https://economictimes\.indiatimes\.com[^"&\s<>]*articleshow/\d+[^"&\s<>]*', html)
+    links = re.findall(url_pattern, html)
     seen = []
     for l in links:
         if l not in seen:
             seen.append(l)
     return seen
+
+def google_search_et_url(lottery_name, draw_code, date_str):
+    """Use Google to find the real ET articleshow URL for today's result."""
+    return google_site_search(
+        'economictimes.indiatimes.com',
+        r'https://economictimes\.indiatimes\.com[^"&\s<>]*articleshow/\d+[^"&\s<>]*',
+        f'{lottery_name} {draw_code} result {date_str}',
+    )
 
 def is_result_article_url(url):
     """Reject ET articles that are about guesses/predictions instead of published results."""
@@ -442,24 +452,29 @@ def build_full_results(prizes):
     order = ['1st','consolation','2nd','3rd','4th','5th','6th','7th','8th','9th']
     return ' / '.join(f'{t}:{",".join(str(v) for v in prizes[t])}' for t in order if t in prizes and prizes[t])
 
-# ── Source 5: klresultstoday.com ─────────────────────────
-def try_klresultstoday(lottery_slug, draw_code, date):
-    # URL format: klresultstoday.com/sthree-sakthi-ss-523-result-today-09-06-2026/
-    slug_map = {
-        'sthree-sakthi': 'sthree-sakthi', 'karunya': 'karunya',
-        'karunya-plus': 'karunya-plus', 'dhanalekshmi': 'dhanalekshmi',
-        'suvarna-keralam': 'suvarna-keralam', 'bhagyathara': 'bhagyathara',
-        'samrudhi': 'samrudhi',
-    }
-    name     = slug_map.get(lottery_slug, lottery_slug)
-    dc_lower = draw_code.lower().replace('-','-')
+# ── Source 5: onmanorama.com ──────────────────────────────
+def try_onmanorama(lottery, draw_code, date):
+    """onmanorama.com article slugs aren't a fixed pattern (they're full
+    descriptive headlines, e.g. .../monsoon-bumper-br-110-lottery-results-
+    kerala-1-crore-first-prize-list-winners-live.html), so unlike Goodreturns/
+    keralalotteries.net we can't construct the URL directly — find it via
+    Google site-search instead, same technique as the ET source."""
     date_str = date.strftime('%d-%m-%Y')
-    url = f"https://klresultstoday.com/{name}-{dc_lower}-result-today-{date_str}/"
-    print(f"  klresultstoday: {url}")
-    h = fetch(url)
-    if is_fresh_result_page(h, draw_code):
-        return h
-    print(f"  klresultstoday: stale or not found")
+    links = google_site_search(
+        'onmanorama.com',
+        r'https://www\.onmanorama\.com/news/kerala[^"&\s<>]*\.html',
+        f'{lottery["name"]} {draw_code} lottery result {date_str}',
+    )
+    for link in links:
+        if not is_result_article_url(link):
+            print(f"  onmanorama: skipping guessing/prediction article: {link[:80]}")
+            continue
+        print(f"  onmanorama: {link[:80]}")
+        h = fetch(link)
+        if is_fresh_result_page(h, draw_code):
+            return h
+        print(f"  onmanorama: failed freshness check")
+    print(f"  onmanorama: not found")
     return ""
 
 
@@ -484,6 +499,35 @@ def get_recent_prizes(lottery_slug, limit=3):
         return set()
 
 
+def get_own_lottery_past_prizes(lottery_slug, draw_code):
+    """Return {ticket: drawCode} for this SAME lottery's own prior draws
+    (excluding draw_code itself). Rolling aggregator pages (e.g. Goodreturns'
+    per-lottery page) list several past draws on one page — if the anchor
+    lands near an already-published older draw instead of the fresh one,
+    the freshness check can still pass (the draw code IS on the page, just
+    for the nav/history section) while the numbers extracted are last
+    week's. A ticket number repeating across two different real draws of
+    the same lottery is effectively impossible, so any match here is
+    treated as stale contamination, not coincidence."""
+    try:
+        with open('artifacts/kerala-lottery/src/data/results.json') as f:
+            results = json.load(f)
+        seen = {}
+        for r in results:
+            if r.get('lotterySlug') != lottery_slug:
+                continue
+            if r.get('drawCode') == draw_code:
+                continue  # a prior partial run for THIS draw isn't contamination
+            for p in r.get('prizes', []):
+                for num in p.get('numbers', []):
+                    ticket = num if isinstance(num, str) else num.get('ticket', '')
+                    if len(ticket.split()) == 2:
+                        seen[ticket.upper()] = r['drawCode']
+        return seen
+    except Exception:
+        return {}
+
+
 def main():
     ist = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
     now = datetime.datetime.now(ist)
@@ -497,17 +541,27 @@ def main():
     if other_recent_prizes:
         print(f"  Cross-validation: loaded {len(other_recent_prizes)} known prizes from other draws")
 
+    # Build this SAME lottery's own past-draw prizes, to catch a rolling
+    # aggregator page serving up an already-published older draw as if it
+    # were today's (e.g. SM-64 scrape silently returning SM-63's numbers).
+    own_past_prizes = get_own_lottery_past_prizes(lottery['slug'], draw_code)
+    if own_past_prizes:
+        print(f"  Same-lottery history: loaded {len(own_past_prizes)} prizes from {lottery['name']}'s own past draws")
+
     is_bumper = lottery['slug'] == 'bumper'
     bumper_info = get_bumper_info() if is_bumper else None
 
     sources = [("Direct", lambda: try_direct_url(draw_code))]
     if is_bumper:
-        # klresultstoday/keralalotteries/lotteryresultsnow URL patterns are
-        # untested for bumper draws — Goodreturns' bumper page is confirmed working.
-        sources += [("Goodreturns", lambda: try_goodreturns(lottery['slug'], draw_code, bumper_info))]
+        # keralalotteries.net/lotteryresultsnow URL patterns are untested for
+        # bumper draws — Goodreturns' and onmanorama's bumper pages are confirmed working.
+        sources += [
+            ("onmanorama",  lambda: try_onmanorama(lottery, draw_code, now)),
+            ("Goodreturns", lambda: try_goodreturns(lottery['slug'], draw_code, bumper_info)),
+        ]
     else:
         sources += [
-            ("klresultstoday",  lambda: try_klresultstoday(lottery['slug'], draw_code, now)),
+            ("onmanorama",      lambda: try_onmanorama(lottery, draw_code, now)),
             ("ET",              lambda: try_economic_times(lottery, draw_code, now)),
             ("Goodreturns",     lambda: try_goodreturns(lottery['slug'], draw_code)),
             ("keralalotteries", lambda: try_keralalotteries(lottery['slug'], draw_code, now)),
@@ -536,6 +590,11 @@ def main():
 
         if p1_ticket.upper() in other_recent_prizes:
             print(f"  ⚠ {name}: 1st prize '{p1_ticket}' matches a DIFFERENT lottery's recent result — contaminated, skipping")
+            continue
+
+        stale_draw = own_past_prizes.get(p1_ticket.upper())
+        if stale_draw:
+            print(f"  ⚠ {name}: 1st prize '{p1_ticket}' matches {lottery['name']}'s already-published {stale_draw} — stale page, skipping")
             continue
 
         html, source, prizes = h, name, parsed
