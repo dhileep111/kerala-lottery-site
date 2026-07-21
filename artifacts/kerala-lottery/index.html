@@ -104,7 +104,12 @@
       })();
     </script>
 
-    <!-- Canonical tag — always points to clean URL, never ?p= or ?/ -->
+    <!-- Canonical tag — always points to clean URL, never ?p= or ?/
+         Updates the EXISTING canonical in place (prerendered pages already
+         ship a correct one from prerender.mjs) instead of appending a
+         second one — two canonical tags is exactly what makes Google
+         distrust the page's signal and pick its own (e.g. the homepage)
+         instead of the page itself. -->
     <script type="text/javascript">
       (function() {
         var baseUrl    = 'https://keralaticketresults.in';
@@ -120,11 +125,24 @@
         }
 
         if (!cleanPath.startsWith('/')) cleanPath = '/' + cleanPath;
+        // Normalize trailing slash so this never disagrees with
+        // prerender.mjs's un-slashed convention (e.g. "/chart/" -> "/chart").
+        if (cleanPath.length > 1 && cleanPath.endsWith('/')) {
+          cleanPath = cleanPath.slice(0, -1);
+        }
 
-        var link  = document.createElement('link');
-        link.rel  = 'canonical';
-        link.href = baseUrl + cleanPath;
-        document.head.appendChild(link);
+        var href = baseUrl + cleanPath;
+        var existing = document.querySelectorAll('link[rel="canonical"]');
+        if (existing.length) {
+          // Keep the first, update it to the clean href; remove any duplicates.
+          existing[0].href = href;
+          for (var i = 1; i < existing.length; i++) existing[i].remove();
+        } else {
+          var link = document.createElement('link');
+          link.rel  = 'canonical';
+          link.href = href;
+          document.head.appendChild(link);
+        }
       })();
     </script>
 
