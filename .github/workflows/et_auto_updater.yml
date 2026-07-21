@@ -11,6 +11,10 @@ on:
         required: false
         type: string
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   auto-scrape-and-deploy:
     runs-on: ubuntu-latest
