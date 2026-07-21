@@ -349,7 +349,9 @@ function makeHtml(route) {
   if (html.includes('name="twitter:image"'))
     html = html.replace(/<meta name="twitter:image" content=".*?"/, `<meta name="twitter:image" content="${OG_IMAGE}"`);
 
-  // Add canonical link
+  // Add canonical link — strip any pre-existing one first so builds can
+  // never stack up duplicates (e.g. if baseHtml already carries one).
+  html = html.replace(/\s*<link rel="canonical"[^>]*>\s*/gi, '\n');
   html = html.replace('</head>', `  <link rel="canonical" href="${canonical}" />\n</head>`);
 
   // ── KEY FIX: Inject real content into <div id="root"> ──
