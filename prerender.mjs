@@ -327,7 +327,7 @@ const redirectRoutes = [
     path: '/results/bumper/br-109)',
     title: 'Vishu Bumper BR-109 Result — Redirecting',
     desc: 'Kerala Vishu Bumper BR-109 lottery result redirect.',
-    content: `<main><h1>Vishu Bumper BR-109 Result</h1><p>Redirecting to correct page...</p><script>window.location.replace('/results/bumper/br-109/');</script><a href="/results/bumper/br-109/">View BR-109 Result</a></main>`,
+    content: `<main><h1>Vishu Bumper BR-109 Result</h1><p>Redirecting to correct page...</p><script>window.location.replace('/results/bumper/br-109');</script><a href="/results/bumper/br-109">View BR-109 Result</a></main>`,
   },
 ];
 
@@ -367,12 +367,32 @@ function makeHtml(route) {
 }
 
 // ── Write files ───────────────────────────────────────────
+// Every route is written as a sibling "<path>.html" file, NOT
+// "<path>/index.html". GitHub Pages serves an extensionless request for
+// "<path>.html" directly (200, no redirect), but a request for a directory
+// like "<path>/" containing only index.html gets 301-redirected to add the
+// trailing slash. Every canonical tag, the sitemap, and every internal
+// <Link> in this app already use the no-slash form — so the old
+// dir/index.html layout meant EVERY page had to survive one avoidable
+// redirect hop to reach its own canonical URL, which is exactly what
+// Search Console's Coverage report was flagging as "Redirect error".
 let written = 0, errors = 0;
 for (const route of allRoutes) {
-  const dir = `${distDir}${route.path}`;
+  if (route.path === '/') {
+    try {
+      writeFileSync(`${distDir}/index.html`, makeHtml(route), 'utf8');
+      written++;
+    } catch (err) {
+      console.error(`❌ ${route.path}: ${err.message}`);
+      errors++;
+    }
+    continue;
+  }
+  const filePath = `${distDir}${route.path}.html`;
+  const dir = dirname(filePath);
   try {
     mkdirSync(dir, { recursive: true });
-    writeFileSync(`${dir}/index.html`, makeHtml(route), 'utf8');
+    writeFileSync(filePath, makeHtml(route), 'utf8');
     written++;
   } catch (err) {
     console.error(`❌ ${route.path}: ${err.message}`);
