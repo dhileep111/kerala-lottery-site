@@ -1,5 +1,167 @@
 [
   {
+    "lotterySlug": "sthree-sakthi",
+    "drawCode": "SS-529",
+    "drawDate": "2026-07-21",
+    "displayDate": "July 21, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-07-21T09:54:37.148075Z",
+    "summary": "Result for Sthree Sakthi SS-529. 8/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          {
+            "ticket": "SZ 204699",
+            "district": "Kannur"
+          }
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "SN 204699",
+          "SO 204699",
+          "SP 204699",
+          "SR 204699",
+          "SS 204699",
+          "ST 204699",
+          "SU 204699",
+          "SV 204699",
+          "SW 204699",
+          "SX 204699",
+          "SY 204699"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          {
+            "ticket": "SP 516620",
+            "district": "Kottayam"
+          }
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          {
+            "ticket": "SN 735793",
+            "district": "Ernakulam"
+          }
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "0238",
+          "0348",
+          "2753",
+          "3148",
+          "3182",
+          "3857",
+          "5561",
+          "5732",
+          "5937",
+          "6436",
+          "6467",
+          "6707",
+          "7110",
+          "8267",
+          "8614",
+          "8802",
+          "9097",
+          "9532",
+          "9858"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": [
+          "0807",
+          "1403",
+          "2051",
+          "3701",
+          "4300",
+          "6350"
+        ]
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": [
+          "0097",
+          "0660",
+          "1122",
+          "1548",
+          "2047",
+          "2662",
+          "2831",
+          "3502",
+          "3607",
+          "3812",
+          "3820",
+          "5659",
+          "5968",
+          "6149",
+          "6231",
+          "6411",
+          "6798",
+          "7043",
+          "7166",
+          "8387",
+          "8502",
+          "8866",
+          "9509",
+          "9704",
+          "9921"
+        ]
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": [
+          "9319",
+          "6069",
+          "6802",
+          "3727",
+          "9080",
+          "8719",
+          "8900",
+          "5560",
+          "0466",
+          "5405",
+          "3865",
+          "9177",
+          "9663",
+          "3108",
+          "9434",
+          "1106",
+          "0932",
+          "1155"
+        ]
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "bhagyathara",
     "drawCode": "BT-63",
     "drawDate": "2026-07-20",
