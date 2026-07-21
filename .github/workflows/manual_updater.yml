@@ -37,6 +37,10 @@ on:
         required: false
         type: string
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   update-and-deploy:
     runs-on: ubuntu-latest
