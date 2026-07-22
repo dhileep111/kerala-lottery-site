@@ -321,12 +321,18 @@ const lotteryGuessingRoutes = [
     content: `<main><h1>Samrudhi Guessing Numbers Today</h1><p>Samrudhi draws every Sunday at 3:00 PM. ABC board guessing numbers and 4-digit picks for today and tomorrow. சம்ருத்தி லாட்டரி கணிப்பு எண்கள். For entertainment only.</p></main>`,
   },
 ];
-// Redirect pages for malformed URLs that Google has already indexed
+// Redirect pages for malformed URLs that Google has already indexed.
+// isRedirectStub: true — these are already one-off, self-contained redirect
+// pages (the whole point of route.content), so the write loop below skips
+// generating an extra auto slash-stub for them (that would just point a
+// "/br-109)/" variant back at "/br-109)" itself, which is meaningless here).
 const redirectRoutes = [
   {
     path: '/results/bumper/br-109)',
     title: 'Vishu Bumper BR-109 Result — Redirecting',
     desc: 'Kerala Vishu Bumper BR-109 lottery result redirect.',
+    canonical: `${SITE}/results/bumper/br-109`,
+    isRedirectStub: true,
     content: `<main><h1>Vishu Bumper BR-109 Result</h1><p>Redirecting to correct page...</p><script>window.location.replace('/results/bumper/br-109');</script><a href="/results/bumper/br-109">View BR-109 Result</a></main>`,
   },
 ];
@@ -366,6 +372,25 @@ function makeHtml(route) {
   return html;
 }
 
+// ── Redirect-stub HTML for legacy trailing-slash URLs ─────
+// Same lightweight pattern already used for the old br-109) URL: a real,
+// crawlable page (not a 404) that immediately sends visitors/Google to the
+// canonical no-slash URL and tells crawlers not to index the slash version.
+function redirectStubHtml(canonicalUrl, title) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, follow" />
+<title>${e(title)}</title>
+<link rel="canonical" href="${canonicalUrl}" />
+<meta http-equiv="refresh" content="0; url=${canonicalUrl}" />
+<script>window.location.replace(${JSON.stringify(canonicalUrl)});</script>
+</head>
+<body><a href="${canonicalUrl}">Continue to ${e(title)}</a></body>
+</html>`;
+}
+
 // ── Write files ───────────────────────────────────────────
 // Every route is written as a sibling "<path>.html" file, NOT
 // "<path>/index.html". GitHub Pages serves an extensionless request for
@@ -376,6 +401,15 @@ function makeHtml(route) {
 // dir/index.html layout meant EVERY page had to survive one avoidable
 // redirect hop to reach its own canonical URL, which is exactly what
 // Search Console's Coverage report was flagging as "Redirect error".
+//
+// IMPORTANT: we do NOT simply stop writing the old "<path>/index.html".
+// Google already has trailing-slash URLs indexed with real accumulated
+// impressions — deleting that file outright would turn a working (if
+// redirect-flagged) page into a hard 404 overnight, which is far worse
+// for rankings than the redirect-error status we're fixing. Instead we
+// keep "<path>/index.html" alive, but as a real crawlable redirect stub
+// pointing at the new canonical — carrying signal forward instead of
+// dropping it.
 let written = 0, errors = 0;
 for (const route of allRoutes) {
   if (route.path === '/') {
@@ -388,11 +422,18 @@ for (const route of allRoutes) {
     }
     continue;
   }
-  const filePath = `${distDir}${route.path}.html`;
-  const dir = dirname(filePath);
+  const canonical = route.canonical || `${SITE}${route.path}`;
+  const filePath  = `${distDir}${route.path}.html`;
+  const slashDir  = `${distDir}${route.path}`;
   try {
-    mkdirSync(dir, { recursive: true });
+    mkdirSync(dirname(filePath), { recursive: true });
     writeFileSync(filePath, makeHtml(route), 'utf8');
+    if (!route.isRedirectStub) {
+      // Legacy trailing-slash stub — keeps the old indexed URL alive as a
+      // redirect instead of a 404.
+      mkdirSync(slashDir, { recursive: true });
+      writeFileSync(`${slashDir}/index.html`, redirectStubHtml(canonical, route.title), 'utf8');
+    }
     written++;
   } catch (err) {
     console.error(`❌ ${route.path}: ${err.message}`);
