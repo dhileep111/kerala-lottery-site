@@ -1,5 +1,7 @@
 import { Link } from 'wouter';
-import { guessingData, lotteries, getTodayLottery, getTomorrowLottery } from '../data';
+import { getLatestGuessing, lotteries, getTodayLottery, getTomorrowLottery, site } from '../data';
+import type { GuessingDay } from '../data';
+import { ShareGuessingButton } from '../components/ShareGuessingButton';
 
 const TYPE_CONFIG = {
   board:  { bg: '#f0fdf4', border: '#bbf7d0' },
@@ -18,7 +20,7 @@ function BoardCard({ letter, value }: { letter: string; value: string }) {
   );
 }
 
-function NumberCard({ item }: { item: typeof guessingData.numbers[0] }) {
+function NumberCard({ item }: { item: GuessingDay['numbers'][0] }) {
   const cfg = TYPE_CONFIG[item.type as keyof typeof TYPE_CONFIG] ?? TYPE_CONFIG.four;
   return (
     <div className={`guess-card ${item.hot ? 'guess-card--hot' : ''}`} style={{ background: cfg.bg, borderColor: cfg.border }}>
@@ -31,7 +33,8 @@ function NumberCard({ item }: { item: typeof guessingData.numbers[0] }) {
 }
 
 export default function GuessingNumbersPage() {
-  const { boards, numbers, updatedLabel } = guessingData;
+  const latest = getLatestGuessing();
+  const { boards, numbers, displayLabel } = latest;
   const byType = (type: string) => numbers.filter(n => n.type === type);
   const todayLottery    = getTodayLottery();
   const tomorrowLottery = getTomorrowLottery();
@@ -48,9 +51,11 @@ export default function GuessingNumbersPage() {
 
         <div className="guess-update-bar" style={{ marginBottom: 24 }}>
           <span className="guess-update-bar__dot" />
-          <span>Updated: <strong>{updatedLabel}</strong></span>
+          <span>Updated: <strong>{displayLabel}</strong></span>
           <span className="guess-update-bar__sep" />
           <span>Updated nightly</span>
+          <span className="guess-update-bar__sep" />
+          <Link href="/guessing-numbers/archive">See past days →</Link>
         </div>
 
         {/* Per-lottery quick links */}
@@ -122,6 +127,8 @@ export default function GuessingNumbersPage() {
           </div>
           <div className="guess-grid guess-grid--4">{byType('four').map(n => <NumberCard key={n.label} item={n} />)}</div>
         </section>
+
+        <ShareGuessingButton day={latest} pageUrl={`${site.url}/guessing-numbers`} />
 
         {/* Tamil hub section */}
         <section className="content-card tamil-section" lang="ta" style={{ marginBottom: 20 }}>

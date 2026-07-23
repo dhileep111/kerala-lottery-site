@@ -73,30 +73,52 @@ def derive_boards():
     return "0", "0", "0", None
 
 
-def apply_boards(A, B, C):
-    data = load_json(GUESSING_PATH)
+# Fixed template — labels/types/digits never change day to day, only values do.
+NUMBER_TEMPLATE = [
+    (1, "A Board", "board"), (1, "B Board", "board"), (1, "C Board", "board"),
+    (2, "AB Combo", "combo"), (2, "BC Combo", "combo"), (2, "CA Combo", "combo"),
+    (3, "ABC Three Digit", "triple"), (3, "BCA Three Digit", "triple"), (3, "CAB Three Digit", "triple"),
+    (4, "Hot Pick", "four"), (4, "Mirror Pick", "four"), (4, "Pattern Pick", "four"),
+    (4, "Lucky Combo", "four"), (4, "Reverse Pick", "four"), (4, "Sequential", "four"),
+    (4, "Zero Start", "four"), (4, "Double AB", "four"), (4, "Double BC", "four"),
+]
+HOT_LABELS = {"Hot Pick", "Lucky Combo"}
+
+
+def build_numbers(A, B, C):
     combo_map = {
         "AB Combo": A + B, "BC Combo": B + C, "CA Combo": C + A,
         "ABC Three Digit": A + B + C, "BCA Three Digit": B + C + A, "CAB Three Digit": C + A + B,
         "Hot Pick": A + A + B + C, "Mirror Pick": B + B + C + A, "Pattern Pick": C + C + A + B,
         "Lucky Combo": A + B + C + A, "Reverse Pick": C + B + A + C, "Sequential": C + B + C + A,
         "Zero Start": "0" + A + B + C, "Double AB": A + B + A + B, "Double BC": B + C + B + C,
+        "A Board": A, "B Board": B, "C Board": C,
     }
-    data["boards"]["A"] = A
-    data["boards"]["B"] = B
-    data["boards"]["C"] = C
+    numbers = []
+    for digits, label, type_ in NUMBER_TEMPLATE:
+        item = {"digits": digits, "label": label, "value": combo_map[label], "type": type_}
+        if label in HOT_LABELS:
+            item["hot"] = True
+        numbers.append(item)
+    return numbers
+
+
+def apply_boards(A, B, C):
+    data = load_json(GUESSING_PATH)
+    history = data.setdefault("history", [])
     today = datetime.date.today()
-    data["updatedDate"] = today.strftime("%Y-%m-%d")
-    data["updatedLabel"] = f"{today.strftime('%B')} {today.day}, {today.year}"
-    for item in data["numbers"]:
-        if item["label"] in combo_map:
-            item["value"] = combo_map[item["label"]]
-        elif item["label"] == "A Board":
-            item["value"] = A
-        elif item["label"] == "B Board":
-            item["value"] = B
-        elif item["label"] == "C Board":
-            item["value"] = C
+    date_str = today.strftime("%Y-%m-%d")
+    entry = {
+        "date": date_str,
+        "displayLabel": f"{today.strftime('%B')} {today.day}, {today.year}",
+        "boards": {"A": A, "B": B, "C": C},
+        "numbers": build_numbers(A, B, C),
+    }
+    if history and history[0].get("date") == date_str:
+        # Re-run on the same day (e.g. a later result update) — replace, don't duplicate.
+        history[0] = entry
+    else:
+        history.insert(0, entry)
     save_json(GUESSING_PATH, data)
 
 

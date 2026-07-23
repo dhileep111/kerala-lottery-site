@@ -11,6 +11,7 @@ import DisclaimerPage from "./pages/DisclaimerPage";
 import DownloadFormsPage from "./pages/DownloadFormsPage";
 import FaqPage from "./pages/FaqPage";
 import GuessingNumbersPage from "./pages/GuessingNumbersPage";
+import GuessingArchivePage from "./pages/GuessingArchivePage";
 import LotteryGuessingPage from "./pages/LotteryGuessingPage";
 import LotteryOfficesPage from "./pages/LotteryOfficesPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
@@ -42,6 +43,7 @@ function Router() {
         <Route path="/download-forms" component={DownloadFormsPage} />
         <Route path="/faq" component={FaqPage} />
         <Route path="/guessing-numbers" component={GuessingNumbersPage} />
+        <Route path="/guessing-numbers/archive" component={GuessingArchivePage} />
         <Route path="/guessing-numbers/:slug" component={LotteryGuessingPage} />
         <Route path="/lottery-offices" component={LotteryOfficesPage} />
         <Route path="/privacy-policy" component={PrivacyPolicyPage} />

@@ -1,10 +1,11 @@
 import { Link, useParams } from 'wouter';
 import { JsonLd } from '../components/JsonLd';
 import {
-  getLottery, guessingData, getHotColdNumbers,
+  getLottery, getLatestGuessing, getHotColdNumbers,
   getTodayLottery, getTomorrowLottery, getLatestResult,
   getFirstPrizeNumber, site
 } from '../data';
+import { ShareGuessingButton } from '../components/ShareGuessingButton';
 
 // Tamil lottery names
 const TAMIL: Record<string, string> = {
@@ -77,7 +78,8 @@ export default function LotteryGuessingPage() {
     return <main className="page"><div className="container"><p>Lottery not found. <Link href="/guessing-numbers">Back to guessing numbers</Link></p></div></main>;
   }
 
-  const { boards, numbers, updatedLabel } = guessingData;
+  const latest = getLatestGuessing();
+  const { boards, displayLabel: updatedLabel } = latest;
   const { hot, cold } = getHotColdNumbers(lottery.slug);
   const A = boards.A, B = boards.B, C = boards.C;
   const todayLottery = getTodayLottery();
@@ -113,7 +115,7 @@ export default function LotteryGuessingPage() {
         '@type': 'Article',
         headline: `${lottery.name} Guessing Numbers Today — ${isToday ? 'Today' : isTomorrow ? "Tomorrow's" : lottery.drawDay} Draw`,
         description: `${lottery.name} (${lottery.code}) lottery guessing numbers. A/B/C board values, 2-digit, 3-digit and 4-digit combinations. ${tamilName} கணிப்பு எண்கள்.`,
-        dateModified: guessingData.updatedDate,
+        dateModified: latest.date,
         publisher: { '@type': 'Organization', name: site.name, url: site.url },
         mainEntityOfPage: pageUrl,
         keywords: `${lottery.name} guessing numbers, ${lottery.code} lucky numbers, ${tamilName} கணிப்பு, kerala lottery guessing today`,
@@ -207,6 +209,8 @@ export default function LotteryGuessingPage() {
             {fourPicks.map(p => <NumChip key={p.label} value={p.value} hot={p.hot} />)}
           </div>
         </section>
+
+        <ShareGuessingButton day={latest} lotteryName={lottery.name} pageUrl={pageUrl} />
 
         {/* Hot & Cold numbers from real historical data */}
         {hot.length > 0 && (

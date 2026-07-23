@@ -12,12 +12,22 @@ export const site = {
 
 export const lotteries = lotteriesJson as Lottery[];
 export const results = resultsJson as Result[];
-export const guessingData = guessingJson as {
-  updatedDate: string;
-  updatedLabel: string;
+export type GuessingDay = {
+  date: string;
+  displayLabel: string;
   boards: { A: string; B: string; C: string };
   numbers: Array<{ digits: number; label: string; value: string; type: string; hot?: boolean }>;
 };
+
+export const guessingData = guessingJson as { history: GuessingDay[] };
+
+export function getLatestGuessing(): GuessingDay {
+  return guessingData.history[0];
+}
+
+export function getGuessingHistory(limit = 30): GuessingDay[] {
+  return guessingData.history.slice(0, limit);
+}
 
 export function getLottery(slug: string) {
   return lotteries.find((lottery) => lottery.slug === slug);
