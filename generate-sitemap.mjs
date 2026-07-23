@@ -24,8 +24,12 @@ const results   = JSON.parse(readFileSync(`${dataDir}/results.json`,   'utf8'));
 // ── Static pages ──────────────────────────────────────────
 const staticPages = [
   { url: '/',                  priority: '1.00', changefreq: 'daily'   },
+  { url: '/chart',             priority: '0.90', changefreq: 'daily'   },
+  { url: '/bumper',            priority: '0.90', changefreq: 'daily'   },
+  { url: '/yesterday-result',  priority: '0.80', changefreq: 'daily'   },
   { url: '/check-ticket',      priority: '0.80', changefreq: 'monthly' },
   { url: '/guessing-numbers',  priority: '0.80', changefreq: 'daily'   },
+  { url: '/guessing-numbers/archive', priority: '0.70', changefreq: 'daily' },
   { url: '/guessing-numbers/bhagyathara', priority: '0.80', changefreq: 'daily', lastmod: now },
   { url: '/guessing-numbers/sthree-sakthi', priority: '0.80', changefreq: 'daily', lastmod: now },
   { url: '/guessing-numbers/dhanalekshmi', priority: '0.80', changefreq: 'daily', lastmod: now },
@@ -41,9 +45,6 @@ const staticPages = [
   { url: '/privacy-policy',    priority: '0.40', changefreq: 'yearly'  },
   { url: '/terms',             priority: '0.40', changefreq: 'yearly'  },
   { url: '/lottery-offices',   priority: '0.50', changefreq: 'monthly' },
-  { url: '/privacy-policy',    priority: '0.30', changefreq: 'yearly'  },
-  { url: '/terms',             priority: '0.30', changefreq: 'yearly'  },
-  { url: '/disclaimer',        priority: '0.30', changefreq: 'yearly'  },
   { url: '/download-forms',    priority: '0.50', changefreq: 'monthly' },
 ];
 
@@ -68,7 +69,10 @@ const archivePages = results.map(r => {
 
 // ── Build XML ─────────────────────────────────────────────
 function urlEntry({ url, priority, changefreq, lastmod }) {
-  const loc     = url === '/' ? `${SITE}/` : `${SITE}${url}/`;
+  // No forced trailing slash — must match the canonical no-slash convention
+  // used everywhere else (canonical tags, internal <Link>s, prerender.mjs's
+  // sibling ".html" file layout). '/' already ends in a slash on its own.
+  const loc = `${SITE}${url}`;
   const modDate = lastmod ? new Date(lastmod).toISOString() : now;
   return [
     '  <url>',
