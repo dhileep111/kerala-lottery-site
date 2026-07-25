@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-07-25T11:01:51.063287Z",
+    "lastUpdated": "2026-07-25T11:34:36.980243Z",
     "summary": "Result for Karunya KR-762. 10/10 tiers updated.",
     "prizes": [
       {
@@ -16,7 +16,7 @@
         "numbers": [
           {
             "ticket": "KB 845108",
-            "district": "Thiruvananthapuram"
+            "district": "Attingal"
           }
         ]
       },
@@ -43,7 +43,7 @@
         "numbers": [
           {
             "ticket": "KJ 772827",
-            "district": "Wayanad"
+            "district": "Mananthavady"
           }
         ]
       },
