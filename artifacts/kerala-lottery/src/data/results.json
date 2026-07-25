@@ -1,5 +1,152 @@
 [
   {
+    "lotterySlug": "karunya",
+    "drawCode": "KR-762",
+    "drawDate": "2026-07-25",
+    "displayDate": "July 25, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-07-25T09:54:41.628907Z",
+    "summary": "Result for Karunya KR-762. 8/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "KB 845108"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "KA 845108",
+          "KC 845108",
+          "KD 845108",
+          "KE 845108",
+          "KF 845108",
+          "KG 845108",
+          "KH 845108",
+          "KJ 845108",
+          "KK 845108",
+          "KL 845108",
+          "KM 845108"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹25,00,000",
+        "numbers": [
+          "KJ 772827"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹10,00,000",
+        "numbers": [
+          "KD 560761"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "1179",
+          "2115",
+          "2197",
+          "2335",
+          "2710",
+          "3480",
+          "3713",
+          "3996",
+          "4306",
+          "4313",
+          "5407",
+          "5818",
+          "6047",
+          "6708",
+          "6837",
+          "7070",
+          "8004",
+          "8268",
+          "9833"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": [
+          "1212",
+          "3958",
+          "4223",
+          "5157",
+          "8491",
+          "8931"
+        ]
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": [
+          "0267",
+          "0553",
+          "0598",
+          "0640",
+          "1014",
+          "1363",
+          "1483",
+          "1635",
+          "1737",
+          "2239",
+          "2774",
+          "2832",
+          "3347",
+          "3627",
+          "4022",
+          "4434",
+          "4867",
+          "5009",
+          "5071",
+          "6492",
+          "6857",
+          "6992",
+          "8014",
+          "8139",
+          "8242"
+        ]
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": [
+          "4416",
+          "9516",
+          "8968",
+          "6707",
+          "1435",
+          "0577",
+          "2455",
+          "8850",
+          "3909",
+          "2216",
+          "9911",
+          "1931"
+        ]
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "suvarna-keralam",
     "drawCode": "SK-62",
     "drawDate": "2026-07-24",
