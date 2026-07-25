@@ -4,15 +4,15 @@
       "date": "2026-07-25",
       "displayLabel": "July 25, 2026",
       "boards": {
-        "A": "7",
+        "A": "9",
         "B": "4",
-        "C": "4"
+        "C": "3"
       },
       "numbers": [
         {
           "digits": 1,
           "label": "A Board",
-          "value": "7",
+          "value": "9",
           "type": "board"
         },
         {
@@ -24,99 +24,99 @@
         {
           "digits": 1,
           "label": "C Board",
-          "value": "4",
+          "value": "3",
           "type": "board"
         },
         {
           "digits": 2,
           "label": "AB Combo",
-          "value": "74",
+          "value": "94",
           "type": "combo"
         },
         {
           "digits": 2,
           "label": "BC Combo",
-          "value": "44",
+          "value": "43",
           "type": "combo"
         },
         {
           "digits": 2,
           "label": "CA Combo",
-          "value": "47",
+          "value": "39",
           "type": "combo"
         },
         {
           "digits": 3,
           "label": "ABC Three Digit",
-          "value": "744",
+          "value": "943",
           "type": "triple"
         },
         {
           "digits": 3,
           "label": "BCA Three Digit",
-          "value": "447",
+          "value": "439",
           "type": "triple"
         },
         {
           "digits": 3,
           "label": "CAB Three Digit",
-          "value": "474",
+          "value": "394",
           "type": "triple"
         },
         {
           "digits": 4,
           "label": "Hot Pick",
-          "value": "7744",
+          "value": "9943",
           "type": "four",
           "hot": true
         },
         {
           "digits": 4,
           "label": "Mirror Pick",
-          "value": "4447",
+          "value": "4439",
           "type": "four"
         },
         {
           "digits": 4,
           "label": "Pattern Pick",
-          "value": "4474",
+          "value": "3394",
           "type": "four"
         },
         {
           "digits": 4,
           "label": "Lucky Combo",
-          "value": "7447",
+          "value": "9439",
           "type": "four",
           "hot": true
         },
         {
           "digits": 4,
           "label": "Reverse Pick",
-          "value": "4474",
+          "value": "3493",
           "type": "four"
         },
         {
           "digits": 4,
           "label": "Sequential",
-          "value": "4447",
+          "value": "3439",
           "type": "four"
         },
         {
           "digits": 4,
           "label": "Zero Start",
-          "value": "0744",
+          "value": "0943",
           "type": "four"
         },
         {
           "digits": 4,
           "label": "Double AB",
-          "value": "7474",
+          "value": "9494",
           "type": "four"
         },
         {
           "digits": 4,
           "label": "Double BC",
-          "value": "4444",
+          "value": "4343",
           "type": "four"
         }
       ]
