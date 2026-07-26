@@ -2,8 +2,10 @@ name: 🤖 Auto-fetch Result from ET
 
 on:
   schedule:
-    - cron: '20 10 * * *'   # 3:50 PM IST — 1st/2nd/3rd prizes
-    - cron: '20 11 * * *'   # 4:50 PM IST — full result after PDF
+    - cron: '20 10 * * *'   # 3:50 PM IST — 1st/2nd/3rd/4th prizes usually out
+    - cron: '20 11 * * *'   # 4:50 PM IST — sometimes has consolation + 5th-9th
+    - cron: '0  13 * * *'   # 6:30 PM IST — official PDF is normally out by now
+    - cron: '0  14 * * *'   # 7:30 PM IST — catches anything the 6:30 run missed
   workflow_dispatch:
     inputs:
       force_date:
