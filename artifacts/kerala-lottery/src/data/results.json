@@ -1,5 +1,94 @@
 [
   {
+    "lotterySlug": "samrudhi",
+    "drawCode": "SM-65",
+    "drawDate": "2026-07-26",
+    "displayDate": "July 26, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-07-26T09:42:34.921782Z",
+    "summary": "Result for Samrudhi SM-65. 4/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "MB 383014"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": []
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹25,00,000",
+        "numbers": [
+          "MJ 550609"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "MB 659465"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "0069",
+          "0457",
+          "0565",
+          "1211",
+          "2059",
+          "2868",
+          "3757",
+          "3773",
+          "3960",
+          "5357",
+          "6331",
+          "6396",
+          "7212",
+          "7405",
+          "7476",
+          "7589",
+          "8222",
+          "8500",
+          "9607"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "karunya",
     "drawCode": "KR-762",
     "drawDate": "2026-07-25",
