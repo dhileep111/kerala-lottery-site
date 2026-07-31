@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-07-31T09:43:13.118543Z",
-    "summary": "Result for Suvarna Keralam SK-63. 6/10 tiers updated.",
+    "lastUpdated": "2026-07-31T09:55:01.559715Z",
+    "summary": "Result for Suvarna Keralam SK-63. 8/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "RM 578727"
+          {
+            "ticket": "RM 578727",
+            "district": "Idukki"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "RL 178625"
+          {
+            "ticket": "RL 178625",
+            "district": "Kollam"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "RJ 575015"
+          {
+            "ticket": "RJ 575015",
+            "district": "Kollam"
+          }
         ]
       },
       {
@@ -88,12 +97,67 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0189",
+          "0353",
+          "0601",
+          "0947",
+          "1545",
+          "1719",
+          "2353",
+          "2598",
+          "2888",
+          "3107",
+          "3273",
+          "3610",
+          "3825",
+          "4353",
+          "4450",
+          "5439",
+          "5627",
+          "5768",
+          "6445",
+          "6627",
+          "6671",
+          "7702",
+          "8230",
+          "8322",
+          "9293"
+        ]
       },
       {
         "tier": "7th Prize",
         "amount": "₹500",
-        "numbers": []
+        "numbers": [
+          "3001",
+          "3783",
+          "2629",
+          "4215",
+          "8453",
+          "7791",
+          "0736",
+          "7602",
+          "3527",
+          "3583",
+          "8699",
+          "5935",
+          "7291",
+          "4107",
+          "0433",
+          "9526",
+          "3402",
+          "0520",
+          "4520",
+          "4255",
+          "1037",
+          "4918",
+          "6731",
+          "7371",
+          "9185",
+          "8041",
+          "3093",
+          "8393"
+        ]
       },
       {
         "tier": "8th Prize",
