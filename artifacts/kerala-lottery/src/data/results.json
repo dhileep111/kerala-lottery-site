@@ -1,5 +1,113 @@
 [
   {
+    "lotterySlug": "samrudhi",
+    "drawCode": "SM-66",
+    "drawDate": "2026-08-02",
+    "displayDate": "August 02, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-08-02T09:49:41.061211Z",
+    "summary": "Result for Samrudhi SM-66. 6/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "MZ 543482"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "MN 543482",
+          "MO 543482",
+          "MP 543482",
+          "MR 543482",
+          "MS 543482",
+          "MT 543482",
+          "MU 543482",
+          "MV 543482",
+          "MW 543482",
+          "MX 543482",
+          "MY 543482"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹25,00,000",
+        "numbers": [
+          "MR 823249"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "MN 630504"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "0366",
+          "1053",
+          "2463",
+          "2782",
+          "3221",
+          "3788",
+          "4472",
+          "5489",
+          "5547",
+          "6775",
+          "7039",
+          "7247",
+          "7441",
+          "8499",
+          "8749",
+          "8757",
+          "9252",
+          "9845",
+          "9942"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": [
+          "0889",
+          "3379",
+          "5075",
+          "5098",
+          "5226",
+          "6744"
+        ]
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "karunya",
     "drawCode": "KR-763",
     "drawDate": "2026-08-01",
