@@ -1,5 +1,113 @@
 [
   {
+    "lotterySlug": "bhagyathara",
+    "drawCode": "BT-65",
+    "drawDate": "2026-08-03",
+    "displayDate": "August 03, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-08-03T09:44:09.642595Z",
+    "summary": "Result for Bhagyathara BT-65. 6/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "BJ 737622"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "BA 737622",
+          "BB 737622",
+          "BC 737622",
+          "BD 737622",
+          "BE 737622",
+          "BF 737622",
+          "BG 737622",
+          "BH 737622",
+          "BK 737622",
+          "BL 737622",
+          "BM 737622"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          "BG 848189"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "BE 261939"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "0066",
+          "1950",
+          "2105",
+          "2498",
+          "3034",
+          "3658",
+          "3668",
+          "4468",
+          "4578",
+          "4692",
+          "6548",
+          "6590",
+          "8000",
+          "8034",
+          "8254",
+          "8385",
+          "9036",
+          "9904",
+          "9918"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": [
+          "3477",
+          "4192",
+          "5634",
+          "6237",
+          "6245",
+          "7780"
+        ]
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "samrudhi",
     "drawCode": "SM-66",
     "drawDate": "2026-08-02",
