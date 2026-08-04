@@ -1,5 +1,105 @@
 [
   {
+    "lotterySlug": "sthree-sakthi",
+    "drawCode": "SS-531",
+    "drawDate": "2026-08-04",
+    "displayDate": "August 04, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-08-04T09:45:34.683682Z",
+    "summary": "Result for Sthree Sakthi SS-531. 5/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "SS 279975"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "SN 279975",
+          "SO 279975",
+          "SP 279975",
+          "SR 279975",
+          "ST 279975",
+          "SU 279975",
+          "SV 279975",
+          "SW 279975",
+          "SX 279975",
+          "SY 279975",
+          "SZ 279975"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          "SS 648045"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "ST 568996"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "3110",
+          "1033",
+          "5914",
+          "6814",
+          "5040",
+          "6009",
+          "5088",
+          "2623",
+          "4396",
+          "6674",
+          "5534",
+          "3350",
+          "6982",
+          "9214",
+          "9571",
+          "7900",
+          "1789",
+          "0126"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "bhagyathara",
     "drawCode": "BT-65",
     "drawDate": "2026-08-03",
