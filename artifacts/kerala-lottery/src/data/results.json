@@ -1,5 +1,148 @@
 [
   {
+    "lotterySlug": "dhanalekshmi",
+    "drawCode": "DL-64",
+    "drawDate": "2026-08-05",
+    "displayDate": "August 05, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-08-05T09:53:42.887895Z",
+    "summary": "Result for Dhanalekshmi DL-64. 7/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          {
+            "ticket": "DZ 380334",
+            "district": "Ernakulam"
+          }
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "DN 380334",
+          "DO 380334",
+          "DP 380334",
+          "DR 380334",
+          "DS 380334",
+          "DT 380334",
+          "DU 380334",
+          "DV 380334",
+          "DW 380334",
+          "DX 380334",
+          "DY 380334"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          {
+            "ticket": "DZ 708845",
+            "district": "Thiruvananthapuram"
+          }
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          {
+            "ticket": "DT 451839",
+            "district": "Thrissur"
+          }
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "0448",
+          "0593",
+          "0632",
+          "0705",
+          "0844",
+          "1336",
+          "2455",
+          "2820",
+          "3367",
+          "4501",
+          "6062",
+          "6488",
+          "6713",
+          "6886",
+          "7445",
+          "7680",
+          "9167",
+          "9645",
+          "9706"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": [
+          "4798",
+          "6217",
+          "8567",
+          "8786",
+          "9093",
+          "9514"
+        ]
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": [
+          "0251",
+          "0861",
+          "0898",
+          "1015",
+          "1053",
+          "1724",
+          "1985",
+          "2225",
+          "2857",
+          "3725",
+          "4265",
+          "4325",
+          "4968",
+          "5267",
+          "5466",
+          "6043",
+          "6694",
+          "7145",
+          "7497",
+          "7744",
+          "7815",
+          "8151",
+          "8635",
+          "8671",
+          "8934"
+        ]
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "sthree-sakthi",
     "drawCode": "SS-531",
     "drawDate": "2026-08-04",
