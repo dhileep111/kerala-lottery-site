@@ -5,9 +5,9 @@
     "drawDate": "2026-08-06",
     "displayDate": "August 06, 2026",
     "status": "verified",
-    "sourceName": "ET auto scraper",
+    "sourceName": "Manual admin update",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-08-06T13:03:27.483972Z",
+    "lastUpdated": "2026-08-06T13:10:28.026997Z",
     "summary": "Result for Karunya Plus KN-635. 10/10 tiers updated.",
     "prizes": [
       {
@@ -64,7 +64,6 @@
           "0115",
           "0821",
           "0849",
-          "1953",
           "2694",
           "2733",
           "2775",
@@ -143,7 +142,6 @@
           "1440",
           "1700",
           "1824",
-          "1974",
           "2131",
           "2180",
           "2357",
@@ -226,7 +224,6 @@
           "1192",
           "1357",
           "1463",
-          "2099",
           "2244",
           "2247",
           "2252",
@@ -452,11 +449,11 @@
           "9614",
           "9677",
           "9756",
+          "9891",
           "9782",
           "9803",
           "9866",
-          "9880",
-          "9891"
+          "9880"
         ]
       }
     ]
