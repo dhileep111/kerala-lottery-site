@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-08-07T11:07:14.665019Z",
+    "lastUpdated": "2026-08-07T11:59:03.512396Z",
     "summary": "Result for Suvarna Keralam SK-64. 10/10 tiers updated.",
     "prizes": [
       {
@@ -52,7 +52,7 @@
         "numbers": [
           {
             "ticket": "RZ 659575",
-            "district": "Idukki"
+            "district": "Adimaly"
           }
         ]
       },
