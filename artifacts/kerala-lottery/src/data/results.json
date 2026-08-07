@@ -1,5 +1,111 @@
 [
   {
+    "lotterySlug": "suvarna-keralam",
+    "drawCode": "SK-64",
+    "drawDate": "2026-08-07",
+    "displayDate": "August 07, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-08-07T09:49:10.374385Z",
+    "summary": "Result for Suvarna Keralam SK-64. 6/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "RT 467887"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "RN 467887",
+          "RO 467887",
+          "RP 467887",
+          "RR 467887",
+          "RU 467887",
+          "RV 467887",
+          "RW 467887",
+          "RX 467887",
+          "RY 467887",
+          "RZ 467887"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          "RO 562419"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "RZ 659575"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "1796",
+          "2639",
+          "2813",
+          "2908",
+          "3697",
+          "3917",
+          "4485",
+          "4651",
+          "4882",
+          "5144",
+          "5340",
+          "5576",
+          "5637",
+          "6204",
+          "6778",
+          "7396",
+          "7815",
+          "8263"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": [
+          "0115",
+          "2234",
+          "3502",
+          "7501",
+          "9315",
+          "9981"
+        ]
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "karunya-plus",
     "drawCode": "KN-635",
     "drawDate": "2026-08-06",
