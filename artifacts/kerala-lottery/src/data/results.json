@@ -5,9 +5,9 @@
     "drawDate": "2026-08-09",
     "displayDate": "August 09, 2026",
     "status": "verified",
-    "sourceName": "ET auto scraper",
+    "sourceName": "Manual admin update",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-08-09T10:52:06.495482Z",
+    "lastUpdated": "2026-08-09T11:28:16.311926Z",
     "summary": "Result for Samrudhi SM-67. 10/10 tiers updated.",
     "prizes": [
       {
@@ -53,7 +53,7 @@
         "numbers": [
           {
             "ticket": "MK 506760",
-            "district": "Irinjalakkuda"
+            "district": "Irinjalakuda"
           }
         ]
       },
@@ -63,7 +63,6 @@
         "numbers": [
           "1638",
           "1764",
-          "2096",
           "2839",
           "3210",
           "3789",
@@ -103,8 +102,6 @@
           "0776",
           "0854",
           "1333",
-          "1904",
-          "1993",
           "4767",
           "5510",
           "5521",
@@ -334,7 +331,6 @@
           "1767",
           "1772",
           "1870",
-          "1908",
           "2120",
           "2171",
           "2179",
