@@ -7,7 +7,7 @@ v8 fix: freshness check now works on stripped plain text (not raw HTML).
         Raw HTML has huge gaps between draw code in <title> and prize table deep in page.
         Plain text collapses this and lets the freshness check compare meaningful positions.
 """
-import re, os, sys, json, datetime, html as html_lib, urllib.request, urllib.parse
+import re, os, sys, json, datetime, html as html_lib, time, urllib.request, urllib.parse, urllib.error
 
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36',
@@ -22,15 +22,37 @@ ET_NAMES = {
     'suvarna-keralam':'suvarna-keralam', 'bhagyathara':'bhagyathara', 'samrudhi':'samrudhi',
 }
 
-def fetch(url, timeout=20, extra_headers=None):
+def fetch(url, timeout=20, extra_headers=None, retries=3, backoff=4):
+    """Retry on transient failures (429 rate-limit, 5xx server errors, timeouts) —
+    a source that's just momentarily overloaded is not the same as a source that's
+    genuinely down, and giving up after one shot was silently dropping real,
+    already-published results (e.g. keralalotteries.net 429s under load)."""
     h = {**HEADERS, **(extra_headers or {})}
     req = urllib.request.Request(url, headers=h)
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            return r.read().decode('utf-8', errors='ignore')
-    except Exception as e:
-        print(f"  Fetch failed: {e}")
-        return ""
+    last_err = None
+    for attempt in range(retries):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return r.read().decode('utf-8', errors='ignore')
+        except urllib.error.HTTPError as e:
+            last_err = e
+            if e.code == 429 or e.code >= 500:
+                if attempt < retries - 1:
+                    wait = backoff * (attempt + 1)
+                    print(f"  Fetch got HTTP {e.code}, retrying in {wait}s ({attempt + 1}/{retries})...")
+                    time.sleep(wait)
+                    continue
+            break  # permanent HTTP error (e.g. 404) — no point retrying
+        except Exception as e:
+            last_err = e
+            if attempt < retries - 1:
+                wait = backoff * (attempt + 1)
+                print(f"  Fetch error ({e}), retrying in {wait}s ({attempt + 1}/{retries})...")
+                time.sleep(wait)
+                continue
+            break
+    print(f"  Fetch failed: {last_err}")
+    return ""
 
 def html_to_text(html):
     """Strip HTML tags and collapse whitespace to plain text for proximity checks."""
