@@ -205,9 +205,9 @@ const staticRoutes = [
   { path: '/chart', title: 'Kerala Lottery Chart 2026 — All Results | கேரளா லாட்டரி சார்ட்',
     desc: 'Kerala lottery chart: the 1st prize for every daily draw (Karunya, Bhagyathara, Samrudhi, Karunya Plus & more) in one table, newest first. கேரளா லாட்டரி சார்ட் தினசரி முடிவுகள். Updated 3 PM IST.',
     content: buildChartContent() },
-  { path: '/', title: 'Kerala Lottery Result Today — Mudivugal | Innathe Lottery Result',
-    desc: 'Kerala Lottery result today (lottari result) for Karunya, Sthree Sakthi, Dhanalekshmi, Bhagyathara, Karunya Plus, Suvarna Keralam and Samrudhi. Innathe lottery kulukkal mudivugal — updated daily at 3 PM IST.',
-    content: `<main><h1>Kerala Lottery Result Today</h1><p>Kerala Lottery results are published daily at 3 PM IST. Check Karunya (KR), Sthree Sakthi (SS), Dhanalekshmi (DL), Bhagyathara (BT), Karunya Plus (KN), Suvarna Keralam (SK) and Samrudhi (SM) draw results here. Looking for today's lottery mudivugal (Tamil), innathe lottari result, or the kulukkal (draw) outcome — you'll find it all here, updated the moment each draw is held.</p></main>` },
+  { path: '/', title: 'கேரளா லாட்டரி ரிசல்ட் இன்று — 3:00 மணி முடிவு | Kerala Lottery Result Today',
+    desc: 'இன்று மதியம் 3:00 மணி கேரளா லாட்டரி ரிசல்ட் — Karunya, Bhagyathara, Sthree Sakthi, Dhanalekshmi, Karunya Plus, Suvarna Keralam, Samrudhi. Innathe lottari kulukkal mudivugal updated daily.',
+    content: `<main><h1>கேரளா லாட்டரி ரிசல்ட் இன்று — Kerala Lottery Result Today</h1><p>இன்று மதியம் 3:00 மணி கேரளா லாட்டரி முடிவு இங்கே புதுப்பிக்கப்படும். Kerala Lottery results published daily at 3:00 PM IST — Karunya (KR), Sthree Sakthi (SS), Dhanalekshmi (DL), Bhagyathara (BT), Karunya Plus (KN), Suvarna Keralam (SK) and Samrudhi (SM). Innathe lottari result, kulukkal mudivugal — all here the moment each draw is announced.</p></main>` },
   { path: '/check-ticket', title: 'Check Kerala Lottery Ticket Number — Instant Result Lookup',
     desc: 'Check if your Kerala lottery ticket number is a winner. Enter your full ticket or last 4 digits to search across all recent draws instantly.',
     content: `<main><h1>Kerala Lottery Ticket Checker</h1><p>Enter your ticket number to check if it matches any winning number across recent Kerala lottery draws. You can enter the full ticket (e.g. RR 281074), 6-digit number, or last 4 digits.</p></main>` },
@@ -250,8 +250,8 @@ const lotteryRoutes = lotteries.map(l => {
   const tName   = TAMIL_NAMES[l.slug] ?? l.name;
   return {
     path:    `/results/${l.slug}`,
-    title:   `${l.name} Lottery Result Today ${l.code} | ${tName} லாட்டரி ரிசல்ட்`,
-    desc:    `${l.name} (${l.code}) Kerala lottery result today. ${firstP !== 'Pending' ? `1st Prize: ${firstP}${district ? ` sold in ${district}` : ''}.` : `Draw every ${l.drawDay} at ${l.drawTime}.`} ${tName} லாட்டரி இன்றைய முடிவு — தினமும் புதுப்பிக்கப்படும். Innathe ${l.name} lottari result, mudivugal & kulukkal outcome.`,
+    title:   `${tName} லாட்டரி ரிசல்ட் இன்று ${l.code} — 3:00 மணி முடிவு | ${l.name} Result Today`,
+    desc:    `இன்று ${l.drawTime} ${tName} லாட்டரி முடிவு (${l.code}). ${firstP !== 'Pending' ? `1st Prize: ${firstP}${district ? `, ${district}` : ''}.` : `Draw every ${l.drawDay} at ${l.drawTime}.`} Innathe ${l.name} lottari kulukkal mudivugal — updated the moment results are announced.`,
     canonical: `${SITE}/results/${l.slug}`,
     content:  buildResultContent(l, result),
   };
@@ -270,8 +270,8 @@ const archiveRoutes = results.map(r => {
   const tName   = TAMIL_NAMES[lottery.slug] ?? lottery.name;
   return {
     path:     `/results/${r.lotterySlug}/${drawCodeLower}`,
-    title:    `${lottery.name} ${r.drawCode} Result ${r.displayDate} | ${tName} ரிசல்ட்`,
-    desc:     `${lottery.name} ${r.drawCode} lottery result ${r.displayDate} — 1st Prize ${firstP}${district ? `, sold in ${district}` : ''}. ${tName} லாட்டரி ${r.drawCode} இன்றைய முடிவு மற்றும் முழு பரிசு பட்டியல். Lottari result mudivugal, kulukkal.`,
+    title:    `${tName} ${r.drawCode} லாட்டரி முடிவு ${r.displayDate} | ${lottery.name} Result`,
+    desc:     `${tName} ${r.drawCode} லாட்டரி முடிவு ${r.displayDate} — 1st Prize ${firstP}${district ? `, sold in ${district}` : ''}. Full prize table, all tiers. ${lottery.name} lottari result mudivugal, kulukkal.`,
     canonical:`${SITE}/results/${r.lotterySlug}/${drawCodeLower}`,
     lastmod:  r.lastUpdated,
     content:  buildResultContent(lottery, r),
