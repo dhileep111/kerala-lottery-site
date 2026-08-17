@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-08-17T10:48:22.628071Z",
+    "lastUpdated": "2026-08-17T11:28:43.789548Z",
     "summary": "Result for Bhagyathara BT-67. 10/10 tiers updated.",
     "prizes": [
       {
@@ -16,7 +16,7 @@
         "numbers": [
           {
             "ticket": "BC 657325",
-            "district": "Thrissur"
+            "district": "Irinjalakuda"
           }
         ]
       },
