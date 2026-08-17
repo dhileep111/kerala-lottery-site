@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-08-17T09:43:50.628236Z",
-    "summary": "Result for Bhagyathara BT-67. 5/10 tiers updated.",
+    "lastUpdated": "2026-08-17T09:52:28.253569Z",
+    "summary": "Result for Bhagyathara BT-67. 8/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "BC 657325"
+          {
+            "ticket": "BC 657325",
+            "district": "Thrissur"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "BK 721339"
+          {
+            "ticket": "BK 721339",
+            "district": "Malappuram"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "BC 695907"
+          {
+            "ticket": "BC 695907",
+            "district": "Malappuram"
+          }
         ]
       },
       {
@@ -76,17 +85,57 @@
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "1040",
+          "2736",
+          "4193",
+          "4515",
+          "5246",
+          "5330"
+        ]
       },
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0024",
+          "0384",
+          "0429",
+          "0827",
+          "2513",
+          "2659",
+          "2825",
+          "3578",
+          "3720",
+          "4258",
+          "4360",
+          "4795",
+          "5104",
+          "5642",
+          "5816",
+          "5866",
+          "6038",
+          "6141",
+          "6428",
+          "6628",
+          "8273",
+          "8306",
+          "8399",
+          "8565",
+          "9679"
+        ]
       },
       {
         "tier": "7th Prize",
         "amount": "₹500",
-        "numbers": []
+        "numbers": [
+          "4200",
+          "6694",
+          "3207",
+          "4465",
+          "8814",
+          "0979"
+        ]
       },
       {
         "tier": "8th Prize",
