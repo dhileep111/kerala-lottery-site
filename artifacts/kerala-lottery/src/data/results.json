@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-08-18T09:43:52.792700Z",
-    "summary": "Result for Sthree Sakthi SS-533. 6/10 tiers updated.",
+    "lastUpdated": "2026-08-18T09:54:55.460785Z",
+    "summary": "Result for Sthree Sakthi SS-533. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -88,7 +88,33 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0422",
+          "0595",
+          "0656",
+          "2663",
+          "3584",
+          "3786",
+          "3936",
+          "4608",
+          "6126",
+          "6306",
+          "6533",
+          "6857",
+          "7007",
+          "7299",
+          "7657",
+          "7693",
+          "7796",
+          "8558",
+          "8870",
+          "9064",
+          "9284",
+          "9320",
+          "9504",
+          "9614",
+          "9889"
+        ]
       },
       {
         "tier": "7th Prize",
