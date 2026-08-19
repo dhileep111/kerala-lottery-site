@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-08-19T10:46:00.441117Z",
+    "lastUpdated": "2026-08-19T11:42:43.341341Z",
     "summary": "Result for Dhanalekshmi DL-66. 10/10 tiers updated.",
     "prizes": [
       {
@@ -16,7 +16,7 @@
         "numbers": [
           {
             "ticket": "DN 635866",
-            "district": "Kollam"
+            "district": "Punalur"
           }
         ]
       },
@@ -53,7 +53,7 @@
         "numbers": [
           {
             "ticket": "DP 318075",
-            "district": "Alappuzha"
+            "district": "Kayamkulam"
           }
         ]
       },
