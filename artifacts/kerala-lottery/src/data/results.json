@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-08-19T09:40:40.175217Z",
-    "summary": "Result for Dhanalekshmi DL-66. 4/10 tiers updated.",
+    "lastUpdated": "2026-08-19T09:56:27.012777Z",
+    "summary": "Result for Dhanalekshmi DL-66. 8/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "DN 635866"
+          {
+            "ticket": "DN 635866",
+            "district": "Kollam"
+          }
         ]
       },
       {
@@ -38,35 +41,113 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "DO 596714"
+          {
+            "ticket": "DO 596714",
+            "district": "Thiruvananthapuram"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "DP 318075"
+          {
+            "ticket": "DP 318075",
+            "district": "Alappuzha"
+          }
         ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0270",
+          "0702",
+          "0908",
+          "1445",
+          "1807",
+          "2048",
+          "3573",
+          "3702",
+          "4486",
+          "4793",
+          "5233",
+          "5311",
+          "5405",
+          "6238",
+          "6754",
+          "7577",
+          "8201",
+          "8318",
+          "9010"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "2623",
+          "3817",
+          "7902",
+          "8787",
+          "9560",
+          "9702"
+        ]
       },
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0106",
+          "0504",
+          "1010",
+          "1383",
+          "2189",
+          "2241",
+          "2622",
+          "2802",
+          "2865",
+          "3383",
+          "3663",
+          "3878",
+          "4686",
+          "4792",
+          "5231",
+          "5413",
+          "5616",
+          "6333",
+          "6369",
+          "6401",
+          "6496",
+          "7270",
+          "8217",
+          "8289",
+          "9895"
+        ]
       },
       {
         "tier": "7th Prize",
         "amount": "₹500",
-        "numbers": []
+        "numbers": [
+          "7687",
+          "7391",
+          "6959",
+          "2087",
+          "5177",
+          "0318",
+          "6221",
+          "4564",
+          "8744",
+          "5165",
+          "2677",
+          "1610",
+          "5409",
+          "0438",
+          "5384",
+          "0903",
+          "5360",
+          "9794"
+        ]
       },
       {
         "tier": "8th Prize",
