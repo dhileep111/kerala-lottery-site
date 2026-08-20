@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-08-20T10:47:22.163185Z",
+    "lastUpdated": "2026-08-20T11:45:16.850132Z",
     "summary": "Result for Karunya Plus KN-637. 10/10 tiers updated.",
     "prizes": [
       {
@@ -43,7 +43,7 @@
         "numbers": [
           {
             "ticket": "PJ 569568",
-            "district": "Kozhikode"
+            "district": "Kozhikkode"
           }
         ]
       },
