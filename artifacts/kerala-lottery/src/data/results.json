@@ -1,5 +1,166 @@
 [
   {
+    "lotterySlug": "karunya-plus",
+    "drawCode": "KN-637",
+    "drawDate": "2026-08-20",
+    "displayDate": "August 20, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-08-20T09:53:55.868039Z",
+    "summary": "Result for Karunya Plus KN-637. 8/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          {
+            "ticket": "PK 789430",
+            "district": "Thrissur"
+          }
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "PA 789430",
+          "PB 789430",
+          "PC 789430",
+          "PD 789430",
+          "PE 789430",
+          "PF 789430",
+          "PG 789430",
+          "PH 789430",
+          "PJ 789430",
+          "PL 789430",
+          "PM 789430"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          {
+            "ticket": "PJ 569568",
+            "district": "Kozhikode"
+          }
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          {
+            "ticket": "PE 816580",
+            "district": "Kollam"
+          }
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "0289",
+          "3107",
+          "3126",
+          "3612",
+          "4123",
+          "4471",
+          "4500",
+          "4856",
+          "5115",
+          "5137",
+          "5859",
+          "6282",
+          "6649",
+          "7235",
+          "7367",
+          "7958",
+          "8854",
+          "9237",
+          "9509"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": [
+          "0981",
+          "3195",
+          "3854",
+          "4305",
+          "6135",
+          "9817"
+        ]
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": [
+          "0591",
+          "1034",
+          "1056",
+          "1780",
+          "1852",
+          "2022",
+          "2650",
+          "3065",
+          "3594",
+          "5237",
+          "5496",
+          "6078",
+          "6121",
+          "6410",
+          "7182",
+          "7273",
+          "7994",
+          "8277",
+          "8357",
+          "8657",
+          "9020",
+          "9606",
+          "9680",
+          "9831",
+          "9848"
+        ]
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": [
+          "5785",
+          "6632",
+          "9765",
+          "2628",
+          "9213",
+          "4011",
+          "9790",
+          "0626",
+          "8117",
+          "6470",
+          "6921",
+          "7358",
+          "8771",
+          "4358",
+          "5357",
+          "0941",
+          "2042"
+        ]
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "dhanalekshmi",
     "drawCode": "DL-66",
     "drawDate": "2026-08-19",
