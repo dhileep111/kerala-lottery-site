@@ -32,7 +32,7 @@ export default function YesterdayResultPage() {
   return (
     <main className="container">
       <section className="hero" style={{ paddingBottom: 8 }}>
-        <h1>Yesterday&apos;s Kerala Lottery Result</h1>
+        <h1>Kerala Lottery Result Yesterday</h1>
         <p>
           The full result of yesterday&apos;s Kerala lottery draw — all prize tiers, updated automatically.{' '}
           நேற்றைய கேரளா லாட்டரி முடிவு — அனைத்து பரிசு விவரங்களும்.
