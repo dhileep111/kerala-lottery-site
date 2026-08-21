@@ -22,6 +22,9 @@ import FirstPrizePage from "./pages/FirstPrizePage";
 import ChartPage from "./pages/ChartPage";
 import BumperPage from "./pages/BumperPage";
 import YesterdayResultPage from "./pages/YesterdayResultPage";
+import SchedulePage from "./pages/SchedulePage";
+import ClaimPrizePage from "./pages/ClaimPrizePage";
+import JackpotPage from "./pages/JackpotPage";
 import NotFound from "./pages/not-found";
 
 
@@ -37,6 +40,9 @@ function Router() {
         <Route path="/chart" component={ChartPage} />
         <Route path="/bumper" component={BumperPage} />
         <Route path="/yesterday-result" component={YesterdayResultPage} />
+        <Route path="/schedule" component={SchedulePage} />
+        <Route path="/claim-prize" component={ClaimPrizePage} />
+        <Route path="/jackpot" component={JackpotPage} />
         <Route path="/claim-guide" component={ClaimGuidePage} />
         <Route path="/contact" component={ContactPage} />
         <Route path="/disclaimer" component={DisclaimerPage} />

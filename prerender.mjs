@@ -195,7 +195,81 @@ function buildYesterdayContent() {
   </main>`;
 }
 
+function buildScheduleContent() {
+  const weekOrder = [1, 2, 3, 4, 5, 6, 0];
+  const daily = lotteries.filter(l => !l.isBumper);
+  const rows = weekOrder.map(idx => daily.find(l => l.drawDayIndex === idx)).filter(Boolean).map(l => {
+    const tDay = TAMIL_DAYS[l.drawDay] ?? l.drawDay;
+    return `<tr><td>${e(l.drawDay)} (${e(tDay)})</td><td>${e(l.name)}</td><td>${e(l.code)}</td><td>${e(l.drawTime)}</td><td>${e(l.firstPrizeAmount)}</td></tr>`;
+  }).join('');
+  const up = bumpers?.upcoming;
+  const upHtml = up ? `<h2>Special Draw: ${e(up.name)} (${e(up.code)})</h2><p><strong>${e(up.drawDateLabel)}</strong> at ${e(up.drawTime)}, first prize ${e(up.firstPrize)}.</p>` : '';
+  return `<main>
+    <h1>Kerala Lottery Weekly Schedule</h1>
+    <p>Every Kerala lottery draw day and time in one table. கேரளா லாட்டரி வார அட்டவணை — ஒவ்வொரு நாளும் எந்த லாட்டரி, எத்தனை மணிக்கு.</p>
+    <table class="table"><thead><tr><th>Day</th><th>Lottery</th><th>Code</th><th>Draw Time</th><th>1st Prize</th></tr></thead><tbody>${rows}</tbody></table>
+    ${upHtml}
+  </main>`;
+}
+
+function buildJackpotContent() {
+  const daily = lotteries.filter(l => !l.isBumper);
+  const dailyRows = daily.map(l => `<tr><td>${e(l.name)}</td><td>${e(l.code)}</td><td>${e(l.drawDay)}</td><td>${e(l.firstPrizeAmount)}</td></tr>`).join('');
+  const winners = [...results]
+    .filter(r => r.lotterySlug !== 'bumper' && (r.status === 'verified' || r.status === 'live'))
+    .sort((a, b) => (b.drawDate || '').localeCompare(a.drawDate || '') || (b.lastUpdated || '').localeCompare(a.lastUpdated || ''))
+    .slice(0, 8);
+  const winnerRows = winners.map(r => {
+    const lottery = lotteries.find(l => l.slug === r.lotterySlug);
+    const fp = getFirstPrize(r);
+    const dist = getDistrict(r.prizes?.find(p => p.tier === '1st Prize')?.numbers?.[0]);
+    const href = `/results/${r.lotterySlug}/${String(r.drawCode || '').toLowerCase()}`;
+    return `<tr><td>${e(r.displayDate || r.drawDate)}</td><td>${e(lottery?.name || r.lotterySlug)} (${e(r.drawCode)})</td><td>${e(fp)}${dist ? ` (${e(dist)})` : ''}</td><td><a href="${ea(href)}">View result</a></td></tr>`;
+  }).join('');
+  const up = bumpers?.upcoming;
+  const upHtml = up ? `<h2>Biggest Jackpot: ${e(up.name)} (${e(up.code)}) — ${e(up.firstPrize)}</h2><p><strong>${e(up.drawDateLabel)}</strong> at ${e(up.drawTime)}.</p>` : '';
+  return `<main>
+    <h1>Kerala Lottery Jackpot</h1>
+    <p>Today's ₹1 Crore daily jackpot and the next bumper draw's top prize, plus recent jackpot winners. கேரளா லாட்டரி ஜாக்பாட் — இன்றைய 1 கோடி முதல் பரிசு மற்றும் பம்பர் ஜாக்பாட்.</p>
+    ${upHtml}
+    <h2>Today's Daily Jackpot — ₹1 Crore First Prize</h2>
+    <table class="table"><thead><tr><th>Lottery</th><th>Code</th><th>Draw Day</th><th>Jackpot</th></tr></thead><tbody>${dailyRows}</tbody></table>
+    <h2>Recent Jackpot Winners</h2>
+    <table class="table"><thead><tr><th>Date</th><th>Draw</th><th>1st Prize Winner</th><th>Result</th></tr></thead><tbody>${winnerRows}</tbody></table>
+  </main>`;
+}
+
+function buildClaimPrizeContent() {
+  return `<main>
+    <h1>Claim Your Kerala Lottery Prize</h1>
+    <p>Find the right claim location, deadline, and required documents for your Kerala lottery prize amount. உங்கள் பரிசுத் தொகையைத் தேர்ந்தெடுத்து, எங்கு செல்ல வேண்டும் என்பதைப் பாருங்கள்.</p>
+    <table class="table"><thead><tr><th>Prize Amount</th><th>Claim Location</th><th>Deadline</th></tr></thead><tbody>
+      <tr><td>Up to ₹5,000</td><td>Any authorised Kerala lottery agent</td><td>30 days from the draw date</td></tr>
+      <tr><td>₹5,001 – ₹1,00,000</td><td>Your District Lottery Office</td><td>30 days from the draw date</td></tr>
+      <tr><td>Above ₹1,00,000</td><td>Directorate of Kerala State Lotteries, Thiruvananthapuram</td><td>30 days from the draw date</td></tr>
+    </tbody></table>
+    <h2>Documents to bring</h2>
+    <ul>
+      <li>Original winning ticket, signed on the back</li>
+      <li>Aadhaar card</li>
+      <li>PAN card (mandatory for prizes above ₹10,000)</li>
+      <li>Two recent passport-size photographs</li>
+      <li>Bank passbook or a cancelled cheque, for prize transfer</li>
+    </ul>
+    <p>Always verify your winning numbers at <a href="https://statelottery.kerala.gov.in">statelottery.kerala.gov.in</a> before making any claim.</p>
+  </main>`;
+}
+
 const staticRoutes = [
+  { path: '/schedule', title: 'Kerala Lottery Weekly Schedule — Draw Days & Times | கேரளா லாட்டரி அட்டவணை',
+    desc: 'Kerala lottery weekly schedule: which lottery draws each day and at what time — Karunya, Bhagyathara, Samrudhi & more. கேரளா லாட்டரி வார அட்டவணை. Updated daily at 3 PM IST.',
+    content: buildScheduleContent() },
+  { path: '/jackpot', title: 'Kerala Lottery Jackpot — Today’s ₹1 Crore & Bumper Prize | கேரளா லாட்டரி ஜாக்பாட்',
+    desc: 'Kerala lottery jackpot: today’s ₹1 Crore daily first prize and the next bumper draw’s top prize, plus recent jackpot winners. கேரளா லாட்டரி ஜாக்பாட் இன்று.',
+    content: buildJackpotContent() },
+  { path: '/claim-prize', title: 'Claim Your Kerala Lottery Prize — Location & Deadline Lookup | பரிசு பெறுவது எப்படி',
+    desc: 'Find where to claim your Kerala lottery prize by amount, the deadline, and documents needed. பரிசு பெறுவது எப்படி — கேரளா லாட்டரி. For entertainment purposes, always verify officially.',
+    content: buildClaimPrizeContent() },
   { path: '/yesterday-result', title: "Yesterday's Kerala Lottery Result — All Prizes | நேற்றைய லாட்டரி முடிவு",
     desc: "Yesterday's Kerala lottery result with full prize list — 1st to last tier. நேற்றைய கேரளா லாட்டரி முடிவு முழு பரிசு விவரங்களுடன். Updated daily at 3 PM IST.",
     content: buildYesterdayContent() },
@@ -205,9 +279,9 @@ const staticRoutes = [
   { path: '/chart', title: 'Kerala Lottery Chart 2026 — All Results | கேரளா லாட்டரி சார்ட்',
     desc: 'Kerala lottery chart: the 1st prize for every daily draw (Karunya, Bhagyathara, Samrudhi, Karunya Plus & more) in one table, newest first. கேரளா லாட்டரி சார்ட் தினசரி முடிவுகள். Updated 3 PM IST.',
     content: buildChartContent() },
-  { path: '/', title: 'Kerala Lottery Result Today — Mudivugal | Innathe Lottery Result',
-    desc: 'Kerala Lottery result today (lottari result) for Karunya, Sthree Sakthi, Dhanalekshmi, Bhagyathara, Karunya Plus, Suvarna Keralam and Samrudhi. Innathe lottery kulukkal mudivugal — updated daily at 3 PM IST.',
-    content: `<main><h1>Kerala Lottery Result Today</h1><p>Kerala Lottery results are published daily at 3 PM IST. Check Karunya (KR), Sthree Sakthi (SS), Dhanalekshmi (DL), Bhagyathara (BT), Karunya Plus (KN), Suvarna Keralam (SK) and Samrudhi (SM) draw results here. Looking for today's lottery mudivugal (Tamil), innathe lottari result, or the kulukkal (draw) outcome — you'll find it all here, updated the moment each draw is held.</p></main>` },
+  { path: '/', title: 'கேரளா லாட்டரி ரிசல்ட் இன்று — 3:00 மணி முடிவு | Kerala Lottery Result Today',
+    desc: 'இன்று மதியம் 3:00 மணி கேரளா லாட்டரி ரிசல்ட் — Karunya, Bhagyathara, Sthree Sakthi, Dhanalekshmi, Karunya Plus, Suvarna Keralam, Samrudhi. Innathe lottari kulukkal mudivugal updated daily.',
+    content: `<main><h1>கேரளா லாட்டரி ரிசல்ட் இன்று — Kerala Lottery Result Today</h1><p>இன்று மதியம் 3:00 மணி கேரளா லாட்டரி முடிவு இங்கே புதுப்பிக்கப்படும். Kerala Lottery results published daily at 3:00 PM IST — Karunya (KR), Sthree Sakthi (SS), Dhanalekshmi (DL), Bhagyathara (BT), Karunya Plus (KN), Suvarna Keralam (SK) and Samrudhi (SM). Innathe lottari result, kulukkal mudivugal — all here the moment each draw is announced.</p></main>` },
   { path: '/check-ticket', title: 'Check Kerala Lottery Ticket Number — Instant Result Lookup',
     desc: 'Check if your Kerala lottery ticket number is a winner. Enter your full ticket or last 4 digits to search across all recent draws instantly.',
     content: `<main><h1>Kerala Lottery Ticket Checker</h1><p>Enter your ticket number to check if it matches any winning number across recent Kerala lottery draws. You can enter the full ticket (e.g. RR 281074), 6-digit number, or last 4 digits.</p></main>` },
@@ -250,8 +324,8 @@ const lotteryRoutes = lotteries.map(l => {
   const tName   = TAMIL_NAMES[l.slug] ?? l.name;
   return {
     path:    `/results/${l.slug}`,
-    title:   `${l.name} Lottery Result Today ${l.code} | ${tName} லாட்டரி ரிசல்ட்`,
-    desc:    `${l.name} (${l.code}) Kerala lottery result today. ${firstP !== 'Pending' ? `1st Prize: ${firstP}${district ? ` sold in ${district}` : ''}.` : `Draw every ${l.drawDay} at ${l.drawTime}.`} ${tName} லாட்டரி இன்றைய முடிவு — தினமும் புதுப்பிக்கப்படும். Innathe ${l.name} lottari result, mudivugal & kulukkal outcome.`,
+    title:   `${tName} லாட்டரி ரிசல்ட் இன்று ${l.code} — 3:00 மணி முடிவு | ${l.name} Result Today`,
+    desc:    `இன்று ${l.drawTime} ${tName} லாட்டரி முடிவு (${l.code}). ${firstP !== 'Pending' ? `1st Prize: ${firstP}${district ? `, ${district}` : ''}.` : `Draw every ${l.drawDay} at ${l.drawTime}.`} Innathe ${l.name} lottari kulukkal mudivugal — updated the moment results are announced.`,
     canonical: `${SITE}/results/${l.slug}`,
     content:  buildResultContent(l, result),
   };
@@ -270,8 +344,8 @@ const archiveRoutes = results.map(r => {
   const tName   = TAMIL_NAMES[lottery.slug] ?? lottery.name;
   return {
     path:     `/results/${r.lotterySlug}/${drawCodeLower}`,
-    title:    `${lottery.name} ${r.drawCode} Result ${r.displayDate} | ${tName} ரிசல்ட்`,
-    desc:     `${lottery.name} ${r.drawCode} lottery result ${r.displayDate} — 1st Prize ${firstP}${district ? `, sold in ${district}` : ''}. ${tName} லாட்டரி ${r.drawCode} இன்றைய முடிவு மற்றும் முழு பரிசு பட்டியல். Lottari result mudivugal, kulukkal.`,
+    title:    `${tName} ${r.drawCode} லாட்டரி முடிவு ${r.displayDate} | ${lottery.name} Result`,
+    desc:     `${tName} ${r.drawCode} லாட்டரி முடிவு ${r.displayDate} — 1st Prize ${firstP}${district ? `, sold in ${district}` : ''}. Full prize table, all tiers. ${lottery.name} lottari result mudivugal, kulukkal.`,
     canonical:`${SITE}/results/${r.lotterySlug}/${drawCodeLower}`,
     lastmod:  r.lastUpdated,
     content:  buildResultContent(lottery, r),

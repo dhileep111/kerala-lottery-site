@@ -1,26 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Link } from 'wouter';
 import { results, drawPath, getFirstPrizeNumber } from '../data';
 import bumpers from '../data/bumpers.json';
+import { useCountdown } from '../lib/useCountdown';
 
 type Row = (typeof results)[number];
-
-function useCountdown(targetISO: string) {
-  const target = useMemo(() => new Date(targetISO).getTime(), [targetISO]);
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    const id = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(id);
-  }, []);
-  const diff = Number.isFinite(target) ? Math.max(0, target - now) : 0;
-  return {
-    days: Math.floor(diff / 86400000),
-    hours: Math.floor((diff % 86400000) / 3600000),
-    mins: Math.floor((diff % 3600000) / 60000),
-    secs: Math.floor((diff % 60000) / 1000),
-    done: !Number.isFinite(target) || diff <= 0,
-  };
-}
 
 function firstPrizeDistrict(result: Row): string | null {
   const fp = result.prizes.find((p) => p.tier.toLowerCase().includes('1st'))?.numbers?.[0];
