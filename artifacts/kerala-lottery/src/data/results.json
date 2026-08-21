@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-08-21T10:47:48.860201Z",
+    "lastUpdated": "2026-08-21T11:44:50.423588Z",
     "summary": "Result for Suvarna Keralam SK-66. 10/10 tiers updated.",
     "prizes": [
       {
@@ -16,7 +16,7 @@
         "numbers": [
           {
             "ticket": "RY 671695",
-            "district": "Palakkad"
+            "district": "Chittur"
           }
         ]
       },
