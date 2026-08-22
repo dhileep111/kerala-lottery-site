@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-08-22T09:41:13.446406Z",
-    "summary": "Result for Karunya KR-765. 2/10 tiers updated.",
+    "lastUpdated": "2026-08-22T09:46:56.819690Z",
+    "summary": "Result for Karunya KR-765. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -37,22 +37,53 @@
       {
         "tier": "2nd Prize",
         "amount": "₹25,00,000",
-        "numbers": []
+        "numbers": [
+          "KU 488454"
+        ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹10,00,000",
-        "numbers": []
+        "numbers": [
+          "KR 566737"
+        ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0177",
+          "1431",
+          "1674",
+          "1727",
+          "2034",
+          "4119",
+          "4166",
+          "4424",
+          "5304",
+          "5364",
+          "5751",
+          "5938",
+          "6054",
+          "6782",
+          "6904",
+          "7758",
+          "9381",
+          "9508",
+          "9732"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "3027",
+          "5527",
+          "6035",
+          "6835",
+          "8204",
+          "8671"
+        ]
       },
       {
         "tier": "6th Prize",
