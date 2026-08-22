@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-08-22T10:40:15.050059Z",
+    "lastUpdated": "2026-08-22T11:37:55.318335Z",
     "summary": "Result for Karunya KR-765. 10/10 tiers updated.",
     "prizes": [
       {
@@ -43,7 +43,7 @@
         "numbers": [
           {
             "ticket": "KU 488454",
-            "district": "Palakkad"
+            "district": "Chittur"
           }
         ]
       },
