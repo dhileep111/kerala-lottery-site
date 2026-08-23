@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-08-23T09:40:23.796941Z",
-    "summary": "Result for Samrudhi SM-69. 4/10 tiers updated.",
+    "lastUpdated": "2026-08-23T09:51:01.484302Z",
+    "summary": "Result for Samrudhi SM-69. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "ML 840315"
+          {
+            "ticket": "ML 840315",
+            "district": "Chittur"
+          }
         ]
       },
       {
@@ -38,30 +41,89 @@
         "tier": "2nd Prize",
         "amount": "₹25,00,000",
         "numbers": [
-          "ML 580278"
+          {
+            "ticket": "ML 580278",
+            "district": "Alappuzha"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "MK 877920"
+          {
+            "ticket": "MK 877920",
+            "district": "Vaikkom"
+          }
         ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0514",
+          "0723",
+          "0748",
+          "3771",
+          "4292",
+          "4855",
+          "6025",
+          "6676",
+          "7096",
+          "7154",
+          "7164",
+          "7632",
+          "8085",
+          "8900",
+          "9434",
+          "9505",
+          "9512",
+          "9675",
+          "9825"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "0169",
+          "1125",
+          "2547",
+          "4072",
+          "5328",
+          "9537"
+        ]
       },
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0201",
+          "0296",
+          "0507",
+          "0809",
+          "0987",
+          "1427",
+          "1449",
+          "2119",
+          "2701",
+          "3214",
+          "3481",
+          "3540",
+          "4608",
+          "4890",
+          "4916",
+          "5580",
+          "5799",
+          "6496",
+          "6878",
+          "6880",
+          "7592",
+          "7622",
+          "7824",
+          "7840",
+          "9864"
+        ]
       },
       {
         "tier": "7th Prize",
