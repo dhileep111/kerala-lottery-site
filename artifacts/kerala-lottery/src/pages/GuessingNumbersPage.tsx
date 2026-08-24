@@ -1,6 +1,7 @@
+import { useMemo, useState } from 'react';
 import { Link } from 'wouter';
-import { getLatestGuessing, lotteries, getTodayLottery, getTomorrowLottery, site } from '../data';
-import type { GuessingDay } from '../data';
+import { getLatestGuessing, lotteries, getTodayLottery, getTomorrowLottery, site, getSeriesFrequency, getSiteHotNumbers } from '../data';
+import type { GuessingDay, SeriesStat } from '../data';
 import { ShareGuessingButton } from '../components/ShareGuessingButton';
 
 const TYPE_CONFIG = {
@@ -32,6 +33,74 @@ function NumberCard({ item }: { item: GuessingDay['numbers'][0] }) {
   );
 }
 
+type SortKey = 'series' | 'wins' | 'lastWonDate';
+
+function SeriesFrequencyTable({ stats }: { stats: SeriesStat[] }) {
+  const [sortKey, setSortKey] = useState<SortKey>('wins');
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
+
+  const sorted = useMemo(() => {
+    const copy = [...stats];
+    copy.sort((a, b) => {
+      let cmp = 0;
+      if (sortKey === 'series') cmp = a.series.localeCompare(b.series);
+      else if (sortKey === 'wins') cmp = a.wins - b.wins;
+      else cmp = a.lastWonDate.localeCompare(b.lastWonDate);
+      return sortDir === 'asc' ? cmp : -cmp;
+    });
+    return copy;
+  }, [stats, sortKey, sortDir]);
+
+  function toggleSort(key: SortKey) {
+    if (sortKey === key) {
+      setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
+    } else {
+      setSortKey(key);
+      setSortDir(key === 'series' ? 'asc' : 'desc');
+    }
+  }
+
+  function arrow(key: SortKey) {
+    if (sortKey !== key) return '';
+    return sortDir === 'asc' ? ' ▲' : ' ▼';
+  }
+
+  const th = (key: SortKey, label: string) => (
+    <th
+      onClick={() => toggleSort(key)}
+      style={{ cursor: 'pointer', userSelect: 'none', whiteSpace: 'nowrap' }}
+      aria-sort={sortKey === key ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none'}
+    >
+      {label}{arrow(key)}
+    </th>
+  );
+
+  return (
+    <div style={{ overflowX: 'auto' }}>
+      <table className="table" style={{ width: '100%' }}>
+        <thead>
+          <tr>
+            {th('series', 'Series')}
+            {th('wins', 'Wins')}
+            {th('lastWonDate', 'Last Won Date')}
+            <th>Last Won Draw Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sorted.map((s) => (
+            <tr key={s.series}>
+              <td><span className="badge">{s.series}</span></td>
+              <td>{s.wins}</td>
+              <td style={{ whiteSpace: 'nowrap' }}>{s.lastWonDisplayDate}</td>
+              <td>{s.lastWonDrawCode}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export default function GuessingNumbersPage() {
   const latest = getLatestGuessing();
   const { boards, numbers, displayLabel } = latest;
@@ -39,6 +108,8 @@ export default function GuessingNumbersPage() {
   const todayLottery    = getTodayLottery();
   const tomorrowLottery = getTomorrowLottery();
   const mainLotteries   = lotteries.filter(l => !l.isBumper);
+  const seriesStats     = getSeriesFrequency();
+  const hotNumbers      = getSiteHotNumbers(5);
 
   return (
     <main className="page">
@@ -129,6 +200,40 @@ export default function GuessingNumbersPage() {
         </section>
 
         <ShareGuessingButton day={latest} pageUrl={`${site.url}/guessing-numbers`} />
+
+        {/* Series Frequency — how often each 2-letter series has won 1st Prize */}
+        <section className="guess-section">
+          <div className="guess-section__header">
+            <h2>Series Frequency — 1st Prize Wins</h2>
+            <p>How many times each 2-letter series has won 1st Prize across all verified draws. Click a column to sort.</p>
+          </div>
+          {seriesStats.length > 0 ? (
+            <SeriesFrequencyTable stats={seriesStats} />
+          ) : (
+            <p style={{ opacity: 0.7 }}>Series data will appear here once verified results are available.</p>
+          )}
+        </section>
+
+        {/* Hot Numbers — most frequent last-4-digit endings across all tiers, last 30 draws */}
+        <section className="guess-section">
+          <div className="guess-section__header">
+            <h2>🔥 Hot Numbers — Last 30 Draws</h2>
+            <p>The 5 most frequent last-4-digit endings across every prize tier, from the most recent 30 draws.</p>
+          </div>
+          {hotNumbers.length > 0 ? (
+            <div className="guess-grid guess-grid--4">
+              {hotNumbers.map((h) => (
+                <div key={h.number} className="guess-card guess-card--hot" style={{ background: '#fffbeb', borderColor: '#fde68a' }}>
+                  <span className="guess-card__hot">🔥 Hot</span>
+                  <div className="guess-card__value">{h.number}</div>
+                  <div className="guess-card__label">Appeared {h.count}×</div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p style={{ opacity: 0.7 }}>Hot number data will appear here once draws are available.</p>
+          )}
+        </section>
 
         {/* Tamil hub section */}
         <section className="content-card tamil-section" lang="ta" style={{ marginBottom: 20 }}>

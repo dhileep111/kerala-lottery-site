@@ -143,3 +143,70 @@ export function getHotColdNumbers(slug: string, topN = 10): { hot: string[]; col
     cold: sorted.slice(-topN).map(([n]) => n),
   };
 }
+
+export type SeriesStat = { series: string; wins: number; lastWonDate: string; lastWonDisplayDate: string; lastWonDrawCode: string };
+
+// How many times each 2-letter series has won 1st Prize, across every VERIFIED
+// draw of every lottery. Series letters aren't unique per lottery (e.g. "KA" can
+// occur under different lotteries), but the series prefix is what players
+// actually track, so this intentionally aggregates across all lotteries as a
+// single site-wide table, same as the page it's shown on.
+export function getSeriesFrequency(): SeriesStat[] {
+  const map = new Map<string, SeriesStat>();
+  for (const r of results) {
+    if (r.status !== 'verified') continue;
+    const first = r.prizes.find((p) => p.tier === '1st Prize');
+    const num = first?.numbers?.[0];
+    if (!num) continue;
+    const ticket = getTicketText(num);
+    const m = ticket.match(/^([A-Z]{2})\b/);
+    if (!m) continue;
+    const series = m[1];
+    const existing = map.get(series);
+    if (existing) {
+      existing.wins += 1;
+      if (r.drawDate > existing.lastWonDate) {
+        existing.lastWonDate = r.drawDate;
+        existing.lastWonDisplayDate = r.displayDate;
+        existing.lastWonDrawCode = r.drawCode;
+      }
+    } else {
+      map.set(series, {
+        series,
+        wins: 1,
+        lastWonDate: r.drawDate,
+        lastWonDisplayDate: r.displayDate,
+        lastWonDrawCode: r.drawCode,
+      });
+    }
+  }
+  return Array.from(map.values()).sort((a, b) => b.wins - a.wins || a.series.localeCompare(b.series));
+}
+
+export type HotNumber = { number: string; count: number };
+
+// The 5 most frequent last-4-digit endings across EVERY prize tier (1st through
+// the lowest tier, plus consolation), scanning the most recent 30 draws across
+// all lotteries combined — this page is the site-wide guessing hub, not a
+// single lottery, so the window is the 30 most recent draws overall.
+export function getSiteHotNumbers(topN = 5): HotNumber[] {
+  const recent = [...results]
+    .filter((r) => r.status === 'verified' || r.status === 'live')
+    .sort((a, b) => b.drawDate.localeCompare(a.drawDate) || b.lastUpdated.localeCompare(a.lastUpdated))
+    .slice(0, 30);
+  const freq: Record<string, number> = {};
+  for (const r of recent) {
+    for (const prize of r.prizes) {
+      for (const num of prize.numbers) {
+        const digits = getTicketText(num).replace(/\D/g, '');
+        if (digits.length < 4) continue;
+        const last4 = digits.slice(-4);
+        freq[last4] = (freq[last4] || 0) + 1;
+      }
+    }
+  }
+  return Object.entries(freq)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, topN)
+    .map(([number, count]) => ({ number, count }));
+}

@@ -260,6 +260,72 @@ function buildClaimPrizeContent() {
   </main>`;
 }
 
+// Mirrors data.ts's getSeriesFrequency() / getSiteHotNumbers() so the static
+// HTML Google indexes matches what the live React page renders.
+function getSeriesFrequencyStatic() {
+  const map = new Map();
+  for (const r of results) {
+    if (r.status !== 'verified') continue;
+    const first = r.prizes?.find(p => p.tier === '1st Prize');
+    const num = first?.numbers?.[0];
+    if (!num) continue;
+    const ticket = getTicket(num) || '';
+    const m = ticket.match(/^([A-Z]{2})\b/);
+    if (!m) continue;
+    const series = m[1];
+    const existing = map.get(series);
+    if (existing) {
+      existing.wins += 1;
+      if (r.drawDate > existing.lastWonDate) {
+        existing.lastWonDate = r.drawDate;
+        existing.lastWonDisplayDate = r.displayDate;
+        existing.lastWonDrawCode = r.drawCode;
+      }
+    } else {
+      map.set(series, { series, wins: 1, lastWonDate: r.drawDate, lastWonDisplayDate: r.displayDate, lastWonDrawCode: r.drawCode });
+    }
+  }
+  return Array.from(map.values()).sort((a, b) => b.wins - a.wins || a.series.localeCompare(b.series));
+}
+
+function getSiteHotNumbersStatic(topN = 5) {
+  const recent = [...results]
+    .filter(r => r.status === 'verified' || r.status === 'live')
+    .sort((a, b) => (b.drawDate || '').localeCompare(a.drawDate || '') || (b.lastUpdated || '').localeCompare(a.lastUpdated || ''))
+    .slice(0, 30);
+  const freq = {};
+  for (const r of recent) {
+    for (const prize of (r.prizes || [])) {
+      for (const num of (prize.numbers || [])) {
+        const digits = (getTicket(num) || '').replace(/\D/g, '');
+        if (digits.length < 4) continue;
+        const last4 = digits.slice(-4);
+        freq[last4] = (freq[last4] || 0) + 1;
+      }
+    }
+  }
+  return Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, topN).map(([number, count]) => ({ number, count }));
+}
+
+function buildGuessingContent() {
+  const seriesStats = getSeriesFrequencyStatic();
+  const hotNumbers = getSiteHotNumbersStatic(5);
+  const seriesRows = seriesStats.map(s =>
+    `<tr><td>${e(s.series)}</td><td>${s.wins}</td><td>${e(s.lastWonDisplayDate)}</td><td>${e(s.lastWonDrawCode)}</td></tr>`
+  ).join('');
+  const hotRows = hotNumbers.map(h => `<li>${e(h.number)} — appeared ${h.count} times</li>`).join('');
+  return `<main>
+    <h1>Kerala Lottery Guessing Numbers Today</h1>
+    <p>Today's Kerala lottery guessing numbers including A, B, C board values and all 4-digit combinations. கேரளா லாட்டரி இன்றைய கணிப்பு எண்கள். For entertainment purposes only — not guaranteed winning numbers.</p>
+    <h2>Series Frequency — 1st Prize Wins</h2>
+    <p>How many times each 2-letter series has won 1st Prize across all verified draws.</p>
+    <table class="table"><thead><tr><th>Series</th><th>Wins</th><th>Last Won Date</th><th>Last Won Draw Code</th></tr></thead><tbody>${seriesRows}</tbody></table>
+    <h2>Hot Numbers — Last 30 Draws</h2>
+    <p>The 5 most frequent last-4-digit endings across every prize tier, from the most recent 30 draws.</p>
+    <ul>${hotRows}</ul>
+  </main>`;
+}
+
 const staticRoutes = [
   { path: '/schedule', title: 'Kerala Lottery Weekly Schedule — Draw Days & Times | கேரளா லாட்டரி அட்டவணை',
     desc: 'Kerala lottery weekly schedule: which lottery draws each day and at what time — Karunya, Bhagyathara, Samrudhi & more. கேரளா லாட்டரி வார அட்டவணை. Updated daily at 3 PM IST.',
@@ -286,8 +352,8 @@ const staticRoutes = [
     desc: 'Check if your Kerala lottery ticket number is a winner. Enter your full ticket or last 4 digits to search across all recent draws instantly.',
     content: `<main><h1>Kerala Lottery Ticket Checker</h1><p>Enter your ticket number to check if it matches any winning number across recent Kerala lottery draws. You can enter the full ticket (e.g. RR 281074), 6-digit number, or last 4 digits.</p></main>` },
   { path: '/guessing-numbers', title: 'Kerala Lottery Guessing Numbers Today | கேரளா லாட்டரி கணிப்பு',
-    desc: 'Today Kerala lottery guessing numbers. A B C board numbers for all lotteries. கேரளா லாட்டரி இன்றைய கணிப்பு எண்கள். For entertainment only.',
-    content: `<main><h1>Kerala Lottery Guessing Numbers Today</h1><p>Today's Kerala lottery guessing numbers including A, B, C board values and all 4-digit combinations. கேரளா லாட்டரி இன்றைய கணிப்பு எண்கள். For entertainment purposes only — not guaranteed winning numbers.</p></main>` },
+    desc: 'Today Kerala lottery guessing numbers. A B C board numbers, series frequency and hot numbers for all lotteries. கேரளா லாட்டரி இன்றைய கணிப்பு எண்கள். For entertainment only.',
+    content: buildGuessingContent() },
   { path: '/guessing-numbers/archive', title: 'Kerala Lottery Guessing Numbers — Past Days | கடந்த நாட்களின் கணிப்பு',
     desc: 'Past days\' Kerala lottery guessing numbers — A B C boards and Hot Pick, day by day. கடந்த நாட்களின் கணிப்பு எண்கள். For entertainment only.',
     content: `<main><h1>Kerala Lottery Guessing Numbers — Past Days</h1><p>Browse past days' A, B, C board guessing numbers and Hot Picks for Kerala lottery. கடந்த நாட்களின் கணிப்பு எண்கள். For entertainment purposes only.</p></main>` },
