@@ -328,25 +328,25 @@ function buildGuessingContent() {
 
 const staticRoutes = [
   { path: '/schedule', title: 'Kerala Lottery Weekly Schedule — Draw Days & Times | கேரளா லாட்டரி அட்டவணை',
-    desc: 'Kerala lottery weekly schedule: which lottery draws each day and at what time — Karunya, Bhagyathara, Samrudhi & more. கேரளா லாட்டரி வார அட்டவணை. Updated daily at 3 PM IST.',
+    desc: 'Kerala lottery weekly schedule — draw day and time for Karunya, Bhagyathara, Samrudhi and more. கேரளா லாட்டரி அட்டவணை, இன்று 3:00 மணி முடிவு.',
     content: buildScheduleContent() },
   { path: '/jackpot', title: 'Kerala Lottery Jackpot — Today’s ₹1 Crore & Bumper Prize | கேரளா லாட்டரி ஜாக்பாட்',
     desc: 'Kerala lottery jackpot: today’s ₹1 Crore daily first prize and the next bumper draw’s top prize, plus recent jackpot winners. கேரளா லாட்டரி ஜாக்பாட் இன்று.',
     content: buildJackpotContent() },
   { path: '/claim-prize', title: 'Claim Your Kerala Lottery Prize — Location & Deadline Lookup | பரிசு பெறுவது எப்படி',
-    desc: 'Find where to claim your Kerala lottery prize by amount, the deadline, and documents needed. பரிசு பெறுவது எப்படி — கேரளா லாட்டரி. For entertainment purposes, always verify officially.',
+    desc: 'Find where to claim your Kerala lottery prize by amount and deadline. பரிசு பெறுவது எப்படி — கேரளா லாட்டரி. Verify officially before claiming.',
     content: buildClaimPrizeContent() },
   { path: '/yesterday-result', title: "Kerala Lottery Result Yesterday — All Prizes | நேற்றைய லாட்டரி முடிவு",
-    desc: "Kerala lottery result yesterday with the full prize list — 1st to last tier. நேற்றைய கேரளா லாட்டரி முடிவு முழு பரிசு விவரங்களுடன். Updated daily at 3 PM IST.",
+    desc: "Kerala lottery result yesterday — full prize list, 1st to last tier. நேற்றைய கேரளா லாட்டரி முடிவு, முழு பரிசு விவரங்கள். Updated daily 3:00 மணி.",
     content: buildYesterdayContent() },
   { path: '/bumper', title: 'Kerala Bumper Lottery 2026 — Next Draw Date & Results | கேரளா பம்பர் லாட்டரி',
-    desc: 'Next Kerala bumper: Monsoon Bumper BR-110 on 18 July 2026, first prize ₹10 crore (₹250 ticket). Bumper draw dates, prize structure and past results. கேரளா அடுத்த பம்பர் லாட்டரி தேதி.',
+    desc: 'Kerala bumper lottery — next draw date, first prize and ticket price, plus past bumper results. கேரளா அடுத்த பம்பர் லாட்டரி தேதி மற்றும் முடிவுகள்.',
     content: buildBumperContent() },
   { path: '/chart', title: 'Kerala Lottery Chart 2026 — All Results | கேரளா லாட்டரி சார்ட்',
-    desc: 'Kerala lottery chart: the 1st prize for every daily draw (Karunya, Bhagyathara, Samrudhi, Karunya Plus & more) in one table, newest first. கேரளா லாட்டரி சார்ட் தினசரி முடிவுகள். Updated 3 PM IST.',
+    desc: 'Kerala lottery chart — 1st prize for every daily draw (Karunya, Bhagyathara & more), newest first. கேரளா லாட்டரி சார்ட், இன்று 3:00 மணி முடிவுகள்.',
     content: buildChartContent() },
   { path: '/', title: 'கேரளா லாட்டரி ரிசல்ட் டுடே — கேரளா ரிசல்ட் இன்று | Kerala Lottery Result Today',
-    desc: 'கேரளா லாட்டரி ரிசல்ட் இன்று மதியம் 3:00 மணி — Karunya, Bhagyathara, Sthree Sakthi, Dhanalekshmi, Karunya Plus, Suvarna Keralam, Samrudhi. கேரளா ரிசல்ட் & kerala lottery result today — innathe lottery phalam, bhagyakkuri result, kerala lottery innale result, updated daily.',
+    desc: 'கேரளா லாட்டரி ரிசல்ட் இன்று 3:00 மணி — Karunya, Bhagyathara, Sthree Sakthi, Dhanalekshmi, Karunya Plus, Suvarna Keralam & more. Innathe lottari mudivugal.',
     content: `<main><h1>கேரளா லாட்டரி ரிசல்ட் டுடே — கேரளா ரிசல்ட் இன்று — Kerala Lottery Result Today</h1><p>இன்று மதியம் 3:00 மணி கேரளா லாட்டரி ரிசல்ட் இங்கே புதுப்பிக்கப்படும். Kerala Lottery results published daily at 3:00 PM IST — Karunya (KR), Sthree Sakthi (SS), Dhanalekshmi (DL), Bhagyathara (BT), Karunya Plus (KN), Suvarna Keralam (SK) and Samrudhi (SM). கேரளா ரிசல்ட், Innathe lottari result, kulukkal mudivugal — all here the moment each draw is announced.</p></main>` },
   { path: '/check-ticket', title: 'Check Kerala Lottery Ticket Number — Instant Result Lookup',
     desc: 'Check if your Kerala lottery ticket number is a winner. Enter your full ticket or last 4 digits to search across all recent draws instantly.',
@@ -385,13 +385,11 @@ const staticRoutes = [
 // ── Dynamic lottery index routes ──────────────────────────
 const lotteryRoutes = lotteries.map(l => {
   const result  = getResultForSlug(l.slug);
-  const firstP  = result ? getFirstPrize(result) : 'Pending';
-  const district= result ? getDistrict(result?.prizes?.find(p=>p.tier==='1st Prize')?.numbers?.[0]) : null;
   const tName   = TAMIL_NAMES[l.slug] ?? l.name;
   return {
     path:    `/results/${l.slug}`,
     title:   `${tName} லாட்டரி ரிசல்ட் இன்று ${l.code} — 3:00 மணி முடிவு | ${l.name} Result Today`,
-    desc:    `இன்று ${l.drawTime} ${tName} லாட்டரி முடிவு (${l.code}). ${firstP !== 'Pending' ? `1st Prize: ${firstP}${district ? `, ${district}` : ''}.` : `Draw every ${l.drawDay} at ${l.drawTime}.`} Innathe ${l.name} lottari kulukkal mudivugal, innathe lottery phalam, ${l.name} bhagyakkuri result — plus kerala lottery innale result, updated the moment results are announced.`,
+    desc:    `இன்று ${l.drawTime} மணி ${tName} (${l.name}) லாட்டரி முடிவு — ${l.code} draw code, held every ${l.drawDay} at ${l.drawTime}. Innathe lottari mudivugal, updated live.`,
     canonical: `${SITE}/results/${l.slug}`,
     content:  buildResultContent(l, result),
   };
@@ -411,7 +409,7 @@ const archiveRoutes = results.map(r => {
   return {
     path:     `/results/${r.lotterySlug}/${drawCodeLower}`,
     title:    `${tName} ${r.drawCode} லாட்டரி முடிவு ${r.displayDate} | ${lottery.name} Result`,
-    desc:     `${tName} ${r.drawCode} லாட்டரி முடிவு ${r.displayDate} — 1st Prize ${firstP}${district ? `, sold in ${district}` : ''}. Full prize table, all tiers. ${lottery.name} lottari result mudivugal, kulukkal.`,
+    desc:     `${tName} (${lottery.name}) ${r.drawCode} லாட்டரி முடிவு ${r.displayDate}, ${lottery.drawTime} மணி — 1st Prize ${firstP}${district ? `, ${district}` : ''}. Draw ${r.drawCode}. Innathe lottari mudivugal.`,
     canonical:`${SITE}/results/${r.lotterySlug}/${drawCodeLower}`,
     lastmod:  r.lastUpdated,
     content:  buildResultContent(lottery, r),
