@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-08-24T09:45:31.986230Z",
-    "summary": "Result for Bhagyathara BT-68. 6/10 tiers updated.",
+    "lastUpdated": "2026-08-24T09:54:36.607572Z",
+    "summary": "Result for Bhagyathara BT-68. 8/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "BW 585405"
+          {
+            "ticket": "BW 585405",
+            "district": "Thiruvananthapuram"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "BW 364280"
+          {
+            "ticket": "BW 364280",
+            "district": "Kollam"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "BZ 567138"
+          {
+            "ticket": "BZ 567138",
+            "district": "Kasaragod"
+          }
         ]
       },
       {
@@ -88,12 +97,57 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0324",
+          "1125",
+          "1354",
+          "1598",
+          "1843",
+          "2137",
+          "2232",
+          "2610",
+          "2720",
+          "2805",
+          "3418",
+          "4283",
+          "4828",
+          "5267",
+          "5443",
+          "6079",
+          "6811",
+          "6850",
+          "7646",
+          "8240",
+          "8291",
+          "8802",
+          "9120",
+          "9235",
+          "9772"
+        ]
       },
       {
         "tier": "7th Prize",
         "amount": "₹500",
-        "numbers": []
+        "numbers": [
+          "6466",
+          "6108",
+          "5007",
+          "7457",
+          "5444",
+          "0897",
+          "3666",
+          "8260",
+          "3166",
+          "4151",
+          "5440",
+          "9668",
+          "5227",
+          "4745",
+          "5515",
+          "9324",
+          "4908",
+          "1305"
+        ]
       },
       {
         "tier": "8th Prize",
