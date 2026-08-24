@@ -346,7 +346,7 @@ const staticRoutes = [
     desc: 'Kerala lottery chart: the 1st prize for every daily draw (Karunya, Bhagyathara, Samrudhi, Karunya Plus & more) in one table, newest first. கேரளா லாட்டரி சார்ட் தினசரி முடிவுகள். Updated 3 PM IST.',
     content: buildChartContent() },
   { path: '/', title: 'கேரளா லாட்டரி ரிசல்ட் டுடே — கேரளா ரிசல்ட் இன்று | Kerala Lottery Result Today',
-    desc: 'கேரளா லாட்டரி ரிசல்ட் இன்று மதியம் 3:00 மணி — Karunya, Bhagyathara, Sthree Sakthi, Dhanalekshmi, Karunya Plus, Suvarna Keralam, Samrudhi. கேரளா ரிசல்ட் & kerala lottery result today, updated daily.',
+    desc: 'கேரளா லாட்டரி ரிசல்ட் இன்று மதியம் 3:00 மணி — Karunya, Bhagyathara, Sthree Sakthi, Dhanalekshmi, Karunya Plus, Suvarna Keralam, Samrudhi. கேரளா ரிசல்ட் & kerala lottery result today — innathe lottery phalam, bhagyakkuri result, kerala lottery innale result, updated daily.',
     content: `<main><h1>கேரளா லாட்டரி ரிசல்ட் டுடே — கேரளா ரிசல்ட் இன்று — Kerala Lottery Result Today</h1><p>இன்று மதியம் 3:00 மணி கேரளா லாட்டரி ரிசல்ட் இங்கே புதுப்பிக்கப்படும். Kerala Lottery results published daily at 3:00 PM IST — Karunya (KR), Sthree Sakthi (SS), Dhanalekshmi (DL), Bhagyathara (BT), Karunya Plus (KN), Suvarna Keralam (SK) and Samrudhi (SM). கேரளா ரிசல்ட், Innathe lottari result, kulukkal mudivugal — all here the moment each draw is announced.</p></main>` },
   { path: '/check-ticket', title: 'Check Kerala Lottery Ticket Number — Instant Result Lookup',
     desc: 'Check if your Kerala lottery ticket number is a winner. Enter your full ticket or last 4 digits to search across all recent draws instantly.',
@@ -391,7 +391,7 @@ const lotteryRoutes = lotteries.map(l => {
   return {
     path:    `/results/${l.slug}`,
     title:   `${tName} லாட்டரி ரிசல்ட் இன்று ${l.code} — 3:00 மணி முடிவு | ${l.name} Result Today`,
-    desc:    `இன்று ${l.drawTime} ${tName} லாட்டரி முடிவு (${l.code}). ${firstP !== 'Pending' ? `1st Prize: ${firstP}${district ? `, ${district}` : ''}.` : `Draw every ${l.drawDay} at ${l.drawTime}.`} Innathe ${l.name} lottari kulukkal mudivugal — updated the moment results are announced.`,
+    desc:    `இன்று ${l.drawTime} ${tName} லாட்டரி முடிவு (${l.code}). ${firstP !== 'Pending' ? `1st Prize: ${firstP}${district ? `, ${district}` : ''}.` : `Draw every ${l.drawDay} at ${l.drawTime}.`} Innathe ${l.name} lottari kulukkal mudivugal, innathe lottery phalam, ${l.name} bhagyakkuri result — plus kerala lottery innale result, updated the moment results are announced.`,
     canonical: `${SITE}/results/${l.slug}`,
     content:  buildResultContent(l, result),
   };
