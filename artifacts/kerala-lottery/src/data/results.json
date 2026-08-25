@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-08-25T09:44:09.449177Z",
-    "summary": "Result for Sthree Sakthi SS-534. 5/10 tiers updated.",
+    "lastUpdated": "2026-08-25T09:52:24.308833Z",
+    "summary": "Result for Sthree Sakthi SS-534. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -76,12 +76,45 @@
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "2638",
+          "6887",
+          "7044",
+          "7096",
+          "7902",
+          "8074"
+        ]
       },
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0725",
+          "0739",
+          "2099",
+          "2314",
+          "2456",
+          "3022",
+          "3173",
+          "3391",
+          "4224",
+          "4296",
+          "5154",
+          "5582",
+          "6223",
+          "6324",
+          "7289",
+          "7543",
+          "7586",
+          "7805",
+          "8597",
+          "8854",
+          "9103",
+          "9589",
+          "9756",
+          "9776",
+          "9853"
+        ]
       },
       {
         "tier": "7th Prize",
