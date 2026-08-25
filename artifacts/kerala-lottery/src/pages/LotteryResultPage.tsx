@@ -1,5 +1,5 @@
 import { useParams, Link } from 'wouter';
-import { JsonLd } from '../components/JsonLd';
+import { JsonLd, BreadcrumbSchema } from '../components/JsonLd';
 import { ResultCard } from '../components/ResultCard';
 import { ResultTable } from '../components/ResultTable';
 import { ResultDetails } from '../components/ResultDetails';
@@ -63,14 +63,12 @@ export default function LotteryResultPage() {
           location: { '@type': 'Place', name: 'Kerala, India' },
         },
       }} />
-      <JsonLd data={{
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
-          { '@type': 'ListItem', position: 2, name: `${lottery.name} Result`, item: pageUrl },
-        ],
-      }} />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: site.url },
+          { name: `${lottery.name} Result`, url: pageUrl },
+        ]}
+      />
       <div className="container">
         <nav className="breadcrumb" aria-label="Breadcrumb">
           <a href="/">Home</a>

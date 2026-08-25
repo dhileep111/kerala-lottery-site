@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
-import { JsonLd } from '../components/JsonLd';
+import { JsonLd, BreadcrumbSchema } from '../components/JsonLd';
 import { ResultCard } from '../components/ResultCard';
 import { ResultTable } from '../components/ResultTable';
 import { ScheduleGrid } from '../components/ScheduleGrid';
@@ -96,6 +96,7 @@ export default function HomePage() {
   return (
     <main className="page">
       <JsonLd data={{ '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: site.url, potentialAction: { '@type': 'SearchAction', target: `${site.url}/check-ticket?q={search_term_string}`, 'query-input': 'required name=search_term_string' } }} />
+      <BreadcrumbSchema items={[{ name: 'Home', url: site.url }]} />
       <div className="container">
         <div className="notice">கேரளா லாட்டரி ரிசல்ட் (கேரளா ரிசல்ட்) தினமும் மதியம் 3 மணிக்கு இங்கே புதுப்பிக்கப்படும். உங்கள் லாட்டரியைத் தேர்ந்தெடுத்து இன்றைய முடிவைப் பாருங்கள்.<br /><span style={{ opacity: 0.8, fontSize: 13 }}>Today's lottery mudivugal, innathe lottari result &amp; kulukkal outcome — all here.</span></div>
 

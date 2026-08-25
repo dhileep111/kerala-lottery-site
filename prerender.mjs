@@ -195,6 +195,27 @@ function buildYesterdayContent() {
   </main>`;
 }
 
+function buildScheduleFaqItems() {
+  const weekOrder = [1, 2, 3, 4, 5, 6, 0];
+  const daily = lotteries.filter(l => !l.isBumper);
+  const ordered = weekOrder.map(idx => daily.find(l => l.drawDayIndex === idx)).filter(Boolean);
+  const up = bumpers?.upcoming;
+  const items = [
+    {
+      question: 'Weekly Draw Schedule',
+      answer: ordered.map(l => `${l.name} draws every ${l.drawDay} at ${l.drawTime}`).join('; ')
+        + '. All draws are held daily at 3:00 PM IST (Gorky Bhavan, Thiruvananthapuram) except bumper special draws.',
+    },
+  ];
+  if (up) {
+    items.push({
+      question: `${up.name} (${up.code})`,
+      answer: `${up.drawDateLabel} at ${up.drawTime}. First prize ${up.firstPrize}.`,
+    });
+  }
+  return items;
+}
+
 function buildScheduleContent() {
   const weekOrder = [1, 2, 3, 4, 5, 6, 0];
   const daily = lotteries.filter(l => !l.isBumper);
@@ -238,6 +259,26 @@ function buildJackpotContent() {
     <table class="table"><thead><tr><th>Date</th><th>Draw</th><th>1st Prize Winner</th><th>Result</th></tr></thead><tbody>${winnerRows}</tbody></table>
   </main>`;
 }
+
+// Mirrors ClaimPrizePage.tsx's TIERS/DOCS-derived FAQ exactly.
+const CLAIM_PRIZE_FAQ = [
+  {
+    question: '1. Select your prize amount',
+    answer: 'Up to ₹5,000: claim at any authorised Kerala lottery agent, 30 days from the draw date. No TDS deducted. '
+      + '₹5,001 – ₹1,00,000: claim at your District Lottery Office, 30 days from the draw date. 30% TDS + surcharge deducted before payment. '
+      + 'Above ₹1,00,000: claim at the Directorate of Kerala State Lotteries, Thiruvananthapuram, in person, 30 days from the draw date. 30% TDS + surcharge applies.',
+  },
+  {
+    question: '2. Documents to bring',
+    answer: 'Original winning ticket, signed on the back, Aadhaar card, PAN card (mandatory for prizes above ₹10,000), '
+      + 'two recent passport-size photographs, Bank passbook or a cancelled cheque, for prize transfer.',
+  },
+  {
+    question: '3. Verify before you travel',
+    answer: "Always cross-check your ticket number, draw code, and date against the official result before visiting an office. "
+      + "Verify at statelottery.kerala.gov.in or your draw's result page on this site.",
+  },
+];
 
 function buildClaimPrizeContent() {
   return `<main>
@@ -329,12 +370,14 @@ function buildGuessingContent() {
 const staticRoutes = [
   { path: '/schedule', title: 'Kerala Lottery Weekly Schedule — Draw Days & Times | கேரளா லாட்டரி அட்டவணை',
     desc: 'Kerala lottery weekly schedule — draw day and time for Karunya, Bhagyathara, Samrudhi and more. கேரளா லாட்டரி அட்டவணை, இன்று 3:00 மணி முடிவு.',
+    jsonLd: [faqSchema(buildScheduleFaqItems())],
     content: buildScheduleContent() },
   { path: '/jackpot', title: 'Kerala Lottery Jackpot — Today’s ₹1 Crore & Bumper Prize | கேரளா லாட்டரி ஜாக்பாட்',
     desc: 'Kerala lottery jackpot: today’s ₹1 Crore daily first prize and the next bumper draw’s top prize, plus recent jackpot winners. கேரளா லாட்டரி ஜாக்பாட் இன்று.',
     content: buildJackpotContent() },
   { path: '/claim-prize', title: 'Claim Your Kerala Lottery Prize — Location & Deadline Lookup | பரிசு பெறுவது எப்படி',
     desc: 'Find where to claim your Kerala lottery prize by amount and deadline. பரிசு பெறுவது எப்படி — கேரளா லாட்டரி. Verify officially before claiming.',
+    jsonLd: [faqSchema(CLAIM_PRIZE_FAQ)],
     content: buildClaimPrizeContent() },
   { path: '/yesterday-result', title: "Kerala Lottery Result Yesterday — All Prizes | நேற்றைய லாட்டரி முடிவு",
     desc: "Kerala lottery result yesterday — full prize list, 1st to last tier. நேற்றைய கேரளா லாட்டரி முடிவு, முழு பரிசு விவரங்கள். Updated daily 3:00 மணி.",
@@ -347,6 +390,7 @@ const staticRoutes = [
     content: buildChartContent() },
   { path: '/', title: 'கேரளா லாட்டரி ரிசல்ட் டுடே — கேரளா ரிசல்ட் இன்று | Kerala Lottery Result Today',
     desc: 'கேரளா லாட்டரி ரிசல்ட் இன்று 3:00 மணி — Karunya, Bhagyathara, Sthree Sakthi, Dhanalekshmi, Karunya Plus, Suvarna Keralam & more. Innathe lottari mudivugal.',
+    jsonLd: [breadcrumbSchema([{ name: 'Home', url: `${SITE}/` }])],
     content: `<main><h1>கேரளா லாட்டரி ரிசல்ட் டுடே — கேரளா ரிசல்ட் இன்று — Kerala Lottery Result Today</h1><p>இன்று மதியம் 3:00 மணி கேரளா லாட்டரி ரிசல்ட் இங்கே புதுப்பிக்கப்படும். Kerala Lottery results published daily at 3:00 PM IST — Karunya (KR), Sthree Sakthi (SS), Dhanalekshmi (DL), Bhagyathara (BT), Karunya Plus (KN), Suvarna Keralam (SK) and Samrudhi (SM). கேரளா ரிசல்ட், Innathe lottari result, kulukkal mudivugal — all here the moment each draw is announced.</p></main>` },
   { path: '/check-ticket', title: 'Check Kerala Lottery Ticket Number — Instant Result Lookup',
     desc: 'Check if your Kerala lottery ticket number is a winner. Enter your full ticket or last 4 digits to search across all recent draws instantly.',
@@ -391,6 +435,10 @@ const lotteryRoutes = lotteries.map(l => {
     title:   `${tName} லாட்டரி ரிசல்ட் இன்று ${l.code} — 3:00 மணி முடிவு | ${l.name} Result Today`,
     desc:    `இன்று ${l.drawTime} மணி ${tName} (${l.name}) லாட்டரி முடிவு — ${l.code} draw code, held every ${l.drawDay} at ${l.drawTime}. Innathe lottari mudivugal, updated live.`,
     canonical: `${SITE}/results/${l.slug}`,
+    jsonLd: [breadcrumbSchema([
+      { name: 'Home', url: `${SITE}/` },
+      { name: `${l.name} Result`, url: `${SITE}/results/${l.slug}` },
+    ])],
     content:  buildResultContent(l, result),
   };
 });
@@ -481,6 +529,34 @@ const redirectRoutes = [
 const allRoutes = [...staticRoutes, ...redirectRoutes, ...lotteryGuessingRoutes, ...lotteryRoutes, ...archiveRoutes];
 
 // ── Generate HTML ─────────────────────────────────────────
+// ── Structured data (schema.org JSON-LD) ───────────────────
+// Mirrors JsonLd.tsx's BreadcrumbSchema/FaqSchema shape exactly so the
+// static HTML Google indexes matches what the live React page renders.
+function breadcrumbSchema(items) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+}
+
+function faqSchema(items) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  };
+}
+
 function makeHtml(route) {
   const canonical = route.canonical || `${SITE}${route.path}`;
   let html = baseHtml;
@@ -500,6 +576,14 @@ function makeHtml(route) {
   // never stack up duplicates (e.g. if baseHtml already carries one).
   html = html.replace(/\s*<link rel="canonical"[^>]*>\s*/gi, '\n');
   html = html.replace('</head>', `  <link rel="canonical" href="${canonical}" />\n</head>`);
+
+  // Inject structured data (schema.org JSON-LD) — one <script> per entry.
+  if (route.jsonLd && route.jsonLd.length) {
+    const scripts = route.jsonLd
+      .map((d) => `  <script type="application/ld+json">${JSON.stringify(d)}</script>`)
+      .join('\n');
+    html = html.replace('</head>', `${scripts}\n</head>`);
+  }
 
   // ── KEY FIX: Inject real content into <div id="root"> ──
   // This is what Google actually reads — not the JS bundle

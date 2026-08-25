@@ -1,6 +1,7 @@
 import { Link } from 'wouter';
 import { lotteries, getTodayLottery, getTomorrowLottery } from '../data';
 import { ScheduleGrid } from '../components/ScheduleGrid';
+import { FaqSchema } from '../components/JsonLd';
 import bumpers from '../data/bumpers.json';
 
 const TAMIL_DAYS: Record<string, string> = {
@@ -20,8 +21,26 @@ export default function SchedulePage() {
   );
   const up = (bumpers as { upcoming?: Record<string, string> }).upcoming;
 
+  const faqItems = [
+    {
+      question: 'Weekly Draw Schedule',
+      answer:
+        ordered.map((l) => `${l.name} draws every ${l.drawDay} at ${l.drawTime}`).join('; ') +
+        '. All draws are held daily at 3:00 PM IST (Gorky Bhavan, Thiruvananthapuram) except bumper special draws.',
+    },
+    ...(up
+      ? [
+          {
+            question: `${up.name} (${up.code})`,
+            answer: `${up.drawDateLabel} at ${up.drawTime}. First prize ${up.firstPrize}.`,
+          },
+        ]
+      : []),
+  ];
+
   return (
     <main className="container">
+      <FaqSchema items={faqItems} />
       <section className="hero" style={{ paddingBottom: 8 }}>
         <h1>Kerala Lottery Weekly Schedule</h1>
         <p>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
-import { JsonLd } from '../components/JsonLd';
+import { JsonLd, FaqSchema } from '../components/JsonLd';
 import { site } from '../data';
 
 const TIERS = [
@@ -51,6 +51,23 @@ export default function ClaimPrizePage() {
           totalTime: 'P30D',
           step: DOCS.map((d, i) => ({ '@type': 'HowToStep', position: i + 1, name: d })),
         }} />
+        <FaqSchema
+          items={[
+            {
+              question: '1. Select your prize amount',
+              answer: TIERS.map((t) => `${t.label}: claim at ${t.location}, ${t.deadline}. ${t.notes}`).join(' '),
+            },
+            {
+              question: '2. Documents to bring',
+              answer: DOCS.join(', ') + '.',
+            },
+            {
+              question: '3. Verify before you travel',
+              answer:
+                "Always cross-check your ticket number, draw code, and date against the official result before visiting an office. Verify at statelottery.kerala.gov.in or your draw's result page on this site.",
+            },
+          ]}
+        />
 
         <div className="hero">
           <h1>Claim Your Kerala Lottery Prize</h1>
