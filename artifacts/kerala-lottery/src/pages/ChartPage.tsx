@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'wouter';
-import { results, getLottery, drawPath, getFirstPrizeNumber } from '../data';
+import { BreadcrumbSchema } from '../components/JsonLd';
+import { results, getLottery, drawPath, getFirstPrizeNumber, site } from '../data';
 
 type Row = (typeof results)[number];
 
@@ -50,6 +51,12 @@ export default function ChartPage() {
 
   return (
     <main className="container">
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: site.url },
+          { name: 'Chart', url: `${site.url}/chart` },
+        ]}
+      />
       <section className="hero" style={{ paddingBottom: 8 }}>
         <h1>Kerala Lottery Chart</h1>
         <p>

@@ -1,5 +1,6 @@
 import { Link } from 'wouter';
-import { results, lotteries, drawPath, getFirstPrizeNumber, getTodayLottery } from '../data';
+import { BreadcrumbSchema } from '../components/JsonLd';
+import { results, lotteries, drawPath, getFirstPrizeNumber, getTodayLottery, site } from '../data';
 import bumpers from '../data/bumpers.json';
 import { useCountdown } from '../lib/useCountdown';
 
@@ -30,6 +31,12 @@ export default function JackpotPage() {
 
   return (
     <main className="container">
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: site.url },
+          { name: 'Jackpot', url: `${site.url}/jackpot` },
+        ]}
+      />
       <section className="hero" style={{ paddingBottom: 8 }}>
         <h1>Kerala Lottery Jackpot</h1>
         <p>

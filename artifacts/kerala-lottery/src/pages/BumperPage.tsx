@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Link } from 'wouter';
+import { JsonLd } from '../components/JsonLd';
 import { results, drawPath, getFirstPrizeNumber } from '../data';
 import bumpers from '../data/bumpers.json';
 import { useCountdown } from '../lib/useCountdown';
@@ -36,6 +37,16 @@ export default function BumperPage() {
 
   return (
     <main className="container">
+      {up && (
+        <JsonLd data={{
+          '@context': 'https://schema.org',
+          '@type': 'Event',
+          name: `${up.name} (${up.code})`,
+          startDate: up.drawDateISO,
+          location: { '@type': 'Place', name: up.venue },
+          description: `${up.name} (${up.code}) — first prize ${up.firstPrize}, ticket price ${up.ticketPrice}.`,
+        }} />
+      )}
       <section className="hero" style={{ paddingBottom: 8 }}>
         <h1>Kerala Bumper Lottery — Next Draw &amp; Results</h1>
         <p>

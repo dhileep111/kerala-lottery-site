@@ -152,6 +152,21 @@ function buildBumperContent() {
   const past = [...results]
     .filter(r => r.lotterySlug === 'bumper')
     .sort((a, b) => (b.drawDate || '').localeCompare(a.drawDate || '') || (b.lastUpdated || '').localeCompare(a.lastUpdated || ''));
+  // Same Event schema as BumperPage.tsx's <JsonLd>, embedded directly in the
+  // prerendered content (not via the route.jsonLd/<head> mechanism) so it
+  // ships as a script tag inside <div id="root"> itself.
+  let eventJsonLd = '';
+  if (up) {
+    const eventData = {
+      '@context': 'https://schema.org',
+      '@type': 'Event',
+      name: up.name + ' (' + up.code + ')',
+      startDate: up.drawDateISO,
+      location: { '@type': 'Place', name: up.venue },
+      description: up.name + ' (' + up.code + ') — first prize ' + up.firstPrize + ', ticket price ' + up.ticketPrice + '.',
+    };
+    eventJsonLd = '<script type="application/ld+json">' + JSON.stringify(eventData) + '</script>';
+  }
   const upHtml = up ? `<h2>Next Bumper: ${e(up.name)} (${e(up.code)})</h2>
     <p><strong>${e(up.drawDateLabel)}</strong> at ${e(up.drawTime)}. First prize <strong>${e(up.firstPrize)}</strong>. Ticket price ${e(up.ticketPrice)}. Series ${e(up.series)}. Draw held at ${e(up.venue)}.</p>` : '';
   const rows = past.map(r => {
@@ -161,6 +176,7 @@ function buildBumperContent() {
     return `<tr><td>${e(r.displayDate || r.drawDate)}</td><td>Kerala Bumper (${e(r.drawCode)})</td><td>${e(fp)}${dist ? ` (${e(dist)})` : ''}</td><td><a href="${ea(href)}">View result</a></td></tr>`;
   }).join('');
   return `<main>
+    ${eventJsonLd}
     <h1>Kerala Bumper Lottery — Next Draw Date &amp; Results</h1>
     <p>Kerala's seasonal bumper lotteries carry the year's biggest prizes (up to ₹12 crore): the Summer, Vishu, Monsoon, Thiruvonam (Onam), Pooja and Christmas–New Year bumpers. கேரளா பம்பர் லாட்டரி அடுத்த தேதி மற்றும் முடிவுகள்.</p>
     ${upHtml}
