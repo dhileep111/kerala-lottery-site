@@ -6,7 +6,7 @@ import { ResultDetails } from '../components/ResultDetails';
 import { TamilResultSection } from '../components/TamilResultSection';
 import { ShareResultButton } from '../components/ShareResultButton';
 import { DownloadPdfButton } from '../components/DownloadPdfButton';
-import { getLatestResult, getLottery, site } from '../data';
+import { getLatestResult, getLottery, site, getTodayHoliday } from '../data';
 
 export default function LotteryResultPage() {
   const params = useParams<{ slug: string }>();
@@ -40,6 +40,7 @@ export default function LotteryResultPage() {
   };
 
   const pageUrl = `${site.url}/results/${lottery.slug}`;
+  const todayHoliday = getTodayHoliday();
 
   return (
     <main className="page">
@@ -79,6 +80,12 @@ export default function LotteryResultPage() {
           <h1>{lottery.name} Kerala Lottery Result Today</h1>
           <p>{lottery.name} winning numbers and full prize table, updated daily at {lottery.drawTime} IST. {lottery.name} draws every {lottery.drawDay}.</p>
         </div>
+        {todayHoliday && (
+          <div className="notice" style={{ borderLeft: '4px solid #f59e0b', background: '#fffbeb', marginBottom: 16 }}>
+            🎉 <strong>Today is {todayHoliday}</strong> — Kerala Lottery Dept does not hold a draw today. The result
+            below is the most recent published draw, not today's. Regular results resume tomorrow.
+          </div>
+        )}
         <section className="section">
           <ResultCard lottery={lottery} result={result} />
           <div style={{ height: 24 }} />

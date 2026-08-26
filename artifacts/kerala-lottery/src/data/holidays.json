@@ -1,0 +1,7 @@
+{
+  "_comment": "Known Kerala Lottery Dept holidays — the department suspends that day's regular draw and no source publishes a result. Add the next known holiday's date here ahead of time (or the day it's discovered). Single source of truth: read by et_scraper.py (skip the scrape silently) AND the live site (show a banner explaining why no result today, instead of a misleading 'check back after 3 PM').",
+  "dates": {
+    "2026-08-15": "Independence Day",
+    "2026-08-26": "Onam (Thiruvonam)"
+  }
+}

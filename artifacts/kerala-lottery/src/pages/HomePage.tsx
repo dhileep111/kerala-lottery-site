@@ -6,7 +6,7 @@ import { ResultTable } from '../components/ResultTable';
 import { ScheduleGrid } from '../components/ScheduleGrid';
 import { RecentResults } from '../components/RecentResults';
 import { ShareResultButton } from '../components/ShareResultButton';
-import { getLatestResult, getLottery, getResultWithLottery, lotteries, site } from '../data';
+import { getLatestResult, getLottery, getResultWithLottery, lotteries, site, getTodayHoliday } from '../data';
 import NextDrawCountdown from '../components/NextDrawCountdown';
 
 // Per-lottery accent colors
@@ -92,12 +92,21 @@ export default function HomePage() {
   const selectedResult  = getLatestResult(selectedSlug);
   const selectedLottery = getLottery(selectedSlug);
   const color           = getLotteryColor(selectedSlug);
+  const todayHoliday    = getTodayHoliday();
 
   return (
     <main className="page">
       <JsonLd data={{ '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: site.url, potentialAction: { '@type': 'SearchAction', target: `${site.url}/check-ticket?q={search_term_string}`, 'query-input': 'required name=search_term_string' } }} />
       <BreadcrumbSchema items={[{ name: 'Home', url: site.url }]} />
       <div className="container">
+        {todayHoliday && (
+          <div className="notice" style={{ borderLeft: '4px solid #f59e0b', background: '#fffbeb' }}>
+            🎉 <strong>Today is {todayHoliday}</strong> — Kerala Lottery Dept does not hold a draw today, so there is no
+            new result to publish. Regular daily results resume tomorrow as usual.
+            <br />
+            <span style={{ opacity: 0.8, fontSize: 13 }}>இன்று {todayHoliday} — இன்று லாட்டரி டிராவ் இல்லை. நாளை வழக்கம் போல் தொடரும்.</span>
+          </div>
+        )}
         <div className="notice">கேரளா லாட்டரி ரிசல்ட் (கேரளா ரிசல்ட்) தினமும் மதியம் 3 மணிக்கு இங்கே புதுப்பிக்கப்படும். உங்கள் லாட்டரியைத் தேர்ந்தெடுத்து இன்றைய முடிவைப் பாருங்கள்.<br /><span style={{ opacity: 0.8, fontSize: 13 }}>Today's lottery mudivugal, innathe lottari result &amp; kulukkal outcome — all here.</span></div>
 
         {/* Hero with lottery selector */}

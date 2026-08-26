@@ -17,6 +17,21 @@ const baseHtml  = readFileSync(`${distDir}/index.html`, 'utf8');
 const lotteries = JSON.parse(readFileSync(`${dataDir}/lotteries.json`, 'utf8'));
 const results   = JSON.parse(readFileSync(`${dataDir}/results.json`,   'utf8'));
 const bumpers   = JSON.parse(readFileSync(`${dataDir}/bumpers.json`,   'utf8'));
+const holidays  = JSON.parse(readFileSync(`${dataDir}/holidays.json`,  'utf8')).dates || {};
+
+// Same holidays.json et_scraper.py and data.ts read — checked at build time,
+// so this reflects the holiday if the site is deployed on that day.
+function todayHolidayName() {
+  const istNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+  const dateStr = istNow.getFullYear() + '-' + String(istNow.getMonth() + 1).padStart(2, '0') + '-' + String(istNow.getDate()).padStart(2, '0');
+  return holidays[dateStr] || null;
+}
+
+function holidayNoticeHtml() {
+  const name = todayHolidayName();
+  if (!name) return '';
+  return '<p><strong>Today is ' + e(name) + '</strong> — Kerala Lottery Dept does not hold a draw today, so there is no new result to publish. Regular daily results resume tomorrow.</p>';
+}
 
 const SITE     = 'https://keralaticketresults.in';
 const OG_IMAGE = `${SITE}/opengraph.jpg`;
@@ -407,7 +422,7 @@ const staticRoutes = [
   { path: '/', title: 'கேரளா லாட்டரி ரிசல்ட் டுடே — கேரளா ரிசல்ட் இன்று | Kerala Lottery Result Today',
     desc: 'கேரளா லாட்டரி ரிசல்ட் இன்று 3:00 மணி — Karunya, Bhagyathara, Sthree Sakthi, Dhanalekshmi, Karunya Plus, Suvarna Keralam & more. Innathe lottari mudivugal.',
     jsonLd: [breadcrumbSchema([{ name: 'Home', url: `${SITE}/` }])],
-    content: `<main><h1>கேரளா லாட்டரி ரிசல்ட் டுடே — கேரளா ரிசல்ட் இன்று — Kerala Lottery Result Today</h1><p>இன்று மதியம் 3:00 மணி கேரளா லாட்டரி ரிசல்ட் இங்கே புதுப்பிக்கப்படும். Kerala Lottery results published daily at 3:00 PM IST — Karunya (KR), Sthree Sakthi (SS), Dhanalekshmi (DL), Bhagyathara (BT), Karunya Plus (KN), Suvarna Keralam (SK) and Samrudhi (SM). கேரளா ரிசல்ட், Innathe lottari result, kulukkal mudivugal — all here the moment each draw is announced.</p></main>` },
+    content: `<main><h1>கேரளா லாட்டரி ரிசல்ட் டுடே — கேரளா ரிசல்ட் இன்று — Kerala Lottery Result Today</h1>${holidayNoticeHtml()}<p>இன்று மதியம் 3:00 மணி கேரளா லாட்டரி ரிசல்ட் இங்கே புதுப்பிக்கப்படும். Kerala Lottery results published daily at 3:00 PM IST — Karunya (KR), Sthree Sakthi (SS), Dhanalekshmi (DL), Bhagyathara (BT), Karunya Plus (KN), Suvarna Keralam (SK) and Samrudhi (SM). கேரளா ரிசல்ட், Innathe lottari result, kulukkal mudivugal — all here the moment each draw is announced.</p></main>` },
   { path: '/check-ticket', title: 'Check Kerala Lottery Ticket Number — Instant Result Lookup',
     desc: 'Check if your Kerala lottery ticket number is a winner. Enter your full ticket or last 4 digits to search across all recent draws instantly.',
     content: `<main><h1>Kerala Lottery Ticket Checker</h1><p>Enter your ticket number to check if it matches any winning number across recent Kerala lottery draws. You can enter the full ticket (e.g. RR 281074), 6-digit number, or last 4 digits.</p></main>` },

@@ -1,6 +1,7 @@
 import lotteriesJson from './data/lotteries.json';
 import resultsJson from './data/results.json';
 import guessingJson from './data/guessing-numbers.json';
+import holidaysJson from './data/holidays.json';
 import type { Lottery, Result, WinningNumber } from './types';
 import { cleanSlug } from './lib/slugs';
 
@@ -27,6 +28,17 @@ export function getLatestGuessing(): GuessingDay {
 
 export function getGuessingHistory(limit = 30): GuessingDay[] {
   return guessingData.history.slice(0, limit);
+}
+
+export const holidays = (holidaysJson as { dates: Record<string, string> }).dates;
+
+// Same holidays.json et_scraper.py reads — single source of truth, so the
+// site can tell a visitor "no result today, it's a holiday" instead of the
+// misleading "check back after 3 PM" when no draw happened at all today.
+export function getTodayHoliday(): string | null {
+  const istNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+  const dateStr = `${istNow.getFullYear()}-${String(istNow.getMonth() + 1).padStart(2, '0')}-${String(istNow.getDate()).padStart(2, '0')}`;
+  return holidays[dateStr] ?? null;
 }
 
 export function getLottery(slug: string) {
