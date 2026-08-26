@@ -87,6 +87,20 @@ def bumper_name_slug(name):
     """'Monsoon Bumper' -> 'monsoon-bumper', matching goodreturns.in's URL scheme."""
     return re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-')
 
+# Known Kerala Lottery Department holidays — the department suspends that
+# day's regular draw and no source publishes a result, same as a bumper day.
+# There's no public API for this, so it's maintained by hand: add the next
+# known holiday's date here ahead of time (or the day it's discovered, like
+# this one was) so the scraper prints a clear "known holiday" message instead
+# of a bare "no result found" that looks like a possible malfunction.
+KERALA_HOLIDAYS = {
+    '2026-08-15': 'Independence Day',
+    '2026-08-26': 'Onam (Thiruvonam)',
+}
+
+def get_known_holiday(now):
+    return KERALA_HOLIDAYS.get(now.strftime('%Y-%m-%d'))
+
 def get_today_lottery():
     DATA = 'artifacts/kerala-lottery/src/data'
     with open(f'{DATA}/lotteries.json') as f:
@@ -97,6 +111,12 @@ def get_today_lottery():
     now = datetime.datetime.now(ist)
     today_s = now.strftime('%Y-%m-%d')
     today_j = (now.weekday() + 1) % 7
+
+    holiday = get_known_holiday(now)
+    if holiday:
+        print(f"Today is {holiday} — Kerala Lottery Dept typically doesn't publish, skipping.")
+        print("This does not affect tomorrow's run — each scheduled run resolves its own date independently.")
+        sys.exit(0)
 
     bumper_info = get_bumper_info()
     if is_bumper_day(now, bumper_info):
