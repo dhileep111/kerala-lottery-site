@@ -74,28 +74,35 @@ jobs:
         run: python update_guessing.py
 
       - name: Commit data changes
+        id: commit
         if: steps.scraper.outputs.found == 'true'
         run: |
           git config --global user.name "ET Auto Bot"
           git config --global user.email "bot@keralaticketresults.in"
           git add artifacts/kerala-lottery/src/data/results.json
           git add artifacts/kerala-lottery/src/data/guessing-numbers.json
-          git diff --staged --quiet || (git commit -m "auto: ${{ steps.scraper.outputs.draw_code }} from ET scraper" && git push)
+          if git diff --staged --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "⏭️ No data change — skipping deploy and notifications"
+          else
+            git commit -m "auto: ${{ steps.scraper.outputs.draw_code }} from ET scraper" && git push
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Setup Node
-        if: steps.scraper.outputs.found == 'true'
+        if: steps.commit.outputs.changed == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: 24
 
       - name: Setup pnpm
-        if: steps.scraper.outputs.found == 'true'
+        if: steps.commit.outputs.changed == 'true'
         uses: pnpm/action-setup@v4
         with:
           version: 10
 
       - name: Install & Build
-        if: steps.scraper.outputs.found == 'true'
+        if: steps.commit.outputs.changed == 'true'
         working-directory: artifacts/kerala-lottery
         env:
           PORT: "3000"
@@ -103,36 +110,36 @@ jobs:
         run: pnpm install && pnpm run build
 
       - name: Pre-render all routes
-        if: steps.scraper.outputs.found == 'true'
+        if: steps.commit.outputs.changed == 'true'
         run: node prerender.mjs
 
       - name: Generate sitemap
-        if: steps.scraper.outputs.found == 'true'
+        if: steps.commit.outputs.changed == 'true'
         run: node generate-sitemap.mjs
 
       - name: Setup Pages
-        if: steps.scraper.outputs.found == 'true'
+        if: steps.commit.outputs.changed == 'true'
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
-        if: steps.scraper.outputs.found == 'true'
+        if: steps.commit.outputs.changed == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: artifacts/kerala-lottery/dist/public
 
       - name: Deploy to GitHub Pages
-        if: steps.scraper.outputs.found == 'true'
+        if: steps.commit.outputs.changed == 'true'
         id: deployment
         uses: actions/deploy-pages@v5
 
       - name: Notify Make.com
-        if: steps.scraper.outputs.found == 'true'
+        if: steps.commit.outputs.changed == 'true'
         env:
           MAKE_WEBHOOK: ${{ secrets.MAKE_WEBHOOK_URL }}
           LOTTERY_NAME: ${{ steps.scraper.outputs.slug }}
           DRAW_CODE:    ${{ steps.scraper.outputs.draw_code }}
           FIRST_PRIZE:  ${{ steps.scraper.outputs.first_prize }}
-          RESULT_URL:   https://keralaticketresults.in/results/${{ steps.scraper.outputs.slug }}
+          RESULT_URL:   https://keralaticketresults.in/results/${{ steps.scraper.outputs.slug }}/${{ steps.scraper.outputs.draw_code }}
           HAS_FULL:     ${{ steps.scraper.outputs.full_results != '' }}
         run: |
           python3 - << 'PYEOF'
@@ -142,7 +149,7 @@ jobs:
           lottery   = os.environ.get('LOTTERY_NAME','')
           draw_code = os.environ.get('DRAW_CODE','')
           prize     = os.environ.get('FIRST_PRIZE','')
-          url       = os.environ.get('RESULT_URL','')
+          url       = os.environ.get('RESULT_URL','').lower()
           is_full   = os.environ.get('HAS_FULL','false').lower()=='true'
           status    = 'Verified full result' if is_full else 'Auto-fetched — full result may follow'
           fb  = lottery+' '+draw_code+' Result Today\n\n1st Prize: '+prize+'\n'+status+'\n\nFull prize list: '+url
