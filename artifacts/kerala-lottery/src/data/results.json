@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-09-03T09:42:44.628040Z",
-    "summary": "Result for Karunya Plus KN-639. 2/10 tiers updated.",
+    "lastUpdated": "2026-09-03T09:53:02.258118Z",
+    "summary": "Result for Karunya Plus KN-639. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -37,22 +37,53 @@
       {
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
-        "numbers": []
+        "numbers": [
+          "PF 179967"
+        ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
-        "numbers": []
+        "numbers": [
+          "PG 220857"
+        ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0153",
+          "0262",
+          "0802",
+          "1247",
+          "1531",
+          "1563",
+          "2353",
+          "3131",
+          "3594",
+          "3793",
+          "4860",
+          "6999",
+          "7614",
+          "7815",
+          "7936",
+          "8019",
+          "8055",
+          "8395",
+          "9614"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "1260",
+          "2137",
+          "3029",
+          "6051",
+          "7432",
+          "9653"
+        ]
       },
       {
         "tier": "6th Prize",
