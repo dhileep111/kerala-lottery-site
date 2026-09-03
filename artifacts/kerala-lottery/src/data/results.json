@@ -1,5 +1,82 @@
 [
   {
+    "lotterySlug": "karunya-plus",
+    "drawCode": "KN-639",
+    "drawDate": "2026-09-03",
+    "displayDate": "September 03, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-09-03T09:42:44.628040Z",
+    "summary": "Result for Karunya Plus KN-639. 2/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "PD 228280"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "PA 228280",
+          "PB 228280",
+          "PC 228280",
+          "PE 228280",
+          "PF 228280",
+          "PG 228280",
+          "PH 228280",
+          "PJ 228280",
+          "PK 228280",
+          "PL 228280",
+          "PM 228280"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": []
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "dhanalekshmi",
     "drawCode": "DL-67",
     "drawDate": "2026-09-02",
