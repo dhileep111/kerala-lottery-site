@@ -132,8 +132,20 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v5
 
-      - name: Notify Make.com
+      - name: Check if already notified
+        id: check_notified
         if: steps.commit.outputs.changed == 'true'
+        run: |
+          touch notified_draws.txt
+          if grep -qxF "${{ steps.scraper.outputs.draw_code }}" notified_draws.txt; then
+            echo "already_notified=true" >> $GITHUB_OUTPUT
+            echo "ℹ️ Already notified for ${{ steps.scraper.outputs.draw_code }} — skipping webhook"
+          else
+            echo "already_notified=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Notify Make.com
+        if: steps.commit.outputs.changed == 'true' && steps.check_notified.outputs.already_notified == 'false'
         env:
           MAKE_WEBHOOK: ${{ secrets.MAKE_WEBHOOK_URL }}
           LOTTERY_NAME: ${{ steps.scraper.outputs.slug }}
@@ -163,3 +175,14 @@ jobs:
           except Exception as e:
               print('Webhook error:', e)
           PYEOF
+
+      - name: Save notified draw
+        if: steps.commit.outputs.changed == 'true' && steps.check_notified.outputs.already_notified == 'false'
+        run: |
+          git config --global user.name "ET Auto Bot"
+          git config --global user.email "bot@keralaticketresults.in"
+          git pull --rebase
+          echo "${{ steps.scraper.outputs.draw_code }}" >> notified_draws.txt
+          git add notified_draws.txt
+          git commit -m "track: notified ${{ steps.scraper.outputs.draw_code }}"
+          git push
