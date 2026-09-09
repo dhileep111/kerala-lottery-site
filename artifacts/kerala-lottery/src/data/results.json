@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-09-09T09:39:57.905681Z",
-    "summary": "Result for Dhanalekshmi DL-68. 4/10 tiers updated.",
+    "lastUpdated": "2026-09-09T09:53:40.216636Z",
+    "summary": "Result for Dhanalekshmi DL-68. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "DO 546236"
+          {
+            "ticket": "DO 546236",
+            "district": "Ernakulam"
+          }
         ]
       },
       {
@@ -38,30 +41,89 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "DT 751835"
+          {
+            "ticket": "DT 751835",
+            "district": "Pathanamthitta"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "DT 182044"
+          {
+            "ticket": "DT 182044",
+            "district": "Alappuzha"
+          }
         ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0813",
+          "1747",
+          "1950",
+          "3174",
+          "3258",
+          "3394",
+          "3949",
+          "4150",
+          "4243",
+          "6487",
+          "7232",
+          "7627",
+          "7761",
+          "7869",
+          "8072",
+          "8990",
+          "9022",
+          "9290",
+          "9529"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "0848",
+          "1829",
+          "3631",
+          "3988",
+          "4497",
+          "7876"
+        ]
       },
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0702",
+          "0920",
+          "0949",
+          "1089",
+          "1280",
+          "1748",
+          "1860",
+          "1873",
+          "2466",
+          "2538",
+          "2730",
+          "3790",
+          "3851",
+          "4460",
+          "4848",
+          "6122",
+          "6624",
+          "7082",
+          "8206",
+          "8513",
+          "8558",
+          "8672",
+          "8673",
+          "9384",
+          "9936"
+        ]
       },
       {
         "tier": "7th Prize",
