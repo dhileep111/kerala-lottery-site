@@ -1,5 +1,86 @@
 [
   {
+    "lotterySlug": "karunya",
+    "drawCode": "KR-768",
+    "drawDate": "2026-09-12",
+    "displayDate": "September 12, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-09-12T09:41:32.493166Z",
+    "summary": "Result for Karunya KR-768. 4/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "KJ 734269"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "KA 734269",
+          "KB 734269",
+          "KC 734269",
+          "KD 734269",
+          "KE 734269",
+          "KF 734269",
+          "KG 734269",
+          "KH 734269",
+          "KK 734269",
+          "KL 734269",
+          "KM 734269"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹25,00,000",
+        "numbers": [
+          "KJ 236813"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹10,00,000",
+        "numbers": [
+          "KF 521195"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": []
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "suvarna-keralam",
     "drawCode": "SK-69",
     "drawDate": "2026-09-11",
