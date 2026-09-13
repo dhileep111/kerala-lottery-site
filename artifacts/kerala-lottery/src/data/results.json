@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-09-13T10:49:42.819589Z",
+    "lastUpdated": "2026-09-13T14:23:38.865373Z",
     "summary": "Result for Samrudhi SM-72. 10/10 tiers updated.",
     "prizes": [
       {
@@ -16,7 +16,7 @@
         "numbers": [
           {
             "ticket": "MU 846979",
-            "district": "Kannur"
+            "district": "Payyanur"
           }
         ]
       },
@@ -53,7 +53,7 @@
         "numbers": [
           {
             "ticket": "MZ 709523",
-            "district": "Palakkad"
+            "district": "Chittur"
           }
         ]
       },
@@ -381,6 +381,7 @@
           "4280",
           "4293",
           "4301",
+          "4304",
           "4491",
           "4556",
           "4635",
@@ -408,7 +409,6 @@
           "6047",
           "6118",
           "6161",
-          "6304",
           "6357",
           "6359",
           "6451",
