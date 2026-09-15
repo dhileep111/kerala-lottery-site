@@ -49,7 +49,7 @@ jobs:
         run: node prerender.mjs
 
       - name: Generate sitemap
-        run: node generate-sitemap.mjs
+        run: node generate-full-sitemap.mjs
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

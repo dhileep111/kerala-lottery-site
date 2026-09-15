@@ -1,31 +1,40 @@
 #!/usr/bin/env node
 /**
  * generate-full-sitemap.mjs
- * Run: node generate-full-sitemap.mjs
+ * Run: node generate-full-sitemap.mjs (after `pnpm run build`, in the CI
+ * workflows — same slot generate-sitemap.mjs used to occupy)
  *
  * Mirrors the exact route universe prerender.mjs generates — staticRoutes,
  * lotteryRoutes and archiveRoutes, each with its /ta counterpart — and
  * writes a single sitemap.xml covering all of them, English and Tamil.
- * lastmod is today's date for every entry, per request.
+ * lastmod is today's date for every entry.
  *
- * NOT the same file as generate-sitemap.mjs (that one writes into
- * dist/public/ as a build step, with a hand-maintained page list that
- * predates the /schedule, /jackpot, /claim-prize and /ta routes). This
- * writes into artifacts/kerala-lottery/public/sitemap.xml — the Vite
- * public/ source folder — so it's a committed, source-controlled file.
+ * Replaces generate-sitemap.mjs in the deploy pipeline (static.yml,
+ * manual_updater.yml, et_auto_updater.yml): that script's hand-maintained
+ * page list predates /schedule, /jackpot, /claim-prize and every /ta
+ * route, so it was silently clobbering the correct sitemap with a stale,
+ * English-only one on every deploy.
+ *
+ * Writes to two places:
+ *  - artifacts/kerala-lottery/public/sitemap.xml — the Vite public/ source
+ *    folder, so there's always a committed, source-controlled copy.
+ *  - artifacts/kerala-lottery/dist/public/sitemap.xml — the build output,
+ *    only if it already exists (i.e. this ran after `pnpm run build`).
+ *    This is the copy that actually ships to GitHub Pages.
  *
  * lotteryGuessingRoutes and redirectRoutes from prerender.mjs are
  * intentionally excluded: they have no /ta counterpart, and the redirect
  * stub page has no business being indexed at all.
  */
 
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-const __dir   = dirname(fileURLToPath(import.meta.url));
-const dataDir = resolve(__dir, 'artifacts/kerala-lottery/src/data');
-const outDir  = resolve(__dir, 'artifacts/kerala-lottery/public');
+const __dir       = dirname(fileURLToPath(import.meta.url));
+const dataDir     = resolve(__dir, 'artifacts/kerala-lottery/src/data');
+const sourceDir   = resolve(__dir, 'artifacts/kerala-lottery/public');
+const buildDir    = resolve(__dir, 'artifacts/kerala-lottery/dist/public');
 
 const SITE  = 'https://keralaticketresults.in';
 const TODAY = new Date().toISOString().slice(0, 10); // today's date, e.g. 2026-09-15
@@ -117,8 +126,16 @@ const xml = [
   '</urlset>',
 ].join('\n');
 
-writeFileSync(`${outDir}/sitemap.xml`, xml, 'utf8');
+writeFileSync(`${sourceDir}/sitemap.xml`, xml, 'utf8');
 console.log(`✅ sitemap.xml written to artifacts/kerala-lottery/public/ — ${allPages.length} URLs`);
+
+if (existsSync(buildDir)) {
+  writeFileSync(`${buildDir}/sitemap.xml`, xml, 'utf8');
+  console.log(`✅ sitemap.xml also written to artifacts/kerala-lottery/dist/public/ (build output)`);
+} else {
+  console.log(`ℹ️  dist/public/ doesn't exist yet — skipped (run after \`pnpm run build\` to update the deployed copy too)`);
+}
+
 console.log(`   English: ${enPages.length} (static ${staticPages.length}, lottery ${lotteryPages.length}, archive ${archivePages.length})`);
 console.log(`   Tamil (/ta): ${taPages.length}`);
 console.log(`   lastmod: ${TODAY}`);

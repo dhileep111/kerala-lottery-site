@@ -115,7 +115,7 @@ jobs:
 
       - name: Generate sitemap
         if: steps.commit.outputs.changed == 'true'
-        run: node generate-sitemap.mjs
+        run: node generate-full-sitemap.mjs
 
       - name: Setup Pages
         if: steps.commit.outputs.changed == 'true'
