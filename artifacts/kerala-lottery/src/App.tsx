@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, type ComponentType } from "react";
 import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
@@ -29,35 +29,58 @@ import NotFound from "./pages/not-found";
 
 
 
+// Single source of truth for the route table — each entry is rendered once
+// at its English path and once at the /ta-prefixed path (prerender.mjs
+// statically generates real content at both; without a matching client-side
+// route here too, React hydration was replacing that prerendered /ta
+// content with the catch-all NotFound the instant JS took over).
+const routeConfigs: Array<{ path: string; component: ComponentType<any> }> = [
+  { path: "/", component: HomePage },
+  { path: "/about", component: AboutPage },
+  { path: "/check-ticket", component: CheckTicketPage },
+  { path: "/chart", component: ChartPage },
+  { path: "/bumper", component: BumperPage },
+  { path: "/yesterday-result", component: YesterdayResultPage },
+  { path: "/schedule", component: SchedulePage },
+  { path: "/claim-prize", component: ClaimPrizePage },
+  { path: "/jackpot", component: JackpotPage },
+  { path: "/claim-guide", component: ClaimGuidePage },
+  { path: "/contact", component: ContactPage },
+  { path: "/disclaimer", component: DisclaimerPage },
+  { path: "/download-forms", component: DownloadFormsPage },
+  { path: "/faq", component: FaqPage },
+  { path: "/guessing-numbers", component: GuessingNumbersPage },
+  { path: "/guessing-numbers/archive", component: GuessingArchivePage },
+  { path: "/lottery-offices", component: LotteryOfficesPage },
+  { path: "/privacy-policy", component: PrivacyPolicyPage },
+  { path: "/terms", component: TermsPage },
+  { path: "/results/:slug/first-prize", component: FirstPrizePage },
+  { path: "/results/:slug/:drawCode/first-prize", component: FirstPrizePage },
+  { path: "/results/:slug/:drawCode", component: DrawArchivePage },
+  { path: "/results/:slug", component: LotteryResultPage },
+];
+
+// /guessing-numbers/:slug has no /ta counterpart in prerender.mjs (no
+// per-lottery Tamil guessing page is generated), so it's kept English-only
+// here too rather than mirrored.
+const englishOnlyRouteConfigs: Array<{ path: string; component: ComponentType<any> }> = [
+  { path: "/guessing-numbers/:slug", component: LotteryGuessingPage },
+];
+
 function Router() {
   return (
     <>
       <Header />
       <Switch>
-        <Route path="/" component={HomePage} />
-        <Route path="/about" component={AboutPage} />
-        <Route path="/check-ticket" component={CheckTicketPage} />
-        <Route path="/chart" component={ChartPage} />
-        <Route path="/bumper" component={BumperPage} />
-        <Route path="/yesterday-result" component={YesterdayResultPage} />
-        <Route path="/schedule" component={SchedulePage} />
-        <Route path="/claim-prize" component={ClaimPrizePage} />
-        <Route path="/jackpot" component={JackpotPage} />
-        <Route path="/claim-guide" component={ClaimGuidePage} />
-        <Route path="/contact" component={ContactPage} />
-        <Route path="/disclaimer" component={DisclaimerPage} />
-        <Route path="/download-forms" component={DownloadFormsPage} />
-        <Route path="/faq" component={FaqPage} />
-        <Route path="/guessing-numbers" component={GuessingNumbersPage} />
-        <Route path="/guessing-numbers/archive" component={GuessingArchivePage} />
-        <Route path="/guessing-numbers/:slug" component={LotteryGuessingPage} />
-        <Route path="/lottery-offices" component={LotteryOfficesPage} />
-        <Route path="/privacy-policy" component={PrivacyPolicyPage} />
-        <Route path="/terms" component={TermsPage} />
-        <Route path="/results/:slug/first-prize" component={FirstPrizePage} />
-        <Route path="/results/:slug/:drawCode/first-prize" component={FirstPrizePage} />
-<Route path="/results/:slug/:drawCode" component={DrawArchivePage} />
-        <Route path="/results/:slug" component={LotteryResultPage} />
+        {routeConfigs.map(({ path, component }) => (
+          <Route key={path} path={path} component={component} />
+        ))}
+        {routeConfigs.map(({ path, component }) => (
+          <Route key={`ta:${path}`} path={path === "/" ? "/ta" : `/ta${path}`} component={component} />
+        ))}
+        {englishOnlyRouteConfigs.map(({ path, component }) => (
+          <Route key={path} path={path} component={component} />
+        ))}
         <Route component={NotFound} />
       </Switch>
       <Footer />
