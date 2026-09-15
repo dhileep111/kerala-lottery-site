@@ -811,14 +811,23 @@ function makeHtml(route) {
 // ── Redirect-stub HTML for legacy trailing-slash URLs ─────
 // Same lightweight pattern already used for the old br-109) URL: a real,
 // crawlable page (not a 404) that immediately sends visitors/Google to the
-// canonical no-slash URL and tells crawlers not to index the slash version.
-function redirectStubHtml(canonicalUrl, title) {
+// canonical no-slash URL.
+//
+// noindex defaults to true — that's correct for the ENGLISH routes this
+// was designed for: Google already had those trailing-slash URLs indexed
+// with real accumulated impressions, so we keep the URL alive but tell
+// crawlers not to index the (duplicate) slash version. The /ta routes are
+// brand new — nothing has ever been indexed at their slash URLs — so
+// noindex there just gets Google Search Console flagging a page ("Excluded
+// by noindex tag") that never needed excluding in the first place. Pass
+// noindex: false for those; the canonical tag alone is enough to tell
+// Google this is a duplicate of the no-slash page.
+function redirectStubHtml(canonicalUrl, title, { lang = 'en', noindex = true } = {}) {
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${lang}">
 <head>
 <meta charset="UTF-8" />
-<meta name="robots" content="noindex, follow" />
-<title>${e(title)}</title>
+${noindex ? '<meta name="robots" content="noindex, follow" />\n' : ''}<title>${e(title)}</title>
 <link rel="canonical" href="${canonicalUrl}" />
 <meta http-equiv="refresh" content="0; url=${canonicalUrl}" />
 <script>window.location.replace(${JSON.stringify(canonicalUrl)});</script>
@@ -866,9 +875,14 @@ for (const route of allRoutes) {
     writeFileSync(filePath, makeHtml(route), 'utf8');
     if (!route.isRedirectStub) {
       // Legacy trailing-slash stub — keeps the old indexed URL alive as a
-      // redirect instead of a 404.
+      // redirect instead of a 404. Tamil (/ta) routes have no legacy
+      // indexed slash-URL to preserve, so their stub skips noindex.
       mkdirSync(slashDir, { recursive: true });
-      writeFileSync(`${slashDir}/index.html`, redirectStubHtml(canonical, route.title), 'utf8');
+      writeFileSync(
+        `${slashDir}/index.html`,
+        redirectStubHtml(canonical, route.title, { lang: route.lang, noindex: route.lang !== 'ta' }),
+        'utf8'
+      );
     }
     written++;
   } catch (err) {
