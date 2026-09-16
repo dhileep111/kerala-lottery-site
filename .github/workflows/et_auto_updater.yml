@@ -181,8 +181,13 @@ jobs:
         run: |
           git config --global user.name "ET Auto Bot"
           git config --global user.email "bot@keralaticketresults.in"
-          git pull --rebase
           echo "${{ steps.scraper.outputs.draw_code }}" >> notified_draws.txt
-          git add notified_draws.txt
-          git commit -m "track: notified ${{ steps.scraper.outputs.draw_code }}"
+          # Also picks up artifacts/kerala-lottery/public/sitemap.xml, which
+          # the earlier "Generate sitemap" step refreshes but never commits
+          # itself — leaving it uncommitted here would make `git pull
+          # --rebase` below refuse to run ("cannot pull with rebase: you
+          # have unstaged changes").
+          git add notified_draws.txt artifacts/kerala-lottery/public/sitemap.xml
+          git diff --staged --quiet || git commit -m "track: notified ${{ steps.scraper.outputs.draw_code }}"
+          git pull --rebase
           git push
