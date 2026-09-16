@@ -1,8 +1,10 @@
 import { Badge } from './Badge';
 import { getFirstPrizeNumber } from '../data';
 import type { Lottery, Result } from '../types';
+import { useLang, t } from '../lib/i18n';
 
 export function ResultCard({ lottery, result }: { lottery: Lottery; result: Result }) {
+  const lang = useLang();
   const firstPrizeNumber = getFirstPrizeNumber(result);
   const isPending = result.status === 'pending' || firstPrizeNumber === 'PENDING';
 
@@ -10,7 +12,7 @@ export function ResultCard({ lottery, result }: { lottery: Lottery; result: Resu
     <article className={`card result-card result-card--${result.status}`}>
       <div className="result-card__head">
         <div>
-          <div className="eyebrow">Today&apos;s draw</div>
+          <div className="eyebrow">{t(lang, 'todaysDraw')}</div>
           <div className="result-card__name">{lottery.name} {result.drawCode}</div>
           <div className="meta"><span>{result.displayDate}</span><span>{lottery.drawTime}</span><span>{result.sourceName}</span></div>
         </div>
@@ -18,7 +20,7 @@ export function ResultCard({ lottery, result }: { lottery: Lottery; result: Resu
       </div>
       <div className="result-card__body">
         <div className="prize-main">
-          <div className="prize-main__label">First Prize</div>
+          <div className="prize-main__label">{t(lang, 'firstPrize')}</div>
           <div className="prize-main__amount">{lottery.firstPrizeAmount}</div>
           {isPending ? (
             <div className="pending-panel">
@@ -33,8 +35,8 @@ export function ResultCard({ lottery, result }: { lottery: Lottery; result: Resu
           )}
         </div>
         <div className="info-box">
-          <span className="info-box__label">Verification status</span>
-          <strong>{isPending ? 'Not published yet' : result.status === 'verified' ? 'Verified result' : 'Live update'}</strong>
+          <span className="info-box__label">{t(lang, 'verificationStatus')}</span>
+          <strong>{isPending ? t(lang, 'notPublishedYet') : result.status === 'verified' ? t(lang, 'verifiedResult') : t(lang, 'liveUpdate')}</strong>
           <p>{result.status === 'verified'
             ? 'This result is marked verified. Still cross-check with the official Kerala Lottery publication before making a prize claim.'
             : 'We keep pending, live, and verified states separate so template data is never shown as an official winning number.'}</p>

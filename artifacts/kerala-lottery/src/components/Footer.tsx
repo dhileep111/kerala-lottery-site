@@ -1,5 +1,6 @@
 import { Link } from 'wouter';
 import { lotteries } from '../data';
+import { useLang, t, withLang } from '../lib/i18n';
 
 const TelegramIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -20,6 +21,9 @@ const WhatsAppIcon = () => (
 );
 
 export function Footer() {
+  const lang = useLang();
+  const L = (path: string) => withLang(path, lang);
+
   return (
     <footer className="footer">
       <div className="container">
@@ -44,28 +48,28 @@ export function Footer() {
             </div>
           </div>
           <div>
-            <h3>Results</h3>
+            <h3>{t(lang, 'results')}</h3>
             {lotteries.filter(l => !l.isBumper).slice(0, 4).map((lottery) => (
-              <Link key={lottery.slug} href={`/results/${lottery.slug}`}>{lottery.name} Results</Link>
+              <Link key={lottery.slug} href={L(`/results/${lottery.slug}`)}>{lottery.name} {t(lang, 'results')}</Link>
             ))}
           </div>
           <div>
-            <h3>More Lotteries</h3>
+            <h3>{t(lang, 'moreLotteries')}</h3>
             {lotteries.filter(l => !l.isBumper).slice(4).map((lottery) => (
-              <Link key={lottery.slug} href={`/results/${lottery.slug}`}>{lottery.name} Results</Link>
+              <Link key={lottery.slug} href={L(`/results/${lottery.slug}`)}>{lottery.name} {t(lang, 'results')}</Link>
             ))}
-            <Link href="/results/bumper">Bumper Results</Link>
+            <Link href={L('/results/bumper')}>{t(lang, 'bumperResults')}</Link>
           </div>
           <div>
-            <h3>Resources</h3>
-            <Link href="/check-ticket">Ticket Checker</Link>
-            <Link href="/guessing-numbers">Guessing Numbers</Link>
-            <Link href="/claim-guide">How to Claim Prize</Link>
-            <Link href="/lottery-offices">Lottery Offices</Link>
-            <Link href="/faq">FAQ</Link>
-            <Link href="/about">About &amp; Disclaimer</Link>
-            <Link href="/privacy-policy">Privacy Policy</Link>
-            <Link href="/contact">Contact Us</Link>
+            <h3>{t(lang, 'resources')}</h3>
+            <Link href={L('/check-ticket')}>{t(lang, 'ticketChecker')}</Link>
+            <Link href={L('/guessing-numbers')}>{t(lang, 'guessingNumbers')}</Link>
+            <Link href={L('/claim-guide')}>{t(lang, 'claimGuide')}</Link>
+            <Link href={L('/lottery-offices')}>{t(lang, 'lotteryOffices')}</Link>
+            <Link href={L('/faq')}>{t(lang, 'faq')}</Link>
+            <Link href={L('/about')}>{t(lang, 'aboutDisclaimer')}</Link>
+            <Link href={L('/privacy-policy')}>{t(lang, 'privacyPolicy')}</Link>
+            <Link href={L('/contact')}>{t(lang, 'contact')}</Link>
           </div>
         </div>
         <div className="footer__bottom">

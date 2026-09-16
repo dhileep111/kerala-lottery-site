@@ -1,5 +1,6 @@
 import { getLottery, getNumberMeta, getTicketText } from '../data';
 import type { Result } from '../types';
+import { useLang, t, tTier } from '../lib/i18n';
 
 const TIER_CONFIG: Record<string, { emoji: string; highlight: boolean; chipStyle: string }> = {
   '1st Prize':         { emoji: '🥇', highlight: true,  chipStyle: 'chip chip--gold' },
@@ -21,6 +22,7 @@ const FULL_TICKET_TIERS_BUMPER  = new Set(['1st Prize', '2nd Prize', '3rd Prize'
 const FULL_TICKET_TIERS_REGULAR = new Set(['1st Prize', '2nd Prize', '3rd Prize', 'Consolation Prize']);
 
 export function ResultTable({ result, query = '' }: { result: Result; query?: string }) {
+  const lang = useLang();
   const normalizedQuery = query.trim().toLowerCase();
   const lottery = getLottery(result.lotterySlug);
   const isBumper = lottery?.isBumper ?? false;
@@ -38,17 +40,17 @@ export function ResultTable({ result, query = '' }: { result: Result; query?: st
           <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
           </svg>
-          Full Prize Table
+          {t(lang, 'fullPrizeTable')}
         </div>
         <div className="rt-status" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           {isBumper && (
             <span style={{ fontSize: 11, fontWeight: 700, background: '#fef3c7', color: '#78350f', padding: '2px 8px', borderRadius: 20 }}>
-              🎪 Bumper Draw
+              🎪 {t(lang, 'bumperDraw')}
             </span>
           )}
           {isFullResult
-            ? <span className="rt-badge rt-badge--complete">✅ Complete Result</span>
-            : <span className="rt-badge rt-badge--partial">{filledCount}/{totalCount} tiers updated</span>
+            ? <span className="rt-badge rt-badge--complete">✅ {t(lang, 'completeResult')}</span>
+            : <span className="rt-badge rt-badge--partial">{filledCount}/{totalCount} {t(lang, 'tiersUpdated')}</span>
           }
         </div>
       </div>
@@ -57,9 +59,9 @@ export function ResultTable({ result, query = '' }: { result: Result; query?: st
         <table>
           <thead>
             <tr>
-              <th style={{ width: '22%' }}>Prize Tier</th>
-              <th>Winning Numbers</th>
-              <th style={{ width: '18%', textAlign: 'right' }}>Amount</th>
+              <th style={{ width: '22%' }}>{t(lang, 'prizeTier')}</th>
+              <th>{t(lang, 'winningNumbers')}</th>
+              <th style={{ width: '18%', textAlign: 'right' }}>{t(lang, 'amount')}</th>
             </tr>
           </thead>
           <tbody>
@@ -70,15 +72,15 @@ export function ResultTable({ result, query = '' }: { result: Result; query?: st
 
               return (
                 <tr key={prize.tier} className={cfg.highlight ? 'tr--highlight' : ''}>
-                  <td data-label="Prize Tier" className="td-tier">
+                  <td data-label={t(lang, 'prizeTier')} className="td-tier">
                     <span className="tier-emoji">{cfg.emoji}</span>
-                    <span className="tier-name">{prize.tier}</span>
+                    <span className="tier-name">{tTier(lang, prize.tier)}</span>
                   </td>
-                  <td data-label="Winning Numbers" className="td-numbers">
+                  <td data-label={t(lang, 'winningNumbers')} className="td-numbers">
                     {isPending ? (
                       <span className="chip chip--pending">
                         <span className="pending-dot" />
-                        Pending
+                        {t(lang, 'pending')}
                       </span>
                     ) : (
                       <div className={`chips ${isFullTicketTier ? 'chips--full-ticket' : ''}`}>
@@ -109,7 +111,7 @@ export function ResultTable({ result, query = '' }: { result: Result; query?: st
                       </div>
                     )}
                   </td>
-                  <td data-label="Amount" className="td-amount">
+                  <td data-label={t(lang, 'amount')} className="td-amount">
                     {prize.amount}
                   </td>
                 </tr>

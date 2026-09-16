@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { getResultWithLottery, getFirstPrizeNumber, lotteries } from '../data';
+import { useLang, t, withLang } from '../lib/i18n';
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [resultsOpen, setResultsOpen] = useState(false);
   const [location] = useLocation();
+  const lang = useLang();
+  const L = (path: string) => withLang(path, lang);
 
   const latest = getResultWithLottery();
   const message = latest
@@ -32,14 +35,14 @@ export function Header() {
       {/* Header */}
       <header className="header">
         <nav className="container nav" aria-label="Main navigation">
-          <Link className="logo" href="/" onClick={() => setMenuOpen(false)}>
+          <Link className="logo" href={L('/')} onClick={() => setMenuOpen(false)}>
             <span className="logo__mark">KT</span>
             <span>Kerala Ticket Results</span>
           </Link>
 
           {/* Desktop nav */}
           <div className="nav__links nav__links--desktop">
-            <Link href="/">Home</Link>
+            <Link href={L('/')}>{t(lang, 'home')}</Link>
 
             {/* Results dropdown */}
             <div
@@ -48,11 +51,11 @@ export function Header() {
               onMouseLeave={() => setResultsOpen(false)}
             >
               <button
-                className={`nav__dropdown-trigger ${location.startsWith('/results') ? 'nav__dropdown-trigger--active' : ''}`}
+                className={`nav__dropdown-trigger ${location.includes('/results') ? 'nav__dropdown-trigger--active' : ''}`}
                 onClick={() => setResultsOpen(!resultsOpen)}
                 aria-expanded={resultsOpen}
               >
-                Results
+                {t(lang, 'results')}
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ marginLeft: 4, transition: 'transform 0.15s', transform: resultsOpen ? 'rotate(180deg)' : 'none' }} aria-hidden="true">
                   <polyline points="6 9 12 15 18 9" />
                 </svg>
@@ -62,7 +65,7 @@ export function Header() {
                   {mainLotteries.map((lottery) => (
                     <Link
                       key={lottery.slug}
-                      href={`/results/${lottery.slug}`}
+                      href={L(`/results/${lottery.slug}`)}
                       className="nav__dropdown-item"
                       onClick={() => setResultsOpen(false)}
                     >
@@ -75,14 +78,14 @@ export function Header() {
               )}
             </div>
 
-            <Link href="/chart">Chart</Link>
-            <Link href="/bumper">Bumper</Link>
-            <Link href="/jackpot">Jackpot</Link>
-            <Link href="/schedule">Schedule</Link>
-            <Link href="/yesterday-result">Yesterday&apos;s Result</Link>
-            <Link href="/check-ticket">Check Ticket</Link>
-            <Link href="/claim-prize">Claim Prize</Link>
-            <Link href="/contact" className="nav__cta">Contact</Link>
+            <Link href={L('/chart')}>{t(lang, 'chart')}</Link>
+            <Link href={L('/bumper')}>{t(lang, 'bumper')}</Link>
+            <Link href={L('/jackpot')}>{t(lang, 'jackpot')}</Link>
+            <Link href={L('/schedule')}>{t(lang, 'schedule')}</Link>
+            <Link href={L('/yesterday-result')}>{t(lang, 'yesterdayResult')}</Link>
+            <Link href={L('/check-ticket')}>{t(lang, 'checkTicket')}</Link>
+            <Link href={L('/claim-prize')}>{t(lang, 'claimPrize')}</Link>
+            <Link href={L('/contact')} className="nav__cta">{t(lang, 'contact')}</Link>
           </div>
 
           {/* Hamburger */}
@@ -102,9 +105,9 @@ export function Header() {
         {menuOpen && (
           <div className="mobile-menu" role="dialog" aria-label="Mobile navigation">
             <div className="mobile-menu__section">
-              <p className="mobile-menu__label">Results</p>
+              <p className="mobile-menu__label">{t(lang, 'results')}</p>
               {mainLotteries.map((lottery) => (
-                <Link key={lottery.slug} href={`/results/${lottery.slug}`} className="mobile-menu__item" onClick={() => setMenuOpen(false)}>
+                <Link key={lottery.slug} href={L(`/results/${lottery.slug}`)} className="mobile-menu__item" onClick={() => setMenuOpen(false)}>
                   <span className="mobile-menu__dot" />
                   {lottery.name}
                   <span className="mobile-menu__day">{lottery.drawDay}</span>
@@ -112,24 +115,24 @@ export function Header() {
               ))}
             </div>
             <div className="mobile-menu__section">
-              <p className="mobile-menu__label">Tools</p>
-              <Link href="/check-ticket" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>🎟️ Check Ticket</Link>
-              <Link href="/chart" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>📊 Chart</Link>
-              <Link href="/bumper" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>🎉 Bumper</Link>
-              <Link href="/jackpot" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>💰 Jackpot</Link>
-              <Link href="/schedule" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>📅 Schedule</Link>
-              <Link href="/yesterday-result" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>🗓️ Yesterday&apos;s Result</Link>
-              <Link href="/claim-prize" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>💵 Claim Prize</Link>
-              <Link href="/claim-guide" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>📋 Claim Guide</Link>
-              <Link href="/guessing-numbers" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>🔢 Guessing Numbers</Link>
-              <Link href="/download-forms" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>📄 Download Forms</Link>
+              <p className="mobile-menu__label">{t(lang, 'tools')}</p>
+              <Link href={L('/check-ticket')} className="mobile-menu__item" onClick={() => setMenuOpen(false)}>🎟️ {t(lang, 'checkTicket')}</Link>
+              <Link href={L('/chart')} className="mobile-menu__item" onClick={() => setMenuOpen(false)}>📊 {t(lang, 'chart')}</Link>
+              <Link href={L('/bumper')} className="mobile-menu__item" onClick={() => setMenuOpen(false)}>🎉 {t(lang, 'bumper')}</Link>
+              <Link href={L('/jackpot')} className="mobile-menu__item" onClick={() => setMenuOpen(false)}>💰 {t(lang, 'jackpot')}</Link>
+              <Link href={L('/schedule')} className="mobile-menu__item" onClick={() => setMenuOpen(false)}>📅 {t(lang, 'schedule')}</Link>
+              <Link href={L('/yesterday-result')} className="mobile-menu__item" onClick={() => setMenuOpen(false)}>🗓️ {t(lang, 'yesterdayResult')}</Link>
+              <Link href={L('/claim-prize')} className="mobile-menu__item" onClick={() => setMenuOpen(false)}>💵 {t(lang, 'claimPrize')}</Link>
+              <Link href={L('/claim-guide')} className="mobile-menu__item" onClick={() => setMenuOpen(false)}>📋 {t(lang, 'claimGuide')}</Link>
+              <Link href={L('/guessing-numbers')} className="mobile-menu__item" onClick={() => setMenuOpen(false)}>🔢 {t(lang, 'guessingNumbers')}</Link>
+              <Link href={L('/download-forms')} className="mobile-menu__item" onClick={() => setMenuOpen(false)}>📄 {t(lang, 'downloadForms')}</Link>
             </div>
             <div className="mobile-menu__section">
-              <p className="mobile-menu__label">Info</p>
-              <Link href="/faq" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>❓ FAQ</Link>
-              <Link href="/about" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>ℹ️ About</Link>
-              <Link href="/contact" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>✉️ Contact</Link>
-              <Link href="/lottery-offices" className="mobile-menu__item" onClick={() => setMenuOpen(false)}>🏢 Lottery Offices</Link>
+              <p className="mobile-menu__label">{t(lang, 'info')}</p>
+              <Link href={L('/faq')} className="mobile-menu__item" onClick={() => setMenuOpen(false)}>❓ {t(lang, 'faq')}</Link>
+              <Link href={L('/about')} className="mobile-menu__item" onClick={() => setMenuOpen(false)}>ℹ️ {t(lang, 'about')}</Link>
+              <Link href={L('/contact')} className="mobile-menu__item" onClick={() => setMenuOpen(false)}>✉️ {t(lang, 'contact')}</Link>
+              <Link href={L('/lottery-offices')} className="mobile-menu__item" onClick={() => setMenuOpen(false)}>🏢 {t(lang, 'lotteryOffices')}</Link>
             </div>
           </div>
         )}
@@ -138,17 +141,17 @@ export function Header() {
 
       {/* Mobile bottom quickbar */}
       <nav className="mobile-quickbar" aria-label="Mobile quick navigation">
-        <Link href="/" className={location === '/' || location.startsWith('/results') ? 'active' : ''}>
-          <span>🏠</span> Home
+        <Link href={L('/')} className={location === L('/') || location.includes('/results') ? 'active' : ''}>
+          <span>🏠</span> {t(lang, 'home')}
         </Link>
-        <Link href="/" className={location === '/' || location.startsWith('/results') ? 'active' : ''}>
-          <span>🎯</span> Results
+        <Link href={L('/')} className={location === L('/') || location.includes('/results') ? 'active' : ''}>
+          <span>🎯</span> {t(lang, 'results')}
         </Link>
-        <Link href="/check-ticket" className={location === '/check-ticket' ? 'active' : ''}>
-          <span>🎟️</span> Check
+        <Link href={L('/check-ticket')} className={location === L('/check-ticket') ? 'active' : ''}>
+          <span>🎟️</span> {t(lang, 'checkTicket')}
         </Link>
-        <Link href="/contact" className={location === '/contact' ? 'active' : ''}>
-          <span>✉️</span> Contact
+        <Link href={L('/contact')} className={location === L('/contact') ? 'active' : ''}>
+          <span>✉️</span> {t(lang, 'contact')}
         </Link>
       </nav>
     </>

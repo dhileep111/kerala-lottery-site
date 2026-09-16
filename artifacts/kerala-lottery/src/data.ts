@@ -109,12 +109,6 @@ export function getTodayLottery(date = new Date()) {
   return lotteries.find((lottery) => lottery.drawDayIndex === day) ?? lotteries[0];
 }
 
-export function getStatusLabel(status: Result['status']) {
-  if (status === 'verified') return 'Verified';
-  if (status === 'live') return 'Live';
-  return 'Pending';
-}
-
 export function getFirstPrizeNumber(result: Result) {
   return getTicketText(result.prizes.find((prize) => prize.tier.toLowerCase().includes('1st'))?.numbers[0] ?? 'PENDING');
 }
