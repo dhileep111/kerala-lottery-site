@@ -29,11 +29,15 @@ import NotFound from "./pages/not-found";
 
 
 
+// Every non-English locale the site publishes under /<locale>/. Kept in
+// sync with prerender.mjs's ALT_LOCALES and generate-full-sitemap.mjs.
+const ALT_LOCALES = ["ta", "ml", "hi", "kn"];
+
 // Single source of truth for the route table — each entry is rendered once
-// at its English path and once at the /ta-prefixed path (prerender.mjs
-// statically generates real content at both; without a matching client-side
-// route here too, React hydration was replacing that prerendered /ta
-// content with the catch-all NotFound the instant JS took over).
+// at its English path and once at every /<locale>-prefixed path
+// (prerender.mjs statically generates real content at each; without a
+// matching client-side route here too, React hydration was replacing that
+// prerendered content with the catch-all NotFound the instant JS took over).
 const routeConfigs: Array<{ path: string; component: ComponentType<any> }> = [
   { path: "/", component: HomePage },
   { path: "/about", component: AboutPage },
@@ -60,9 +64,9 @@ const routeConfigs: Array<{ path: string; component: ComponentType<any> }> = [
   { path: "/results/:slug", component: LotteryResultPage },
 ];
 
-// /guessing-numbers/:slug has no /ta counterpart in prerender.mjs (no
-// per-lottery Tamil guessing page is generated), so it's kept English-only
-// here too rather than mirrored.
+// /guessing-numbers/:slug has no locale counterpart in prerender.mjs (no
+// per-lottery translated guessing page is generated), so it's kept
+// English-only here too rather than mirrored.
 const englishOnlyRouteConfigs: Array<{ path: string; component: ComponentType<any> }> = [
   { path: "/guessing-numbers/:slug", component: LotteryGuessingPage },
 ];
@@ -75,9 +79,15 @@ function Router() {
         {routeConfigs.map(({ path, component }) => (
           <Route key={path} path={path} component={component} />
         ))}
-        {routeConfigs.map(({ path, component }) => (
-          <Route key={`ta:${path}`} path={path === "/" ? "/ta" : `/ta${path}`} component={component} />
-        ))}
+        {ALT_LOCALES.flatMap((locale) =>
+          routeConfigs.map(({ path, component }) => (
+            <Route
+              key={`${locale}:${path}`}
+              path={path === "/" ? `/${locale}` : `/${locale}${path}`}
+              component={component}
+            />
+          ))
+        )}
         {englishOnlyRouteConfigs.map(({ path, component }) => (
           <Route key={path} path={path} component={component} />
         ))}

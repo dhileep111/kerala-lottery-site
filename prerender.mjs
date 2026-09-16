@@ -52,6 +52,82 @@ const TAMIL_DAYS = {
   Thursday: 'வியாழன்கிழமை', Friday: 'வெள்ளிக்கிழமை', Saturday: 'சனிக்கிழமை', Sunday: 'ஞாயிற்றுக்கிழமை',
 };
 
+// Every non-English locale the site publishes under /<locale>/, besides
+// English itself. Shared by hreflang generation and the noindex-stub logic
+// below — every locale route gets both, English keeps its existing rules.
+const ALT_LOCALES = ['ta', 'ml', 'hi', 'kn'];
+
+const MALAYALAM_NAMES = {
+  karunya:           'കാരുണ്യ',
+  'karunya-plus':    'കാരുണ്യ പ്ലസ്',
+  'sthree-sakthi':   'സ്ത്രീ ശക്തി',
+  bhagyathara:       'ഭാഗ്യതാര',
+  dhanalekshmi:      'ധനലക്ഷ്മി',
+  'suvarna-keralam': 'സ്വർണ്ണ കേരളം',
+  samrudhi:          'സമൃദ്ധി',
+  bumper:            'കേരള ബമ്പർ',
+};
+const HINDI_NAMES = {
+  karunya:           'कारुण्य',
+  'karunya-plus':    'कारुण्य प्लस',
+  'sthree-sakthi':   'स्त्री शक्ति',
+  bhagyathara:       'भाग्यतारा',
+  dhanalekshmi:      'धनलक्ष्मी',
+  'suvarna-keralam': 'स्वर्ण केरलम',
+  samrudhi:          'समृद्धि',
+  bumper:            'केरल बम्पर',
+};
+const KANNADA_NAMES = {
+  karunya:           'ಕಾರುಣ್ಯ',
+  'karunya-plus':    'ಕಾರುಣ್ಯ ಪ್ಲಸ್',
+  'sthree-sakthi':   'ಸ್ತ್ರೀ ಶಕ್ತಿ',
+  bhagyathara:       'ಭಾಗ್ಯತಾರ',
+  dhanalekshmi:      'ಧನಲಕ್ಷ್ಮಿ',
+  'suvarna-keralam': 'ಸ್ವರ್ಣ ಕೇರಳ',
+  samrudhi:          'ಸಮೃದ್ಧಿ',
+  bumper:            'ಕೇರಳ ಬಂಪರ್',
+};
+
+// Per-locale title/desc builders for the lottery index and archive routes.
+// Given patterns only specified the title; desc is my own construction,
+// following the same "drop the other-language name/labels" principle
+// already applied to /ta.
+const LOCALE_LOTTERY_PATTERN = {
+  ml: (name, code, hour) => ({
+    title: `${name} ലോട്ടറി ഇന്നത്തെ ഫലം ${code} — ${hour} മണി`,
+    desc:  `${name} (${code}) ലോട്ടറി ഫലം ഇന്ന് ${hour} മണിക്ക് — ഏറ്റവും പുതിയ ഫലം ഇവിടെ.`,
+  }),
+  hi: (name, code, hour) => ({
+    title: `${name} लॉटरी आज का परिणाम ${code} — ${hour} बजे`,
+    desc:  `${name} (${code}) लॉटरी परिणाम आज ${hour} बजे — ताज़ा परिणाम यहाँ।`,
+  }),
+  kn: (name, code, hour) => ({
+    title: `${name} ಲಾಟರಿ ಇಂದಿನ ಫಲಿತಾಂಶ ${code} — ${hour} ಗಂಟೆ`,
+    desc:  `${name} (${code}) ಲಾಟರಿ ಫಲಿತಾಂಶ ಇಂದು ${hour} ಗಂಟೆಗೆ — ಇತ್ತೀಚಿನ ಫಲಿತಾಂಶ ಇಲ್ಲಿ.`,
+  }),
+};
+const LOCALE_ARCHIVE_PATTERN = {
+  ml: (name, drawCode, displayDate, firstP, district) => ({
+    title: `${name} ${drawCode} ലോട്ടറി ഫലം ${displayDate}`,
+    desc:  `${name} ${drawCode} ലോട്ടറി ഫലം ${displayDate} — ഒന്നാം സമ്മാനം ${firstP}${district ? `, ${district}` : ''}. പൂർണ്ണ സമ്മാന പട്ടിക.`,
+  }),
+  hi: (name, drawCode, displayDate, firstP, district) => ({
+    title: `${name} ${drawCode} लॉटरी परिणाम ${displayDate}`,
+    desc:  `${name} ${drawCode} लॉटरी परिणाम ${displayDate} — पहला पुरस्कार ${firstP}${district ? `, ${district}` : ''}। पूरी पुरस्कार सूची।`,
+  }),
+  kn: (name, drawCode, displayDate, firstP, district) => ({
+    title: `${name} ${drawCode} ಲಾಟರಿ ಫಲಿತಾಂಶ ${displayDate}`,
+    desc:  `${name} ${drawCode} ಲಾಟರಿ ಫಲಿತಾಂಶ ${displayDate} — ಮೊದಲ ಬಹುಮಾನ ${firstP}${district ? `, ${district}` : ''}. ಸಂಪೂರ್ಣ ಬಹುಮಾನ ಪಟ್ಟಿ.`,
+  }),
+};
+
+// lotteries.json's drawTime is always "2:00 PM" or "3:00 PM" — just the
+// hour digit, matching the literal "3 மணி"/"3 മണി" style given for these
+// locales (unlike /ta, which kept "3:00").
+function localeHour(drawTime) {
+  return drawTime.split(':')[0];
+}
+
 // ── Helpers ───────────────────────────────────────────────
 const e  = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const ea = s => String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;');
@@ -418,57 +494,68 @@ function tamilTime(drawTime) {
   return drawTime.replace(/\s*(AM|PM)$/i, '');
 }
 
-function makeTamilRoute(route, overrides = {}) {
-  const taPath = route.path === '/' ? '/ta' : `/ta${route.path}`;
+// Generalized version of the /ta pattern above — builds the counterpart of
+// an English route under any locale prefix (/ta, /ml, /hi, /kn): same
+// content by default, path prefixed /<locale> (no forced trailing slash),
+// <html lang="<locale>">, a locale-primary title/desc when supplied, and —
+// for content that already has an <h1> — swaps just the H1, leaving the
+// rest of the page untouched.
+function makeLocaleRoute(route, locale, overrides = {}) {
+  const localePath = route.path === '/' ? `/${locale}` : `/${locale}${route.path}`;
   let content = overrides.content ?? route.content;
   if (!overrides.content && overrides.h1 && content) {
     content = content.replace(/<h1>[\s\S]*?<\/h1>/, `<h1>${overrides.h1}</h1>`);
   }
   return {
     ...route,
-    path: taPath,
-    lang: 'ta',
+    path: localePath,
+    lang: locale,
     enPath: route.path,
     title: overrides.title ?? route.title,
     desc: overrides.desc ?? route.desc,
-    canonical: `${SITE}${taPath}`,
+    canonical: `${SITE}${localePath}`,
     content,
   };
 }
 
+// Kept for the existing /ta call sites below — same function, 'ta' fixed.
+function makeTamilRoute(route, overrides = {}) {
+  return makeLocaleRoute(route, 'ta', overrides);
+}
+
 const staticRoutes = [
-  { path: '/schedule', title: 'Kerala Lottery Weekly Schedule — Draw Days & Times | கேரளா லாட்டரி அட்டவணை',
-    desc: 'Kerala lottery weekly schedule — draw day and time for Karunya, Bhagyathara, Samrudhi and more. கேரளா லாட்டரி அட்டவணை, இன்று 3:00 மணி முடிவு.',
+  { path: '/schedule', title: 'Kerala Lottery Schedule 2026 — Daily Draw Times',
+    desc: 'Full Kerala lottery weekly schedule — which lottery draws on which day at 3 PM IST.',
     jsonLd: [faqSchema(buildScheduleFaqItems())],
     content: buildScheduleContent() },
-  { path: '/jackpot', title: 'Kerala Lottery Jackpot — Today’s ₹1 Crore & Bumper Prize | கேரளா லாட்டரி ஜாக்பாட்',
-    desc: 'Kerala lottery jackpot: today’s ₹1 Crore daily first prize and the next bumper draw’s top prize, plus recent jackpot winners. கேரளா லாட்டரி ஜாக்பாட் இன்று.',
+  { path: '/jackpot', title: 'Kerala Lottery Jackpot Result Today — 1st Prize',
+    desc: "Today's Kerala lottery jackpot (1st prize) numbers for all draws. Updated at 3 PM IST daily.",
     content: buildJackpotContent() },
-  { path: '/claim-prize', title: 'Claim Your Kerala Lottery Prize — Location & Deadline Lookup | பரிசு பெறுவது எப்படி',
-    desc: 'Find where to claim your Kerala lottery prize by amount and deadline. பரிசு பெறுவது எப்படி — கேரளா லாட்டரி. Verify officially before claiming.',
+  { path: '/claim-prize', title: 'How to Claim Kerala Lottery Prize — Guide',
+    desc: 'Step by step guide to claiming your Kerala lottery prize. Claim within 30 days. Documents needed, office locations and process explained.',
     jsonLd: [faqSchema(CLAIM_PRIZE_FAQ)],
     content: buildClaimPrizeContent() },
-  { path: '/yesterday-result', title: "Kerala Lottery Result Yesterday — All Prizes | நேற்றைய லாட்டரி முடிவு",
-    desc: "Kerala lottery result yesterday — full prize list, 1st to last tier. நேற்றைய கேரளா லாட்டரி முடிவு, முழு பரிசு விவரங்கள். Updated daily 3:00 மணி.",
+  { path: '/yesterday-result', title: 'Kerala Lottery Result Yesterday — All Prizes',
+    desc: "Yesterday's Kerala lottery result with complete prize list from 1st prize to consolation. Updated daily.",
     content: buildYesterdayContent() },
-  { path: '/bumper', title: 'Kerala Bumper Lottery 2026 — Next Draw Date & Results | கேரளா பம்பர் லாட்டரி',
-    desc: 'Kerala bumper lottery — next draw date, first prize and ticket price, plus past bumper results. கேரளா அடுத்த பம்பர் லாட்டரி தேதி மற்றும் முடிவுகள்.',
+  { path: '/bumper', title: 'Kerala Bumper Lottery 2026 — Next Draw Date & Results',
+    desc: 'Next Kerala bumper lottery draw date, prize structure and past results. Updated the moment results are announced.',
     content: buildBumperContent() },
-  { path: '/chart', title: 'Kerala Lottery Chart 2026 — All Results | கேரளா லாட்டரி சார்ட்',
-    desc: 'Kerala lottery chart — 1st prize for every daily draw (Karunya, Bhagyathara & more), newest first. கேரளா லாட்டரி சார்ட், இன்று 3:00 மணி முடிவுகள்.',
+  { path: '/chart', title: 'Kerala Lottery Chart 2026 — All Results',
+    desc: 'Kerala lottery chart showing 1st prize for every draw — Karunya, Bhagyathara, Sthree Sakthi and all daily lotteries. Newest first.',
     content: buildChartContent() },
-  { path: '/', title: 'கேரளா லாட்டரி ரிசல்ட் டுடே — கேரளா ரிசல்ட் இன்று | Kerala Lottery Result Today',
-    desc: 'கேரளா லாட்டரி ரிசல்ட் இன்று 3:00 மணி — Karunya, Bhagyathara, Sthree Sakthi, Dhanalekshmi, Karunya Plus, Suvarna Keralam & more. Innathe lottari mudivugal.',
+  { path: '/', title: 'Kerala Lottery Result Today — Live 3PM Results',
+    desc: 'Kerala Lottery results today at 3 PM IST — Karunya, Bhagyathara, Sthree Sakthi, Dhanalekshmi, Karunya Plus, Suvarna Keralam, Samrudhi. Updated the moment results are announced.',
     jsonLd: [breadcrumbSchema([{ name: 'Home', url: `${SITE}/` }])],
     content: `<main><h1>கேரளா லாட்டரி ரிசல்ட் டுடே — கேரளா ரிசல்ட் இன்று — Kerala Lottery Result Today</h1>${holidayNoticeHtml()}<p>இன்று மதியம் 3:00 மணி கேரளா லாட்டரி ரிசல்ட் இங்கே புதுப்பிக்கப்படும். Kerala Lottery results published daily at 3:00 PM IST — Karunya (KR), Sthree Sakthi (SS), Dhanalekshmi (DL), Bhagyathara (BT), Karunya Plus (KN), Suvarna Keralam (SK) and Samrudhi (SM). கேரளா ரிசல்ட், Innathe lottari result, kulukkal mudivugal — all here the moment each draw is announced.</p></main>` },
   { path: '/check-ticket', title: 'Check Kerala Lottery Ticket Number — Instant Result Lookup',
     desc: 'Check if your Kerala lottery ticket number is a winner. Enter your full ticket or last 4 digits to search across all recent draws instantly.',
     content: `<main><h1>Kerala Lottery Ticket Checker</h1><p>Enter your ticket number to check if it matches any winning number across recent Kerala lottery draws. You can enter the full ticket (e.g. RR 281074), 6-digit number, or last 4 digits.</p></main>` },
-  { path: '/guessing-numbers', title: 'Kerala Lottery Guessing Numbers Today | கேரளா லாட்டரி கணிப்பு',
-    desc: 'Today Kerala lottery guessing numbers. A B C board numbers, series frequency and hot numbers for all lotteries. கேரளா லாட்டரி இன்றைய கணிப்பு எண்கள். For entertainment only.',
+  { path: '/guessing-numbers', title: 'Kerala Lottery Guessing Numbers Today',
+    desc: 'Today Kerala lottery guessing numbers. A B C board numbers, series frequency and hot numbers for all lotteries. For entertainment only.',
     content: buildGuessingContent() },
-  { path: '/guessing-numbers/archive', title: 'Kerala Lottery Guessing Numbers — Past Days | கடந்த நாட்களின் கணிப்பு',
-    desc: 'Past days\' Kerala lottery guessing numbers — A B C boards and Hot Pick, day by day. கடந்த நாட்களின் கணிப்பு எண்கள். For entertainment only.',
+  { path: '/guessing-numbers/archive', title: 'Kerala Lottery Guessing Numbers — Past Days',
+    desc: 'Past days\' Kerala lottery guessing numbers — A B C boards and Hot Pick, day by day. For entertainment only.',
     content: `<main><h1>Kerala Lottery Guessing Numbers — Past Days</h1><p>Browse past days' A, B, C board guessing numbers and Hot Picks for Kerala lottery. கடந்த நாட்களின் கணிப்பு எண்கள். For entertainment purposes only.</p></main>` },
   { path: '/claim-guide', title: 'How to Claim Kerala Lottery Prize — Documents, Deadline & Tamil Nadu Guide',
     desc: 'Step-by-step guide to claim your Kerala lottery prize including Tamil Nadu residents. Documents needed, 30-day deadline, TDS rules.',
@@ -607,20 +694,227 @@ const STATIC_TA_OVERRIDES = [
 
 const staticRoutesTa = staticRoutes.map((r, i) => makeTamilRoute(r, STATIC_TA_OVERRIDES[i] || {}));
 
+// Malayalam overrides for staticRoutes, same order and same "no other
+// language mixed in" principle as STATIC_TA_OVERRIDES. Only the homepage
+// text was given explicitly by the request; the rest are straightforward
+// translations of the same short, formulaic phrases and are worth a native
+// speaker's review before this ships.
+const STATIC_ML_OVERRIDES = [
+  { title: 'കേരള ലോട്ടറി ഷെഡ്യൂൾ 2026 — ദിവസവും സമയവും',
+    desc: 'ഏത് ലോട്ടറി ഏത് ദിവസം, ഏത് സമയത്ത് നടക്കുന്നു എന്നറിയാൻ കേരള ലോട്ടറിയുടെ ആഴ്ചയിലെ പൂർണ്ണ ഷെഡ്യൂൾ.',
+    h1: 'കേരള ലോട്ടറി ഷെഡ്യൂൾ' },
+  { title: 'കേരള ലോട്ടറി ജാക്ക്‌പോട്ട് ഫലം ഇന്ന് — ഒന്നാം സമ്മാനം',
+    desc: 'എല്ലാ ലോട്ടറികളുടെയും ഇന്നത്തെ ഒന്നാം സമ്മാന നമ്പറുകൾ, ഉച്ചയ്ക്ക് 3 മണിക്ക് പ്രസിദ്ധീകരിക്കുന്നു.',
+    h1: 'കേരള ലോട്ടറി ജാക്ക്‌പോട്ട്' },
+  { title: 'കേരള ലോട്ടറി സമ്മാനം നേടുന്ന വിധം — ഗൈഡ്',
+    desc: 'കേരള ലോട്ടറി സമ്മാനം നേടാനുള്ള ഘട്ടം ഘട്ടമായുള്ള മാർഗ്ഗനിർദ്ദേശം. 30 ദിവസത്തിനകം ക്ലെയിം ചെയ്യണം.',
+    h1: 'കേരള ലോട്ടറി സമ്മാനം നേടുന്ന വിധം' },
+  { title: 'ഇന്നലെയുള്ള കേരള ലോട്ടറി ഫലം — എല്ലാ സമ്മാനങ്ങളും',
+    desc: 'ഇന്നലെയുള്ള കേരള ലോട്ടറി ഫലം, ഒന്നാം സമ്മാനം മുതൽ അവസാന സമ്മാനം വരെ.',
+    h1: 'ഇന്നലെയുള്ള കേരള ലോട്ടറി ഫലം' },
+  { title: 'കേരള ബമ്പർ ലോട്ടറി 2026 — അടുത്ത നറുക്കെടുപ്പും ഫലങ്ങളും',
+    desc: 'അടുത്ത കേരള ബമ്പർ ലോട്ടറി തീയതി, സമ്മാന ഘടന, മുൻകാല ഫലങ്ങൾ.',
+    h1: 'കേരള ബമ്പർ ലോട്ടറി' },
+  { title: 'കേരള ലോട്ടറി ചാർട്ട് 2026 — എല്ലാ ഫലങ്ങളും',
+    desc: 'എല്ലാ ദിവസത്തെയും ലോട്ടറി ഒന്നാം സമ്മാനം ഒരു നോട്ടത്തിൽ, ഏറ്റവും പുതിയത് ആദ്യം.',
+    h1: 'കേരള ലോട്ടറി ചാർട്ട്' },
+  { title: 'കേരള ലോട്ടറി ഫലം ഇന്ന് — ഉച്ചയ്ക്ക് 3 മണി',
+    desc: 'ഇന്ന് ഉച്ചയ്ക്ക് 3 മണിക്ക് കേരള ലോട്ടറി ഫലം — കാരുണ്യ, ഭാഗ്യതാര, സ്ത്രീ ശക്തി, ധനലക്ഷ്മി, കാരുണ്യ പ്ലസ്, സ്വർണ്ണ കേരളം, സമൃദ്ധി.' },
+  { title: 'കേരള ലോട്ടറി ടിക്കറ്റ് നമ്പർ പരിശോധന',
+    desc: 'നിങ്ങളുടെ ടിക്കറ്റ് നമ്പർ വിജയിച്ചോ എന്ന് പരിശോധിക്കുക.',
+    content: `<main><h1>കേരള ലോട്ടറി ടിക്കറ്റ് പരിശോധന</h1><p>നിങ്ങളുടെ ടിക്കറ്റ് നമ്പർ നൽകി, സമീപകാല കേരള ലോട്ടറി ഫലങ്ങളിൽ വിജയിച്ചോ എന്ന് പരിശോധിക്കുക.</p></main>` },
+  { title: 'കേരള ലോട്ടറി ഇന്നത്തെ ഗസ്സിംഗ് നമ്പറുകൾ',
+    desc: 'A B C ബോർഡ് നമ്പറുകൾ, വിനോദത്തിന് മാത്രം.',
+    h1: 'കേരള ലോട്ടറി ഇന്നത്തെ ഗസ്സിംഗ് നമ്പറുകൾ' },
+  { title: 'കഴിഞ്ഞ ദിവസങ്ങളിലെ ഗസ്സിംഗ് നമ്പറുകൾ',
+    desc: 'മുൻകാല ദിവസങ്ങളിലെ A B C ബോർഡ് നമ്പറുകൾ, വിനോദത്തിന് മാത്രം.',
+    content: `<main><h1>കഴിഞ്ഞ ദിവസങ്ങളിലെ ഗസ്സിംഗ് നമ്പറുകൾ</h1><p>കേരള ലോട്ടറിയുടെ മുൻകാല ദിവസങ്ങളിലെ A, B, C ബോർഡ് നമ്പറുകൾ കാണുക. വിനോദത്തിന് മാത്രം.</p></main>` },
+  { title: 'കേരള ലോട്ടറി സമ്മാനം നേടുന്ന വിധം',
+    desc: 'രേഖകൾ, സമയപരിധി, നടപടിക്രമം എന്നിവയെക്കുറിച്ചുള്ള പൂർണ്ണ വിവരണം.',
+    content: `<main><h1>കേരള ലോട്ടറി സമ്മാനം നേടുന്ന വിധം</h1><p>ആവശ്യമായ രേഖകൾ, 30 ദിവസത്തെ സമയപരിധി, നടപടിക്രമം എന്നിവയെക്കുറിച്ചുള്ള പൂർണ്ണ വിവരണം.</p></main>` },
+  { title: 'കേരള ലോട്ടറി പതിവ് ചോദ്യങ്ങൾ',
+    desc: 'ഫലം, ടിക്കറ്റ് പരിശോധന, സമ്മാനം നേടൽ എന്നിവയെക്കുറിച്ചുള്ള പൊതുവായ ചോദ്യങ്ങൾ.',
+    content: `<main><h1>കേരള ലോട്ടറി പതിവ് ചോദ്യങ്ങൾ</h1><p>ഫലം, ടിക്കറ്റ് പരിശോധന, സമ്മാനം നേടൽ, നികുതി എന്നിവയെക്കുറിച്ചുള്ള പൊതുവായ ചോദ്യങ്ങൾ.</p></main>` },
+  { title: 'കേരള ലോട്ടറി ജില്ലാ ഓഫീസുകൾ — വിലാസവും ഫോൺ നമ്പറും',
+    desc: '14 ജില്ലാ ലോട്ടറി ഓഫീസുകളുടെ വിലാസം, ഫോൺ നമ്പർ, പ്രവർത്തന സമയം.',
+    content: `<main><h1>കേരള ലോട്ടറി ജില്ലാ ഓഫീസുകൾ</h1><p>14 ജില്ലാ ലോട്ടറി ഓഫീസുകളുടെ വിവരപ്പട്ടിക. ₹1,00,000-ൽ കൂടുതലുള്ള സമ്മാനങ്ങൾക്ക് തിരുവനന്തപുരം വികാസ് ഭവനിലെ കേരള സംസ്ഥാന ലോട്ടറി ഡയറക്ടറേറ്റിനെ 0471-2305193 എന്ന നമ്പറിൽ ബന്ധപ്പെടുക.</p></main>` },
+  { title: 'Kerala Ticket Results-നെക്കുറിച്ച്',
+    desc: 'keralaticketresults.in — കേരള ലോട്ടറി ഫലങ്ങൾ നൽകുന്ന സ്വതന്ത്ര വെബ്സൈറ്റ്.',
+    content: `<main><h1>Kerala Ticket Results-നെക്കുറിച്ച്</h1><p>Kerala Ticket Results (keralaticketresults.in) കേരള ലോട്ടറി ഫലങ്ങൾ ദിവസവും നൽകുന്ന ഒരു സ്വതന്ത്ര വിവര വെബ്സൈറ്റാണ്.</p></main>` },
+  { title: 'ഞങ്ങളെ ബന്ധപ്പെടുക',
+    desc: 'Kerala Ticket Results-നെ ബന്ധപ്പെടുക.',
+    content: `<main><h1>ഞങ്ങളെ ബന്ധപ്പെടുക</h1><p>Kerala Ticket Results-നെ support@keralaticketresults.in എന്ന ഇമെയിലിൽ ബന്ധപ്പെടുക.</p></main>` },
+  { title: 'നിരാകരണം',
+    desc: 'keralaticketresults.in-ന്റെ നിരാകരണം.',
+    content: `<main><h1>നിരാകരണം</h1><p>Kerala Ticket Results കേരള സർക്കാരുമായോ കേരള സംസ്ഥാന ലോട്ടറി ഡയറക്ടറേറ്റുമായോ ബന്ധമില്ലാത്ത ഒരു വെബ്സൈറ്റാണ്.</p></main>` },
+  { title: 'സ്വകാര്യതാ നയം',
+    desc: 'keralaticketresults.in-ന്റെ സ്വകാര്യതാ നയം.',
+    content: `<main><h1>സ്വകാര്യതാ നയം</h1></main>` },
+  { title: 'നിബന്ധനകളും വ്യവസ്ഥകളും',
+    desc: 'keralaticketresults.in-ന്റെ നിബന്ധനകൾ.',
+    content: `<main><h1>നിബന്ധനകളും വ്യവസ്ഥകളും</h1></main>` },
+  { title: 'കേരള ലോട്ടറി ഓഫീസുകൾ',
+    desc: 'ജില്ലാ ലോട്ടറി ഓഫീസുകൾ.',
+    content: `<main><h1>കേരള ലോട്ടറി ഓഫീസുകൾ</h1></main>` },
+  { title: 'കേരള ലോട്ടറി ഫോമുകൾ ഡൗൺലോഡ്',
+    desc: 'സമ്മാന ക്ലെയിം ഫോമുകൾ ഡൗൺലോഡ് ചെയ്യുക.',
+    content: `<main><h1>കേരള ലോട്ടറി ഫോമുകൾ ഡൗൺലോഡ്</h1></main>` },
+];
+const staticRoutesMl = staticRoutes.map((r, i) => makeLocaleRoute(r, 'ml', STATIC_ML_OVERRIDES[i] || {}));
+
+// Hindi overrides — same order, same principle. As with Malayalam above,
+// only the homepage text came from the request; the rest are my own
+// straightforward translations worth a native speaker's review.
+const STATIC_HI_OVERRIDES = [
+  { title: 'केरल लॉटरी शेड्यूल 2026 — दैनिक ड्रॉ समय',
+    desc: 'कौन सी लॉटरी किस दिन, किस समय आती है — पूरी साप्ताहिक अनुसूची।',
+    h1: 'केरल लॉटरी शेड्यूल' },
+  { title: 'केरल लॉटरी जैकपॉट परिणाम आज — पहला पुरस्कार',
+    desc: 'सभी लॉटरी के आज के पहले पुरस्कार नंबर, दोपहर 3 बजे प्रकाशित।',
+    h1: 'केरल लॉटरी जैकपॉट' },
+  { title: 'केरल लॉटरी पुरस्कार कैसे प्राप्त करें — गाइड',
+    desc: 'पुरस्कार पाने की पूरी प्रक्रिया, चरण दर चरण। 30 दिनों के भीतर दावा करें।',
+    h1: 'केरल लॉटरी पुरस्कार कैसे प्राप्त करें' },
+  { title: 'केरल लॉटरी परिणाम कल का — सभी पुरस्कार',
+    desc: 'कल के केरल लॉटरी परिणाम, पहले पुरस्कार से अंतिम पुरस्कार तक।',
+    h1: 'केरल लॉटरी परिणाम कल का' },
+  { title: 'केरल बम्पर लॉटरी 2026 — अगली ड्रॉ तिथि और परिणाम',
+    desc: 'अगली केरल बम्पर लॉटरी की तिथि, पुरस्कार संरचना और पिछले परिणाम।',
+    h1: 'केरल बम्पर लॉटरी' },
+  { title: 'केरल लॉटरी चार्ट 2026 — सभी परिणाम',
+    desc: 'हर दिन की लॉटरी का पहला पुरस्कार एक नज़र में, नवीनतम पहले।',
+    h1: 'केरल लॉटरी चार्ट' },
+  { title: 'केरल लॉटरी परिणाम आज — दोपहर 3 बजे लाइव',
+    desc: 'आज दोपहर 3 बजे केरल लॉटरी परिणाम — कारुण्य, भाग्यतारा, स्त्री शक्ति, धनलक्ष्मी, कारुण्य प्लस, स्वर्ण केरलम, समृद्धि।' },
+  { title: 'केरल लॉटरी टिकट नंबर जांच',
+    desc: 'अपना टिकट नंबर डालकर जांचें कि आप जीते हैं या नहीं।',
+    content: `<main><h1>केरल लॉटरी टिकट जांच</h1><p>अपना टिकट नंबर डालकर हाल के केरल लॉटरी परिणामों में जीत की जांच करें।</p></main>` },
+  { title: 'केरल लॉटरी आज की अनुमान संख्या',
+    desc: 'A B C बोर्ड नंबर, केवल मनोरंजन के लिए।',
+    h1: 'केरल लॉटरी आज की अनुमान संख्या' },
+  { title: 'पिछले दिनों की अनुमान संख्या',
+    desc: 'पिछले दिनों के A B C बोर्ड नंबर, केवल मनोरंजन के लिए।',
+    content: `<main><h1>पिछले दिनों की अनुमान संख्या</h1><p>केरल लॉटरी के पिछले दिनों के A, B, C बोर्ड नंबर देखें। केवल मनोरंजन के लिए।</p></main>` },
+  { title: 'केरल लॉटरी पुरस्कार कैसे प्राप्त करें',
+    desc: 'आवश्यक दस्तावेज़, समय सीमा और पूरी प्रक्रिया की जानकारी।',
+    content: `<main><h1>केरल लॉटरी पुरस्कार कैसे प्राप्त करें</h1><p>आवश्यक दस्तावेज़, 30 दिनों की समय सीमा और पूरी प्रक्रिया की जानकारी।</p></main>` },
+  { title: 'केरल लॉटरी सामान्य प्रश्न',
+    desc: 'परिणाम, टिकट जांच और पुरस्कार दावे से जुड़े सामान्य सवालों के जवाब।',
+    content: `<main><h1>केरल लॉटरी सामान्य प्रश्न</h1><p>परिणाम, टिकट जांच, पुरस्कार दावे और कर से जुड़े सामान्य सवालों के जवाब।</p></main>` },
+  { title: 'केरल लॉटरी जिला कार्यालय — पता और फ़ोन नंबर',
+    desc: 'सभी 14 जिला लॉटरी कार्यालयों के पते, फ़ोन नंबर और कार्य समय।',
+    content: `<main><h1>केरल लॉटरी जिला कार्यालय</h1><p>सभी 14 जिला लॉटरी कार्यालयों की सूची। ₹1,00,000 से अधिक के पुरस्कारों के लिए तिरुवनंतपुरम के विकास भवन में केरल राज्य लॉटरी निदेशालय से 0471-2305193 पर संपर्क करें।</p></main>` },
+  { title: 'Kerala Ticket Results के बारे में',
+    desc: 'keralaticketresults.in — केरल लॉटरी परिणाम देने वाली स्वतंत्र वेबसाइट।',
+    content: `<main><h1>Kerala Ticket Results के बारे में</h1><p>Kerala Ticket Results (keralaticketresults.in) रोज़ाना केरल लॉटरी परिणाम देने वाली एक स्वतंत्र सूचना वेबसाइट है।</p></main>` },
+  { title: 'संपर्क करें',
+    desc: 'Kerala Ticket Results से संपर्क करें।',
+    content: `<main><h1>संपर्क करें</h1><p>Kerala Ticket Results से support@keralaticketresults.in पर संपर्क करें।</p></main>` },
+  { title: 'अस्वीकरण',
+    desc: 'keralaticketresults.in का अस्वीकरण।',
+    content: `<main><h1>अस्वीकरण</h1><p>Kerala Ticket Results केरल सरकार या केरल राज्य लॉटरी निदेशालय से संबद्ध नहीं है।</p></main>` },
+  { title: 'गोपनीयता नीति',
+    desc: 'keralaticketresults.in की गोपनीयता नीति।',
+    content: `<main><h1>गोपनीयता नीति</h1></main>` },
+  { title: 'नियम और शर्तें',
+    desc: 'keralaticketresults.in के नियम।',
+    content: `<main><h1>नियम और शर्तें</h1></main>` },
+  { title: 'केरल लॉटरी कार्यालय',
+    desc: 'जिला लॉटरी कार्यालय।',
+    content: `<main><h1>केरल लॉटरी कार्यालय</h1></main>` },
+  { title: 'केरल लॉटरी फॉर्म डाउनलोड करें',
+    desc: 'पुरस्कार दावा फॉर्म डाउनलोड करें।',
+    content: `<main><h1>केरल लॉटरी फॉर्म डाउनलोड करें</h1></main>` },
+];
+const staticRoutesHi = staticRoutes.map((r, i) => makeLocaleRoute(r, 'hi', STATIC_HI_OVERRIDES[i] || {}));
+
+// Kannada overrides — same order, same principle. As with the other two
+// languages, only the homepage text came from the request.
+const STATIC_KN_OVERRIDES = [
+  { title: 'ಕೇರಳ ಲಾಟರಿ ವೇಳಾಪಟ್ಟಿ 2026 — ದಿನ ಮತ್ತು ಸಮಯ',
+    desc: 'ಯಾವ ಲಾಟರಿ ಯಾವ ದಿನ, ಎಷ್ಟು ಗಂಟೆಗೆ — ವಾರದ ಸಂಪೂರ್ಣ ವೇಳಾಪಟ್ಟಿ.',
+    h1: 'ಕೇರಳ ಲಾಟರಿ ವೇಳಾಪಟ್ಟಿ' },
+  { title: 'ಕೇರಳ ಲಾಟರಿ ಜಾಕ್‌ಪಾಟ್ ಫಲಿತಾಂಶ ಇಂದು — ಮೊದಲ ಬಹುಮಾನ',
+    desc: 'ಎಲ್ಲಾ ಲಾಟರಿಗಳ ಇಂದಿನ ಮೊದಲ ಬಹುಮಾನ ಸಂಖ್ಯೆಗಳು, ಮಧ್ಯಾಹ್ನ 3 ಗಂಟೆಗೆ ಪ್ರಕಟ.',
+    h1: 'ಕೇರಳ ಲಾಟರಿ ಜಾಕ್‌ಪಾಟ್' },
+  { title: 'ಕೇರಳ ಲಾಟರಿ ಬಹುಮಾನ ಪಡೆಯುವ ವಿಧಾನ — ಗೈಡ್',
+    desc: 'ಬಹುಮಾನ ಪಡೆಯುವ ಹಂತ ಹಂತದ ಮಾರ್ಗದರ್ಶಿ. 30 ದಿನಗಳಲ್ಲಿ ಪಡೆಯಬೇಕು.',
+    h1: 'ಕೇರಳ ಲಾಟರಿ ಬಹುಮಾನ ಪಡೆಯುವ ವಿಧಾನ' },
+  { title: 'ನಿನ್ನೆಯ ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶ — ಎಲ್ಲಾ ಬಹುಮಾನಗಳು',
+    desc: 'ನಿನ್ನೆಯ ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶ, ಮೊದಲ ಬಹುಮಾನದಿಂದ ಕೊನೆಯ ಬಹುಮಾನದವರೆಗೆ.',
+    h1: 'ನಿನ್ನೆಯ ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶ' },
+  { title: 'ಕೇರಳ ಬಂಪರ್ ಲಾಟರಿ 2026 — ಮುಂದಿನ ಡ್ರಾ ದಿನಾಂಕ ಮತ್ತು ಫಲಿತಾಂಶಗಳು',
+    desc: 'ಮುಂದಿನ ಕೇರಳ ಬಂಪರ್ ಲಾಟರಿ ದಿನಾಂಕ, ಬಹುಮಾನ ರಚನೆ ಮತ್ತು ಹಿಂದಿನ ಫಲಿತಾಂಶಗಳು.',
+    h1: 'ಕೇರಳ ಬಂಪರ್ ಲಾಟರಿ' },
+  { title: 'ಕೇರಳ ಲಾಟರಿ ಚಾರ್ಟ್ 2026 — ಎಲ್ಲಾ ಫಲಿತಾಂಶಗಳು',
+    desc: 'ಪ್ರತಿ ದಿನದ ಲಾಟರಿಯ ಮೊದಲ ಬಹುಮಾನ ಒಂದೇ ನೋಟದಲ್ಲಿ, ಇತ್ತೀಚಿನದು ಮೊದಲು.',
+    h1: 'ಕೇರಳ ಲಾಟರಿ ಚಾರ್ಟ್' },
+  { title: 'ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶ ಇಂದು — ಮಧ್ಯಾಹ್ನ 3 ಗಂಟೆ',
+    desc: 'ಇಂದು ಮಧ್ಯಾಹ್ನ 3 ಗಂಟೆಗೆ ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶ — ಕಾರುಣ್ಯ, ಭಾಗ್ಯತಾರ, ಸ್ತ್ರೀ ಶಕ್ತಿ, ಧನಲಕ್ಷ್ಮಿ, ಕಾರುಣ್ಯ ಪ್ಲಸ್, ಸ್ವರ್ಣ ಕೇರಳ, ಸಮೃದ್ಧಿ.' },
+  { title: 'ಕೇರಳ ಲಾಟರಿ ಟಿಕೆಟ್ ಸಂಖ್ಯೆ ಪರಿಶೀಲನೆ',
+    desc: 'ನಿಮ್ಮ ಟಿಕೆಟ್ ಸಂಖ್ಯೆ ಗೆದ್ದಿದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಿ.',
+    content: `<main><h1>ಕೇರಳ ಲಾಟರಿ ಟಿಕೆಟ್ ಪರಿಶೀಲನೆ</h1><p>ನಿಮ್ಮ ಟಿಕೆಟ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ, ಇತ್ತೀಚಿನ ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶಗಳಲ್ಲಿ ಗೆದ್ದಿದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಿ.</p></main>` },
+  { title: 'ಕೇರಳ ಲಾಟರಿ ಇಂದಿನ ಅಂದಾಜು ಸಂಖ್ಯೆಗಳು',
+    desc: 'A B C ಬೋರ್ಡ್ ಸಂಖ್ಯೆಗಳು, ಮನರಂಜನೆಗಾಗಿ ಮಾತ್ರ.',
+    h1: 'ಕೇರಳ ಲಾಟರಿ ಇಂದಿನ ಅಂದಾಜು ಸಂಖ್ಯೆಗಳು' },
+  { title: 'ಹಿಂದಿನ ದಿನಗಳ ಅಂದಾಜು ಸಂಖ್ಯೆಗಳು',
+    desc: 'ಹಿಂದಿನ ದಿನಗಳ A B C ಬೋರ್ಡ್ ಸಂಖ್ಯೆಗಳು, ಮನರಂಜನೆಗಾಗಿ ಮಾತ್ರ.',
+    content: `<main><h1>ಹಿಂದಿನ ದಿನಗಳ ಅಂದಾಜು ಸಂಖ್ಯೆಗಳು</h1><p>ಕೇರಳ ಲಾಟರಿಯ ಹಿಂದಿನ ದಿನಗಳ A, B, C ಬೋರ್ಡ್ ಸಂಖ್ಯೆಗಳನ್ನು ನೋಡಿ. ಮನರಂಜನೆಗಾಗಿ ಮಾತ್ರ.</p></main>` },
+  { title: 'ಕೇರಳ ಲಾಟರಿ ಬಹುಮಾನ ಪಡೆಯುವ ವಿಧಾನ',
+    desc: 'ಅಗತ್ಯ ದಾಖಲೆಗಳು, ಗಡುವು ಮತ್ತು ಪ್ರಕ್ರಿಯೆಯ ಸಂಪೂರ್ಣ ವಿವರ.',
+    content: `<main><h1>ಕೇರಳ ಲಾಟರಿ ಬಹುಮಾನ ಪಡೆಯುವ ವಿಧಾನ</h1><p>ಅಗತ್ಯ ದಾಖಲೆಗಳು, 30 ದಿನಗಳ ಗಡುವು ಮತ್ತು ಪ್ರಕ್ರಿಯೆಯ ಸಂಪೂರ್ಣ ವಿವರ.</p></main>` },
+  { title: 'ಕೇರಳ ಲಾಟರಿ ಪ್ರಶ್ನೋತ್ತರಗಳು',
+    desc: 'ಫಲಿತಾಂಶ, ಟಿಕೆಟ್ ಪರಿಶೀಲನೆ ಮತ್ತು ಬಹುಮಾನ ಪಡೆಯುವಿಕೆ ಬಗ್ಗೆ ಸಾಮಾನ್ಯ ಪ್ರಶ್ನೆಗಳು.',
+    content: `<main><h1>ಕೇರಳ ಲಾಟರಿ ಪ್ರಶ್ನೋತ್ತರಗಳು</h1><p>ಫಲಿತಾಂಶ, ಟಿಕೆಟ್ ಪರಿಶೀಲನೆ, ಬಹುಮಾನ ಪಡೆಯುವಿಕೆ ಮತ್ತು ತೆರಿಗೆ ಬಗ್ಗೆ ಸಾಮಾನ್ಯ ಪ್ರಶ್ನೆಗಳು.</p></main>` },
+  { title: 'ಕೇರಳ ಲಾಟರಿ ಜಿಲ್ಲಾ ಕಚೇರಿಗಳು — ವಿಳಾಸ ಮತ್ತು ಫೋನ್ ಸಂಖ್ಯೆ',
+    desc: 'ಎಲ್ಲಾ 14 ಜಿಲ್ಲಾ ಲಾಟರಿ ಕಚೇರಿಗಳ ವಿಳಾಸ, ಫೋನ್ ಸಂಖ್ಯೆ ಮತ್ತು ಕೆಲಸದ ಸಮಯ.',
+    content: `<main><h1>ಕೇರಳ ಲಾಟರಿ ಜಿಲ್ಲಾ ಕಚೇರಿಗಳು</h1><p>ಎಲ್ಲಾ 14 ಜಿಲ್ಲಾ ಲಾಟರಿ ಕಚೇರಿಗಳ ಪಟ್ಟಿ. ₹1,00,000 ಮೀರಿದ ಬಹುಮಾನಗಳಿಗೆ ತಿರುವನಂತಪುರಂನ ವಿಕಾಸ್ ಭವನದಲ್ಲಿರುವ ಕೇರಳ ರಾಜ್ಯ ಲಾಟರಿ ನಿರ್ದೇಶನಾಲಯವನ್ನು 0471-2305193 ನಲ್ಲಿ ಸಂಪರ್ಕಿಸಿ.</p></main>` },
+  { title: 'Kerala Ticket Results ಬಗ್ಗೆ',
+    desc: 'keralaticketresults.in — ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶಗಳನ್ನು ನೀಡುವ ಸ್ವತಂತ್ರ ವೆಬ್‌ಸೈಟ್.',
+    content: `<main><h1>Kerala Ticket Results ಬಗ್ಗೆ</h1><p>Kerala Ticket Results (keralaticketresults.in) ಪ್ರತಿದಿನ ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶಗಳನ್ನು ನೀಡುವ ಸ್ವತಂತ್ರ ಮಾಹಿತಿ ವೆಬ್‌ಸೈಟ್ ಆಗಿದೆ.</p></main>` },
+  { title: 'ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ',
+    desc: 'Kerala Ticket Results ಅನ್ನು ಸಂಪರ್ಕಿಸಿ.',
+    content: `<main><h1>ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ</h1><p>Kerala Ticket Results ಅನ್ನು support@keralaticketresults.in ಇಮೇಲ್‌ನಲ್ಲಿ ಸಂಪರ್ಕಿಸಿ.</p></main>` },
+  { title: 'ಹೊಣೆಗಾರಿಕೆ ನಿರಾಕರಣೆ',
+    desc: 'keralaticketresults.in ನ ಹೊಣೆಗಾರಿಕೆ ನಿರಾಕರಣೆ.',
+    content: `<main><h1>ಹೊಣೆಗಾರಿಕೆ ನಿರಾಕರಣೆ</h1><p>Kerala Ticket Results ಕೇರಳ ಸರ್ಕಾರ ಅಥವಾ ಕೇರಳ ರಾಜ್ಯ ಲಾಟರಿ ನಿರ್ದೇಶನಾಲಯದೊಂದಿಗೆ ಸಂಬಂಧ ಹೊಂದಿಲ್ಲ.</p></main>` },
+  { title: 'ಗೌಪ್ಯತೆ ನೀತಿ',
+    desc: 'keralaticketresults.in ನ ಗೌಪ್ಯತೆ ನೀತಿ.',
+    content: `<main><h1>ಗೌಪ್ಯತೆ ನೀತಿ</h1></main>` },
+  { title: 'ನಿಯಮಗಳು ಮತ್ತು ಷರತ್ತುಗಳು',
+    desc: 'keralaticketresults.in ನ ನಿಯಮಗಳು.',
+    content: `<main><h1>ನಿಯಮಗಳು ಮತ್ತು ಷರತ್ತುಗಳು</h1></main>` },
+  { title: 'ಕೇರಳ ಲಾಟರಿ ಕಚೇರಿಗಳು',
+    desc: 'ಜಿಲ್ಲಾ ಲಾಟರಿ ಕಚೇರಿಗಳು.',
+    content: `<main><h1>ಕೇರಳ ಲಾಟರಿ ಕಚೇರಿಗಳು</h1></main>` },
+  { title: 'ಕೇರಳ ಲಾಟರಿ ಫಾರ್ಮ್‌ಗಳ ಡೌನ್‌ಲೋಡ್',
+    desc: 'ಬಹುಮಾನ ಕ್ಲೈಮ್ ಫಾರ್ಮ್‌ಗಳನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ.',
+    content: `<main><h1>ಕೇರಳ ಲಾಟರಿ ಫಾರ್ಮ್‌ಗಳ ಡೌನ್‌ಲೋಡ್</h1></main>` },
+];
+const staticRoutesKn = staticRoutes.map((r, i) => makeLocaleRoute(r, 'kn', STATIC_KN_OVERRIDES[i] || {}));
+
+// English title/desc compact time (e.g. "3:00 PM" -> "3PM"), matching the
+// requested "— 3PM Live" style while staying correct for bumper (2PM, not 3).
+function compactAmPm(drawTime) {
+  const hour = drawTime.split(':')[0];
+  const ampm = (drawTime.match(/AM|PM/i) || [''])[0].toUpperCase();
+  return `${hour}${ampm}`;
+}
+
 // ── Dynamic lottery index routes ──────────────────────────
-// English title/desc mix in the English lottery name (Tamil-primary but
-// bilingual); the /ta counterpart drops it entirely — Tamil-only title,
-// desc and H1 — so Google sees a meaningfully different page, not a
-// near-duplicate translation.
+// English routes are English-only (no Tamil) — Tamil lives exclusively on
+// the /ta counterpart below, so Google sees two genuinely distinct pages
+// instead of a bilingual near-duplicate of a Tamil-only one.
 const lotteryRoutePairs = lotteries.map(l => {
   const result  = getResultForSlug(l.slug);
+  const firstP  = getFirstPrize(result);
   const tName   = TAMIL_NAMES[l.slug] ?? l.name;
   const tDay    = TAMIL_DAYS[l.drawDay] ?? l.drawDay;
   const enPath  = `/results/${l.slug}`;
   const en = {
     path:    enPath,
-    title:   `${tName} லாட்டரி ரிசல்ட் இன்று ${l.code} — 3:00 மணி முடிவு | ${l.name} Result Today`,
-    desc:    `இன்று ${l.drawTime} மணி ${tName} (${l.name}) லாட்டரி முடிவு — ${l.code} draw code, held every ${l.drawDay} at ${l.drawTime}. Innathe lottari mudivugal, updated live.`,
+    title:   `${l.name} Lottery Result Today ${l.code} — ${compactAmPm(l.drawTime)} Live`,
+    desc:    `${l.name} (${l.code}) Kerala lottery result today — 1st Prize: ${firstP}. Draw every ${l.drawDay} at ${l.drawTime}. Updated the moment results are announced.`,
     canonical: `${SITE}${enPath}`,
     enPath,
     lang: 'en',
@@ -640,15 +934,24 @@ const lotteryRoutePairs = lotteries.map(l => {
     desc: taDesc,
     ...(result ? { h1: tamilResultH1(tName, result.drawCode, result.displayDate) } : {}),
   });
-  return { en, ta };
+  const hour = localeHour(l.drawTime);
+  const mlName = MALAYALAM_NAMES[l.slug] ?? l.name;
+  const hiName = HINDI_NAMES[l.slug] ?? l.name;
+  const knName = KANNADA_NAMES[l.slug] ?? l.name;
+  const ml = makeLocaleRoute(en, 'ml', { ...LOCALE_LOTTERY_PATTERN.ml(mlName, l.code, hour), ...(result ? { h1: LOCALE_LOTTERY_PATTERN.ml(mlName, l.code, hour).title } : {}) });
+  const hi = makeLocaleRoute(en, 'hi', { ...LOCALE_LOTTERY_PATTERN.hi(hiName, l.code, hour), ...(result ? { h1: LOCALE_LOTTERY_PATTERN.hi(hiName, l.code, hour).title } : {}) });
+  const kn = makeLocaleRoute(en, 'kn', { ...LOCALE_LOTTERY_PATTERN.kn(knName, l.code, hour), ...(result ? { h1: LOCALE_LOTTERY_PATTERN.kn(knName, l.code, hour).title } : {}) });
+  return { en, ta, ml, hi, kn };
 });
 const lotteryRoutes   = lotteryRoutePairs.map(p => p.en);
 const lotteryRoutesTa = lotteryRoutePairs.map(p => p.ta);
+const lotteryRoutesMl = lotteryRoutePairs.map(p => p.ml);
+const lotteryRoutesHi = lotteryRoutePairs.map(p => p.hi);
+const lotteryRoutesKn = lotteryRoutePairs.map(p => p.kn);
 
 // ── Archive routes ────────────────────────────────────────
-// English title/desc are Tamil-primary but still mix in the English
-// lottery name and English prize labels; the /ta counterpart drops all of
-// that — Tamil-only title, desc and H1.
+// English routes are English-only — Tamil lives exclusively on the /ta
+// counterpart below.
 const archiveRoutePairs = results.map(r => {
   const lottery = getLottery(r.lotterySlug);
   if (!lottery) return null;
@@ -662,8 +965,8 @@ const archiveRoutePairs = results.map(r => {
   const enPath  = `/results/${r.lotterySlug}/${drawCodeLower}`;
   const en = {
     path:     enPath,
-    title:    `${tName} ${r.drawCode} லாட்டரி முடிவு ${r.displayDate} | ${lottery.name} Result`,
-    desc:     `${tName} (${lottery.name}) ${r.drawCode} லாட்டரி முடிவு ${r.displayDate}, ${lottery.drawTime} மணி — 1st Prize ${firstP}${district ? `, ${district}` : ''}. Draw ${r.drawCode}. Innathe lottari mudivugal.`,
+    title:    `${lottery.name} ${r.drawCode} Result ${r.displayDate}`,
+    desc:     `${lottery.name} ${r.drawCode} lottery result ${r.displayDate} — 1st Prize: ${firstP}${district ? `, ${district}` : ''}. Full prize table, all tiers.`,
     canonical:`${SITE}${enPath}`,
     lastmod:  r.lastUpdated,
     enPath,
@@ -677,10 +980,22 @@ const archiveRoutePairs = results.map(r => {
     desc: taDesc,
     h1: tamilResultH1(tName, r.drawCode, r.displayDate),
   });
-  return { en, ta };
+  const mlName = MALAYALAM_NAMES[lottery.slug] ?? lottery.name;
+  const hiName = HINDI_NAMES[lottery.slug] ?? lottery.name;
+  const knName = KANNADA_NAMES[lottery.slug] ?? lottery.name;
+  const mlPat = LOCALE_ARCHIVE_PATTERN.ml(mlName, r.drawCode, r.displayDate, firstP, district);
+  const hiPat = LOCALE_ARCHIVE_PATTERN.hi(hiName, r.drawCode, r.displayDate, firstP, district);
+  const knPat = LOCALE_ARCHIVE_PATTERN.kn(knName, r.drawCode, r.displayDate, firstP, district);
+  const ml = makeLocaleRoute(en, 'ml', { ...mlPat, h1: mlPat.title });
+  const hi = makeLocaleRoute(en, 'hi', { ...hiPat, h1: hiPat.title });
+  const kn = makeLocaleRoute(en, 'kn', { ...knPat, h1: knPat.title });
+  return { en, ta, ml, hi, kn };
 }).filter(Boolean);
 const archiveRoutes   = archiveRoutePairs.map(p => p.en);
 const archiveRoutesTa = archiveRoutePairs.map(p => p.ta);
+const archiveRoutesMl = archiveRoutePairs.map(p => p.ml);
+const archiveRoutesHi = archiveRoutePairs.map(p => p.hi);
+const archiveRoutesKn = archiveRoutePairs.map(p => p.kn);
 
 
 // ── Per-lottery guessing number routes ────────────────────
@@ -745,11 +1060,11 @@ const redirectRoutes = [
 ];
 
 const allRoutes = [
-  ...staticRoutes, ...staticRoutesTa,
+  ...staticRoutes, ...staticRoutesTa, ...staticRoutesMl, ...staticRoutesHi, ...staticRoutesKn,
   ...redirectRoutes,
   ...lotteryGuessingRoutes,
-  ...lotteryRoutes, ...lotteryRoutesTa,
-  ...archiveRoutes, ...archiveRoutesTa,
+  ...lotteryRoutes, ...lotteryRoutesTa, ...lotteryRoutesMl, ...lotteryRoutesHi, ...lotteryRoutesKn,
+  ...archiveRoutes, ...archiveRoutesTa, ...archiveRoutesMl, ...archiveRoutesHi, ...archiveRoutesKn,
 ];
 
 // ── Generate HTML ─────────────────────────────────────────
@@ -809,16 +1124,18 @@ function makeHtml(route) {
   html = html.replace(/\s*<link rel="canonical"[^>]*>\s*/gi, '\n');
   html = html.replace('</head>', `  <link rel="canonical" href="${canonical}" />\n</head>`);
 
-  // hreflang alternates — only for routes that actually have a /ta
-  // counterpart (enPath is set on staticRoutes/lotteryRoutes/archiveRoutes
-  // and their Tamil versions; redirect/guessing routes are left alone
+  // hreflang alternates — only for routes that actually have locale
+  // counterparts (enPath is set on staticRoutes/lotteryRoutes/archiveRoutes
+  // and their ta/ml/hi/kn versions; redirect/guessing routes are left alone
   // since pointing hreflang at a page that doesn't exist would be wrong).
   if (route.enPath) {
     const enUrl = `${SITE}${route.enPath}`;
-    const taUrl = route.enPath === '/' ? `${SITE}/ta` : `${SITE}/ta${route.enPath}`;
-    const hreflangTags = `  <link rel="alternate" hreflang="en" href="${enUrl}" />\n`
-      + `  <link rel="alternate" hreflang="ta" href="${taUrl}" />\n`
-      + `  <link rel="alternate" hreflang="x-default" href="${enUrl}" />`;
+    const localeUrl = (loc) => route.enPath === '/' ? `${SITE}/${loc}` : `${SITE}/${loc}${route.enPath}`;
+    const hreflangTags = [
+      `  <link rel="alternate" hreflang="en" href="${enUrl}" />`,
+      ...ALT_LOCALES.map((loc) => `  <link rel="alternate" hreflang="${loc}" href="${localeUrl(loc)}" />`),
+      `  <link rel="alternate" hreflang="x-default" href="${enUrl}" />`,
+    ].join('\n');
     html = html.replace('</head>', `${hreflangTags}\n</head>`);
   }
 
@@ -909,12 +1226,12 @@ for (const route of allRoutes) {
     writeFileSync(filePath, makeHtml(route), 'utf8');
     if (!route.isRedirectStub) {
       // Legacy trailing-slash stub — keeps the old indexed URL alive as a
-      // redirect instead of a 404. Tamil (/ta) routes have no legacy
-      // indexed slash-URL to preserve, so their stub skips noindex.
+      // redirect instead of a 404. Locale routes (/ta, /ml, /hi, /kn) have
+      // no legacy indexed slash-URL to preserve, so their stub skips noindex.
       mkdirSync(slashDir, { recursive: true });
       writeFileSync(
         `${slashDir}/index.html`,
-        redirectStubHtml(canonical, route.title, { lang: route.lang, noindex: route.lang !== 'ta' }),
+        redirectStubHtml(canonical, route.title, { lang: route.lang, noindex: !ALT_LOCALES.includes(route.lang) }),
         'utf8'
       );
     }
@@ -932,4 +1249,7 @@ console.log(`   Static  : ${staticRoutes.length}`);
 console.log(`   Lottery : ${lotteryRoutes.length}`);
 console.log(`   Archive : ${archiveRoutes.length}`);
 console.log(`   Tamil (/ta): ${staticRoutesTa.length + lotteryRoutesTa.length + archiveRoutesTa.length}`);
+console.log(`   Malayalam (/ml): ${staticRoutesMl.length + lotteryRoutesMl.length + archiveRoutesMl.length}`);
+console.log(`   Hindi (/hi): ${staticRoutesHi.length + lotteryRoutesHi.length + archiveRoutesHi.length}`);
+console.log(`   Kannada (/kn): ${staticRoutesKn.length + lotteryRoutesKn.length + archiveRoutesKn.length}`);
 console.log(`\n   Google will now see real prize content on every page.`);

@@ -5,8 +5,8 @@
  * workflows — same slot generate-sitemap.mjs used to occupy)
  *
  * Mirrors the exact route universe prerender.mjs generates — staticRoutes,
- * lotteryRoutes and archiveRoutes, each with its /ta counterpart — and
- * writes a single sitemap.xml covering all of them, English and Tamil.
+ * lotteryRoutes and archiveRoutes, each with its /ta, /ml, /hi and /kn
+ * counterpart — and writes a single sitemap.xml covering all of them.
  * lastmod is today's date for every entry.
  *
  * Replaces generate-sitemap.mjs in the deploy pipeline (static.yml,
@@ -92,15 +92,18 @@ const archivePages = results
 
 const enPages = [...staticPages, ...lotteryPages, ...archivePages];
 
-// Tamil counterpart of every page above — same path rules as
-// makeTamilRoute() in prerender.mjs: '/' -> '/ta', everything else ->
-// '/ta' + path.
-const taPages = enPages.map(p => ({
-  ...p,
-  url: p.url === '/' ? '/ta' : `/ta${p.url}`,
-}));
+// Locale counterpart of every page above, for each locale the site
+// publishes under /<locale>/ — same path rule as makeLocaleRoute() in
+// prerender.mjs: '/' -> '/<locale>', everything else -> '/<locale>' + path.
+const ALT_LOCALES = ['ta', 'ml', 'hi', 'kn'];
+const localePages = ALT_LOCALES.flatMap((locale) =>
+  enPages.map((p) => ({
+    ...p,
+    url: p.url === '/' ? `/${locale}` : `/${locale}${p.url}`,
+  }))
+);
 
-const allPages = [...enPages, ...taPages];
+const allPages = [...enPages, ...localePages];
 
 // ── Build XML ─────────────────────────────────────────────────────────
 function urlEntry({ url, priority, changefreq }) {
@@ -137,5 +140,7 @@ if (existsSync(buildDir)) {
 }
 
 console.log(`   English: ${enPages.length} (static ${staticPages.length}, lottery ${lotteryPages.length}, archive ${archivePages.length})`);
-console.log(`   Tamil (/ta): ${taPages.length}`);
+for (const locale of ALT_LOCALES) {
+  console.log(`   /${locale}: ${enPages.length}`);
+}
 console.log(`   lastmod: ${TODAY}`);
