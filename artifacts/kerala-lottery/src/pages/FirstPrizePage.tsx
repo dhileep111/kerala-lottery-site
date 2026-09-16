@@ -2,6 +2,7 @@ import { useParams, Link } from 'wouter';
 import { getLottery, getLatestResult, getResultByDraw, getFirstPrizeNumber, site } from '../data';
 import { JsonLd } from '../components/JsonLd';
 import { ShareResultButton } from '../components/ShareResultButton';
+import { useLang, t, getLotteryName, tTier } from '../lib/i18n';
 
 function getTicketAndDistrict(number: any): { ticket: string; district: string | null } {
   if (!number) return { ticket: '—', district: null };
@@ -10,6 +11,7 @@ function getTicketAndDistrict(number: any): { ticket: string; district: string |
 }
 
 export default function FirstPrizePage() {
+  const lang = useLang();
   const params = useParams<{ slug: string; drawCode?: string }>();
   const lottery = getLottery(params.slug);
   const result = params.drawCode
@@ -20,8 +22,8 @@ export default function FirstPrizePage() {
     return (
       <main className="page"><div className="container" style={{ textAlign: 'center', padding: '60px 20px' }}>
         <div style={{ fontSize: 48, marginBottom: 16 }}>🔍</div>
-        <h1 style={{ marginBottom: 12 }}>Result not found</h1>
-        <Link href="/" style={{ color: 'var(--primary)' }}>← Back to home</Link>
+        <h1 style={{ marginBottom: 12 }}>{t(lang, 'fpNotFound')}</h1>
+        <Link href="/" style={{ color: 'var(--primary)' }}>{t(lang, 'fpBackHome')}</Link>
       </div></main>
     );
   }
@@ -52,26 +54,26 @@ export default function FirstPrizePage() {
       <div className="container" style={{ maxWidth: 680 }}>
         {/* Breadcrumb */}
         <nav className="breadcrumb">
-          <Link href="/">Home</Link>
+          <Link href="/">{t(lang, 'home')}</Link>
           <span aria-hidden="true"> › </span>
-          <Link href={`/results/${lottery.slug}`}>{lottery.name} Result</Link>
+          <Link href={`/results/${lottery.slug}`}>{getLotteryName(lottery.slug, lottery.name, lang)} {t(lang, 'resultLabel')}</Link>
           <span aria-hidden="true"> › </span>
-          <span>1st Prize</span>
+          <span>{t(lang, 'fp1stPrizeCrumb')}</span>
         </nav>
 
         {/* Hero jackpot card */}
         <div className="fp-hero">
           <div className="fp-hero__top">
-            <div className="fp-hero__label">🥇 First Prize Winner</div>
-            <div className="fp-hero__draw">{lottery.name} {result.drawCode} — {result.displayDate}</div>
+            <div className="fp-hero__label">🥇 {t(lang, 'fpFirstPrizeWinner')}</div>
+            <div className="fp-hero__draw">{getLotteryName(lottery.slug, lottery.name, lang)} {result.drawCode} — {result.displayDate}</div>
           </div>
 
           {isPending ? (
             <div className="fp-hero__pending">
               <div className="fp-pending-dot" />
               <div>
-                <div style={{ fontWeight: 800, fontSize: 20 }}>Result Awaiting</div>
-                <div style={{ fontSize: 14, opacity: 0.8, marginTop: 4 }}>Draw at {lottery.drawTime} • Check back after 3 PM</div>
+                <div style={{ fontWeight: 800, fontSize: 20 }}>{t(lang, 'fpResultAwaiting')}</div>
+                <div style={{ fontSize: 14, opacity: 0.8, marginTop: 4 }}>{t(lang, 'fpDrawAt')} {lottery.drawTime} • {t(lang, 'fpCheckBack')}</div>
               </div>
             </div>
           ) : (
@@ -83,18 +85,18 @@ export default function FirstPrizePage() {
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
                   </svg>
-                  Sold in <strong>{firstDistrict}</strong>, Kerala
+                  {t(lang, 'fpSoldIn')} <strong>{firstDistrict}</strong>, {t(lang, 'fpKerala')}
                   <a
                     href={`https://www.google.com/maps/search/Kerala+lottery+agent+${encodeURIComponent(firstDistrict)}`}
                     target="_blank" rel="noopener noreferrer"
                     className="fp-map-link"
                   >
-                    View area →
+                    {t(lang, 'fpViewArea')}
                   </a>
                 </div>
               )}
               <div className="fp-hero__status fp-hero__status--verified">
-                {result.status === 'verified' ? '✅ Verified result' : '🔴 Live — verify before claiming'}
+                {result.status === 'verified' ? `✅ ${t(lang, 'verifiedResult')}` : `🔴 ${t(lang, 'fpLiveVerify')}`}
               </div>
             </>
           )}
@@ -103,7 +105,7 @@ export default function FirstPrizePage() {
         {/* Top 3 prizes */}
         {!isPending && (
           <section className="fp-top3">
-            <h2 className="fp-top3__title">Top 3 Prize Winners</h2>
+            <h2 className="fp-top3__title">{t(lang, 'fpTop3Title')}</h2>
             <div className="fp-top3__grid">
               {[
                 { prize: firstPrizePrize,  medal: '🥇', label: '1st Prize',  color: '#f59e0b', bg: '#fffbeb', border: '#fde68a' },
@@ -117,9 +119,9 @@ export default function FirstPrizePage() {
                 return (
                   <div key={label} style={{ background: bg, border: `2px solid ${border}`, borderRadius: 14, padding: '18px 16px', textAlign: 'center' }}>
                     <div style={{ fontSize: 28, marginBottom: 6 }}>{medal}</div>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>{label}</div>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>{tTier(lang, label)}</div>
                     {isPendingTier ? (
-                      <div style={{ fontSize: 14, color: '#d97706', fontWeight: 700 }}>Pending</div>
+                      <div style={{ fontSize: 14, color: '#d97706', fontWeight: 700 }}>{t(lang, 'pending')}</div>
                     ) : (
                       <>
                         <div style={{ fontFamily: 'ui-monospace,monospace', fontSize: 18, fontWeight: 900, color, letterSpacing: '0.08em', marginBottom: 6 }}>{ticket}</div>
@@ -142,7 +144,7 @@ export default function FirstPrizePage() {
         {/* Consolation */}
         {consolation && consolation.numbers.length > 0 && (
           <section className="content-card" style={{ marginTop: 20 }}>
-            <h2 style={{ fontSize: 16, fontWeight: 800, marginBottom: 12 }}>🎁 Consolation Prize — {consolation.amount}</h2>
+            <h2 style={{ fontSize: 16, fontWeight: 800, marginBottom: 12 }}>🎁 {tTier(lang, 'Consolation Prize')} — {consolation.amount}</h2>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
               {consolation.numbers.map((n: any) => {
                 const { ticket } = getTicketAndDistrict(n);
@@ -162,20 +164,20 @@ export default function FirstPrizePage() {
           <div className="fp-claim-cta">
             <div className="fp-claim-cta__icon">🏆</div>
             <div>
-              <div style={{ fontWeight: 800, fontSize: 15, marginBottom: 4 }}>Did you win?</div>
+              <div style={{ fontWeight: 800, fontSize: 15, marginBottom: 4 }}>{t(lang, 'fpDidYouWin')}</div>
               <div style={{ fontSize: 13, color: '#374151', lineHeight: 1.6 }}>
-                Verify your ticket at <strong>statelottery.kerala.gov.in</strong> before claiming. Claim within <strong>30 days</strong> at the Directorate of Kerala Lotteries, Thiruvananthapuram.
+                {t(lang, 'fpVerifyBody')}
               </div>
             </div>
             <Link href="/claim-guide" style={{ flexShrink: 0, background: '#16a34a', color: 'white', padding: '10px 20px', borderRadius: 10, fontWeight: 700, fontSize: 13, textDecoration: 'none', whiteSpace: 'nowrap' }}>
-              Claim Guide →
+              {t(lang, 'claimGuide')} →
             </Link>
           </div>
         )}
 
         {/* Disclaimer */}
         <p style={{ fontSize: 12, color: '#9ca3af', textAlign: 'center', padding: '20px 0', lineHeight: 1.7 }}>
-          This page is for informational purposes only. Always verify with official Kerala Government Gazette before claiming any prize.
+          {t(lang, 'fpDisclaimer')}
         </p>
       </div>
     </main>

@@ -8,6 +8,7 @@ import { RecentResults } from '../components/RecentResults';
 import { ShareResultButton } from '../components/ShareResultButton';
 import { getLatestResult, getLottery, getResultWithLottery, lotteries, site, getTodayHoliday } from '../data';
 import NextDrawCountdown from '../components/NextDrawCountdown';
+import { useLang, t, getLotteryName } from '../lib/i18n';
 
 // Per-lottery accent colors
 const LOTTERY_COLORS: Record<string, { primary: string; light: string; border: string; text: string }> = {
@@ -42,6 +43,7 @@ function getUpcomingLottery() {
 }
 
 function LotterySelector({ selected, onSelect }: { selected: string; onSelect: (slug: string) => void }) {
+  const lang = useLang();
   const todayIdx = getTodayDayIndex();
   const mainLotteries = lotteries.filter(l => l.slug !== 'bumper');
 
@@ -71,9 +73,9 @@ function LotterySelector({ selected, onSelect }: { selected: string; onSelect: (
             onClick={() => onSelect(lottery.slug)}
           >
             <span className="lottery-pill__code">{lottery.code}</span>
-            <span className="lottery-pill__name">{lottery.name}</span>
+            <span className="lottery-pill__name">{getLotteryName(lottery.slug, lottery.name, lang)}</span>
             <span className="lottery-pill__day">{lottery.drawDay.slice(0, 3)}</span>
-            {isToday && <span className="lottery-pill__today">Today</span>}
+            {isToday && <span className="lottery-pill__today">{t(lang, 'today')}</span>}
             <span
               className={`lottery-pill__dot lottery-pill__dot--${status}`}
               title={status}
@@ -86,6 +88,7 @@ function LotterySelector({ selected, onSelect }: { selected: string; onSelect: (
 }
 
 export default function HomePage() {
+  const lang = useLang();
   const defaultLatest = getResultWithLottery();
   const [selectedSlug, setSelectedSlug] = useState(defaultLatest?.lottery.slug ?? 'karunya');
 
@@ -101,22 +104,25 @@ export default function HomePage() {
       <div className="container">
         {todayHoliday && (
           <div className="notice" style={{ borderLeft: '4px solid #f59e0b', background: '#fffbeb' }}>
-            🎉 <strong>Today is {todayHoliday}</strong> — Kerala Lottery Dept does not hold a draw today, so there is no
-            new result to publish. Regular daily results resume tomorrow as usual.
-            <br />
-            <span style={{ opacity: 0.8, fontSize: 13 }}>இன்று {todayHoliday} — இன்று லாட்டரி டிராவ் இல்லை. நாளை வழக்கம் போல் தொடரும்.</span>
+            🎉 {lang === 'ta'
+              ? <><strong>இன்று {todayHoliday}</strong> — இன்று லாட்டரி டிராவ் இல்லை. நாளை வழக்கம் போல் தொடரும்.</>
+              : <strong>{t(lang, 'homeHolidayNotice').replace('{name}', todayHoliday)}</strong>}
           </div>
         )}
-        <div className="notice">கேரளா லாட்டரி ரிசல்ட் (கேரளா ரிசல்ட்) தினமும் மதியம் 3 மணிக்கு இங்கே புதுப்பிக்கப்படும். உங்கள் லாட்டரியைத் தேர்ந்தெடுத்து இன்றைய முடிவைப் பாருங்கள்.<br /><span style={{ opacity: 0.8, fontSize: 13 }}>Today's lottery mudivugal, innathe lottari result &amp; kulukkal outcome — all here.</span></div>
+        {lang === 'ta' ? (
+          <div className="notice">கேரளா லாட்டரி ரிசல்ட் (கேரளா ரிசல்ட்) தினமும் மதியம் 3 மணிக்கு இங்கே புதுப்பிக்கப்படும். உங்கள் லாட்டரியைத் தேர்ந்தெடுத்து இன்றைய முடிவைப் பாருங்கள்.</div>
+        ) : (
+          <div className="notice">{t(lang, 'homeNotice')}</div>
+        )}
 
         {/* Hero with lottery selector */}
         <section className="section">
           <div className="section__header">
             <div>
-              <h1>Kerala Lottery Result Today</h1>
-              <p className="section__subtitle">Select your lottery — results update daily at 3 PM IST.</p>
+              <h1>{t(lang, 'homeH1')}</h1>
+              <p className="section__subtitle">{t(lang, 'homeSubtitle')}</p>
             </div>
-            <Link className="button" href="/check-ticket">Check Ticket</Link>
+            <Link className="button" href="/check-ticket">{t(lang, 'checkTicket')}</Link>
           </div>
 
           {/* Lottery selector pills */}
@@ -134,11 +140,13 @@ export default function HomePage() {
             <div className="selected-result-panel">
               <div style={{ padding: '32px 24px', textAlign: 'center', color: '#6b7280' }}>
                 <div style={{ fontSize: 32, marginBottom: 8 }}>⏳</div>
-                <strong>{selectedLottery.name}</strong> draws every {selectedLottery.drawDay} at {selectedLottery.drawTime}.<br />
-                No result published yet. Check back after 3 PM.
+                <strong>{getLotteryName(selectedLottery.slug, selectedLottery.name, lang)}</strong> {t(lang, 'homeDrawsEvery')} {selectedLottery.drawDay} {t(lang, 'homeAt')} {selectedLottery.drawTime}.<br />
+                {t(lang, 'homeNoResultYet')}
               </div>
               <div style={{ textAlign: 'center', paddingBottom: 24 }}>
-                <Link href={`/results/${selectedSlug}`} className="button">View {selectedLottery.name} Page →</Link>
+                <Link href={`/results/${selectedSlug}`} className="button">
+                  {t(lang, 'homeViewPagePrefix')} {getLotteryName(selectedLottery.slug, selectedLottery.name, lang)} {t(lang, 'homeViewPageSuffix')}
+                </Link>
               </div>
             </div>
           ) : null}
@@ -152,32 +160,32 @@ export default function HomePage() {
         <RecentResults />
 
         <section className="section">
-          <div className="section__header"><h2>Weekly Lottery Schedule</h2><Link href="/about">View Guidelines</Link></div>
+          <div className="section__header"><h2>{t(lang, 'homeWeeklySchedule')}</h2><Link href="/about">{t(lang, 'homeViewGuidelines')}</Link></div>
           <ScheduleGrid />
         </section>
 
         <section className="section">
-          <h2 style={{ marginBottom: 20 }}>Quick Links</h2>
+          <h2 style={{ marginBottom: 20 }}>{t(lang, 'homeQuickLinks')}</h2>
           <div className="grid">
             <Link className="quick-link-card" href="/check-ticket">
               <span className="quick-link-card__icon">🎟️</span>
-              <strong>Check Ticket</strong>
-              <p>Enter your ticket number to check if you've won any prize</p>
+              <strong>{t(lang, 'checkTicket')}</strong>
+              <p>{t(lang, 'homeCheckTicketDesc')}</p>
             </Link>
             <Link className="quick-link-card" href="/claim-guide">
               <span className="quick-link-card__icon">📋</span>
-              <strong>How to Claim</strong>
-              <p>Step-by-step guide including Tamil Nadu residents</p>
+              <strong>{t(lang, 'homeHowToClaim')}</strong>
+              <p>{t(lang, 'homeHowToClaimDesc')}</p>
             </Link>
             <Link className="quick-link-card" href="/guessing-numbers">
               <span className="quick-link-card__icon">🔢</span>
-              <strong>Guessing Numbers</strong>
-              <p>Today's guessing numbers — for entertainment only</p>
+              <strong>{t(lang, 'guessingNumbers')}</strong>
+              <p>{t(lang, 'homeGuessingDesc')}</p>
             </Link>
             <Link className="quick-link-card" href="/faq">
               <span className="quick-link-card__icon">❓</span>
-              <strong>FAQ</strong>
-              <p>Common questions about results, prizes, and claims</p>
+              <strong>{t(lang, 'faq')}</strong>
+              <p>{t(lang, 'homeFaqDesc')}</p>
             </Link>
           </div>
         </section>

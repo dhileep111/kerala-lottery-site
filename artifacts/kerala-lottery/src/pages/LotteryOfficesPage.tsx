@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLang, t } from '../lib/i18n';
 
 const DIRECTORATE = {
   name: 'Directorate of Kerala State Lotteries',
@@ -109,10 +110,10 @@ function PhoneLink({ number }: { number: string }) {
   );
 }
 
-function DirectorateCard() {
+function DirectorateCard({ lang }: { lang: ReturnType<typeof useLang> }) {
   return (
     <div className="office-card office-card--directorate">
-      <div className="office-card__badge">Headquarters</div>
+      <div className="office-card__badge">{t(lang, 'loHeadquarters')}</div>
       <div className="office-card__header">
         <div className="office-card__icon">🏛️</div>
         <div>
@@ -133,7 +134,7 @@ function DirectorateCard() {
         </div>
         <div className="office-detail">
           <span className="office-detail__icon">📠</span>
-          <span>Fax: {DIRECTORATE.fax}</span>
+          <span>{t(lang, 'loFax')} {DIRECTORATE.fax}</span>
         </div>
         <div className="office-detail">
           <span className="office-detail__icon">✉️</span>
@@ -153,10 +154,11 @@ function DirectorateCard() {
   );
 }
 
-function DistrictCard({ district, isActive, onClick }: {
+function DistrictCard({ district, isActive, onClick, lang }: {
   district: typeof DISTRICTS[0];
   isActive: boolean;
   onClick: () => void;
+  lang: ReturnType<typeof useLang>;
 }) {
   return (
     <div className={`office-card office-card--district ${isActive ? 'office-card--open' : ''}`}>
@@ -202,7 +204,7 @@ function DistrictCard({ district, isActive, onClick }: {
             className="office-map-link"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            View on Google Maps
+            {t(lang, 'loViewMaps')}
           </a>
         </div>
       )}
@@ -211,6 +213,7 @@ function DistrictCard({ district, isActive, onClick }: {
 }
 
 export default function LotteryOfficesPage() {
+  const lang = useLang();
   const [activeDistrict, setActiveDistrict] = useState<string | null>(null);
 
   const toggle = (name: string) =>
@@ -220,39 +223,39 @@ export default function LotteryOfficesPage() {
     <main className="page">
       <div className="container" style={{ maxWidth: 760 }}>
         <div className="hero">
-          <h1>Kerala Lottery Offices</h1>
-          <p>Directory of the Directorate of Kerala State Lotteries and all 14 district lottery offices — with contact numbers, addresses, and working hours.</p>
+          <h1>{t(lang, 'loH1')}</h1>
+          <p>{t(lang, 'loSubtitle')}</p>
         </div>
 
         {/* Prize claim guide */}
         <div className="office-claim-guide">
-          <div className="office-claim-guide__title">📋 Which office do I visit?</div>
+          <div className="office-claim-guide__title">{t(lang, 'loWhichOffice')}</div>
           <div className="office-claim-guide__grid">
             <div className="office-claim-guide__item">
               <div className="office-claim-guide__range">Up to ₹5,000</div>
-              <div className="office-claim-guide__where">Any authorised lottery agent</div>
+              <div className="office-claim-guide__where">{t(lang, 'officeAnyAgent')}</div>
             </div>
             <div className="office-claim-guide__item">
               <div className="office-claim-guide__range">₹5,001 – ₹1,00,000</div>
-              <div className="office-claim-guide__where">Your District Lottery Office</div>
+              <div className="office-claim-guide__where">{t(lang, 'officeDistrictOffice')}</div>
             </div>
             <div className="office-claim-guide__item office-claim-guide__item--hq">
               <div className="office-claim-guide__range">Above ₹1,00,000</div>
-              <div className="office-claim-guide__where">Directorate, Thiruvananthapuram</div>
+              <div className="office-claim-guide__where">{t(lang, 'officeDirectorateShort')}</div>
             </div>
           </div>
           <div style={{ fontSize: 12, color: '#6b7280', marginTop: 10 }}>
-            All prizes must be claimed within <strong>30 days</strong> of draw date. Bring original ticket, Aadhaar, PAN, and bank passbook.
+            {t(lang, 'loAllPrizesNote')}
           </div>
         </div>
 
         {/* Directorate */}
-        <DirectorateCard />
+        <DirectorateCard lang={lang} />
 
         {/* District offices */}
         <h2 style={{ fontSize: 20, fontWeight: 800, margin: '32px 0 14px' }}>
-          District Lottery Offices
-          <span style={{ fontSize: 13, fontWeight: 600, color: '#6b7280', marginLeft: 10 }}>Tap to expand</span>
+          {t(lang, 'loDistrictOfficesTitle')}
+          <span style={{ fontSize: 13, fontWeight: 600, color: '#6b7280', marginLeft: 10 }}>{t(lang, 'loTapExpand')}</span>
         </h2>
 
         <div className="office-list">
@@ -262,12 +265,13 @@ export default function LotteryOfficesPage() {
               district={d}
               isActive={activeDistrict === d.name}
               onClick={() => toggle(d.name)}
+              lang={lang}
             />
           ))}
         </div>
 
         <section className="content-card" style={{ marginTop: 32, borderLeft: '4px solid #f59e0b', background: '#fffbeb' }}>
-          <h2>⚠️ Before You Visit</h2>
+          <h2>{t(lang, 'loBeforeVisitTitle')}</h2>
           <ul style={{ paddingLeft: 20, lineHeight: 2, fontSize: 14 }}>
             <li>Carry the <strong>original winning ticket</strong> — do not sign it until you reach the office</li>
             <li>Bring <strong>Aadhaar card, PAN card</strong>, two passport-size photos, and bank passbook</li>

@@ -1,8 +1,11 @@
+import { useLang, t } from '../lib/i18n';
+
 export default function TermsPage() {
+  const lang = useLang();
   return (
     <main className="page"><div className="container">
       <div className="hero">
-        <h1>Terms and Conditions</h1>
+        <h1>{t(lang, 'termsH1')}</h1>
         <p>Last updated: May 11, 2026. Please read these terms carefully before using <strong>keralaticketresults.in</strong>.</p>
       </div>
 

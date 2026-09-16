@@ -4,6 +4,7 @@ import { JsonLd } from '../components/JsonLd';
 import { results, drawPath, getFirstPrizeNumber } from '../data';
 import bumpers from '../data/bumpers.json';
 import { useCountdown } from '../lib/useCountdown';
+import { useLang, t, getLotteryName } from '../lib/i18n';
 
 type Row = (typeof results)[number];
 
@@ -13,6 +14,7 @@ function firstPrizeDistrict(result: Row): string | null {
 }
 
 export default function BumperPage() {
+  const lang = useLang();
   const up = (bumpers as { upcoming?: Record<string, string> }).upcoming;
   const cd = useCountdown(up?.drawDateISO ?? '');
 
@@ -48,59 +50,55 @@ export default function BumperPage() {
         }} />
       )}
       <section className="hero" style={{ paddingBottom: 8 }}>
-        <h1>Kerala Bumper Lottery — Next Draw &amp; Results</h1>
-        <p>
-          Kerala's seasonal bumper lotteries carry the biggest prizes of the year — up to ₹12 crore. See the
-          next bumper draw date, prize and a live countdown, plus past bumper results.{' '}
-          கேரளா பம்பர் லாட்டரி அடுத்த தேதி, பரிசு மற்றும் முடிவுகள்.
-        </p>
+        <h1>{t(lang, 'bumperH1')}</h1>
+        <p>{t(lang, 'bumperSubtitle')}</p>
       </section>
 
       {up && (
         <div className="content-card" style={{ borderLeft: '4px solid #0c7a43' }}>
-          <span className="badge" style={{ background: '#0c7a43', color: '#fff' }}>Next Bumper</span>
+          <span className="badge" style={{ background: '#0c7a43', color: '#fff' }}>{t(lang, 'bumperNextBumper')}</span>
           <h2 style={{ margin: '10px 0 4px' }}>
             {up.name} ({up.code})
           </h2>
           <p style={{ margin: '0 0 14px' }}>
-            <strong>{up.drawDateLabel}</strong> · {up.drawTime} · First prize <strong>{up.firstPrize}</strong>
+            <strong>{up.drawDateLabel}</strong> · {up.drawTime} · {t(lang, 'firstPrize')} <strong>{up.firstPrize}</strong>
           </p>
 
           {!cd.done ? (
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
-              <div style={box}><div style={num}>{cd.days}</div><div style={lbl}>Days</div></div>
-              <div style={box}><div style={num}>{cd.hours}</div><div style={lbl}>Hours</div></div>
-              <div style={box}><div style={num}>{cd.mins}</div><div style={lbl}>Min</div></div>
-              <div style={box}><div style={num}>{cd.secs}</div><div style={lbl}>Sec</div></div>
+              <div style={box}><div style={num}>{cd.days}</div><div style={lbl}>{t(lang, 'days')}</div></div>
+              <div style={box}><div style={num}>{cd.hours}</div><div style={lbl}>{t(lang, 'hours')}</div></div>
+              <div style={box}><div style={num}>{cd.mins}</div><div style={lbl}>{t(lang, 'minutes')}</div></div>
+              <div style={box}><div style={num}>{cd.secs}</div><div style={lbl}>{t(lang, 'seconds')}</div></div>
             </div>
           ) : (
             <p className="notice" style={{ marginBottom: 14 }}>
-              The {up.name} ({up.code}) draw is underway — results are published here on draw day. Check back soon!
+              {up.name} ({up.code}) {t(lang, 'bumperUnderway')}
             </p>
           )}
 
           <table className="table" style={{ width: '100%' }}>
             <tbody>
-              <tr><td>Ticket price</td><td>{up.ticketPrice}</td></tr>
-              <tr><td>Series</td><td>{up.series}</td></tr>
-              <tr><td>Draw venue</td><td>{up.venue}</td></tr>
+              <tr><td>{t(lang, 'ticketPrice')}</td><td>{up.ticketPrice}</td></tr>
+              <tr><td>{t(lang, 'bumperSeries')}</td><td>{up.series}</td></tr>
+              <tr><td>{t(lang, 'bumperVenue')}</td><td>{up.venue}</td></tr>
             </tbody>
           </table>
         </div>
       )}
 
       <div className="content-card">
-        <h2 style={{ marginTop: 0 }}>Past Bumper Results</h2>
+        <h2 style={{ marginTop: 0 }}>{t(lang, 'bumperPastResults')}</h2>
         {pastBumpers.length === 0 ? (
-          <p style={{ opacity: 0.7 }}>Past bumper results will appear here.</p>
+          <p style={{ opacity: 0.7 }}>{t(lang, 'bumperPastEmpty')}</p>
         ) : (
           <div style={{ overflowX: 'auto' }}>
             <table className="table" style={{ width: '100%' }}>
               <thead>
                 <tr>
-                  <th style={{ whiteSpace: 'nowrap' }}>Date</th>
-                  <th>Draw</th>
-                  <th>1st Prize</th>
+                  <th style={{ whiteSpace: 'nowrap' }}>{t(lang, 'date')}</th>
+                  <th>{t(lang, 'draw')}</th>
+                  <th>{t(lang, 'firstPrize')}</th>
                   <th aria-label="View result" />
                 </tr>
               </thead>
@@ -111,14 +109,14 @@ export default function BumperPage() {
                     <tr key={r.drawCode}>
                       <td style={{ whiteSpace: 'nowrap' }}>{r.displayDate}</td>
                       <td>
-                        Kerala Bumper <span className="badge">{r.drawCode}</span>
+                        {getLotteryName('bumper', 'Kerala Bumper', lang)} <span className="badge">{r.drawCode}</span>
                       </td>
                       <td>
                         <strong>{getFirstPrizeNumber(r)}</strong>
                         {district ? <span style={{ opacity: 0.7 }}> ({district})</span> : null}
                       </td>
                       <td style={{ whiteSpace: 'nowrap' }}>
-                        <Link href={drawPath(r)}>View →</Link>
+                        <Link href={drawPath(r)}>{t(lang, 'viewArrow')}</Link>
                       </td>
                     </tr>
                   );
@@ -130,13 +128,8 @@ export default function BumperPage() {
       </div>
 
       <div className="content-card">
-        <h2 style={{ marginTop: 0 }}>About Kerala Bumper Lotteries</h2>
-        <p>
-          Kerala holds six seasonal bumper lotteries each year — Summer, Vishu, Monsoon, Thiruvonam (Onam),
-          Pooja and Christmas–New Year — each with far larger prizes than the daily draws. Tickets sell out
-          weeks ahead, and draws are held at Gorky Bhavan, Thiruvananthapuram. We publish each bumper result
-          here as soon as the official draw is announced.
-        </p>
+        <h2 style={{ marginTop: 0 }}>{t(lang, 'bumperAboutTitle')}</h2>
+        <p>{t(lang, 'bumperAboutBody')}</p>
       </div>
     </main>
   );

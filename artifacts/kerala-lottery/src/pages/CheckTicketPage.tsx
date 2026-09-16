@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { results, lotteries } from '../data';
+import { useLang, t } from '../lib/i18n';
 
 const FULL_TICKET_RE = /^([A-Z]{2})\s*(\d{6})$/i;
 const PARTIAL_4_RE   = /^\d{4}$/;
@@ -69,7 +70,7 @@ const TIER_STYLE: Record<string, { bg: string; border: string; icon: string; tex
   '9th Prize':         { bg: '#fafaf9', border: '#a8a29e', icon: '9️⃣', textColor: '#44403c' },
 };
 
-function MatchCard({ match }: { match: MatchResult }) {
+function MatchCard({ match, lang }: { match: MatchResult; lang: ReturnType<typeof useLang> }) {
   const style = TIER_STYLE[match.tier] ?? { bg: '#f9fafb', border: '#d1d5db', icon: '🎫', textColor: '#374151' };
   const is1st = match.tier === '1st Prize';
   return (
@@ -82,10 +83,10 @@ function MatchCard({ match }: { match: MatchResult }) {
           <div style={{ fontSize: 13, color: '#6b7280', marginTop: 6 }}>{match.lottery} • {match.drawCode} • {match.drawDate}</div>
         </div>
         <div style={{ textAlign: 'right' }}>
-          <div style={{ fontSize: 13, color: '#9ca3af', marginBottom: 2 }}>Prize Amount</div>
+          <div style={{ fontSize: 13, color: '#9ca3af', marginBottom: 2 }}>{t(lang, 'amount')}</div>
           <div style={{ fontSize: 22, fontWeight: 800, color: '#059669' }}>{match.amount}</div>
           <div style={{ marginTop: 8, fontSize: 11, fontWeight: 600, background: match.isExact ? '#dcfce7' : '#fef3c7', color: match.isExact ? '#166534' : '#92400e', padding: '3px 10px', borderRadius: 20, display: 'inline-block' }}>
-            {match.isExact ? '✅ Exact match' : '⚠️ Partial — verify series'}
+            {match.isExact ? `✅ ${t(lang, 'ctExactMatch')}` : `⚠️ ${t(lang, 'ctPartialVerify')}`}
           </div>
         </div>
       </div>
@@ -94,6 +95,7 @@ function MatchCard({ match }: { match: MatchResult }) {
 }
 
 export default function CheckTicketPage() {
+  const lang = useLang();
   const [input,   setInput]   = useState('');
   const [query,   setQuery]   = useState('');
   const [checked, setChecked] = useState(false);
@@ -107,17 +109,17 @@ export default function CheckTicketPage() {
     <main className="page">
       <div className="container" style={{ maxWidth: 720 }}>
         <div className="hero">
-          <h1>Kerala Lottery Ticket Checker</h1>
-          <p>Enter your ticket number to check if it won a prize across all recent draws.</p>
+          <h1>{t(lang, 'ctH1')}</h1>
+          <p>{t(lang, 'ctSubtitle')}</p>
         </div>
 
         <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 12, padding: '16px 18px', marginBottom: 20 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 10 }}>📋 How to enter your ticket number</div>
+          <div style={{ fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 10 }}>📋 {t(lang, 'ctHowTo')}</div>
           <div style={{ display: 'grid', gap: 8 }}>
             {[
-              { label: 'Full ticket (best)', example: 'RR 281074', desc: 'Series + 6-digit number — exact match' },
-              { label: '6-digit number',     example: '281074',    desc: 'Matches number across all series' },
-              { label: 'Last 4 digits',      example: '1074',      desc: 'Quick check — may show multiple matches' },
+              { label: t(lang, 'ctFullBest'), example: 'RR 281074', desc: t(lang, 'ctFullDesc') },
+              { label: t(lang, 'ct6DigitLabel'), example: '281074', desc: t(lang, 'ct6DigitDesc') },
+              { label: t(lang, 'ctLast4Label'), example: '1074', desc: t(lang, 'ctLast4Desc') },
             ].map(r => (
               <div key={r.label} style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
                 <code style={{ background: '#1e293b', color: '#a6e3a1', padding: '3px 10px', borderRadius: 6, fontSize: 14, fontFamily: 'monospace', letterSpacing: '0.06em', flexShrink: 0 }}>{r.example}</code>
@@ -128,7 +130,7 @@ export default function CheckTicketPage() {
         </div>
 
         <div style={{ background: 'white', border: '2px solid #e2e8f0', borderRadius: 16, padding: '20px 22px', marginBottom: 20, boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
-          <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 10 }}>Enter your Kerala lottery ticket number</label>
+          <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 10 }}>{t(lang, 'ctInputLabel')}</label>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             <input
               style={{ flex: 1, minWidth: 200, border: '2px solid #d1d5db', borderRadius: 10, padding: '12px 16px', fontSize: 18, fontFamily: 'monospace', letterSpacing: '0.08em', outline: 'none', textTransform: 'uppercase', transition: 'border-color 0.2s' }}
@@ -143,9 +145,9 @@ export default function CheckTicketPage() {
               onBlur={e  => (e.target.style.borderColor = '#d1d5db')}
             />
             <button onClick={handleCheck} disabled={input.trim().length < 4} style={{ background: input.trim().length >= 4 ? '#059669' : '#d1d5db', color: 'white', border: 'none', borderRadius: 10, padding: '12px 28px', fontSize: 15, fontWeight: 700, cursor: input.trim().length >= 4 ? 'pointer' : 'not-allowed' }}>
-              Check Ticket
+              {t(lang, 'checkTicket')}
             </button>
-            {checked && <button onClick={handleClear} style={{ background: 'transparent', color: '#6b7280', border: '1px solid #d1d5db', borderRadius: 10, padding: '12px 16px', fontSize: 14, cursor: 'pointer' }}>Clear</button>}
+            {checked && <button onClick={handleClear} style={{ background: 'transparent', color: '#6b7280', border: '1px solid #d1d5db', borderRadius: 10, padding: '12px 16px', fontSize: 14, cursor: 'pointer' }}>{t(lang, 'ctClear')}</button>}
           </div>
         </div>
 
@@ -153,20 +155,20 @@ export default function CheckTicketPage() {
           <div>
             <div style={{ borderRadius: 14, padding: '18px 22px', marginBottom: 20, background: matches.length === 0 ? '#fef2f2' : hasExact ? '#f0fdf4' : '#fffbeb', border: `2px solid ${matches.length === 0 ? '#fca5a5' : hasExact ? '#86efac' : '#fde68a'}` }}>
               {matches.length === 0 ? (
-                <><div style={{ fontSize: 28, marginBottom: 6 }}>😔</div><div style={{ fontSize: 17, fontWeight: 700, color: '#dc2626' }}>No match found for <code style={{ fontFamily: 'monospace' }}>{query}</code></div><div style={{ fontSize: 13, color: '#6b7280', marginTop: 6 }}>Not in our current data. Verify at <strong>statelottery.kerala.gov.in</strong>.</div></>
+                <><div style={{ fontSize: 28, marginBottom: 6 }}>😔</div><div style={{ fontSize: 17, fontWeight: 700, color: '#dc2626' }}>{t(lang, 'ctNoMatch')} <code style={{ fontFamily: 'monospace' }}>{query}</code></div><div style={{ fontSize: 13, color: '#6b7280', marginTop: 6 }}>{t(lang, 'ctNotInData')} <strong>statelottery.kerala.gov.in</strong>.</div></>
               ) : hasExact ? (
-                <><div style={{ fontSize: 28, marginBottom: 6 }}>🎉</div><div style={{ fontSize: 17, fontWeight: 700, color: '#059669' }}>Congratulations! <code style={{ fontFamily: 'monospace' }}>{query}</code> is a winner!</div><div style={{ fontSize: 13, color: '#065f46', marginTop: 6 }}>Verify officially at <strong>statelottery.kerala.gov.in</strong> before claiming. Claim within 30 days.</div></>
+                <><div style={{ fontSize: 28, marginBottom: 6 }}>🎉</div><div style={{ fontSize: 17, fontWeight: 700, color: '#059669' }}>{t(lang, 'ctCongrats')} <code style={{ fontFamily: 'monospace' }}>{query}</code> {t(lang, 'ctIsWinner')}</div><div style={{ fontSize: 13, color: '#065f46', marginTop: 6 }}>{t(lang, 'ctVerifyOfficially')} <strong>statelottery.kerala.gov.in</strong> {t(lang, 'ctBeforeClaiming')}</div></>
               ) : (
-                <><div style={{ fontSize: 28, marginBottom: 6 }}>🔍</div><div style={{ fontSize: 17, fontWeight: 700, color: '#92400e' }}>{matches.length} partial match{matches.length > 1 ? 'es' : ''} for <code style={{ fontFamily: 'monospace' }}>{query}</code></div><div style={{ fontSize: 13, color: '#78350f', marginTop: 6 }}>Enter full ticket with series letters (e.g. <strong>RR 281074</strong>) to confirm exactly.</div></>
+                <><div style={{ fontSize: 28, marginBottom: 6 }}>🔍</div><div style={{ fontSize: 17, fontWeight: 700, color: '#92400e' }}>{matches.length} {matches.length > 1 ? t(lang, 'ctPartialMatches') : t(lang, 'ctPartialMatch')} <code style={{ fontFamily: 'monospace' }}>{query}</code></div><div style={{ fontSize: 13, color: '#78350f', marginTop: 6 }}>{t(lang, 'ctEnterFull')} <strong>RR 281074</strong>{t(lang, 'ctToConfirm')}</div></>
               )}
             </div>
-            {matches.map((m, i) => <MatchCard key={i} match={m} />)}
-            {matches.length > 0 && <div style={{ fontSize: 12, color: '#9ca3af', textAlign: 'center', padding: '12px 0', borderTop: '1px solid #f3f4f6', marginTop: 8 }}>Searched {results.length} draws across {lotteries.length} lotteries</div>}
+            {matches.map((m, i) => <MatchCard key={i} match={m} lang={lang} />)}
+            {matches.length > 0 && <div style={{ fontSize: 12, color: '#9ca3af', textAlign: 'center', padding: '12px 0', borderTop: '1px solid #f3f4f6', marginTop: 8 }}>{t(lang, 'ctSearched')} {results.length} {t(lang, 'ctDrawsAcross')} {lotteries.length} {t(lang, 'ctLotteries')}</div>}
           </div>
         )}
 
         <div style={{ background: '#f9fafb', borderRadius: 10, padding: '14px 16px', marginTop: 20, fontSize: 12, color: '#6b7280', lineHeight: 1.7 }}>
-          <strong>⚠️ Important:</strong> Always verify at <strong>statelottery.kerala.gov.in</strong> before claiming. Prizes must be claimed within 30 days of draw date.
+          <strong>⚠️ {t(lang, 'ctImportant')}</strong> {t(lang, 'ctImportantBody')}
         </div>
       </div>
     </main>

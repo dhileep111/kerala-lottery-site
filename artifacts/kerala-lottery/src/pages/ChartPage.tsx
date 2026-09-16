@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link } from 'wouter';
 import { BreadcrumbSchema } from '../components/JsonLd';
 import { results, getLottery, drawPath, getFirstPrizeNumber, site } from '../data';
+import { useLang, t, getLotteryName } from '../lib/i18n';
 
 type Row = (typeof results)[number];
 
@@ -20,6 +21,7 @@ function firstPrizeDistrict(result: Row): string | null {
 }
 
 export default function ChartPage() {
+  const lang = useLang();
   const sorted = useMemo(
     () =>
       [...results].sort(
@@ -58,18 +60,15 @@ export default function ChartPage() {
         ]}
       />
       <section className="hero" style={{ paddingBottom: 8 }}>
-        <h1>Kerala Lottery Chart</h1>
-        <p>
-          Every Kerala lottery result at a glance — the 1st prize for each daily draw, newest first.{' '}
-          கேரளா லாட்டரி சார்ட் — தினசரி லாட்டரி முடிவுகள் ஒரே பக்கத்தில். Updated daily at 3:00 PM IST.
-        </p>
+        <h1>{t(lang, 'chartH1')}</h1>
+        <p>{t(lang, 'chartSubtitle')}</p>
       </section>
 
       <div className="content-card">
         {/* Month filter */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 18 }}>
           <button style={activeMonth === 'all' ? pillActive : pillBase} onClick={() => setActiveMonth('all')}>
-            All
+            {t(lang, 'chartAll')}
           </button>
           {months.map((m) => (
             <button key={m} style={activeMonth === m ? pillActive : pillBase} onClick={() => setActiveMonth(m)}>
@@ -82,9 +81,9 @@ export default function ChartPage() {
           <table className="table" style={{ width: '100%' }}>
             <thead>
               <tr>
-                <th style={{ whiteSpace: 'nowrap' }}>Date</th>
-                <th>Lottery</th>
-                <th>1st Prize</th>
+                <th style={{ whiteSpace: 'nowrap' }}>{t(lang, 'date')}</th>
+                <th>{t(lang, 'lottery')}</th>
+                <th>{t(lang, 'firstPrize')}</th>
                 <th aria-label="View result" />
               </tr>
             </thead>
@@ -96,7 +95,7 @@ export default function ChartPage() {
                   <tr key={`${r.lotterySlug}-${r.drawCode}`}>
                     <td style={{ whiteSpace: 'nowrap' }}>{r.displayDate}</td>
                     <td>
-                      {lottery?.name ?? r.lotterySlug}{' '}
+                      {lottery ? getLotteryName(lottery.slug, lottery.name, lang) : r.lotterySlug}{' '}
                       <span className="badge">{r.drawCode}</span>
                     </td>
                     <td>
@@ -104,7 +103,7 @@ export default function ChartPage() {
                       {district ? <span style={{ opacity: 0.7 }}> ({district})</span> : null}
                     </td>
                     <td style={{ whiteSpace: 'nowrap' }}>
-                      <Link href={drawPath(r)}>View →</Link>
+                      <Link href={drawPath(r)}>{t(lang, 'viewArrow')}</Link>
                     </td>
                   </tr>
                 );
@@ -113,11 +112,10 @@ export default function ChartPage() {
           </table>
         </div>
 
-        {rows.length === 0 && <p style={{ opacity: 0.7 }}>No results for this month yet.</p>}
+        {rows.length === 0 && <p style={{ opacity: 0.7 }}>{t(lang, 'chartEmpty')}</p>}
 
         <p style={{ marginTop: 16, fontSize: 13, opacity: 0.7 }}>
-          Showing {rows.length} {rows.length === 1 ? 'draw' : 'draws'}. Tap any row to see the full prize table,
-          consolation prizes and lower tiers.
+          {t(lang, 'chartShowingPrefix')} {rows.length} {rows.length === 1 ? t(lang, 'chartDrawSingular') : t(lang, 'chartDrawPlural')}{t(lang, 'chartShowingSuffix')}
         </p>
       </div>
     </main>

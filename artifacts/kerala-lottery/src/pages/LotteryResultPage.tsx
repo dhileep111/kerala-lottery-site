@@ -7,13 +7,15 @@ import { TamilResultSection } from '../components/TamilResultSection';
 import { ShareResultButton } from '../components/ShareResultButton';
 import { DownloadPdfButton } from '../components/DownloadPdfButton';
 import { getLatestResult, getLottery, site, getTodayHoliday } from '../data';
+import { useLang, t, getLotteryName } from '../lib/i18n';
 
 export default function LotteryResultPage() {
+  const lang = useLang();
   const params = useParams<{ slug: string }>();
   const lottery = getLottery(params.slug);
 
   if (!lottery) {
-    return <main className="page"><div className="container"><p>Lottery not found.</p></div></main>;
+    return <main className="page"><div className="container"><p>{t(lang, 'lotteryNotFound')}</p></div></main>;
   }
 
   const result = getLatestResult(lottery.slug) ?? {
@@ -72,18 +74,19 @@ export default function LotteryResultPage() {
       />
       <div className="container">
         <nav className="breadcrumb" aria-label="Breadcrumb">
-          <a href="/">Home</a>
+          <a href="/">{t(lang, 'home')}</a>
           <span aria-hidden="true"> › </span>
-          <span>{lottery.name} Result</span>
+          <span>{getLotteryName(lottery.slug, lottery.name, lang)} {t(lang, 'resultLabel')}</span>
         </nav>
         <div className="hero">
-          <h1>{lottery.name} Kerala Lottery Result Today</h1>
-          <p>{lottery.name} winning numbers and full prize table, updated daily at {lottery.drawTime} IST. {lottery.name} draws every {lottery.drawDay}.</p>
+          <h1>{getLotteryName(lottery.slug, lottery.name, lang)} {t(lang, 'lrH1Suffix')}</h1>
+          <p>{getLotteryName(lottery.slug, lottery.name, lang)} winning numbers and full prize table, updated daily at {lottery.drawTime} IST. {t(lang, 'homeDrawsEvery')} {lottery.drawDay}.</p>
         </div>
         {todayHoliday && (
           <div className="notice" style={{ borderLeft: '4px solid #f59e0b', background: '#fffbeb', marginBottom: 16 }}>
-            🎉 <strong>Today is {todayHoliday}</strong> — Kerala Lottery Dept does not hold a draw today. The result
-            below is the most recent published draw, not today's. Regular results resume tomorrow.
+            🎉 {lang === 'ta'
+              ? <><strong>இன்று {todayHoliday}</strong> — இன்று லாட்டரி டிராவ் இல்லை. கீழே உள்ள முடிவு சமீபத்தில் வெளியிடப்பட்டது, இன்றையது அல்ல.</>
+              : <strong>{t(lang, 'lrHolidayNotice').replace('{name}', todayHoliday)}</strong>}
           </div>
         )}
         <section className="section">
@@ -95,17 +98,17 @@ export default function LotteryResultPage() {
           {result.status !== 'pending' && (
             <div style={{ padding: '12px 20px 16px', borderTop: '1px solid var(--border)', background: '#fafafa', display: 'flex', justifyContent: 'center' }}>
               <Link href={`/results/${lottery.slug}/first-prize`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#f59e0b,#d97706)', color: 'white', padding: '10px 24px', borderRadius: 12, fontWeight: 800, fontSize: 14, textDecoration: 'none' }}>
-                🥇 View 1st Prize Winner Page →
+                {t(lang, 'viewFirstPrizeWinner')}
               </Link>
             </div>
           )}
           <ShareResultButton lottery={lottery} result={result} />
         </section>
         <section className="content-card">
-          <h2>Important Disclaimer</h2>
-          <p>The Kerala Lottery results published on this page are for informational purposes only. This website is not affiliated with the Kerala Government. Always verify results with the official Kerala Government Gazette before making any prize claim.</p>
+          <h2>{t(lang, 'importantDisclaimer')}</h2>
+          <p>{t(lang, 'lrDisclaimerBody')}</p>
         </section>
-        <TamilResultSection lottery={lottery} result={result} />
+        {lang === 'ta' && <TamilResultSection lottery={lottery} result={result} />}
       </div>
     </main>
   );

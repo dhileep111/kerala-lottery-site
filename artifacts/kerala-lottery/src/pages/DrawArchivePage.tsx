@@ -6,8 +6,10 @@ import { ResultTable } from '../components/ResultTable';
 import { drawPath, getLottery, getResultByDraw, getResultsForLottery, site } from '../data';
 import { ShareResultButton } from '../components/ShareResultButton';
 import { DownloadPdfButton } from '../components/DownloadPdfButton';
+import { useLang, t, getLotteryName } from '../lib/i18n';
 
 export default function DrawArchivePage() {
+  const lang = useLang();
   const params = useParams<{ slug: string; drawCode: string }>();
 
   // Guard: trailing slash on lottery page causes drawCode="" — redirect to correct page
@@ -22,7 +24,7 @@ export default function DrawArchivePage() {
   const result = getResultByDraw(params.slug, params.drawCode);
 
   if (!lottery || !result) {
-    return <main className="page"><div className="container"><p>Result not found.</p></div></main>;
+    return <main className="page"><div className="container"><p>{t(lang, 'resultNotFound')}</p></div></main>;
   }
 
   const related = getResultsForLottery(lottery.slug).filter((item) => item.drawCode !== result.drawCode).slice(0, 5);
@@ -61,15 +63,15 @@ export default function DrawArchivePage() {
       }} />
       <div className="container">
         <nav className="breadcrumb" aria-label="Breadcrumb">
-          <a href="/">Home</a>
+          <a href="/">{t(lang, 'home')}</a>
           <span aria-hidden="true"> › </span>
-          <a href={`/results/${lottery.slug}`}>{lottery.name} Result</a>
+          <a href={`/results/${lottery.slug}`}>{getLotteryName(lottery.slug, lottery.name, lang)} {t(lang, 'resultLabel')}</a>
           <span aria-hidden="true"> › </span>
           <span>{result.drawCode}</span>
         </nav>
         <div className="hero">
-          <h1>{lottery.name} {result.drawCode} Result</h1>
-          <p>{result.displayDate} draw archive with status, source links, prize table, and responsible verification guidance.</p>
+          <h1>{getLotteryName(lottery.slug, lottery.name, lang)} {result.drawCode} {t(lang, 'resultLabel')}</h1>
+          <p>{t(lang, 'daResultArchiveDesc').replace('{date}', result.displayDate)}</p>
         </div>
         <section className="section">
           <ResultCard lottery={lottery} result={result} />
@@ -81,15 +83,15 @@ export default function DrawArchivePage() {
         </section>
         {!!related.length && (
           <section className="content-card">
-            <h2>More {lottery.name} Results</h2>
+            <h2>{t(lang, 'moreResultsPrefix')} {getLotteryName(lottery.slug, lottery.name, lang)} {t(lang, 'moreResultsSuffix')}</h2>
             <div className="archive-links">
               {related.map((item) => <Link href={drawPath(item)} key={item.drawCode}>{item.drawCode} — {item.displayDate}</Link>)}
             </div>
           </section>
         )}
         <section className="content-card">
-          <h2>Important Disclaimer</h2>
-          <p>This archive page is for informational purposes only. Always verify winning numbers with official Kerala Lottery publications before making prize claims or financial decisions.</p>
+          <h2>{t(lang, 'importantDisclaimer')}</h2>
+          <p>{t(lang, 'archiveDisclaimerBody')}</p>
         </section>
       </div>
     </main>

@@ -1,5 +1,6 @@
 import { JsonLd } from '../components/JsonLd';
 import { site } from '../data';
+import { useLang, t } from '../lib/i18n';
 
 const faqs = [
   ['When are Kerala Lottery results published?', 'Most regular Kerala Lottery draws are published around 3 PM IST. Exact publication time can vary, so always verify with official sources.'],
@@ -14,6 +15,7 @@ const faqs = [
 ];
 
 export default function FaqPage() {
+  const lang = useLang();
   return (
     <main className="page"><div className="container">
       <JsonLd data={{
@@ -30,7 +32,7 @@ export default function FaqPage() {
           },
         })),
       }} />
-      <div className="hero"><h1>Kerala Lottery FAQ</h1><p>Common questions about results, checking tickets, claiming prizes, and responsible use.</p></div>
+      <div className="hero"><h1>{t(lang, 'faqH1')}</h1><p>{t(lang, 'faqSubtitle')}</p></div>
       {faqs.map(([question, answer]) => <section className="content-card" key={question}><h2>{question}</h2><p>{answer}</p></section>)}
     </div></main>
   );

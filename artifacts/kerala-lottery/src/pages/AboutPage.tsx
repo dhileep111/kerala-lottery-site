@@ -1,27 +1,30 @@
+import { useLang, t } from '../lib/i18n';
+
 export default function AboutPage() {
+  const lang = useLang();
   return (
     <main className="page">
       <div className="container">
         <div className="hero">
-          <h1>About Kerala Ticket Results</h1>
-          <p>Your trusted, independent source for Kerala Lottery result updates — built for accuracy and speed.</p>
+          <h1>{t(lang, 'aboutH1')}</h1>
+          <p>{t(lang, 'aboutSubtitle')}</p>
         </div>
 
         <div className="about-grid">
           <div className="about-main">
             <section className="content-card">
-              <h2>Who We Are</h2>
+              <h2>{t(lang, 'aboutWhoWeAre')}</h2>
               <p>Kerala Ticket Results is an independent informational portal dedicated to helping Kerala lottery participants check daily results quickly and accurately. We are not affiliated with the Kerala State Lottery Department or the Government of Kerala.</p>
               <p style={{ marginTop: 10 }}>Our team monitors official lottery publications daily and updates results as soon as they are officially published, typically after 4:30 PM IST.</p>
             </section>
 
             <section className="content-card">
-              <h2>Our Mission</h2>
+              <h2>{t(lang, 'aboutMission')}</h2>
               <p>Millions of people in Kerala participate in the state lottery every week. We built this platform to make result checking faster, clearer, and more trustworthy — without fake numbers, misleading guesses, or clickbait.</p>
             </section>
 
             <section className="content-card">
-              <h2>How We Work</h2>
+              <h2>{t(lang, 'aboutHowWeWork')}</h2>
               <ul>
                 <li>Results are sourced directly from official Kerala Government publications.</li>
                 <li>Every result is labeled with a clear status — <strong>Pending</strong>, <strong>Live</strong>, or <strong>Verified</strong> — so you always know the confidence level.</li>
@@ -31,7 +34,7 @@ export default function AboutPage() {
             </section>
 
             <section className="content-card">
-              <h2>Our Trust Principles</h2>
+              <h2>{t(lang, 'aboutTrustPrinciples')}</h2>
               <div className="about-principles">
                 <div className="about-principle">
                   <span className="about-principle__icon">✅</span>
@@ -65,7 +68,7 @@ export default function AboutPage() {
             </section>
 
             <section className="content-card">
-              <h2>Legal Disclaimer</h2>
+              <h2>{t(lang, 'aboutLegalDisclaimer')}</h2>
               <p>This website is an independent informational portal and is not affiliated with the Kerala State Lottery Department, the Directorate of Kerala State Lotteries, or the Government of Kerala.</p>
               <p style={{ marginTop: 10 }}>Always verify your winning numbers with the official Kerala Government Gazette before making any prize claims or financial decisions. Prize claims must be made through official lottery offices.</p>
             </section>
@@ -75,22 +78,22 @@ export default function AboutPage() {
           <div className="about-sidebar">
             <div className="about-stat-card">
               <span className="about-stat-card__number">7</span>
-              <span className="about-stat-card__label">Lotteries Covered</span>
+              <span className="about-stat-card__label">{t(lang, 'aboutLotteriesCovered')}</span>
             </div>
             <div className="about-stat-card">
               <span className="about-stat-card__number">Daily</span>
-              <span className="about-stat-card__label">Result Updates</span>
+              <span className="about-stat-card__label">{t(lang, 'aboutResultUpdates')}</span>
             </div>
             <div className="about-stat-card">
               <span className="about-stat-card__number">3 PM</span>
-              <span className="about-stat-card__label">Draw Time IST</span>
+              <span className="about-stat-card__label">{t(lang, 'aboutDrawTimeIST')}</span>
             </div>
             <div className="about-stat-card">
               <span className="about-stat-card__number">4:30 PM</span>
-              <span className="about-stat-card__label">Results Published</span>
+              <span className="about-stat-card__label">{t(lang, 'aboutResultsPublished')}</span>
             </div>
             <div className="content-card" style={{ marginTop: 0 }}>
-              <h3 style={{ marginBottom: 10 }}>Lotteries We Cover</h3>
+              <h3 style={{ marginBottom: 10 }}>{t(lang, 'aboutLotteriesWeCover')}</h3>
               {[
                 { name: 'Bhagyathara', day: 'Monday', code: 'BT' },
                 { name: 'Sthree Sakthi', day: 'Tuesday', code: 'SS' },

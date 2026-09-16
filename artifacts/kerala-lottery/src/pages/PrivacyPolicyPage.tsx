@@ -1,11 +1,13 @@
 import { site } from '../data';
+import { useLang, t } from '../lib/i18n';
 
 export default function PrivacyPolicyPage() {
+  const lang = useLang();
   return (
     <main className="page">
       <div className="container">
         <div className="hero">
-          <h1>Privacy Policy</h1>
+          <h1>{t(lang, 'ppH1')}</h1>
           <p>Last updated: May 11, 2026. This policy explains how Kerala Ticket Results collects, uses, and protects information when you visit <strong>keralaticketresults.in</strong>.</p>
         </div>
 

@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useLang, t } from '../lib/i18n';
 
 type FormState = 'idle' | 'submitting' | 'success' | 'error';
 
 export default function ContactPage() {
+  const lang = useLang();
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -14,11 +16,11 @@ export default function ContactPage() {
   const [state, setState] = useState<FormState>('idle');
 
   const subjectOptions = [
-    { value: 'general',    label: 'General Enquiry' },
-    { value: 'correction', label: 'Result Correction' },
-    { value: 'feedback',   label: 'Website Feedback' },
-    { value: 'privacy',    label: 'Privacy / Data Request' },
-    { value: 'other',      label: 'Other' },
+    { value: 'general',    label: t(lang, 'subjectGeneral') },
+    { value: 'correction', label: t(lang, 'subjectCorrection') },
+    { value: 'feedback',   label: t(lang, 'subjectFeedback') },
+    { value: 'privacy',    label: t(lang, 'subjectPrivacy') },
+    { value: 'other',      label: t(lang, 'subjectOther') },
   ];
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
@@ -59,28 +61,28 @@ export default function ContactPage() {
     <main className="page">
       <div className="container">
         <div className="hero">
-          <h1>Contact Us</h1>
-          <p>Result corrections, feedback, or general questions — we read every message.</p>
+          <h1>{t(lang, 'contactH1')}</h1>
+          <p>{t(lang, 'contactSubtitle')}</p>
         </div>
 
         <div className="contact-grid">
           {/* Contact form */}
           <div className="contact-form-card">
-            <h2>Send a Message</h2>
-            <p className="contact-form-card__sub">We aim to reply within 2 business days.</p>
+            <h2>{t(lang, 'contactSendMessage')}</h2>
+            <p className="contact-form-card__sub">{t(lang, 'contactReplyTime')}</p>
 
             {state === 'success' ? (
               <div className="contact-success">
                 <div className="contact-success__icon">✅</div>
-                <h3>Message Sent!</h3>
+                <h3>{t(lang, 'contactSentTitle')}</h3>
                 <p>Thank you for reaching out. We'll get back to you at <strong>{form.email || 'your email'}</strong> within 2 business days.</p>
-                <button className="button" onClick={() => setState('idle')}>Send Another</button>
+                <button className="button" onClick={() => setState('idle')}>{t(lang, 'contactSendAnother')}</button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="contact-form">
                 <div className="contact-form__row">
                   <div className="contact-form__field">
-                    <label htmlFor="name">Your Name *</label>
+                    <label htmlFor="name">{t(lang, 'contactYourName')}</label>
                     <input
                       id="name" name="name" type="text"
                       placeholder="e.g. Rajan Kumar"
@@ -89,7 +91,7 @@ export default function ContactPage() {
                     />
                   </div>
                   <div className="contact-form__field">
-                    <label htmlFor="email">Email Address *</label>
+                    <label htmlFor="email">{t(lang, 'contactEmail')}</label>
                     <input
                       id="email" name="email" type="email"
                       placeholder="you@example.com"
@@ -100,7 +102,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="contact-form__field">
-                  <label htmlFor="subject">Subject *</label>
+                  <label htmlFor="subject">{t(lang, 'contactSubject')}</label>
                   <select id="subject" name="subject" value={form.subject} onChange={handleChange} className="input">
                     {subjectOptions.map(o => (
                       <option key={o.value} value={o.value}>{o.label}</option>
@@ -111,7 +113,7 @@ export default function ContactPage() {
                 {form.subject === 'correction' && (
                   <div className="contact-form__row">
                     <div className="contact-form__field">
-                      <label htmlFor="lottery">Lottery Name</label>
+                      <label htmlFor="lottery">{t(lang, 'contactLotteryName')}</label>
                       <input
                         id="lottery" name="lottery" type="text"
                         placeholder="e.g. Karunya, Sthree Sakthi"
@@ -120,7 +122,7 @@ export default function ContactPage() {
                       />
                     </div>
                     <div className="contact-form__field">
-                      <label htmlFor="drawCode">Draw Code</label>
+                      <label htmlFor="drawCode">{t(lang, 'contactDrawCode')}</label>
                       <input
                         id="drawCode" name="drawCode" type="text"
                         placeholder="e.g. KR-753"
@@ -132,13 +134,13 @@ export default function ContactPage() {
                 )}
 
                 <div className="contact-form__field">
-                  <label htmlFor="message">Message *</label>
+                  <label htmlFor="message">{t(lang, 'contactMessage')}</label>
                   <textarea
                     id="message" name="message"
                     placeholder={
                       form.subject === 'correction'
                         ? 'Please describe what is incorrect and provide the correct information with a source link if available.'
-                        : 'How can we help you?'
+                        : t(lang, 'contactHowCanWeHelp')
                     }
                     value={form.message} onChange={handleChange}
                     required rows={5} className="input contact-form__textarea"
@@ -147,12 +149,12 @@ export default function ContactPage() {
 
                 {state === 'error' && (
                   <div className="contact-error">
-                    Something went wrong. Please try again or email us directly.
+                    {t(lang, 'contactErrorMsg')}
                   </div>
                 )}
 
                 <button type="submit" className="button" disabled={state === 'submitting'}>
-                  {state === 'submitting' ? 'Sending…' : 'Send Message →'}
+                  {state === 'submitting' ? t(lang, 'contactSending') : t(lang, 'contactSendBtn')}
                 </button>
               </form>
             )}
@@ -162,27 +164,27 @@ export default function ContactPage() {
           <div className="contact-sidebar">
             <div className="contact-info-card">
               <div className="contact-info-card__icon">📧</div>
-              <h3>Email</h3>
+              <h3>{t(lang, 'contactEmailLabel')}</h3>
               <p>support@keralaticketresults.in</p>
-              <span className="contact-info-card__note">Response within 2 business days</span>
+              <span className="contact-info-card__note">{t(lang, 'contactResponseNote')}</span>
             </div>
 
             <div className="contact-info-card">
               <div className="contact-info-card__icon">🕐</div>
-              <h3>Support Hours</h3>
+              <h3>{t(lang, 'contactSupportHours')}</h3>
               <p>Monday – Saturday</p>
-              <span className="contact-info-card__note">9:00 AM – 6:00 PM IST</span>
+              <span className="contact-info-card__note">{t(lang, 'contactHoursNote')}</span>
             </div>
 
             <div className="contact-info-card contact-info-card--warning">
               <div className="contact-info-card__icon">⚠️</div>
-              <h3>Important Notice</h3>
+              <h3>{t(lang, 'contactImportantNotice')}</h3>
               <p>We are an independent informational website. For official prize claims, ticket validation, or legal matters, please contact the <strong>Kerala State Lottery Department</strong> directly.</p>
             </div>
 
             <div className="contact-info-card">
               <div className="contact-info-card__icon">📋</div>
-              <h3>For Result Corrections</h3>
+              <h3>{t(lang, 'contactForCorrections')}</h3>
               <p>Please include the lottery name, draw code, what is incorrect, and the correct information with an official source link.</p>
             </div>
           </div>

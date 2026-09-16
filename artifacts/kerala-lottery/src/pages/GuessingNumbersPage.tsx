@@ -3,6 +3,7 @@ import { Link } from 'wouter';
 import { getLatestGuessing, lotteries, getTodayLottery, getTomorrowLottery, site, getSeriesFrequency, getSiteHotNumbers } from '../data';
 import type { GuessingDay, SeriesStat } from '../data';
 import { ShareGuessingButton } from '../components/ShareGuessingButton';
+import { useLang, t, getLotteryName, type Lang } from '../lib/i18n';
 
 const TYPE_CONFIG = {
   board:  { bg: '#f0fdf4', border: '#bbf7d0' },
@@ -35,7 +36,7 @@ function NumberCard({ item }: { item: GuessingDay['numbers'][0] }) {
 
 type SortKey = 'series' | 'wins' | 'lastWonDate';
 
-function SeriesFrequencyTable({ stats }: { stats: SeriesStat[] }) {
+function SeriesFrequencyTable({ stats, lang }: { stats: SeriesStat[]; lang: Lang }) {
   const [sortKey, setSortKey] = useState<SortKey>('wins');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
 
@@ -80,10 +81,10 @@ function SeriesFrequencyTable({ stats }: { stats: SeriesStat[] }) {
       <table className="table" style={{ width: '100%' }}>
         <thead>
           <tr>
-            {th('series', 'Series')}
-            {th('wins', 'Wins')}
-            {th('lastWonDate', 'Last Won Date')}
-            <th>Last Won Draw Code</th>
+            {th('series', t(lang, 'gnSeriesCol'))}
+            {th('wins', t(lang, 'gnWinsCol'))}
+            {th('lastWonDate', t(lang, 'gnLastWonDateCol'))}
+            <th>{t(lang, 'gnLastWonDrawCodeCol')}</th>
           </tr>
         </thead>
         <tbody>
@@ -102,6 +103,7 @@ function SeriesFrequencyTable({ stats }: { stats: SeriesStat[] }) {
 }
 
 export default function GuessingNumbersPage() {
+  const lang = useLang();
   const latest = getLatestGuessing();
   const { boards, numbers, displayLabel } = latest;
   const byType = (type: string) => numbers.filter(n => n.type === type);
@@ -116,24 +118,24 @@ export default function GuessingNumbersPage() {
       <div className="container">
 
         <div className="hero">
-          <h1>Kerala Lottery Guessing Numbers Today</h1>
-          <p>ABC board numbers and 4-digit combinations for all Kerala lottery draws. Updated daily before 3 PM IST. கேரளா லாட்டரி கணிப்பு எண்கள்.</p>
+          <h1>{t(lang, 'gnH1')}</h1>
+          <p>{t(lang, 'gnSubtitle')}</p>
         </div>
 
         <div className="guess-update-bar" style={{ marginBottom: 24 }}>
           <span className="guess-update-bar__dot" />
-          <span>Updated: <strong>{displayLabel}</strong></span>
+          <span>{t(lang, 'gnUpdated')} <strong>{displayLabel}</strong></span>
           <span className="guess-update-bar__sep" />
-          <span>Updated nightly</span>
+          <span>{t(lang, 'gnUpdatedNightly')}</span>
           <span className="guess-update-bar__sep" />
-          <Link href="/guessing-numbers/archive">See past days →</Link>
+          <Link href="/guessing-numbers/archive">{t(lang, 'gnSeePast')}</Link>
         </div>
 
         {/* Per-lottery quick links */}
         <section className="guess-section">
           <div className="guess-section__header">
-            <h2>Guessing Numbers by Lottery</h2>
-            <p>Click any lottery for dedicated guessing numbers, hot/cold numbers, and Tamil guide</p>
+            <h2>{t(lang, 'gnByLottery')}</h2>
+            <p>{t(lang, 'gnByLotterySub')}</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12, marginBottom: 8 }}>
             {mainLotteries.map(lottery => {
@@ -156,10 +158,10 @@ export default function GuessingNumbersPage() {
                   >
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
                       <span style={{ fontSize: 11, fontFamily: 'ui-monospace,monospace', fontWeight: 900, background: '#f1f5f9', color: '#374151', padding: '2px 7px', borderRadius: 5 }}>{lottery.code}</span>
-                      {isToday && <span style={{ fontSize: 10, fontWeight: 700, background: '#16a34a', color: 'white', padding: '2px 7px', borderRadius: 10 }}>TODAY</span>}
-                      {isTomorrow && <span style={{ fontSize: 10, fontWeight: 700, background: '#2563eb', color: 'white', padding: '2px 7px', borderRadius: 10 }}>TOMORROW</span>}
+                      {isToday && <span style={{ fontSize: 10, fontWeight: 700, background: '#16a34a', color: 'white', padding: '2px 7px', borderRadius: 10 }}>{t(lang, 'today').toUpperCase()}</span>}
+                      {isTomorrow && <span style={{ fontSize: 10, fontWeight: 700, background: '#2563eb', color: 'white', padding: '2px 7px', borderRadius: 10 }}>{t(lang, 'tomorrow').toUpperCase()}</span>}
                     </div>
-                    <div style={{ fontWeight: 800, fontSize: 14, color: '#0f172a' }}>{lottery.name}</div>
+                    <div style={{ fontWeight: 800, fontSize: 14, color: '#0f172a' }}>{getLotteryName(lottery.slug, lottery.name, lang)}</div>
                     <div style={{ fontSize: 12, color: '#6b7280', marginTop: 3 }}>{lottery.drawDay} • {lottery.drawTime}</div>
                   </div>
                 </Link>
@@ -171,8 +173,8 @@ export default function GuessingNumbersPage() {
         {/* ABC boards */}
         <section className="guess-section">
           <div className="guess-section__header">
-            <h2>Today's ABC Board Numbers</h2>
-            <p>Base A, B, C values — all combinations derive from these three digits</p>
+            <h2>{t(lang, 'gnAbcTitle')}</h2>
+            <p>{t(lang, 'gnAbcSub')}</p>
           </div>
           <div className="board-row">
             <BoardCard letter="A" value={boards.A} />
@@ -182,19 +184,19 @@ export default function GuessingNumbersPage() {
         </section>
 
         <section className="guess-section">
-          <div className="guess-section__header"><h2>Two Digit Combinations</h2></div>
+          <div className="guess-section__header"><h2>{t(lang, 'gnTwoDigit')}</h2></div>
           <div className="guess-grid guess-grid--3">{byType('combo').map(n => <NumberCard key={n.label} item={n} />)}</div>
         </section>
 
         <section className="guess-section">
-          <div className="guess-section__header"><h2>Three Digit Numbers</h2></div>
+          <div className="guess-section__header"><h2>{t(lang, 'gnThreeDigit')}</h2></div>
           <div className="guess-grid guess-grid--3">{byType('triple').map(n => <NumberCard key={n.label} item={n} />)}</div>
         </section>
 
         <section className="guess-section">
           <div className="guess-section__header">
-            <h2>Four Digit Picks</h2>
-            <p>Check against last 4 digits of your ticket number</p>
+            <h2>{t(lang, 'gnFourDigit')}</h2>
+            <p>{t(lang, 'gnFourDigitSub')}</p>
           </div>
           <div className="guess-grid guess-grid--4">{byType('four').map(n => <NumberCard key={n.label} item={n} />)}</div>
         </section>
@@ -204,56 +206,58 @@ export default function GuessingNumbersPage() {
         {/* Series Frequency — how often each 2-letter series has won 1st Prize */}
         <section className="guess-section">
           <div className="guess-section__header">
-            <h2>Series Frequency — 1st Prize Wins</h2>
-            <p>How many times each 2-letter series has won 1st Prize across all verified draws. Click a column to sort.</p>
+            <h2>{t(lang, 'gnSeriesFreqTitle')}</h2>
+            <p>{t(lang, 'gnSeriesFreqSub')}</p>
           </div>
           {seriesStats.length > 0 ? (
-            <SeriesFrequencyTable stats={seriesStats} />
+            <SeriesFrequencyTable stats={seriesStats} lang={lang} />
           ) : (
-            <p style={{ opacity: 0.7 }}>Series data will appear here once verified results are available.</p>
+            <p style={{ opacity: 0.7 }}>{t(lang, 'gnSeriesEmpty')}</p>
           )}
         </section>
 
         {/* Hot Numbers — most frequent last-4-digit endings across all tiers, last 30 draws */}
         <section className="guess-section">
           <div className="guess-section__header">
-            <h2>🔥 Hot Numbers — Last 30 Draws</h2>
-            <p>The 5 most frequent last-4-digit endings across every prize tier, from the most recent 30 draws.</p>
+            <h2>{t(lang, 'gnHotTitle')}</h2>
+            <p>{t(lang, 'gnHotSub')}</p>
           </div>
           {hotNumbers.length > 0 ? (
             <div className="guess-grid guess-grid--4">
               {hotNumbers.map((h) => (
                 <div key={h.number} className="guess-card guess-card--hot" style={{ background: '#fffbeb', borderColor: '#fde68a' }}>
-                  <span className="guess-card__hot">🔥 Hot</span>
+                  <span className="guess-card__hot">🔥 {t(lang, 'gnHot')}</span>
                   <div className="guess-card__value">{h.number}</div>
-                  <div className="guess-card__label">Appeared {h.count}×</div>
+                  <div className="guess-card__label">{t(lang, 'gnAppeared')} {h.count}×</div>
                 </div>
               ))}
             </div>
           ) : (
-            <p style={{ opacity: 0.7 }}>Hot number data will appear here once draws are available.</p>
+            <p style={{ opacity: 0.7 }}>{t(lang, 'gnHotEmpty')}</p>
           )}
         </section>
 
         {/* Tamil hub section */}
-        <section className="content-card tamil-section" lang="ta" style={{ marginBottom: 20 }}>
-          <h2>🇮🇳 கேரளா லாட்டரி கணிப்பு எண்கள்</h2>
-          <p>இன்றைய A பலகை: <strong>{boards.A}</strong> | B பலகை: <strong>{boards.B}</strong> | C பலகை: <strong>{boards.C}</strong></p>
-          <p style={{ marginTop: 8 }}>AB கலவை: {boards.A+boards.B} | BC கலவை: {boards.B+boards.C} | CA கலவை: {boards.C+boards.A}</p>
-          <p style={{ marginTop: 8, fontSize: 13 }}>ஒவ்வொரு லாட்டரிக்கும் தனி எண்களுக்கு கீழே உள்ள லிங்கை கிளிக் செய்யவும்:</p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
-            {mainLotteries.map(l => (
-              <Link key={l.slug} href={`/guessing-numbers/${l.slug}`}
-                style={{ background: '#dcfce7', color: '#166534', border: '1px solid #86efac', padding: '5px 12px', borderRadius: 8, fontSize: 13, fontWeight: 700, textDecoration: 'none', fontFamily: "'Noto Sans Tamil', sans-serif" }}>
-                {l.name} கணிப்பு
-              </Link>
-            ))}
-          </div>
-        </section>
+        {lang === 'ta' && (
+          <section className="content-card tamil-section" lang="ta" style={{ marginBottom: 20 }}>
+            <h2>🇮🇳 கேரளா லாட்டரி கணிப்பு எண்கள்</h2>
+            <p>இன்றைய A பலகை: <strong>{boards.A}</strong> | B பலகை: <strong>{boards.B}</strong> | C பலகை: <strong>{boards.C}</strong></p>
+            <p style={{ marginTop: 8 }}>AB கலவை: {boards.A+boards.B} | BC கலவை: {boards.B+boards.C} | CA கலவை: {boards.C+boards.A}</p>
+            <p style={{ marginTop: 8, fontSize: 13 }}>ஒவ்வொரு லாட்டரிக்கும் தனி எண்களுக்கு கீழே உள்ள லிங்கை கிளிக் செய்யவும்:</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
+              {mainLotteries.map(l => (
+                <Link key={l.slug} href={`/guessing-numbers/${l.slug}`}
+                  style={{ background: '#dcfce7', color: '#166534', border: '1px solid #86efac', padding: '5px 12px', borderRadius: 8, fontSize: 13, fontWeight: 700, textDecoration: 'none', fontFamily: "'Noto Sans Tamil', sans-serif" }}>
+                  {l.name} கணிப்பு
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className="content-card" style={{ borderLeft: '4px solid #f59e0b', background: '#fffbeb' }}>
-          <h2>⚠️ Disclaimer</h2>
-          <p>Guessing numbers are for entertainment only. No number can be predicted or guaranteed. Play responsibly.</p>
+          <h2>⚠️ {t(lang, 'disclaimer')}</h2>
+          <p>{t(lang, 'gnDisclaimerBody')}</p>
         </section>
       </div>
     </main>

@@ -1,5 +1,6 @@
 import { Link } from 'wouter';
 import { results, lotteries, getLottery, drawPath, getFirstPrizeNumber, getTicketText } from '../data';
+import { useLang, t, getLotteryName } from '../lib/i18n';
 
 function istNow() {
   // Render relative to IST regardless of visitor's timezone
@@ -13,6 +14,7 @@ function district(num: unknown): string | null {
 }
 
 export default function YesterdayResultPage() {
+  const lang = useLang();
   const today = istNow();
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 1);
@@ -32,33 +34,29 @@ export default function YesterdayResultPage() {
   return (
     <main className="container">
       <section className="hero" style={{ paddingBottom: 8 }}>
-        <h1>Kerala Lottery Result Yesterday</h1>
-        <p>
-          The full result of yesterday&apos;s Kerala lottery draw — all prize tiers, updated automatically.{' '}
-          நேற்றைய கேரளா லாட்டரி முடிவு — அனைத்து பரிசு விவரங்களும்.
-        </p>
+        <h1>{t(lang, 'yestH1')}</h1>
+        <p>{t(lang, 'yestSubtitle')}</p>
       </section>
 
       {!result ? (
         <div className="content-card">
-          <p>Yesterday&apos;s result isn&apos;t available yet. Check back shortly, or view today&apos;s result.</p>
-          <Link href="/">← Today&apos;s result</Link>
+          <p>{t(lang, 'yestNotAvailable')}</p>
+          <Link href="/">{t(lang, 'yestBackToToday')}</Link>
         </div>
       ) : (
         <>
           <div className="content-card">
             {!isExactYesterday && (
               <p className="notice">
-                Yesterday&apos;s draw result hasn&apos;t been published yet — showing the most recent available
-                result below ({result.displayDate}).
+                {t(lang, 'yestNotPublishedYet')} ({result.displayDate}).
               </p>
             )}
             <span className="badge">{result.drawCode}</span>
             <h2 style={{ margin: '10px 0 4px' }}>
-              {lottery?.name ?? result.lotterySlug} — {result.displayDate}
+              {lottery ? getLotteryName(lottery.slug, lottery.name, lang) : result.lotterySlug} — {result.displayDate}
             </h2>
             <p style={{ margin: '0 0 14px', opacity: 0.8 }}>
-              Draw held at {lottery?.drawTime ?? '3:00 PM'} IST. First prize:{' '}
+              {t(lang, 'yestDrawHeldAt')} {lottery?.drawTime ?? '3:00 PM'} {t(lang, 'yestFirstPrizeColon')}{' '}
               <strong>{getFirstPrizeNumber(result)}</strong>
               {(() => {
                 const d = district(result.prizes.find((p) => p.tier.toLowerCase().includes('1st'))?.numbers?.[0]);
@@ -70,8 +68,8 @@ export default function YesterdayResultPage() {
               <table className="table" style={{ width: '100%' }}>
                 <thead>
                   <tr>
-                    <th>Prize</th>
-                    <th>Winning Number(s)</th>
+                    <th>{t(lang, 'yestPrize')}</th>
+                    <th>{t(lang, 'yestWinningNumbers')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -99,18 +97,18 @@ export default function YesterdayResultPage() {
             </div>
 
             <p style={{ marginTop: 16 }}>
-              <Link href={drawPath(result)}>View full result page →</Link>
+              <Link href={drawPath(result)}>{t(lang, 'yestViewFull')}</Link>
             </p>
           </div>
 
           <div className="content-card">
-            <h2 style={{ marginTop: 0 }}>Other Recent Draws</h2>
+            <h2 style={{ marginTop: 0 }}>{t(lang, 'yestOtherDraws')}</h2>
             <ul style={{ margin: 0, paddingLeft: 18 }}>
               {lotteries
                 .filter((l) => l.slug !== 'bumper')
                 .map((l) => (
                   <li key={l.slug} style={{ marginBottom: 6 }}>
-                    <Link href={`/results/${l.slug}`}>{l.name} results</Link>
+                    <Link href={`/results/${l.slug}`}>{getLotteryName(l.slug, l.name, lang)} {t(lang, 'results')}</Link>
                   </li>
                 ))}
             </ul>
