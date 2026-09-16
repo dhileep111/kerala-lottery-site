@@ -1,6 +1,7 @@
 import { Link } from 'wouter';
-import { results, lotteries, getLottery, drawPath, getFirstPrizeNumber, getTicketText } from '../data';
-import { useLang, t, getLotteryName } from '../lib/i18n';
+import { results, lotteries, getLottery, drawPath, getFirstPrizeNumber, getTicketText, site } from '../data';
+import { JsonLd, BreadcrumbSchema } from '../components/JsonLd';
+import { useLang, t, getLotteryName, withLang } from '../lib/i18n';
 
 function istNow() {
   // Render relative to IST regardless of visitor's timezone
@@ -31,8 +32,33 @@ export default function YesterdayResultPage() {
 
   const tiers = result?.prizes ?? [];
 
+  const homeUrl = `${site.url}${withLang('/', lang)}`;
+  const yesterdayUrl = `${site.url}${withLang('/yesterday-result', lang)}`;
+
   return (
     <main className="container">
+      {result && lottery && (
+        <JsonLd data={{
+          '@context': 'https://schema.org',
+          '@type': 'NewsArticle',
+          headline: `${getLotteryName(lottery.slug, lottery.name, lang)} ${result.drawCode} Result`,
+          description: `Kerala lottery result for ${result.drawCode} — 1st Prize: ${getFirstPrizeNumber(result)}`,
+          datePublished: result.drawDate,
+          dateModified: result.lastUpdated,
+          publisher: {
+            '@type': 'Organization',
+            name: site.name,
+            url: site.url,
+          },
+          mainEntityOfPage: yesterdayUrl,
+        }} />
+      )}
+      <BreadcrumbSchema
+        items={[
+          { name: t(lang, 'home'), url: homeUrl },
+          { name: t(lang, 'yesterdayResult'), url: yesterdayUrl },
+        ]}
+      />
       <section className="hero" style={{ paddingBottom: 8 }}>
         <h1>{t(lang, 'yestH1')}</h1>
         <p>{t(lang, 'yestSubtitle')}</p>

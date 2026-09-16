@@ -283,8 +283,20 @@ function buildYesterdayContent() {
   const nonBumper = results.filter(r => r.lotterySlug !== 'bumper');
   const result = nonBumper.find(r => r.drawDate === targetYmd)
     ?? [...nonBumper].filter(r => r.drawDate < targetYmd).sort((a,b)=> (b.drawDate||'').localeCompare(a.drawDate||''))[0];
+  // Same BreadcrumbList shape as DrawArchivePage.tsx's <JsonLd>, embedded
+  // directly in the prerendered content (not via the route.jsonLd/<head>
+  // mechanism) — same approach buildBumperContent() uses for its Event
+  // schema. Static/non-locale-aware, same as that Event schema too; the
+  // live React page (YesterdayResultPage.tsx) renders the language-aware
+  // version via t() once hydrated.
+  const breadcrumbJsonLd = '<script type="application/ld+json">' + JSON.stringify(breadcrumbSchema([
+    { name: 'Home', url: `${SITE}/` },
+    { name: "Yesterday's Result", url: `${SITE}/yesterday-result` },
+  ])) + '</script>';
   if (!result) {
-    return `<main><h1>Kerala Lottery Result Yesterday</h1><p>Yesterday's result will be published here shortly after the 3 PM draw.</p></main>`;
+    return `<main>
+    ${breadcrumbJsonLd}
+    <h1>Kerala Lottery Result Yesterday</h1><p>Yesterday's result will be published here shortly after the 3 PM draw.</p></main>`;
   }
   const lottery = lotteries.find(l => l.slug === result.lotterySlug);
   const fp = getFirstPrize(result);
@@ -294,6 +306,7 @@ function buildYesterdayContent() {
     return `<tr><td>${e(p.tier)}${p.amount ? ` (${e(p.amount)})` : ''}</td><td>${e(nums)}</td></tr>`;
   }).join('');
   return `<main>
+    ${breadcrumbJsonLd}
     <h1>Kerala Lottery Result Yesterday</h1>
     <p>The full result of yesterday's Kerala lottery draw — all prize tiers, updated automatically. நேற்றைய கேரளா லாட்டரி முடிவு — அனைத்து பரிசு விவரங்களும்.</p>
     <h2>${e(lottery?.name || result.lotterySlug)} — ${e(result.displayDate)} (${e(result.drawCode)})</h2>
