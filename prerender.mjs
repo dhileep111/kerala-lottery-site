@@ -1242,11 +1242,15 @@ for (const route of allRoutes) {
       // redirect instead of a 404. Locale routes (/ta, /ml, /hi, /kn) have
       // no legacy indexed slash-URL to preserve, so their stub skips noindex.
       mkdirSync(slashDir, { recursive: true });
-      writeFileSync(
-        `${slashDir}/index.html`,
-        redirectStubHtml(canonical, route.title, { lang: route.lang, noindex: !ALT_LOCALES.includes(route.lang) }),
-        'utf8'
-      );
+      // Locale routes: serve the REAL page at the slash URL (canonical still
+      // points at the no-slash URL) instead of a meta-refresh/JS redirect
+      // stub — Search Console reported that stub as "Redirect error" for
+      // /ta/ /ml/ /hi/ /kn/ even after a live test passed. A duplicate with
+      // a proper canonical is a benign "Alternate page" status instead.
+      const slashHtml = ALT_LOCALES.includes(route.lang)
+        ? makeHtml(route)
+        : redirectStubHtml(canonical, route.title, { lang: route.lang, noindex: true });
+      writeFileSync(`${slashDir}/index.html`, slashHtml, 'utf8');
     }
     written++;
   } catch (err) {
