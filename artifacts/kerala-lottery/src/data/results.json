@@ -1,5 +1,86 @@
 [
   {
+    "lotterySlug": "samrudhi",
+    "drawCode": "SM-73",
+    "drawDate": "2026-09-20",
+    "displayDate": "September 20, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-09-20T09:41:15.948252Z",
+    "summary": "Result for Samrudhi SM-73. 4/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "ML 702572"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "MA 702572",
+          "MB 702572",
+          "MC 702572",
+          "MD 702572",
+          "ME 702572",
+          "MF 702572",
+          "MG 702572",
+          "MH 702572",
+          "MJ 702572",
+          "MK 702572",
+          "MM 702572"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹25,00,000",
+        "numbers": [
+          "MD 427527"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "MJ 763238"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": []
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "karunya",
     "drawCode": "KR-769",
     "drawDate": "2026-09-19",
