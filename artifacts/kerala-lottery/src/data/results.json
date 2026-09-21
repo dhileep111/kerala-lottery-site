@@ -1,5 +1,134 @@
 [
   {
+    "lotterySlug": "bhagyathara",
+    "drawCode": "BT-72",
+    "drawDate": "2026-09-21",
+    "displayDate": "September 21, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-09-21T09:50:20.758526Z",
+    "summary": "Result for Bhagyathara BT-72. 7/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          {
+            "ticket": "BV 635205",
+            "district": "Thrissur"
+          }
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "BN 635205",
+          "BO 635205",
+          "BP 635205",
+          "BR 635205",
+          "BS 635205",
+          "BT 635205",
+          "BU 635205",
+          "BW 635205",
+          "BX 635205",
+          "BY 635205",
+          "BZ 635205"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          {
+            "ticket": "BY 279602",
+            "district": "Malappuram"
+          }
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          {
+            "ticket": "BT 227895",
+            "district": "Alappuzha"
+          }
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "0486",
+          "0957",
+          "1426",
+          "2080",
+          "2292",
+          "3377",
+          "3770",
+          "4336",
+          "5050",
+          "5222",
+          "5271",
+          "5448",
+          "6940",
+          "7039",
+          "7053",
+          "8265",
+          "8480",
+          "8910",
+          "8983"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": [
+          "0514",
+          "0728",
+          "2131",
+          "6618",
+          "8776",
+          "9093"
+        ]
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": [
+          "2365",
+          "1162",
+          "8334",
+          "8358",
+          "5162",
+          "8320",
+          "5543",
+          "8214",
+          "9916",
+          "0593",
+          "0744"
+        ]
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "samrudhi",
     "drawCode": "SM-73",
     "drawDate": "2026-09-20",
