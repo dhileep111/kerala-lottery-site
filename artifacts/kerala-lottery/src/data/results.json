@@ -1,5 +1,97 @@
 [
   {
+    "lotterySlug": "sthree-sakthi",
+    "drawCode": "SS-538",
+    "drawDate": "2026-09-22",
+    "displayDate": "September 22, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-09-22T09:41:41.184948Z",
+    "summary": "Result for Sthree Sakthi SS-538. 5/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "SD 945712"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "SA 945712",
+          "SB 945712",
+          "SC 945712",
+          "SE 945712",
+          "SF 945712",
+          "SG 945712",
+          "SH 945712",
+          "SJ 945712",
+          "SK 945712",
+          "SL 945712",
+          "SM 945712"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          "SJ 395977"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "SJ 290795"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "7205",
+          "0209",
+          "3628",
+          "9831",
+          "9965",
+          "0200",
+          "9822",
+          "5912",
+          "9736",
+          "0499"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "bhagyathara",
     "drawCode": "BT-72",
     "drawDate": "2026-09-21",
