@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-09-22T09:41:41.184948Z",
-    "summary": "Result for Sthree Sakthi SS-538. 5/10 tiers updated.",
+    "lastUpdated": "2026-09-22T09:56:42.265428Z",
+    "summary": "Result for Sthree Sakthi SS-538. 8/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "SD 945712"
+          {
+            "ticket": "SD 945712",
+            "district": "Malappuram"
+          }
         ]
       },
       {
@@ -38,46 +41,113 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "SJ 395977"
+          {
+            "ticket": "SJ 395977",
+            "district": "Thiruvananthapuram"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "SJ 290795"
+          {
+            "ticket": "SJ 290795",
+            "district": "Kollam"
+          }
         ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
         "numbers": [
-          "7205",
-          "0209",
-          "3628",
-          "9831",
-          "9965",
           "0200",
-          "9822",
+          "0209",
+          "0499",
+          "2396",
+          "2432",
+          "2869",
+          "3564",
+          "3628",
+          "4617",
+          "5455",
+          "5552",
           "5912",
+          "6033",
+          "7205",
+          "7271",
           "9736",
-          "0499"
+          "9822",
+          "9831",
+          "9965"
         ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "2877",
+          "3893",
+          "5280",
+          "6690",
+          "7355",
+          "8908"
+        ]
       },
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0039",
+          "0088",
+          "1072",
+          "1820",
+          "1978",
+          "2091",
+          "2141",
+          "2315",
+          "3383",
+          "3405",
+          "3746",
+          "4238",
+          "4267",
+          "5747",
+          "5750",
+          "6083",
+          "6411",
+          "6614",
+          "7342",
+          "7656",
+          "8065",
+          "8192",
+          "8329",
+          "8572",
+          "9143"
+        ]
       },
       {
         "tier": "7th Prize",
         "amount": "₹500",
-        "numbers": []
+        "numbers": [
+          "8552",
+          "7221",
+          "4287",
+          "7674",
+          "9001",
+          "6177",
+          "5453",
+          "9579",
+          "2901",
+          "8275",
+          "4545",
+          "3039",
+          "1760",
+          "4833",
+          "9422",
+          "7944",
+          "8144",
+          "3382"
+        ]
       },
       {
         "tier": "8th Prize",
