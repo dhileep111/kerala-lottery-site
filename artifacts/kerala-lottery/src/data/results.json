@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-09-25T10:31:43.637130Z",
+    "lastUpdated": "2026-09-25T15:16:27.507971Z",
     "summary": "Result for Suvarna Keralam SK-71. 10/10 tiers updated.",
     "prizes": [
       {
@@ -16,7 +16,7 @@
         "numbers": [
           {
             "ticket": "RA 494226",
-            "district": "Thiruvananthapuram"
+            "district": "Attingal"
           }
         ]
       },
@@ -53,7 +53,7 @@
         "numbers": [
           {
             "ticket": "RC 119777",
-            "district": "Malappuram"
+            "district": "Thirur"
           }
         ]
       },
@@ -177,7 +177,7 @@
           "5544",
           "5597",
           "5608",
-          "5638",
+          "5630",
           "5825",
           "6103",
           "6623",
