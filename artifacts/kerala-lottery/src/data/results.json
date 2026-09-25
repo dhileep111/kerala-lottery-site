@@ -1,5 +1,92 @@
 [
   {
+    "lotterySlug": "suvarna-keralam",
+    "drawCode": "SK-71",
+    "drawDate": "2026-09-25",
+    "displayDate": "September 25, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-09-25T09:41:24.800168Z",
+    "summary": "Result for Suvarna Keralam SK-71. 5/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "RA 494226"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "RB 494226",
+          "RC 494226",
+          "RD 494226",
+          "RE 494226",
+          "RF 494226",
+          "RG 494226",
+          "RH 494226",
+          "RJ 494226",
+          "RK 494226",
+          "RL 494226",
+          "RM 494226"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          "RE 800768"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "RC 119777"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "9914",
+          "2969",
+          "2303",
+          "1008",
+          "6003"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "karunya-plus",
     "drawCode": "KN-642",
     "drawDate": "2026-09-24",
