@@ -147,8 +147,12 @@ export default function JackpotPage() {
         <section className="content-card tamil-section" lang="ta">
           <h2>🇮🇳 கேரளா லாட்டரி ஜாக்பாட்</h2>
           <p>
-            இன்றைய <strong>{todayLottery.name}</strong> லாட்டரியின் முதல் பரிசு ₹1 கோடி. பம்பர் லாட்டரிகளில்
-            ஜாக்பாட் தொகை ₹10 கோடி வரை செல்லும்.
+            {todayLottery.isBumper ? (
+              <>இன்று <strong>{todayLottery.name}</strong> டிராவ் நடைபெறுகிறது — முதல் பரிசு {up?.firstPrize ?? '₹10 கோடி வரை'}.</>
+            ) : (
+              <>இன்றைய <strong>{todayLottery.name}</strong> லாட்டரியின் முதல் பரிசு ₹1 கோடி. பம்பர் லாட்டரிகளில்
+              ஜாக்பாட் தொகை ₹10 கோடி வரை செல்லும்.</>
+            )}
           </p>
         </section>
       )}

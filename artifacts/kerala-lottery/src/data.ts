@@ -2,6 +2,7 @@ import lotteriesJson from './data/lotteries.json';
 import resultsJson from './data/results.json';
 import guessingJson from './data/guessing-numbers.json';
 import holidaysJson from './data/holidays.json';
+import bumpersJson from './data/bumpers.json';
 import type { Lottery, Result, WinningNumber } from './types';
 import { cleanSlug } from './lib/slugs';
 
@@ -104,7 +105,23 @@ export function getRecentResults(limit = 6) {
     .slice(0, limit);
 }
 
+// Same bumpers.json et_scraper.py and prerender.mjs read — the Kerala
+// Lottery Dept suspends that weekday's regular draw whenever a bumper is
+// announced for the same date, so on a bumper day the weekday lookup below
+// would wrongly point at a regular lottery that isn't actually drawing.
+function isBumperDay(date: Date): boolean {
+  const upcoming = (bumpersJson as { upcoming?: { drawDateISO?: string } }).upcoming;
+  if (!upcoming?.drawDateISO) return false;
+  const istNow = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+  const todayStr = `${istNow.getFullYear()}-${String(istNow.getMonth() + 1).padStart(2, '0')}-${String(istNow.getDate()).padStart(2, '0')}`;
+  return upcoming.drawDateISO.slice(0, 10) === todayStr;
+}
+
 export function getTodayLottery(date = new Date()) {
+  if (isBumperDay(date)) {
+    const bumper = lotteries.find((l) => l.isBumper);
+    if (bumper) return bumper;
+  }
   const day = date.getDay();
   return lotteries.find((lottery) => lottery.drawDayIndex === day) ?? lotteries[0];
 }
