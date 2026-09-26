@@ -336,7 +336,7 @@ def try_lotteryresultsnow(lottery_slug, draw_code, date):
     return ""
 
 # ── Prize parser ──────────────────────────────────────────
-def parse_prizes(html, draw_code=''):
+def parse_prizes(html, draw_code='', is_bumper=False):
     full_text = html_to_text(html)
 
     # ── KEY FIX: anchor to the draw_code's position ────────
@@ -388,6 +388,24 @@ def parse_prizes(html, draw_code=''):
                 return [json.dumps({'ticket':f'{t} {n}','district':dist}) if dist else f'{t} {n}']
         return None
 
+    def find_all_tickets(labels, window=3000):
+        """Bumper draws award a DIFFERENT full ticket per series for 2nd,
+        3rd, 4th and 5th prize (e.g. 20 distinct tickets for 2nd prize
+        across 10 series) — unlike regular-lottery tiers, which have
+        exactly one ticket total. find_ticket() above only returns the
+        first match, which is correct for regular draws but silently
+        drops every ticket after the first on a bumper page."""
+        for chunk in matching_sections(labels, window=window):
+            seen, tickets = set(), []
+            for t, n in re.findall(r'\b([A-Z]{2})\s+(\d{6})\b', chunk, re.IGNORECASE):
+                key = f'{t.upper()} {n}'
+                if key not in seen:
+                    seen.add(key)
+                    tickets.append(key)
+            if len(tickets) >= 2:  # a real multi-ticket section, not a stray single match
+                return tickets
+        return None
+
     def extract_series():
         # Prefer the page's explicit "Today Lottery Series" list when available.
         m = re.search(r'Today\s+Lottery\s+Series\s*:?\s*((?:[A-Z]{2}\s*,?\s*){3,})', text, re.IGNORECASE)
@@ -426,11 +444,11 @@ def parse_prizes(html, draw_code=''):
     r1 = find_first_prize_anchored() or find_ticket(['1st Prize', 'First Prize'])
     if r1: prizes['1st'] = r1; print(f"  1st: {r1[0][:30]}")
 
-    r2 = find_ticket(['2nd Prize', 'Second Prize'])
-    if r2: prizes['2nd'] = r2; print(f"  2nd: {r2[0][:30]}")
+    r2 = (find_all_tickets(['2nd Prize', 'Second Prize']) if is_bumper else None) or find_ticket(['2nd Prize', 'Second Prize'])
+    if r2: prizes['2nd'] = r2; print(f"  2nd: {len(r2)} ticket(s)" if is_bumper else f"  2nd: {r2[0][:30]}")
 
-    r3 = find_ticket(['3rd Prize', 'Third Prize'])
-    if r3: prizes['3rd'] = r3; print(f"  3rd: {r3[0][:30]}")
+    r3 = (find_all_tickets(['3rd Prize', 'Third Prize']) if is_bumper else None) or find_ticket(['3rd Prize', 'Third Prize'])
+    if r3: prizes['3rd'] = r3; print(f"  3rd: {len(r3)} ticket(s)" if is_bumper else f"  3rd: {r3[0][:30]}")
 
     if '1st' in prizes:
         try:
@@ -478,6 +496,14 @@ def parse_prizes(html, draw_code=''):
         ('8th', ['8th Prize','Eighth Prize']),
         ('9th', ['9th Prize','Ninth Prize']),
     ]:
+        # Bumper 4th/5th prize are full tickets (one per series, like 2nd/3rd
+        # above) — NOT 4-digit numbers like every other tier in this loop.
+        if is_bumper and tier in ('4th', '5th'):
+            tickets = find_all_tickets(labels, window=3000)
+            if tickets:
+                prizes[tier] = tickets
+                print(f"  {tier}: {len(tickets)} ticket(s)")
+            continue
         window = 8000 if tier in ('7th','8th','9th') else 4000
         for chunk in matching_sections(labels, window=window):
             for stop in ['Disclaimer','Kerala Government Gazette','prize winners are advised']:
@@ -616,7 +642,7 @@ def main():
             continue
 
         print(f"  Got HTML from {name} ({len(h):,} bytes)")
-        parsed = parse_prizes(h, draw_code)
+        parsed = parse_prizes(h, draw_code, is_bumper)
         if '1st' not in parsed:
             print(f"  {name}: could not extract 1st prize — trying next source")
             continue

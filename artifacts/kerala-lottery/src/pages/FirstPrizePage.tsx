@@ -37,6 +37,9 @@ export default function FirstPrizePage() {
   const { ticket: firstTicket, district: firstDistrict } = getTicketAndDistrict(firstNum);
   const isPending = result.status === 'pending' || !firstNum;
   const pageUrl   = `${site.url}/results/${lottery.slug}/first-prize`;
+  // Bumper editions each have their own 1st-prize amount (varies per draw);
+  // lottery.firstPrizeAmount is only correct for regular daily lotteries.
+  const firstPrizeAmount = firstPrizePrize?.amount || lottery.firstPrizeAmount;
 
   return (
     <main className="page">
@@ -44,7 +47,7 @@ export default function FirstPrizePage() {
         '@context': 'https://schema.org',
         '@type': 'NewsArticle',
         headline: `${lottery.name} ${result.drawCode} 1st Prize Winner — ${firstTicket}`,
-        description: `${lottery.name} ${result.drawCode} first prize winner is ${firstTicket}${firstDistrict ? ` from ${firstDistrict}` : ''}. Prize amount ${lottery.firstPrizeAmount}.`,
+        description: `${lottery.name} ${result.drawCode} first prize winner is ${firstTicket}${firstDistrict ? ` from ${firstDistrict}` : ''}. Prize amount ${firstPrizeAmount}.`,
         datePublished: result.drawDate,
         dateModified: result.lastUpdated,
         publisher: { '@type': 'Organization', name: site.name, url: site.url },
@@ -79,7 +82,7 @@ export default function FirstPrizePage() {
           ) : (
             <>
               <div className="fp-hero__ticket">{firstTicket}</div>
-              <div className="fp-hero__amount">{lottery.firstPrizeAmount}</div>
+              <div className="fp-hero__amount">{firstPrizeAmount}</div>
               {firstDistrict && (
                 <div className="fp-hero__district">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">

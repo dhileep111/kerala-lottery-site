@@ -12,6 +12,9 @@ export function ShareResultButton({ lottery, result }: Props) {
   const firstPrize = getFirstPrizeNumber(result);
   const isPending  = firstPrize === 'PENDING';
   const resultUrl  = `${site.url}/results/${lottery.slug}`;
+  // Bumper editions each have their own 1st-prize amount (varies per draw);
+  // lottery.firstPrizeAmount is only correct for regular daily lotteries.
+  const firstPrizeAmount = result.prizes.find((p) => p.tier === '1st Prize')?.amount || lottery.firstPrizeAmount;
 
   // Single bilingual message — works for all WhatsApp groups
   const message = isPending
@@ -26,7 +29,7 @@ export function ShareResultButton({ lottery, result }: Props) {
         `🎰 ${lottery.name} ${result.drawCode} Result — ${result.displayDate}`,
         ``,
         `🥇 1st Prize: ${firstPrize}`,
-        `💰 ${lottery.firstPrizeAmount}`,
+        `💰 ${firstPrizeAmount}`,
         `${result.status === 'verified' ? '✅ Verified' : '🔴 Live update'}`,
         ``,
         `முதல் பரிசு: ${firstPrize} | முழு பட்டியல் கீழே 👇`,

@@ -7,6 +7,11 @@ export function ResultCard({ lottery, result }: { lottery: Lottery; result: Resu
   const lang = useLang();
   const firstPrizeNumber = getFirstPrizeNumber(result);
   const isPending = result.status === 'pending' || firstPrizeNumber === 'PENDING';
+  // lottery.firstPrizeAmount is a static field, correct for regular daily
+  // lotteries (always ₹1 Crore) but wrong for bumper draws — each bumper
+  // edition's actual 1st prize varies (₹12cr/₹30cr/etc.) and is only known
+  // per-draw, from the result's own prize table.
+  const firstPrizeAmount = result.prizes.find((p) => p.tier === '1st Prize')?.amount || lottery.firstPrizeAmount;
 
   return (
     <article className={`card result-card result-card--${result.status}`}>
@@ -21,7 +26,7 @@ export function ResultCard({ lottery, result }: { lottery: Lottery; result: Resu
       <div className="result-card__body">
         <div className="prize-main">
           <div className="prize-main__label">{t(lang, 'firstPrize')}</div>
-          <div className="prize-main__amount">{lottery.firstPrizeAmount}</div>
+          <div className="prize-main__amount">{firstPrizeAmount}</div>
           {isPending ? (
             <div className="pending-panel">
               <span className="pending-panel__dot" aria-hidden="true" />
