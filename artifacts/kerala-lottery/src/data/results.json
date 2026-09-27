@@ -1,5 +1,113 @@
 [
   {
+    "lotterySlug": "samrudhi",
+    "drawCode": "SM-74",
+    "drawDate": "2026-09-27",
+    "displayDate": "September 27, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-09-27T09:44:52.710769Z",
+    "summary": "Result for Samrudhi SM-74. 6/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "MS 495441"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "MN 495441",
+          "MO 495441",
+          "MP 495441",
+          "MR 495441",
+          "MT 495441",
+          "MU 495441",
+          "MV 495441",
+          "MW 495441",
+          "MX 495441",
+          "MY 495441",
+          "MZ 495441"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹25,00,000",
+        "numbers": [
+          "MO 139598"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "MU 365049"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "0699",
+          "0716",
+          "1041",
+          "1384",
+          "1976",
+          "2310",
+          "2820",
+          "3581",
+          "4134",
+          "4924",
+          "6580",
+          "6742",
+          "6854",
+          "7397",
+          "7599",
+          "7698",
+          "8559",
+          "9116",
+          "9776"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": [
+          "1292",
+          "2079",
+          "2920",
+          "3577",
+          "7922",
+          "8725"
+        ]
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "bumper",
     "drawCode": "BR-111",
     "drawDate": "2026-09-26",
