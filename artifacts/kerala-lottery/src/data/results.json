@@ -1,5 +1,93 @@
 [
   {
+    "lotterySlug": "bhagyathara",
+    "drawCode": "BT-73",
+    "drawDate": "2026-09-28",
+    "displayDate": "September 28, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-09-28T09:43:14.985930Z",
+    "summary": "Result for Bhagyathara BT-73. 5/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "BB 814615"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "BA 814615",
+          "BC 814615",
+          "BD 814615",
+          "BE 814615",
+          "BF 814615",
+          "BG 814615",
+          "BH 814615",
+          "BJ 814615",
+          "BK 814615",
+          "BL 814615",
+          "BM 814615"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          "BG 977056"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "BC 914492"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "9161",
+          "4097",
+          "6333",
+          "3994",
+          "2546",
+          "0026"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "samrudhi",
     "drawCode": "SM-74",
     "drawDate": "2026-09-27",
