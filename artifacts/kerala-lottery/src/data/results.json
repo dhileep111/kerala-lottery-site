@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-09-28T10:40:30.474301Z",
+    "lastUpdated": "2026-09-28T18:10:05.993427Z",
     "summary": "Result for Bhagyathara BT-73. 10/10 tiers updated.",
     "prizes": [
       {
@@ -43,7 +43,7 @@
         "numbers": [
           {
             "ticket": "BG 977056",
-            "district": "Alappuzha"
+            "district": "Kayamkulam"
           }
         ]
       },
