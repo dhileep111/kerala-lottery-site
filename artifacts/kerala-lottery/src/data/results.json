@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-09-30T09:39:57.344482Z",
-    "summary": "Result for Dhanalekshmi DL-71. 3/10 tiers updated.",
+    "lastUpdated": "2026-09-30T09:49:45.105734Z",
+    "summary": "Result for Dhanalekshmi DL-71. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "DM 925476"
+          {
+            "ticket": "DM 925476",
+            "district": "Kollam"
+          }
         ]
       },
       {
@@ -38,28 +41,70 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "DF 987969"
+          {
+            "ticket": "DF 987969",
+            "district": "Alappuzha"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
-        "numbers": []
+        "numbers": [
+          {
+            "ticket": "DE 399932",
+            "district": "Kasaragod"
+          }
+        ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0773",
+          "1004",
+          "1178",
+          "1524",
+          "2815",
+          "3656",
+          "3832",
+          "4195",
+          "4721",
+          "6229",
+          "6671",
+          "6750",
+          "6795",
+          "7785",
+          "7975",
+          "8016",
+          "8158",
+          "9538",
+          "9897"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "0572",
+          "0713",
+          "4656",
+          "4895",
+          "6242",
+          "6336"
+        ]
       },
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "1301",
+          "2089",
+          "4428",
+          "4374",
+          "4574",
+          "8332"
+        ]
       },
       {
         "tier": "7th Prize",
