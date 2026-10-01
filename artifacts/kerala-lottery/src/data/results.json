@@ -1,5 +1,106 @@
 [
   {
+    "lotterySlug": "karunya-plus",
+    "drawCode": "KN-643",
+    "drawDate": "2026-10-01",
+    "displayDate": "October 01, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-10-01T09:43:04.519833Z",
+    "summary": "Result for Karunya Plus KN-643. 5/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "PH 901174"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "PA 901174",
+          "PB 901174",
+          "PC 901174",
+          "PD 901174",
+          "PE 901174",
+          "PF 901174",
+          "PG 901174",
+          "PJ 901174",
+          "PK 901174",
+          "PL 901174",
+          "PM 901174"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          "PH 328002"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "PF 845885"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "0080",
+          "0556",
+          "1346",
+          "1420",
+          "1489",
+          "1642",
+          "2944",
+          "3373",
+          "5360",
+          "5573",
+          "5981",
+          "6097",
+          "7018",
+          "7717",
+          "8058",
+          "8562",
+          "8717",
+          "8790",
+          "9138"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "dhanalekshmi",
     "drawCode": "DL-71",
     "drawDate": "2026-09-30",
