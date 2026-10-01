@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-01T09:43:04.519833Z",
-    "summary": "Result for Karunya Plus KN-643. 5/10 tiers updated.",
+    "lastUpdated": "2026-10-01T09:57:39.447275Z",
+    "summary": "Result for Karunya Plus KN-643. 8/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "PH 901174"
+          {
+            "ticket": "PH 901174",
+            "district": "Thiruvananthapuram"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "PH 328002"
+          {
+            "ticket": "PH 328002",
+            "district": "Idukki"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "PF 845885"
+          {
+            "ticket": "PF 845885",
+            "district": "Kannur"
+          }
         ]
       },
       {
@@ -76,17 +85,69 @@
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "0453",
+          "3297",
+          "5547",
+          "7006",
+          "9398",
+          "9935"
+        ]
       },
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0320",
+          "0504",
+          "0906",
+          "1043",
+          "1343",
+          "1410",
+          "2382",
+          "2504",
+          "2708",
+          "2967",
+          "3790",
+          "4172",
+          "4574",
+          "5479",
+          "6084",
+          "6258",
+          "6918",
+          "7710",
+          "7715",
+          "7823",
+          "8128",
+          "8140",
+          "8302",
+          "9295",
+          "9472"
+        ]
       },
       {
         "tier": "7th Prize",
         "amount": "₹500",
-        "numbers": []
+        "numbers": [
+          "9674",
+          "0253",
+          "3516",
+          "3808",
+          "1457",
+          "5042",
+          "5065",
+          "9070",
+          "8846",
+          "8597",
+          "8695",
+          "7285",
+          "8873",
+          "7431",
+          "8592",
+          "8731",
+          "9618",
+          "5184"
+        ]
       },
       {
         "tier": "8th Prize",
