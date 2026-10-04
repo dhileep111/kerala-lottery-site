@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-04T10:50:25.960328Z",
+    "lastUpdated": "2026-10-04T15:22:45.570565Z",
     "summary": "Result for Samrudhi SM-75. 10/10 tiers updated.",
     "prizes": [
       {
@@ -43,7 +43,7 @@
         "numbers": [
           {
             "ticket": "MA 875469",
-            "district": "Thrissur"
+            "district": "Irinjalakuda"
           }
         ]
       },
@@ -369,7 +369,7 @@
           "4538",
           "4632",
           "4658",
-          "4678",
+          "4679",
           "4700",
           "4720",
           "4782",
