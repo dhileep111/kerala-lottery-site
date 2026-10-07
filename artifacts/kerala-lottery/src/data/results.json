@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-07T09:51:44.742571Z",
-    "summary": "Result for Dhanalekshmi DL-72. 6/10 tiers updated.",
+    "lastUpdated": "2026-10-07T10:05:06.596932Z",
+    "summary": "Result for Dhanalekshmi DL-72. 8/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -88,12 +88,57 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0460",
+          "0750",
+          "0753",
+          "0876",
+          "1372",
+          "1450",
+          "1545",
+          "1885",
+          "2594",
+          "3057",
+          "3381",
+          "3512",
+          "3734",
+          "3950",
+          "5021",
+          "5160",
+          "5755",
+          "6491",
+          "7075",
+          "7368",
+          "8206",
+          "8524",
+          "8595",
+          "8986",
+          "9625"
+        ]
       },
       {
         "tier": "7th Prize",
         "amount": "₹500",
-        "numbers": []
+        "numbers": [
+          "4950",
+          "3040",
+          "6312",
+          "5638",
+          "5547",
+          "3676",
+          "6696",
+          "7689",
+          "8296",
+          "4547",
+          "9914",
+          "3339",
+          "5116",
+          "9121",
+          "9803",
+          "3872",
+          "8474",
+          "5078"
+        ]
       },
       {
         "tier": "8th Prize",
