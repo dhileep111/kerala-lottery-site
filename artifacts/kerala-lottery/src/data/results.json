@@ -1,5 +1,113 @@
 [
   {
+    "lotterySlug": "dhanalekshmi",
+    "drawCode": "DL-72",
+    "drawDate": "2026-10-07",
+    "displayDate": "October 07, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-10-07T09:51:44.742571Z",
+    "summary": "Result for Dhanalekshmi DL-72. 6/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "DR 895405"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "DN 895405",
+          "DO 895405",
+          "DP 895405",
+          "DS 895405",
+          "DT 895405",
+          "DU 895405",
+          "DV 895405",
+          "DW 895405",
+          "DX 895405",
+          "DY 895405",
+          "DZ 895405"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          "DS 506782"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "DY 182714"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "0279",
+          "0708",
+          "2795",
+          "3355",
+          "4224",
+          "4964",
+          "5629",
+          "5876",
+          "6164",
+          "6517",
+          "6571",
+          "7045",
+          "7251",
+          "8278",
+          "8569",
+          "8702",
+          "8944",
+          "8981",
+          "9344"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": [
+          "9264",
+          "6339",
+          "4409",
+          "0102",
+          "3300",
+          "0515"
+        ]
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "sthree-sakthi",
     "drawCode": "SS-540",
     "drawDate": "2026-10-06",
