@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-10T09:41:49.672143Z",
-    "summary": "Result for Karunya KR-771. 5/10 tiers updated.",
+    "lastUpdated": "2026-10-10T09:54:44.455650Z",
+    "summary": "Result for Karunya KR-771. 8/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "KY 383414"
+          {
+            "ticket": "KY 383414",
+            "district": "Kottayam"
+          }
         ]
       },
       {
@@ -38,48 +41,101 @@
         "tier": "2nd Prize",
         "amount": "₹25,00,000",
         "numbers": [
-          "KW 848084"
+          {
+            "ticket": "KW 848084",
+            "district": "Idukki"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹10,00,000",
         "numbers": [
-          "KV 573582"
+          {
+            "ticket": "KV 573582",
+            "district": "Ernakulam"
+          }
         ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
         "numbers": [
-          "8512",
-          "6502",
-          "4894",
-          "7743",
-          "5874",
           "0114",
+          "2334",
           "2521",
-          "8374",
-          "8997",
-          "6558",
           "2882",
-          "4591"
+          "3311",
+          "4591",
+          "4894",
+          "5874",
+          "6426",
+          "6502",
+          "6558",
+          "7743",
+          "8092",
+          "8374",
+          "8512",
+          "8604",
+          "8997",
+          "9356",
+          "9578"
         ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "0410",
+          "0516",
+          "1879",
+          "3029",
+          "6122",
+          "6306"
+        ]
       },
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0309",
+          "0381",
+          "0548",
+          "0559",
+          "0916",
+          "1137",
+          "1183",
+          "1715",
+          "2420",
+          "2820",
+          "2990",
+          "4756",
+          "4805",
+          "5168",
+          "5231",
+          "5316",
+          "5477",
+          "5990",
+          "7085",
+          "7217",
+          "7759",
+          "7946",
+          "7977",
+          "8014",
+          "9013"
+        ]
       },
       {
         "tier": "7th Prize",
         "amount": "₹500",
-        "numbers": []
+        "numbers": [
+          "1664",
+          "7078",
+          "1614",
+          "7150",
+          "8664",
+          "6119"
+        ]
       },
       {
         "tier": "8th Prize",
