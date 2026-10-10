@@ -1,5 +1,99 @@
 [
   {
+    "lotterySlug": "karunya",
+    "drawCode": "KR-771",
+    "drawDate": "2026-10-10",
+    "displayDate": "October 10, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-10-10T09:41:49.672143Z",
+    "summary": "Result for Karunya KR-771. 5/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "KY 383414"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "KN 383414",
+          "KO 383414",
+          "KP 383414",
+          "KR 383414",
+          "KS 383414",
+          "KT 383414",
+          "KU 383414",
+          "KV 383414",
+          "KW 383414",
+          "KX 383414",
+          "KZ 383414"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹25,00,000",
+        "numbers": [
+          "KW 848084"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹10,00,000",
+        "numbers": [
+          "KV 573582"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "8512",
+          "6502",
+          "4894",
+          "7743",
+          "5874",
+          "0114",
+          "2521",
+          "8374",
+          "8997",
+          "6558",
+          "2882",
+          "4591"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "suvarna-keralam",
     "drawCode": "SK-72",
     "drawDate": "2026-10-09",
