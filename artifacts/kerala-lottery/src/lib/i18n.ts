@@ -159,7 +159,15 @@ export type UIKey =
   // ── DownloadFormsPage ────────────────────────────────────────────
   | 'dfH1' | 'dfSubtitle' | 'dfCommonDocs' | 'dfOfficialLinks' | 'dfImportant'
   // ── not-found.tsx ────────────────────────────────────────────────
-  | 'nf404' | 'nfHint';
+  | 'nf404' | 'nfHint'
+  // ── PrizeTaxCalculatorPage ───────────────────────────────────────
+  | 'ptcH1' | 'ptcSubtitle' | 'ptcInputLabel' | 'ptcQuickSelectLabel'
+  | 'ptcGrossPrize' | 'ptcAgentCommission' | 'ptcCommissionNote'
+  | 'ptcTdsDeducted' | 'ptcNetAmount' | 'ptcNetPercent'
+  | 'ptcCessToggleLabel' | 'ptcCessNote' | 'ptcSurchargeToggleLabel'
+  | 'ptcSurchargeNote' | 'ptcWorkedExamplesTitle' | 'ptcWorkedExampleIntro'
+  | 'ptcHowItWorksTitle' | 'ptcHowItWorksBody' | 'ptcWhereToClaimTitle'
+  | 'ptcDisclaimer';
 
 export const translations: Record<Lang, Record<UIKey, string>> = {
   en: {
@@ -348,6 +356,24 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     dfCommonDocs: 'Common Documents', dfOfficialLinks: 'Official Form Links', dfImportant: 'Important',
 
     nf404: '404 Page Not Found', nfHint: 'Did you forget to add the page to the router?',
+
+    ptcH1: 'Kerala Lottery Prize Tax Calculator',
+    ptcSubtitle: 'See exactly how much you take home after agent commission and TDS — enter your prize amount below.',
+    ptcInputLabel: 'Prize amount (₹)', ptcQuickSelectLabel: 'Or pick a common prize amount',
+    ptcGrossPrize: 'Gross prize', ptcAgentCommission: 'Agent commission ({commissionPct}%)',
+    ptcCommissionNote: 'Commission rate reported by Onmanorama (2019) and The News Minute (2022) — not from an official Kerala State Lotteries notice. Confirm with your agent. Applies to prizes above {commissionThreshold}.',
+    ptcTdsDeducted: 'TDS deducted ({tdsPct}%)',
+    ptcNetAmount: 'Net amount you receive', ptcNetPercent: 'Net as % of gross',
+    ptcCessToggleLabel: 'Include Health & Education Cess estimate',
+    ptcCessNote: 'Cess is assessed when you file your income tax return, not deducted at source. This is an estimate only.',
+    ptcSurchargeToggleLabel: 'Include surcharge estimate',
+    ptcSurchargeNote: 'Surcharge depends on your total annual income slab and is assessed at filing, not deducted at source. For large prizes, it can reduce your effective take-home well below the figures shown here.',
+    ptcWorkedExamplesTitle: 'Worked examples',
+    ptcWorkedExampleIntro: "Here's what a winner actually receives at common prize amounts:",
+    ptcHowItWorksTitle: 'How the deductions work',
+    ptcHowItWorksBody: 'Kerala lottery agents deduct their commission first, then {tdsPct}% TDS (Tax Deducted at Source) applies to the remainder of prizes above {tdsThreshold}, under Section 194B of the Income Tax Act. Health & Education Cess and any surcharge are generally assessed separately when you file your return, rather than deducted at source.',
+    ptcWhereToClaimTitle: 'Where to claim your prize',
+    ptcDisclaimer: 'This calculator gives estimates only, not tax advice. Confirm the exact amount with the Kerala State Lotteries Department or a chartered accountant before making financial decisions.',
   },
   ta: {
     home: 'முகப்பு', results: 'முடிவுகள்', chart: 'சார்ட்', bumper: 'பம்பர்',
@@ -535,6 +561,24 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     dfCommonDocs: 'பொதுவான ஆவணங்கள்', dfOfficialLinks: 'அதிகாரப்பூர்வ படிவ இணைப்புகள்', dfImportant: 'முக்கியம்',
 
     nf404: '404 பக்கம் கிடைக்கவில்லை', nfHint: 'பக்கத்தை ரூட்டரில் சேர்க்க மறந்துவிட்டீர்களா?',
+
+    ptcH1: 'கேரளா லாட்டரி பரிசு வரி கால்குலேட்டர்',
+    ptcSubtitle: 'ஏஜெண்ட் கமிஷன் மற்றும் TDS கழித்த பிறகு உங்களுக்கு எவ்வளவு கிடைக்கும் என்பதைப் பாருங்கள் — கீழே உங்கள் பரிசுத் தொகையை உள்ளிடவும்.',
+    ptcInputLabel: 'பரிசுத் தொகை (₹)', ptcQuickSelectLabel: 'அல்லது பொதுவான பரிசுத் தொகையைத் தேர்ந்தெடுக்கவும்',
+    ptcGrossPrize: 'மொத்த பரிசு', ptcAgentCommission: 'ஏஜெண்ட் கமிஷன் ({commissionPct}%)',
+    ptcCommissionNote: 'கமிஷன் விகிதம் Onmanorama (2019) மற்றும் The News Minute (2022) செய்திகளின்படி — அதிகாரப்பூர்வ கேரளா மாநில லாட்டரி அறிவிப்பிலிருந்து அல்ல. உங்கள் ஏஜெண்டிடம் உறுதிப்படுத்தவும். {commissionThreshold}-க்கு மேற்பட்ட பரிசுகளுக்கு மட்டும் பொருந்தும்.',
+    ptcTdsDeducted: 'TDS கழிப்பு ({tdsPct}%)',
+    ptcNetAmount: 'உங்களுக்குக் கிடைக்கும் நிகர தொகை', ptcNetPercent: 'மொத்தத்தில் நிகர சதவீதம்',
+    ptcCessToggleLabel: 'சுகாதாரம் & கல்வி செஸ் மதிப்பீட்டைச் சேர்க்கவும்',
+    ptcCessNote: 'செஸ் வருமான வரி தாக்கல் செய்யும்போது மதிப்பிடப்படும், மூலத்தில் கழிக்கப்படாது. இது ஒரு மதிப்பீடு மட்டுமே.',
+    ptcSurchargeToggleLabel: 'சர்சார்ஜ் மதிப்பீட்டைச் சேர்க்கவும்',
+    ptcSurchargeNote: 'சர்சார்ஜ் உங்கள் மொத்த ஆண்டு வருமான வரம்பைப் பொறுத்தது, தாக்கல் செய்யும்போது மதிப்பிடப்படும், மூலத்தில் கழிக்கப்படாது. பெரிய பரிசுகளுக்கு, இது இங்கே காட்டப்பட்டதை விட உங்கள் கைக்கு கிடைக்கும் தொகையை கணிசமாகக் குறைக்கலாம்.',
+    ptcWorkedExamplesTitle: 'உதாரண கணக்கீடுகள்',
+    ptcWorkedExampleIntro: 'பொதுவான பரிசுத் தொகைகளுக்கு ஒரு வெற்றியாளருக்கு உண்மையில் கிடைப்பது இதோ:',
+    ptcHowItWorksTitle: 'கழிப்புகள் எவ்வாறு செயல்படுகின்றன',
+    ptcHowItWorksBody: 'கேரளா லாட்டரி ஏஜெண்ட்கள் முதலில் தங்கள் கமிஷனைக் கழிக்கின்றனர், பின்னர் {tdsThreshold}-க்கு மேற்பட்ட பரிசுகளின் மீதமுள்ள தொகைக்கு வருமான வரிச் சட்டம் பிரிவு 194B-ன் கீழ் {tdsPct}% TDS (மூலத்தில் கழிக்கப்படும் வரி) பொருந்தும். சுகாதாரம் & கல்வி செஸ் மற்றும் எந்த சர்சார்ஜும் பொதுவாக நீங்கள் தாக்கல் செய்யும்போது தனியாக மதிப்பிடப்படுகின்றன, மூலத்தில் கழிக்கப்படுவதில்லை.',
+    ptcWhereToClaimTitle: 'உங்கள் பரிசை எங்கே பெறுவது',
+    ptcDisclaimer: 'இந்த கால்குலேட்டர் மதிப்பீடுகளை மட்டுமே தருகிறது, வரி ஆலோசனை அல்ல. நிதி முடிவுகளை எடுப்பதற்கு முன் கேரளா மாநில லாட்டரி துறை அல்லது ஒரு பட்டய கணக்காளரிடம் சரியான தொகையை உறுதிப்படுத்தவும்.',
   },
   ml: {
     home: 'ഹോം', results: 'ഫലങ്ങൾ', chart: 'ചാർട്ട്', bumper: 'ബമ്പർ',
@@ -722,6 +766,24 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     dfCommonDocs: 'സാധാരണ രേഖകൾ', dfOfficialLinks: 'ഔദ്യോഗിക ഫോം ലിങ്കുകൾ', dfImportant: 'പ്രധാനം',
 
     nf404: '404 പേജ് കണ്ടെത്തിയില്ല', nfHint: 'പേജ് റൂട്ടറിൽ ചേർക്കാൻ മറന്നോ?',
+
+    ptcH1: 'കേരള ലോട്ടറി സമ്മാന നികുതി കാൽക്കുലേറ്റർ',
+    ptcSubtitle: 'ഏജന്റ് കമ്മീഷനും TDS-ഉം കിഴിച്ചതിന് ശേഷം നിങ്ങൾക്ക് ലഭിക്കുന്നത് കൃത്യമായി കാണുക — താഴെ നിങ്ങളുടെ സമ്മാനത്തുക നൽകുക.',
+    ptcInputLabel: 'സമ്മാനത്തുക (₹)', ptcQuickSelectLabel: 'അല്ലെങ്കിൽ സാധാരണ സമ്മാനത്തുക തിരഞ്ഞെടുക്കുക',
+    ptcGrossPrize: 'മൊത്തം സമ്മാനം', ptcAgentCommission: 'ഏജന്റ് കമ്മീഷൻ ({commissionPct}%)',
+    ptcCommissionNote: 'കമ്മീഷൻ നിരക്ക് Onmanorama (2019), The News Minute (2022) എന്നിവയുടെ റിപ്പോർട്ട് പ്രകാരം — ഔദ്യോഗിക കേരള സംസ്ഥാന ലോട്ടറി അറിയിപ്പിൽ നിന്നല്ല. നിങ്ങളുടെ ഏജന്റിനോട് സ്ഥിരീകരിക്കുക. {commissionThreshold}-ൽ കൂടുതലുള്ള സമ്മാനങ്ങൾക്ക് മാത്രം ബാധകം.',
+    ptcTdsDeducted: 'TDS കിഴിവ് ({tdsPct}%)',
+    ptcNetAmount: 'നിങ്ങൾക്ക് ലഭിക്കുന്ന അറ്റ തുക', ptcNetPercent: 'മൊത്തത്തിന്റെ അറ്റ ശതമാനം',
+    ptcCessToggleLabel: 'ആരോഗ്യ & വിദ്യാഭ്യാസ സെസ് കണക്ക് ഉൾപ്പെടുത്തുക',
+    ptcCessNote: 'സെസ് ആദായനികുതി ഫയൽ ചെയ്യുമ്പോൾ വിലയിരുത്തപ്പെടുന്നു, സ്രോതസ്സിൽ കിഴിവ് ചെയ്യുന്നില്ല. ഇത് ഒരു കണക്ക് മാത്രമാണ്.',
+    ptcSurchargeToggleLabel: 'സർചാർജ് കണക്ക് ഉൾപ്പെടുത്തുക',
+    ptcSurchargeNote: 'സർചാർജ് നിങ്ങളുടെ മൊത്തം വാർഷിക വരുമാന സ്ലാബിനെ ആശ്രയിച്ചിരിക്കുന്നു, ഫയൽ ചെയ്യുമ്പോൾ വിലയിരുത്തപ്പെടുന്നു, സ്രോതസ്സിൽ കിഴിവ് ചെയ്യുന്നില്ല. വലിയ സമ്മാനങ്ങൾക്ക്, ഇത് ഇവിടെ കാണിച്ചിരിക്കുന്നതിനേക്കാൾ നിങ്ങളുടെ കൈയിൽ ലഭിക്കുന്ന തുക ഗണ്യമായി കുറയ്ക്കാം.',
+    ptcWorkedExamplesTitle: 'ഉദാഹരണ കണക്കുകൂട്ടലുകൾ',
+    ptcWorkedExampleIntro: 'സാധാരണ സമ്മാനത്തുകകൾക്ക് ഒരു വിജയിക്ക് യഥാർത്ഥത്തിൽ ലഭിക്കുന്നത് ഇതാ:',
+    ptcHowItWorksTitle: 'കിഴിവുകൾ എങ്ങനെ പ്രവർത്തിക്കുന്നു',
+    ptcHowItWorksBody: 'കേരള ലോട്ടറി ഏജന്റുമാർ ആദ്യം അവരുടെ കമ്മീഷൻ കിഴിക്കുന്നു, പിന്നീട് {tdsThreshold}-ൽ കൂടുതലുള്ള സമ്മാനങ്ങളുടെ ബാക്കി തുകയ്ക്ക് ആദായനികുതി നിയമം സെക്ഷൻ 194B പ്രകാരം {tdsPct}% TDS (സ്രോതസ്സിൽ കിഴിവ് ചെയ്യുന്ന നികുതി) ബാധകമാകുന്നു. ആരോഗ്യ & വിദ്യാഭ്യാസ സെസും ഏതെങ്കിലും സർചാർജും സാധാരണയായി നിങ്ങൾ റിട്ടേൺ ഫയൽ ചെയ്യുമ്പോൾ പ്രത്യേകം വിലയിരുത്തപ്പെടുന്നു, സ്രോതസ്സിൽ കിഴിവ് ചെയ്യുന്നതിന് പകരം.',
+    ptcWhereToClaimTitle: 'നിങ്ങളുടെ സമ്മാനം എവിടെ നേടാം',
+    ptcDisclaimer: 'ഈ കാൽക്കുലേറ്റർ കണക്കുകൾ മാത്രമാണ് നൽകുന്നത്, നികുതി ഉപദേശമല്ല. സാമ്പത്തിക തീരുമാനങ്ങൾ എടുക്കുന്നതിന് മുമ്പ് കേരള സംസ്ഥാന ലോട്ടറി വകുപ്പിനോടോ ഒരു ചാർട്ടേഡ് അക്കൗണ്ടന്റിനോടോ കൃത്യമായ തുക സ്ഥിരീകരിക്കുക.',
   },
   hi: {
     home: 'होम', results: 'परिणाम', chart: 'चार्ट', bumper: 'बम्पर',
@@ -909,6 +971,24 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     dfCommonDocs: 'सामान्य दस्तावेज़', dfOfficialLinks: 'आधिकारिक फॉर्म लिंक', dfImportant: 'महत्वपूर्ण',
 
     nf404: '404 पेज नहीं मिला', nfHint: 'क्या आप पेज को राउटर में जोड़ना भूल गए?',
+
+    ptcH1: 'केरल लॉटरी पुरस्कार टैक्स कैलकुलेटर',
+    ptcSubtitle: 'एजेंट कमीशन और TDS काटने के बाद आपको कितना मिलेगा, यह ठीक-ठीक देखें — नीचे अपनी पुरस्कार राशि दर्ज करें।',
+    ptcInputLabel: 'पुरस्कार राशि (₹)', ptcQuickSelectLabel: 'या एक सामान्य पुरस्कार राशि चुनें',
+    ptcGrossPrize: 'कुल पुरस्कार', ptcAgentCommission: 'एजेंट कमीशन ({commissionPct}%)',
+    ptcCommissionNote: 'कमीशन दर Onmanorama (2019) और The News Minute (2022) की रिपोर्ट के अनुसार है — यह किसी आधिकारिक केरल राज्य लॉटरी सूचना से नहीं है। अपने एजेंट से पुष्टि करें। {commissionThreshold} से अधिक के पुरस्कारों पर ही लागू।',
+    ptcTdsDeducted: 'TDS कटौती ({tdsPct}%)',
+    ptcNetAmount: 'आपको मिलने वाली शुद्ध राशि', ptcNetPercent: 'कुल का शुद्ध प्रतिशत',
+    ptcCessToggleLabel: 'स्वास्थ्य और शिक्षा सेस अनुमान शामिल करें',
+    ptcCessNote: 'सेस का आकलन आयकर रिटर्न भरते समय किया जाता है, स्रोत पर नहीं काटा जाता। यह केवल एक अनुमान है।',
+    ptcSurchargeToggleLabel: 'अधिभार (सरचार्ज) अनुमान शामिल करें',
+    ptcSurchargeNote: 'अधिभार आपकी कुल वार्षिक आय स्लैब पर निर्भर करता है और रिटर्न भरते समय आंका जाता है, स्रोत पर नहीं काटा जाता। बड़े पुरस्कारों के लिए, यह यहाँ दिखाई गई राशि से आपके हाथ में आने वाली राशि को काफी कम कर सकता है।',
+    ptcWorkedExamplesTitle: 'उदाहरण गणनाएँ',
+    ptcWorkedExampleIntro: 'सामान्य पुरस्कार राशियों पर विजेता को वास्तव में क्या मिलता है, यह देखें:',
+    ptcHowItWorksTitle: 'कटौतियाँ कैसे काम करती हैं',
+    ptcHowItWorksBody: 'केरल लॉटरी एजेंट पहले अपना कमीशन काटते हैं, फिर {tdsThreshold} से अधिक के पुरस्कारों की शेष राशि पर आयकर अधिनियम की धारा 194B के तहत {tdsPct}% TDS (स्रोत पर कर कटौती) लागू होता है। स्वास्थ्य व शिक्षा सेस और कोई भी अधिभार आमतौर पर आपके रिटर्न भरते समय अलग से आंका जाता है, स्रोत पर काटे जाने के बजाय।',
+    ptcWhereToClaimTitle: 'अपना पुरस्कार कहाँ प्राप्त करें',
+    ptcDisclaimer: 'यह कैलकुलेटर केवल अनुमान देता है, कर सलाह नहीं। कोई भी वित्तीय निर्णय लेने से पहले केरल राज्य लॉटरी विभाग या किसी चार्टर्ड अकाउंटेंट से सटीक राशि की पुष्टि करें।',
   },
   kn: {
     home: 'ಮುಖಪುಟ', results: 'ಫಲಿತಾಂಶಗಳು', chart: 'ಚಾರ್ಟ್', bumper: 'ಬಂಪರ್',
@@ -1096,6 +1176,24 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     dfCommonDocs: 'ಸಾಮಾನ್ಯ ದಾಖಲೆಗಳು', dfOfficialLinks: 'ಅಧಿಕೃತ ಫಾರ್ಮ್ ಲಿಂಕ್‌ಗಳು', dfImportant: 'ಪ್ರಮುಖ',
 
     nf404: '404 ಪುಟ ಕಂಡುಬಂದಿಲ್ಲ', nfHint: 'ಪುಟವನ್ನು ರೂಟರ್‌ಗೆ ಸೇರಿಸಲು ಮರೆತಿರಾ?',
+
+    ptcH1: 'ಕೇರಳ ಲಾಟರಿ ಬಹುಮಾನ ತೆರಿಗೆ ಕ್ಯಾಲ್ಕುಲೇಟರ್',
+    ptcSubtitle: 'ಏಜೆಂಟ್ ಕಮಿಷನ್ ಮತ್ತು TDS ಕಡಿತದ ನಂತರ ನಿಮಗೆ ಎಷ್ಟು ಸಿಗುತ್ತದೆ ಎಂಬುದನ್ನು ನಿಖರವಾಗಿ ನೋಡಿ — ಕೆಳಗೆ ನಿಮ್ಮ ಬಹುಮಾನ ಮೊತ್ತವನ್ನು ನಮೂದಿಸಿ.',
+    ptcInputLabel: 'ಬಹುಮಾನ ಮೊತ್ತ (₹)', ptcQuickSelectLabel: 'ಅಥವಾ ಸಾಮಾನ್ಯ ಬಹುಮಾನ ಮೊತ್ತವನ್ನು ಆಯ್ಕೆಮಾಡಿ',
+    ptcGrossPrize: 'ಒಟ್ಟು ಬಹುಮಾನ', ptcAgentCommission: 'ಏಜೆಂಟ್ ಕಮಿಷನ್ ({commissionPct}%)',
+    ptcCommissionNote: 'ಕಮಿಷನ್ ದರವನ್ನು Onmanorama (2019) ಮತ್ತು The News Minute (2022) ವರದಿ ಮಾಡಿವೆ — ಇದು ಅಧಿಕೃತ ಕೇರಳ ರಾಜ್ಯ ಲಾಟರಿ ಅಧಿಸೂಚನೆಯಿಂದ ಅಲ್ಲ. ನಿಮ್ಮ ಏಜೆಂಟ್‌ನೊಂದಿಗೆ ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ. {commissionThreshold}ಕ್ಕಿಂತ ಹೆಚ್ಚಿನ ಬಹುಮಾನಗಳಿಗೆ ಮಾತ್ರ ಅನ್ವಯಿಸುತ್ತದೆ.',
+    ptcTdsDeducted: 'TDS ಕಡಿತ ({tdsPct}%)',
+    ptcNetAmount: 'ನಿಮಗೆ ಸಿಗುವ ನಿವ್ವಳ ಮೊತ್ತ', ptcNetPercent: 'ಒಟ್ಟಿನ ನಿವ್ವಳ ಶೇಕಡಾವಾರು',
+    ptcCessToggleLabel: 'ಆರೋಗ್ಯ ಮತ್ತು ಶಿಕ್ಷಣ ಸೆಸ್ ಅಂದಾಜನ್ನು ಸೇರಿಸಿ',
+    ptcCessNote: 'ಸೆಸ್ ಅನ್ನು ಆದಾಯ ತೆರಿಗೆ ರಿಟರ್ನ್ ಸಲ್ಲಿಸುವಾಗ ನಿರ್ಣಯಿಸಲಾಗುತ್ತದೆ, ಮೂಲದಲ್ಲಿ ಕಡಿತಗೊಳಿಸುವುದಿಲ್ಲ. ಇದು ಕೇವಲ ಅಂದಾಜು ಮಾತ್ರ.',
+    ptcSurchargeToggleLabel: 'ಸರ್‌ಚಾರ್ಜ್ ಅಂದಾಜನ್ನು ಸೇರಿಸಿ',
+    ptcSurchargeNote: 'ಸರ್‌ಚಾರ್ಜ್ ನಿಮ್ಮ ಒಟ್ಟು ವಾರ್ಷಿಕ ಆದಾಯ ಸ್ಲ್ಯಾಬ್ ಅನ್ನು ಅವಲಂಬಿಸಿದೆ ಮತ್ತು ರಿಟರ್ನ್ ಸಲ್ಲಿಸುವಾಗ ನಿರ್ಣಯಿಸಲಾಗುತ್ತದೆ, ಮೂಲದಲ್ಲಿ ಕಡಿತಗೊಳಿಸುವುದಿಲ್ಲ. ದೊಡ್ಡ ಬಹುಮಾನಗಳಿಗೆ, ಇದು ಇಲ್ಲಿ ತೋರಿಸಿರುವುದಕ್ಕಿಂತ ನಿಮ್ಮ ಕೈಗೆ ಸಿಗುವ ಮೊತ್ತವನ್ನು ಗಣನೀಯವಾಗಿ ಕಡಿಮೆ ಮಾಡಬಹುದು.',
+    ptcWorkedExamplesTitle: 'ಉದಾಹರಣೆ ಲೆಕ್ಕಾಚಾರಗಳು',
+    ptcWorkedExampleIntro: 'ಸಾಮಾನ್ಯ ಬಹುಮಾನ ಮೊತ್ತಗಳಲ್ಲಿ ವಿಜೇತರಿಗೆ ನಿಜವಾಗಿ ಸಿಗುವುದು ಇಲ್ಲಿದೆ:',
+    ptcHowItWorksTitle: 'ಕಡಿತಗಳು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತವೆ',
+    ptcHowItWorksBody: 'ಕೇರಳ ಲಾಟರಿ ಏಜೆಂಟರು ಮೊದಲು ತಮ್ಮ ಕಮಿಷನ್ ಅನ್ನು ಕಡಿತಗೊಳಿಸುತ್ತಾರೆ, ನಂತರ {tdsThreshold}ಕ್ಕಿಂತ ಹೆಚ್ಚಿನ ಬಹುಮಾನಗಳ ಉಳಿದ ಮೊತ್ತಕ್ಕೆ ಆದಾಯ ತೆರಿಗೆ ಕಾಯ್ದೆಯ ಸೆಕ್ಷನ್ 194B ಅಡಿಯಲ್ಲಿ {tdsPct}% TDS (ಮೂಲದಲ್ಲಿ ಕಡಿತಗೊಳಿಸಿದ ತೆರಿಗೆ) ಅನ್ವಯಿಸುತ್ತದೆ. ಆರೋಗ್ಯ ಮತ್ತು ಶಿಕ್ಷಣ ಸೆಸ್ ಮತ್ತು ಯಾವುದೇ ಸರ್‌ಚಾರ್ಜ್ ಅನ್ನು ಸಾಮಾನ್ಯವಾಗಿ ನೀವು ರಿಟರ್ನ್ ಸಲ್ಲಿಸುವಾಗ ಪ್ರತ್ಯೇಕವಾಗಿ ನಿರ್ಣಯಿಸಲಾಗುತ್ತದೆ, ಮೂಲದಲ್ಲಿ ಕಡಿತಗೊಳಿಸುವ ಬದಲು.',
+    ptcWhereToClaimTitle: 'ನಿಮ್ಮ ಬಹುಮಾನವನ್ನು ಎಲ್ಲಿ ಪಡೆಯುವುದು',
+    ptcDisclaimer: 'ಈ ಕ್ಯಾಲ್ಕುಲೇಟರ್ ಕೇವಲ ಅಂದಾಜುಗಳನ್ನು ನೀಡುತ್ತದೆ, ತೆರಿಗೆ ಸಲಹೆಯಲ್ಲ. ಹಣಕಾಸಿನ ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುವ ಮೊದಲು ಕೇರಳ ರಾಜ್ಯ ಲಾಟರಿ ಇಲಾಖೆ ಅಥವಾ ಚಾರ್ಟರ್ಡ್ ಅಕೌಂಟೆಂಟ್‌ನೊಂದಿಗೆ ನಿಖರವಾದ ಮೊತ್ತವನ್ನು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.',
   },
 };
 

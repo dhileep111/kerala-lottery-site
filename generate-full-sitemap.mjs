@@ -65,6 +65,7 @@ const staticPages = [
   { url: '/privacy-policy',            priority: '0.40', changefreq: 'yearly'  },
   { url: '/terms',                     priority: '0.40', changefreq: 'yearly'  },
   { url: '/download-forms',            priority: '0.50', changefreq: 'monthly' },
+  { url: '/prize-tax-calculator',      priority: '0.70', changefreq: 'monthly' },
 ];
 
 // ── lotteryRoutes — /results/:slug, one per lottery (incl. bumper) ──────

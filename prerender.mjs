@@ -421,6 +421,118 @@ function buildClaimPrizeContent(lang = 'en') {
   </main>`;
 }
 
+// ── Prize Tax Calculator ────────────────────────────────────────
+// claimLocationThreshold, commissionThreshold, commissionRate, tdsThreshold
+// and tdsRate are read from src/data/prize-tax-constants.json — the single
+// shared source also used by src/lib/taxCalc.ts (the live calculator).
+// This is a plain Node script and can't import that TS module, so it reads
+// the same JSON file directly via fs instead of duplicating the numbers.
+// commissionRate/tdsRate are plain percentages (10 = 10%) — divide by 100
+// before using as a multiplier.
+const PTC_CONSTANTS = JSON.parse(readFileSync(`${dataDir}/prize-tax-constants.json`, 'utf8'));
+
+function ptcCalc(gross) {
+  const agentCommission = gross > PTC_CONSTANTS.commissionThreshold ? gross * (PTC_CONSTANTS.commissionRate / 100) : 0;
+  const postCommission = gross - agentCommission;
+  const tds = gross > PTC_CONSTANTS.tdsThreshold ? postCommission * (PTC_CONSTANTS.tdsRate / 100) : 0;
+  const net = postCommission - tds;
+  return { gross, agentCommission, tds, net, netPercent: gross > 0 ? (net / gross) * 100 : 0 };
+}
+
+function ptcRupees(n) {
+  return '₹' + Math.round(n).toLocaleString('en-IN');
+}
+
+const PTC_COPY = {
+  en: {
+    h1: 'Kerala Lottery Prize Tax Calculator',
+    sub: 'See exactly how much you take home after agent commission and TDS.',
+    examplesTitle: 'Worked examples',
+    examplesIntro: "Here's what a winner actually receives at common prize amounts:",
+    howTitle: 'How the deductions work',
+    howBody: `Kerala lottery agents deduct their commission first, then ${PTC_CONSTANTS.tdsRate}% TDS (Tax Deducted at Source) applies to the remainder of prizes above ${ptcRupees(PTC_CONSTANTS.tdsThreshold)}, under Section 194B of the Income Tax Act. Health & Education Cess and any surcharge are generally assessed separately when you file your return, rather than deducted at source.`,
+    claimTitle: 'Where to claim your prize',
+    disclaimer: 'This calculator gives estimates only, not tax advice. Confirm the exact amount with the Kerala State Lotteries Department or a chartered accountant before making financial decisions.',
+    cols: ['Gross prize', `Agent commission (${PTC_CONSTANTS.commissionRate}%)`, `TDS deducted (${PTC_CONSTANTS.tdsRate}%)`, 'Net amount', 'Net %'],
+  },
+  ta: {
+    h1: 'கேரளா லாட்டரி பரிசு வரி கால்குலேட்டர்',
+    sub: 'ஏஜெண்ட் கமிஷன் மற்றும் TDS கழித்த பிறகு உங்களுக்கு எவ்வளவு கிடைக்கும் என்பதைப் பாருங்கள்.',
+    examplesTitle: 'உதாரண கணக்கீடுகள்',
+    examplesIntro: 'பொதுவான பரிசுத் தொகைகளுக்கு ஒரு வெற்றியாளருக்கு உண்மையில் கிடைப்பது இதோ:',
+    howTitle: 'கழிப்புகள் எவ்வாறு செயல்படுகின்றன',
+    howBody: `கேரளா லாட்டரி ஏஜெண்ட்கள் முதலில் தங்கள் கமிஷனைக் கழிக்கின்றனர், பின்னர் ${ptcRupees(PTC_CONSTANTS.tdsThreshold)}-க்கு மேற்பட்ட பரிசுகளின் மீதமுள்ள தொகைக்கு வருமான வரிச் சட்டம் பிரிவு 194B-ன் கீழ் ${PTC_CONSTANTS.tdsRate}% TDS (மூலத்தில் கழிக்கப்படும் வரி) பொருந்தும். சுகாதாரம் & கல்வி செஸ் மற்றும் எந்த சர்சார்ஜும் பொதுவாக நீங்கள் தாக்கல் செய்யும்போது தனியாக மதிப்பிடப்படுகின்றன, மூலத்தில் கழிக்கப்படுவதில்லை.`,
+    claimTitle: 'உங்கள் பரிசை எங்கே பெறுவது',
+    disclaimer: 'இந்த கால்குலேட்டர் மதிப்பீடுகளை மட்டுமே தருகிறது, வரி ஆலோசனை அல்ல. நிதி முடிவுகளை எடுப்பதற்கு முன் கேரளா மாநில லாட்டரி துறை அல்லது ஒரு பட்டய கணக்காளரிடம் சரியான தொகையை உறுதிப்படுத்தவும்.',
+    cols: ['மொத்த பரிசு', `ஏஜெண்ட் கமிஷன் (${PTC_CONSTANTS.commissionRate}%)`, `TDS கழிப்பு (${PTC_CONSTANTS.tdsRate}%)`, 'நிகர தொகை', 'நிகர %'],
+  },
+  ml: {
+    h1: 'കേരള ലോട്ടറി സമ്മാന നികുതി കാൽക്കുലേറ്റർ',
+    sub: 'ഏജന്റ് കമ്മീഷനും TDS-ഉം കിഴിച്ചതിന് ശേഷം നിങ്ങൾക്ക് ലഭിക്കുന്നത് കൃത്യമായി കാണുക.',
+    examplesTitle: 'ഉദാഹരണ കണക്കുകൂട്ടലുകൾ',
+    examplesIntro: 'സാധാരണ സമ്മാനത്തുകകൾക്ക് ഒരു വിജയിക്ക് യഥാർത്ഥത്തിൽ ലഭിക്കുന്നത് ഇതാ:',
+    howTitle: 'കിഴിവുകൾ എങ്ങനെ പ്രവർത്തിക്കുന്നു',
+    howBody: `കേരള ലോട്ടറി ഏജന്റുമാർ ആദ്യം അവരുടെ കമ്മീഷൻ കിഴിക്കുന്നു, പിന്നീട് ${ptcRupees(PTC_CONSTANTS.tdsThreshold)}-ൽ കൂടുതലുള്ള സമ്മാനങ്ങളുടെ ബാക്കി തുകയ്ക്ക് ആദായനികുതി നിയമം സെക്ഷൻ 194B പ്രകാരം ${PTC_CONSTANTS.tdsRate}% TDS (സ്രോതസ്സിൽ കിഴിവ് ചെയ്യുന്ന നികുതി) ബാധകമാകുന്നു. ആരോഗ്യ & വിദ്യാഭ്യാസ സെസും ഏതെങ്കിലും സർചാർജും സാധാരണയായി നിങ്ങൾ റിട്ടേൺ ഫയൽ ചെയ്യുമ്പോൾ പ്രത്യേകം വിലയിരുത്തപ്പെടുന്നു, സ്രോതസ്സിൽ കിഴിവ് ചെയ്യുന്നതിന് പകരം.`,
+    claimTitle: 'നിങ്ങളുടെ സമ്മാനം എവിടെ നേടാം',
+    disclaimer: 'ഈ കാൽക്കുലേറ്റർ കണക്കുകൾ മാത്രമാണ് നൽകുന്നത്, നികുതി ഉപദേശമല്ല. സാമ്പത്തിക തീരുമാനങ്ങൾ എടുക്കുന്നതിന് മുമ്പ് കേരള സംസ്ഥാന ലോട്ടറി വകുപ്പിനോടോ ഒരു ചാർട്ടേഡ് അക്കൗണ്ടന്റിനോടോ കൃത്യമായ തുക സ്ഥിരീകരിക്കുക.',
+    cols: ['മൊത്തം സമ്മാനം', `ഏജന്റ് കമ്മീഷൻ (${PTC_CONSTANTS.commissionRate}%)`, `TDS കിഴിവ് (${PTC_CONSTANTS.tdsRate}%)`, 'അറ്റ തുക', 'അറ്റ %'],
+  },
+  hi: {
+    h1: 'केरल लॉटरी पुरस्कार टैक्स कैलकुलेटर',
+    sub: 'एजेंट कमीशन और TDS काटने के बाद आपको कितना मिलेगा, यह ठीक-ठीक देखें।',
+    examplesTitle: 'उदाहरण गणनाएँ',
+    examplesIntro: 'सामान्य पुरस्कार राशियों पर विजेता को वास्तव में क्या मिलता है, यह देखें:',
+    howTitle: 'कटौतियाँ कैसे काम करती हैं',
+    howBody: `केरल लॉटरी एजेंट पहले अपना कमीशन काटते हैं, फिर ${ptcRupees(PTC_CONSTANTS.tdsThreshold)} से अधिक के पुरस्कारों की शेष राशि पर आयकर अधिनियम की धारा 194B के तहत ${PTC_CONSTANTS.tdsRate}% TDS (स्रोत पर कर कटौती) लागू होता है। स्वास्थ्य व शिक्षा सेस और कोई भी अधिभार आमतौर पर आपके रिटर्न भरते समय अलग से आंका जाता है, स्रोत पर काटे जाने के बजाय।`,
+    claimTitle: 'अपना पुरस्कार कहाँ प्राप्त करें',
+    disclaimer: 'यह कैलकुलेटर केवल अनुमान देता है, कर सलाह नहीं। कोई भी वित्तीय निर्णय लेने से पहले केरल राज्य लॉटरी विभाग या किसी चार्टर्ड अकाउंटेंट से सटीक राशि की पुष्टि करें।',
+    cols: ['कुल पुरस्कार', `एजेंट कमीशन (${PTC_CONSTANTS.commissionRate}%)`, `TDS कटौती (${PTC_CONSTANTS.tdsRate}%)`, 'शुद्ध राशि', 'शुद्ध %'],
+  },
+  kn: {
+    h1: 'ಕೇರಳ ಲಾಟರಿ ಬಹುಮಾನ ತೆರಿಗೆ ಕ್ಯಾಲ್ಕುಲೇಟರ್',
+    sub: 'ಏಜೆಂಟ್ ಕಮಿಷನ್ ಮತ್ತು TDS ಕಡಿತದ ನಂತರ ನಿಮಗೆ ಎಷ್ಟು ಸಿಗುತ್ತದೆ ಎಂಬುದನ್ನು ನಿಖರವಾಗಿ ನೋಡಿ.',
+    examplesTitle: 'ಉದಾಹರಣೆ ಲೆಕ್ಕಾಚಾರಗಳು',
+    examplesIntro: 'ಸಾಮಾನ್ಯ ಬಹುಮಾನ ಮೊತ್ತಗಳಲ್ಲಿ ವಿಜೇತರಿಗೆ ನಿಜವಾಗಿ ಸಿಗುವುದು ಇಲ್ಲಿದೆ:',
+    howTitle: 'ಕಡಿತಗಳು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತವೆ',
+    howBody: `ಕೇರಳ ಲಾಟರಿ ಏಜೆಂಟರು ಮೊದಲು ತಮ್ಮ ಕಮಿಷನ್ ಅನ್ನು ಕಡಿತಗೊಳಿಸುತ್ತಾರೆ, ನಂತರ ${ptcRupees(PTC_CONSTANTS.tdsThreshold)}ಕ್ಕಿಂತ ಹೆಚ್ಚಿನ ಬಹುಮಾನಗಳ ಉಳಿದ ಮೊತ್ತಕ್ಕೆ ಆದಾಯ ತೆರಿಗೆ ಕಾಯ್ದೆಯ ಸೆಕ್ಷನ್ 194B ಅಡಿಯಲ್ಲಿ ${PTC_CONSTANTS.tdsRate}% TDS (ಮೂಲದಲ್ಲಿ ಕಡಿತಗೊಳಿಸಿದ ತೆರಿಗೆ) ಅನ್ವಯಿಸುತ್ತದೆ. ಆರೋಗ್ಯ ಮತ್ತು ಶಿಕ್ಷಣ ಸೆಸ್ ಮತ್ತು ಯಾವುದೇ ಸರ್‌ಚಾರ್ಜ್ ಅನ್ನು ಸಾಮಾನ್ಯವಾಗಿ ನೀವು ರಿಟರ್ನ್ ಸಲ್ಲಿಸುವಾಗ ಪ್ರತ್ಯೇಕವಾಗಿ ನಿರ್ಣಯಿಸಲಾಗುತ್ತದೆ, ಮೂಲದಲ್ಲಿ ಕಡಿತಗೊಳಿಸುವ ಬದಲು.`,
+    claimTitle: 'ನಿಮ್ಮ ಬಹುಮಾನವನ್ನು ಎಲ್ಲಿ ಪಡೆಯುವುದು',
+    disclaimer: 'ಈ ಕ್ಯಾಲ್ಕುಲೇಟರ್ ಕೇವಲ ಅಂದಾಜುಗಳನ್ನು ನೀಡುತ್ತದೆ, ತೆರಿಗೆ ಸಲಹೆಯಲ್ಲ. ಹಣಕಾಸಿನ ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುವ ಮೊದಲು ಕೇರಳ ರಾಜ್ಯ ಲಾಟರಿ ಇಲಾಖೆ ಅಥವಾ ಚಾರ್ಟರ್ಡ್ ಅಕೌಂಟೆಂಟ್‌ನೊಂದಿಗೆ ನಿಖರವಾದ ಮೊತ್ತವನ್ನು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.',
+    cols: ['ಒಟ್ಟು ಬಹುಮಾನ', `ಏಜೆಂಟ್ ಕಮಿಷನ್ (${PTC_CONSTANTS.commissionRate}%)`, `TDS ಕಡಿತ (${PTC_CONSTANTS.tdsRate}%)`, 'ನಿವ್ವಳ ಮೊತ್ತ', 'ನಿವ್ವಳ %'],
+  },
+};
+
+const PTC_EXAMPLES = [10000000, 2500000, 500000, 100000];
+
+function buildPrizeTaxCalculatorContent(lang = 'en') {
+  const c = PTC_COPY[lang] ?? PTC_COPY.en;
+  const rows = PTC_EXAMPLES.map(amount => {
+    const b = ptcCalc(amount);
+    return `<tr><td>${ptcRupees(b.gross)}</td><td>${ptcRupees(b.agentCommission)}</td><td>${ptcRupees(b.tds)}</td><td>${ptcRupees(b.net)}</td><td>${b.netPercent.toFixed(1)}%</td></tr>`;
+  }).join('');
+  return `<main>
+    <h1>${e(c.h1)}</h1>
+    <p>${e(c.sub)}</p>
+    <section>
+      <h2>${e(c.examplesTitle)}</h2>
+      <p>${e(c.examplesIntro)}</p>
+      <table class="table"><thead><tr><th>${c.cols.map(e).join('</th><th>')}</th></tr></thead><tbody>${rows}</tbody></table>
+    </section>
+    <section>
+      <h2>${e(c.howTitle)}</h2>
+      <p>${e(c.howBody)}</p>
+    </section>
+    <section>
+      <h2>${e(c.claimTitle)}</h2>
+      <table class="table"><thead><tr><th>Prize Amount</th><th>Claim Location</th></tr></thead><tbody>
+        <tr><td>Up to ${ptcRupees(PTC_CONSTANTS.claimLocationThreshold)}</td><td>Any authorised Kerala lottery agent</td></tr>
+        <tr><td>${ptcRupees(PTC_CONSTANTS.claimLocationThreshold + 1)} – ₹1,00,000</td><td>Your District Lottery Office</td></tr>
+        <tr><td>Above ₹1,00,000</td><td>Directorate of Kerala State Lotteries, Thiruvananthapuram</td></tr>
+      </tbody></table>
+    </section>
+    <p><em>${e(c.disclaimer)}</em></p>
+  </main>`;
+}
+
 // Mirrors data.ts's getSeriesFrequency() / getSiteHotNumbers() so the static
 // HTML Google indexes matches what the live React page renders.
 function getSeriesFrequencyStatic() {
@@ -602,6 +714,9 @@ const staticRoutes = [
     content: `<main><h1>Kerala Lottery Offices</h1></main>` },
   { path: '/download-forms', title: 'Kerala Lottery Prize Claim Forms', desc: 'Download claim forms.',
     content: `<main><h1>Download Kerala Lottery Forms</h1></main>` },
+  { path: '/prize-tax-calculator', title: 'Kerala Lottery Prize Tax Calculator — TDS & Commission',
+    desc: 'Calculate exactly how much you receive after agent commission and TDS on any Kerala lottery prize, with worked examples.',
+    content: buildPrizeTaxCalculatorContent('en') },
 ];
 
 for (const r of staticRoutes) { r.enPath = r.path; r.lang = r.lang || 'en'; }
@@ -720,6 +835,11 @@ const STATIC_TA_OVERRIDES = [
     desc: 'கேரளா லாட்டரி கோரல் படிவங்களைப் பதிவிறக்கவும்.',
     content: `<main><h1>கேரளா லாட்டரி படிவங்களைப் பதிவிறக்கு</h1></main>`,
   },
+  { // /prize-tax-calculator
+    title: 'கேரளா லாட்டரி பரிசு வரி கால்குலேட்டர்',
+    desc: 'ஏஜெண்ட் கமிஷன் மற்றும் TDS கழித்த பிறகு கேரளா லாட்டரி பரிசில் உங்களுக்கு என்ன கிடைக்கும் என்பதைக் கணக்கிடுங்கள்.',
+    content: buildPrizeTaxCalculatorContent('ta'),
+  },
 ];
 
 const staticRoutesTa = staticRoutes.map((r, i) => makeTamilRoute(r, STATIC_TA_OVERRIDES[i] || {}));
@@ -789,6 +909,9 @@ const STATIC_ML_OVERRIDES = [
   { title: 'കേരള ലോട്ടറി ഫോമുകൾ ഡൗൺലോഡ്',
     desc: 'സമ്മാന ക്ലെയിം ഫോമുകൾ ഡൗൺലോഡ് ചെയ്യുക.',
     content: `<main><h1>കേരള ലോട്ടറി ഫോമുകൾ ഡൗൺലോഡ്</h1></main>` },
+  { title: 'കേരള ലോട്ടറി സമ്മാന നികുതി കാൽക്കുലേറ്റർ',
+    desc: 'ഏജന്റ് കമ്മീഷനും TDS-ഉം കിഴിച്ചതിന് ശേഷം കേരള ലോട്ടറി സമ്മാനത്തിൽ നിങ്ങൾക്ക് എന്ത് ലഭിക്കും എന്ന് കണക്കാക്കുക.',
+    content: buildPrizeTaxCalculatorContent('ml') },
 ];
 const staticRoutesMl = staticRoutes.map((r, i) => makeLocaleRoute(r, 'ml', STATIC_ML_OVERRIDES[i] || {}));
 
@@ -855,6 +978,9 @@ const STATIC_HI_OVERRIDES = [
   { title: 'केरल लॉटरी फॉर्म डाउनलोड करें',
     desc: 'पुरस्कार दावा फॉर्म डाउनलोड करें।',
     content: `<main><h1>केरल लॉटरी फॉर्म डाउनलोड करें</h1></main>` },
+  { title: 'केरल लॉटरी पुरस्कार टैक्स कैलकुलेटर',
+    desc: 'एजेंट कमीशन और TDS काटने के बाद केरल लॉटरी पुरस्कार में आपको क्या मिलेगा, इसकी गणना करें।',
+    content: buildPrizeTaxCalculatorContent('hi') },
 ];
 const staticRoutesHi = staticRoutes.map((r, i) => makeLocaleRoute(r, 'hi', STATIC_HI_OVERRIDES[i] || {}));
 
@@ -920,6 +1046,9 @@ const STATIC_KN_OVERRIDES = [
   { title: 'ಕೇರಳ ಲಾಟರಿ ಫಾರ್ಮ್‌ಗಳ ಡೌನ್‌ಲೋಡ್',
     desc: 'ಬಹುಮಾನ ಕ್ಲೈಮ್ ಫಾರ್ಮ್‌ಗಳನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ.',
     content: `<main><h1>ಕೇರಳ ಲಾಟರಿ ಫಾರ್ಮ್‌ಗಳ ಡೌನ್‌ಲೋಡ್</h1></main>` },
+  { title: 'ಕೇರಳ ಲಾಟರಿ ಬಹುಮಾನ ತೆರಿಗೆ ಕ್ಯಾಲ್ಕುಲೇಟರ್',
+    desc: 'ಏಜೆಂಟ್ ಕಮಿಷನ್ ಮತ್ತು TDS ಕಡಿತದ ನಂತರ ಕೇರಳ ಲಾಟರಿ ಬಹುಮಾನದಲ್ಲಿ ನಿಮಗೆ ಏನು ಸಿಗುತ್ತದೆ ಎಂದು ಲೆಕ್ಕಹಾಕಿ.',
+    content: buildPrizeTaxCalculatorContent('kn') },
 ];
 const staticRoutesKn = staticRoutes.map((r, i) => makeLocaleRoute(r, 'kn', STATIC_KN_OVERRIDES[i] || {}));
 

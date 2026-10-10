@@ -25,6 +25,7 @@ import YesterdayResultPage from "./pages/YesterdayResultPage";
 import SchedulePage from "./pages/SchedulePage";
 import ClaimPrizePage from "./pages/ClaimPrizePage";
 import JackpotPage from "./pages/JackpotPage";
+import PrizeTaxCalculatorPage from "./pages/PrizeTaxCalculatorPage";
 import NotFound from "./pages/not-found";
 
 
@@ -48,6 +49,7 @@ const routeConfigs: Array<{ path: string; component: ComponentType<any> }> = [
   { path: "/schedule", component: SchedulePage },
   { path: "/claim-prize", component: ClaimPrizePage },
   { path: "/jackpot", component: JackpotPage },
+  { path: "/prize-tax-calculator", component: PrizeTaxCalculatorPage },
   { path: "/claim-guide", component: ClaimGuidePage },
   { path: "/contact", component: ContactPage },
   { path: "/disclaimer", component: DisclaimerPage },

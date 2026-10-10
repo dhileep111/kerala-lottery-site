@@ -1,0 +1,14 @@
+{
+  "claimLocationThreshold": 5000,
+  "commissionThreshold": 5000,
+  "commissionRate": 10,
+  "tdsThreshold": 10000,
+  "tdsRate": 30,
+  "sources": {
+    "claimLocationThreshold": "Existing site claim-guide content — prerender.mjs CLAIM_PRIZE_FAQ, ClaimGuidePage.tsx, ClaimPrizePage.tsx. Where a winner physically goes to claim — NOT a tax rule.",
+    "commissionThreshold": "UNVERIFIED, provisional. Currently the same ₹5,000 figure as claimLocationThreshold, but kept as a separate value since the two rules (where to claim vs. when commission applies) are not guaranteed to stay numerically identical.",
+    "commissionRate": "UNVERIFIED. Reported by Onmanorama (2019) and The News Minute (2022); not from an official Kerala State Lotteries notice. Expressed as a percentage (10 = 10%). Applies only to prizes above commissionThreshold.",
+    "tdsThreshold": "Income Tax Act Section 194B. Stated independently in ClaimGuidePage.tsx, FaqPage.tsx, LotteryOfficesPage.tsx (existing site content, 3+ places).",
+    "tdsRate": "Income Tax Act Section 194B flat TDS rate. Expressed as a percentage (30 = 30%). Stated in ClaimGuidePage.tsx / ClaimPrizePage.tsx / FaqPage.tsx / LotteryOfficesPage.tsx. No aggregate-per-year rule applied — single-prize, single-transaction calculation only."
+  }
+}
