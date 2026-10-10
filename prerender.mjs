@@ -1284,6 +1284,19 @@ function makeHtml(route, { noindex = false } = {}) {
   if (html.includes('name="twitter:image"'))
     html = html.replace(/<meta name="twitter:image" content=".*?"/, `<meta name="twitter:image" content="${OG_IMAGE}"`);
 
+  // twitter:title / twitter:description fall through to the generic base
+  // template text for every other route on the site (a pre-existing,
+  // site-wide gap — og:* already gets the real per-page title/desc above).
+  // Scoped to just the Prize Tax Calculator's 5 pages (en + 4 locales, all
+  // share this enPath) per explicit instruction not to change any other
+  // page's meta tags.
+  if (route.enPath === '/prize-tax-calculator' && html.includes('name="twitter:title"')) {
+    html = html.replace(/<meta name="twitter:title" content=".*?"/, `<meta name="twitter:title" content="${ea(route.title)}"`);
+  }
+  if (route.enPath === '/prize-tax-calculator' && html.includes('name="twitter:description"')) {
+    html = html.replace(/<meta name="twitter:description" content=".*?"/, `<meta name="twitter:description" content="${ea(route.desc)}"`);
+  }
+
   // Set <html lang="..."> — 'ta' for /ta pages, 'en' otherwise. Rebuilds
   // the opening tag rather than a targeted replace, so it works regardless
   // of what lang value (if any) baseHtml already carries.
