@@ -1,5 +1,99 @@
 [
   {
+    "lotterySlug": "samrudhi",
+    "drawCode": "SM-76",
+    "drawDate": "2026-10-11",
+    "displayDate": "October 11, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-10-11T09:42:49.202782Z",
+    "summary": "Result for Samrudhi SM-76. 5/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "MX 968469"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "MN 968469",
+          "MO 968469",
+          "MP 968469",
+          "MR 968469",
+          "MS 968469",
+          "MT 968469",
+          "MU 968469",
+          "MV 968469",
+          "MW 968469",
+          "MY 968469",
+          "MZ 968469"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹25,00,000",
+        "numbers": [
+          "MR 899591"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "MU 143146"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "7039",
+          "8024",
+          "6251",
+          "0979",
+          "5486",
+          "3691",
+          "4839",
+          "1127",
+          "9216",
+          "1388",
+          "8693",
+          "0124"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "karunya",
     "drawCode": "KR-771",
     "drawDate": "2026-10-10",
