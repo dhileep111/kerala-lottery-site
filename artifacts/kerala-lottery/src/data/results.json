@@ -1,5 +1,173 @@
 [
   {
+    "lotterySlug": "bhagyathara",
+    "drawCode": "BT-75",
+    "drawDate": "2026-10-12",
+    "displayDate": "October 12, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-10-12T09:53:30.555716Z",
+    "summary": "Result for Bhagyathara BT-75. 8/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          {
+            "ticket": "BJ 493924",
+            "district": "Palakkad"
+          }
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "BA 493924",
+          "BB 493924",
+          "BC 493924",
+          "BD 493924",
+          "BE 493924",
+          "BF 493924",
+          "BG 493924",
+          "BH 493924",
+          "BK 493924",
+          "BL 493924",
+          "BM 493924"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          {
+            "ticket": "BG 682042",
+            "district": "Thrissur"
+          }
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          {
+            "ticket": "BL 647437",
+            "district": "Idukki"
+          }
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "0483",
+          "0755",
+          "1017",
+          "1260",
+          "2193",
+          "2250",
+          "2576",
+          "4192",
+          "4496",
+          "4737",
+          "4853",
+          "5424",
+          "5939",
+          "6535",
+          "7838",
+          "8303",
+          "8460",
+          "8651",
+          "9976"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": [
+          "1391",
+          "1999",
+          "4755",
+          "6296",
+          "8456",
+          "8831"
+        ]
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": [
+          "1366",
+          "1456",
+          "1736",
+          "2127",
+          "2717",
+          "3364",
+          "3407",
+          "3612",
+          "3876",
+          "3962",
+          "4006",
+          "5862",
+          "5874",
+          "6468",
+          "6709",
+          "6892",
+          "6901",
+          "6930",
+          "7682",
+          "7859",
+          "7954",
+          "9056",
+          "9605",
+          "9612",
+          "9861"
+        ]
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": [
+          "9306",
+          "2712",
+          "1832",
+          "1666",
+          "5840",
+          "2781",
+          "0917",
+          "8955",
+          "9438",
+          "9049",
+          "7540",
+          "5533",
+          "1121",
+          "2840",
+          "4921",
+          "1015",
+          "2457",
+          "6354",
+          "3412",
+          "9592",
+          "2782",
+          "4285",
+          "6152",
+          "1539"
+        ]
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "samrudhi",
     "drawCode": "SM-76",
     "drawDate": "2026-10-11",
