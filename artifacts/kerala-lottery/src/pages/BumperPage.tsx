@@ -15,7 +15,13 @@ function firstPrizeDistrict(result: Row): string | null {
 
 export default function BumperPage() {
   const lang = useLang();
-  const up = (bumpers as { upcoming?: Record<string, string> }).upcoming;
+  const up = (bumpers as {
+    upcoming?: {
+      announced: boolean;
+      name?: string; code?: string; drawDateISO?: string; drawDateLabel?: string;
+      drawTime?: string; firstPrize?: string; ticketPrice?: string; series?: string; venue?: string;
+    };
+  }).upcoming;
   const cd = useCountdown(up?.drawDateISO ?? '');
 
   const pastBumpers = useMemo(
@@ -39,7 +45,7 @@ export default function BumperPage() {
 
   return (
     <main className="container">
-      {up && (
+      {up?.announced && (
         <JsonLd data={{
           '@context': 'https://schema.org',
           '@type': 'Event',
@@ -54,7 +60,13 @@ export default function BumperPage() {
         <p>{t(lang, 'bumperSubtitle')}</p>
       </section>
 
-      {up && (
+      {!up?.announced && (
+        <div className="content-card" style={{ borderLeft: '4px solid #9ca3af' }}>
+          <p style={{ margin: 0 }}>{t(lang, 'bumperNotAnnounced')}</p>
+        </div>
+      )}
+
+      {up?.announced && (
         <div className="content-card" style={{ borderLeft: '4px solid #0c7a43' }}>
           <span className="badge" style={{ background: '#0c7a43', color: '#fff' }}>{t(lang, 'bumperNextBumper')}</span>
           <h2 style={{ margin: '10px 0 4px' }}>

@@ -238,6 +238,17 @@ function buildChartContent(lang = 'en') {
   </main>`;
 }
 
+// Mirrors i18n.ts's bumperNotAnnounced key exactly (this is a plain Node
+// script and can't import that TS module — same pattern as TAMIL_NAMES /
+// PTC_COPY). Keep the two in sync.
+const BUMPER_NOT_ANNOUNCED = {
+  en: 'Next bumper lottery: date not yet announced by the Kerala Lotteries Department. This page will be updated as soon as the official notice is published.',
+  ta: 'அடுத்த பம்பர் லாட்டரி: தேதி இன்னும் கேரள லாட்டரித் துறையால் அறிவிக்கப்படவில்லை. அதிகாரப்பூர்வ அறிவிப்பு வெளியானவுடன் இந்தப் பக்கம் புதுப்பிக்கப்படும்.',
+  ml: 'അടുത്ത ബമ്പർ ലോട്ടറി: തീയതി കേരള ലോട്ടറി വകുപ്പ് ഇതുവരെ പ്രഖ്യാപിച്ചിട്ടില്ല. ഔദ്യോഗിക അറിയിപ്പ് വന്ന ഉടൻ ഈ പേജ് പുതുക്കും.',
+  hi: 'अगली बंपर लॉटरी: केरल लॉटरी विभाग ने तारीख की घोषणा अभी नहीं की है। आधिकारिक सूचना जारी होते ही यह पेज अपडेट किया जाएगा।',
+  kn: 'ಮುಂದಿನ ಬಂಪರ್ ಲಾಟರಿ: ಕೇರಳ ಲಾಟರಿ ಇಲಾಖೆ ದಿನಾಂಕವನ್ನು ಇನ್ನೂ ಘೋಷಿಸಿಲ್ಲ. ಅಧಿಕೃತ ಸೂಚನೆ ಪ್ರಕಟವಾದ ಕೂಡಲೇ ಈ ಪುಟವನ್ನು ಅಪ್ಡೇಟ್ ಮಾಡಲಾಗುತ್ತದೆ.',
+};
+
 function buildBumperContent(lang = 'en') {
   const up = bumpers?.upcoming;
   const past = [...results]
@@ -247,7 +258,7 @@ function buildBumperContent(lang = 'en') {
   // prerendered content (not via the route.jsonLd/<head> mechanism) so it
   // ships as a script tag inside <div id="root"> itself.
   let eventJsonLd = '';
-  if (up) {
+  if (up?.announced) {
     const eventData = {
       '@context': 'https://schema.org',
       '@type': 'Event',
@@ -258,8 +269,10 @@ function buildBumperContent(lang = 'en') {
     };
     eventJsonLd = '<script type="application/ld+json">' + JSON.stringify(eventData) + '</script>';
   }
-  const upHtml = up ? `<h2>Next Bumper: ${e(up.name)} (${e(up.code)})</h2>
-    <p><strong>${e(up.drawDateLabel)}</strong> at ${e(up.drawTime)}. First prize <strong>${e(up.firstPrize)}</strong>. Ticket price ${e(up.ticketPrice)}. Series ${e(up.series)}. Draw held at ${e(up.venue)}.</p>` : '';
+  const upHtml = up?.announced
+    ? `<h2>Next Bumper: ${e(up.name)} (${e(up.code)})</h2>
+    <p><strong>${e(up.drawDateLabel)}</strong> at ${e(up.drawTime)}. First prize <strong>${e(up.firstPrize)}</strong>. Ticket price ${e(up.ticketPrice)}. Series ${e(up.series)}. Draw held at ${e(up.venue)}.</p>`
+    : `<p>${e(BUMPER_NOT_ANNOUNCED[lang] ?? BUMPER_NOT_ANNOUNCED.en)}</p>`;
   const rows = past.map(r => {
     const fp = getFirstPrize(r);
     const dist = getDistrict(r.prizes?.find(p => p.tier === '1st Prize')?.numbers?.[0]);
@@ -327,7 +340,7 @@ function buildScheduleFaqItems() {
         + '. All draws are held daily at 3:00 PM IST (Gorky Bhavan, Thiruvananthapuram) except bumper special draws.',
     },
   ];
-  if (up) {
+  if (up?.announced) {
     items.push({
       question: `${up.name} (${up.code})`,
       answer: `${up.drawDateLabel} at ${up.drawTime}. First prize ${up.firstPrize}.`,
@@ -344,7 +357,9 @@ function buildScheduleContent(lang = 'en') {
     return `<tr><td>${dayLabel}</td><td>${e(l.name)}</td><td>${e(l.code)}</td><td>${e(l.drawTime)}</td><td>${e(l.firstPrizeAmount)}</td></tr>`;
   }).join('');
   const up = bumpers?.upcoming;
-  const upHtml = up ? `<h2>Special Draw: ${e(up.name)} (${e(up.code)})</h2><p><strong>${e(up.drawDateLabel)}</strong> at ${e(up.drawTime)}, first prize ${e(up.firstPrize)}.</p>` : '';
+  const upHtml = up?.announced
+    ? `<h2>Special Draw: ${e(up.name)} (${e(up.code)})</h2><p><strong>${e(up.drawDateLabel)}</strong> at ${e(up.drawTime)}, first prize ${e(up.firstPrize)}.</p>`
+    : `<p>${e(BUMPER_NOT_ANNOUNCED[lang] ?? BUMPER_NOT_ANNOUNCED.en)}</p>`;
   return `<main>
     <h1>Kerala Lottery Weekly Schedule</h1>
     <p>Every Kerala lottery draw day and time in one table.${lang === 'ta' ? ' கேரளா லாட்டரி வார அட்டவணை — ஒவ்வொரு நாளும் எந்த லாட்டரி, எத்தனை மணிக்கு.' : ''}</p>
@@ -368,7 +383,9 @@ function buildJackpotContent(lang = 'en') {
     return `<tr><td>${e(r.displayDate || r.drawDate)}</td><td>${e(lottery?.name || r.lotterySlug)} (${e(r.drawCode)})</td><td>${e(fp)}${dist ? ` (${e(dist)})` : ''}</td><td><a href="${ea(href)}">View result</a></td></tr>`;
   }).join('');
   const up = bumpers?.upcoming;
-  const upHtml = up ? `<h2>Biggest Jackpot: ${e(up.name)} (${e(up.code)}) — ${e(up.firstPrize)}</h2><p><strong>${e(up.drawDateLabel)}</strong> at ${e(up.drawTime)}.</p>` : '';
+  const upHtml = up?.announced
+    ? `<h2>Biggest Jackpot: ${e(up.name)} (${e(up.code)}) — ${e(up.firstPrize)}</h2><p><strong>${e(up.drawDateLabel)}</strong> at ${e(up.drawTime)}.</p>`
+    : `<p>${e(BUMPER_NOT_ANNOUNCED[lang] ?? BUMPER_NOT_ANNOUNCED.en)}</p>`;
   return `<main>
     <h1>Kerala Lottery Jackpot</h1>
     <p>Today's ₹1 Crore daily jackpot and the next bumper draw's top prize, plus recent jackpot winners.${lang === 'ta' ? ' கேரளா லாட்டரி ஜாக்பாட் — இன்றைய 1 கோடி முதல் பரிசு மற்றும் பம்பர் ஜாக்பாட்.' : ''}</p>

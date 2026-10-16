@@ -14,7 +14,13 @@ function firstPrizeDistrict(result: Row): string | null {
 
 export default function JackpotPage() {
   const lang = useLang();
-  const up = (bumpers as { upcoming?: Record<string, string> }).upcoming;
+  const up = (bumpers as {
+    upcoming?: {
+      announced: boolean;
+      name?: string; code?: string; drawDateISO?: string; drawDateLabel?: string;
+      drawTime?: string; firstPrize?: string; ticketPrice?: string; series?: string; venue?: string;
+    };
+  }).upcoming;
   const cd = useCountdown(up?.drawDateISO ?? '');
   const todayLottery = getTodayLottery();
   const daily = lotteries.filter((l) => !l.isBumper);
@@ -44,7 +50,13 @@ export default function JackpotPage() {
         <p>{t(lang, 'jackpotSubtitle')}</p>
       </section>
 
-      {up && (
+      {!up?.announced && (
+        <div className="content-card" style={{ borderLeft: '4px solid #9ca3af' }}>
+          <p style={{ margin: 0 }}>{t(lang, 'bumperNotAnnounced')}</p>
+        </div>
+      )}
+
+      {up?.announced && (
         <div className="content-card" style={{ borderLeft: '4px solid #7c2d12' }}>
           <span className="badge" style={{ background: '#7c2d12', color: '#fff' }}>{t(lang, 'jackpotBiggest')}</span>
           <h2 style={{ margin: '10px 0 4px' }}>{up.name} ({up.code}) — {up.firstPrize}</h2>

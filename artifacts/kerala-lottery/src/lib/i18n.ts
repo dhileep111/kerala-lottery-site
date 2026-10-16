@@ -92,7 +92,7 @@ export type UIKey =
   // ── BumperPage ───────────────────────────────────────────────────
   | 'bumperH1' | 'bumperSubtitle' | 'bumperNextBumper' | 'bumperUnderway'
   | 'bumperSeries' | 'bumperVenue' | 'bumperPastResults' | 'bumperPastEmpty'
-  | 'bumperAboutTitle' | 'bumperAboutBody'
+  | 'bumperAboutTitle' | 'bumperAboutBody' | 'bumperNotAnnounced'
   // ── YesterdayResultPage ──────────────────────────────────────────
   | 'yestH1' | 'yestSubtitle' | 'yestNotAvailable' | 'yestBackToToday'
   | 'yestNotPublishedYet' | 'yestDrawHeldAt' | 'yestFirstPrizeColon'
@@ -242,6 +242,7 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     bumperSeries: 'Series', bumperVenue: 'Draw venue', bumperPastResults: 'Past Bumper Results',
     bumperPastEmpty: 'Past bumper results will appear here.', bumperAboutTitle: 'About Kerala Bumper Lotteries',
     bumperAboutBody: 'Kerala holds six seasonal bumper lotteries each year — Summer, Vishu, Monsoon, Thiruvonam (Onam), Pooja and Christmas–New Year — each with far larger prizes than the daily draws. Tickets sell out weeks ahead, and draws are held at Gorky Bhavan, Thiruvananthapuram. We publish each bumper result here as soon as the official draw is announced.',
+    bumperNotAnnounced: 'Next bumper lottery: date not yet announced by the Kerala Lotteries Department. This page will be updated as soon as the official notice is published.',
 
     yestH1: 'Kerala Lottery Result Yesterday',
     yestSubtitle: "The full result of yesterday's Kerala lottery draw — all prize tiers, updated automatically.",
@@ -447,6 +448,7 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     bumperSeries: 'தொடர்', bumperVenue: 'டிராவ் இடம்', bumperPastResults: 'கடந்த பம்பர் முடிவுகள்',
     bumperPastEmpty: 'கடந்த பம்பர் முடிவுகள் இங்கே தோன்றும்.', bumperAboutTitle: 'கேரளா பம்பர் லாட்டரிகள் பற்றி',
     bumperAboutBody: 'கேரளா ஆண்டுக்கு ஆறு பருவகால பம்பர் லாட்டரிகளை நடத்துகிறது — சம்மர், விஷு, மான்சூன், திருவோணம் (ஓணம்), பூஜா மற்றும் கிறிஸ்துமஸ்-புத்தாண்டு — ஒவ்வொன்றும் தினசரி டிராவை விட மிகப் பெரிய பரிசுகளுடன். டிக்கெட்டுகள் வாரங்களுக்கு முன்பே விற்றுத் தீரும், டிராவ்கள் திருவனந்தபுரம் கோர்க்கி பவனில் நடத்தப்படுகின்றன.',
+    bumperNotAnnounced: 'அடுத்த பம்பர் லாட்டரி: தேதி இன்னும் கேரள லாட்டரித் துறையால் அறிவிக்கப்படவில்லை. அதிகாரப்பூர்வ அறிவிப்பு வெளியானவுடன் இந்தப் பக்கம் புதுப்பிக்கப்படும்.',
 
     yestH1: 'நேற்றைய கேரளா லாட்டரி முடிவு',
     yestSubtitle: 'நேற்றைய கேரளா லாட்டரி டிராவின் முழு முடிவு — அனைத்து பரிசு நிலைகளும், தானாகப் புதுப்பிக்கப்படும்.',
@@ -652,6 +654,7 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     bumperSeries: 'സീരീസ്', bumperVenue: 'ഡ്രോ സ്ഥലം', bumperPastResults: 'മുൻകാല ബമ്പർ ഫലങ്ങൾ',
     bumperPastEmpty: 'മുൻകാല ബമ്പർ ഫലങ്ങൾ ഇവിടെ കാണിക്കും.', bumperAboutTitle: 'കേരള ബമ്പർ ലോട്ടറികളെക്കുറിച്ച്',
     bumperAboutBody: 'കേരള ഓരോ വർഷവും ആറ് സീസണൽ ബമ്പർ ലോട്ടറികൾ നടത്തുന്നു — സമ്മർ, വിഷു, മൺസൂൺ, തിരുവോണം, പൂജ, ക്രിസ്മസ്-പുതുവർഷം — ഓരോന്നിനും ദിവസ ഡ്രോയേക്കാൾ വളരെ വലിയ സമ്മാനങ്ങൾ. ടിക്കറ്റുകൾ ആഴ്ചകൾക്ക് മുമ്പ് വിറ്റുതീരും, ഡ്രോകൾ തിരുവനന്തപുരം ഗോർക്കി ഭവനിൽ നടക്കുന്നു.',
+    bumperNotAnnounced: 'അടുത്ത ബമ്പർ ലോട്ടറി: തീയതി കേരള ലോട്ടറി വകുപ്പ് ഇതുവരെ പ്രഖ്യാപിച്ചിട്ടില്ല. ഔദ്യോഗിക അറിയിപ്പ് വന്ന ഉടൻ ഈ പേജ് പുതുക്കും.',
 
     yestH1: 'ഇന്നലെയുള്ള കേരള ലോട്ടറി ഫലം',
     yestSubtitle: 'ഇന്നലെയുള്ള കേരള ലോട്ടറി ഡ്രോയുടെ പൂർണ്ണ ഫലം — എല്ലാ സമ്മാന നിലവാരങ്ങളും, സ്വയമേവ പുതുക്കുന്നു.',
@@ -857,6 +860,7 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     bumperSeries: 'सीरीज़', bumperVenue: 'ड्रॉ स्थान', bumperPastResults: 'पिछले बम्पर परिणाम',
     bumperPastEmpty: 'पिछले बम्पर परिणाम यहां दिखाई देंगे।', bumperAboutTitle: 'केरल बम्पर लॉटरी के बारे में',
     bumperAboutBody: 'केरल हर साल छह मौसमी बम्पर लॉटरी आयोजित करता है — समर, विशु, मॉनसून, थिरुवोणम (ओणम), पूजा और क्रिसमस-नववर्ष — हर एक में दैनिक ड्रॉ से कहीं बड़े पुरस्कार होते हैं। टिकट हफ्तों पहले बिक जाते हैं, और ड्रॉ तिरुवनंतपुरम के गोर्की भवन में होते हैं।',
+    bumperNotAnnounced: 'अगली बंपर लॉटरी: केरल लॉटरी विभाग ने तारीख की घोषणा अभी नहीं की है। आधिकारिक सूचना जारी होते ही यह पेज अपडेट किया जाएगा।',
 
     yestH1: 'केरल लॉटरी परिणाम कल का',
     yestSubtitle: 'कल के केरल लॉटरी ड्रॉ का पूरा परिणाम — सभी पुरस्कार स्तर, स्वचालित रूप से अपडेट।',
@@ -1062,6 +1066,7 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     bumperSeries: 'ಸರಣಿ', bumperVenue: 'ಡ್ರಾ ಸ್ಥಳ', bumperPastResults: 'ಹಿಂದಿನ ಬಂಪರ್ ಫಲಿತಾಂಶಗಳು',
     bumperPastEmpty: 'ಹಿಂದಿನ ಬಂಪರ್ ಫಲಿತಾಂಶಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ.', bumperAboutTitle: 'ಕೇರಳ ಬಂಪರ್ ಲಾಟರಿಗಳ ಬಗ್ಗೆ',
     bumperAboutBody: 'ಕೇರಳ ಪ್ರತಿ ವರ್ಷ ಆರು ಋತುಮಾನ ಬಂಪರ್ ಲಾಟರಿಗಳನ್ನು ನಡೆಸುತ್ತದೆ — ಸಮ್ಮರ್, ವಿಷು, ಮಾನ್ಸೂನ್, ತಿರುವೋಣಂ (ಓಣಂ), ಪೂಜಾ ಮತ್ತು ಕ್ರಿಸ್‌ಮಸ್-ಹೊಸ ವರ್ಷ — ಪ್ರತಿಯೊಂದೂ ದೈನಿಕ ಡ್ರಾಕ್ಕಿಂತ ಹೆಚ್ಚು ದೊಡ್ಡ ಬಹುಮಾನಗಳೊಂದಿಗೆ. ಟಿಕೆಟ್‌ಗಳು ವಾರಗಳ ಮುಂಚೆಯೇ ಮಾರಾಟವಾಗುತ್ತವೆ, ಡ್ರಾಗಳು ತಿರುವನಂತಪುರಂನ ಗೋರ್ಕಿ ಭವನದಲ್ಲಿ ನಡೆಯುತ್ತವೆ.',
+    bumperNotAnnounced: 'ಮುಂದಿನ ಬಂಪರ್ ಲಾಟರಿ: ಕೇರಳ ಲಾಟರಿ ಇಲಾಖೆ ದಿನಾಂಕವನ್ನು ಇನ್ನೂ ಘೋಷಿಸಿಲ್ಲ. ಅಧಿಕೃತ ಸೂಚನೆ ಪ್ರಕಟವಾದ ಕೂಡಲೇ ಈ ಪುಟವನ್ನು ಅಪ್ಡೇಟ್ ಮಾಡಲಾಗುತ್ತದೆ.',
 
     yestH1: 'ನಿನ್ನೆಯ ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶ',
     yestSubtitle: 'ನಿನ್ನೆಯ ಕೇರಳ ಲಾಟರಿ ಡ್ರಾದ ಸಂಪೂರ್ಣ ಫಲಿತಾಂಶ — ಎಲ್ಲಾ ಬಹುಮಾನ ಹಂತಗಳು, ಸ್ವಯಂಚಾಲಿತವಾಗಿ ನವೀಕರಿಸಲಾಗುತ್ತದೆ.',

@@ -21,7 +21,13 @@ export default function SchedulePage() {
   const ordered = WEEK_ORDER.map((idx) => daily.find((l) => l.drawDayIndex === idx)).filter(
     (l): l is (typeof daily)[number] => Boolean(l),
   );
-  const up = (bumpers as { upcoming?: Record<string, string> }).upcoming;
+  const up = (bumpers as {
+    upcoming?: {
+      announced: boolean;
+      name?: string; code?: string; drawDateISO?: string; drawDateLabel?: string;
+      drawTime?: string; firstPrize?: string; ticketPrice?: string; series?: string; venue?: string;
+    };
+  }).upcoming;
 
   const faqItems = [
     {
@@ -30,7 +36,7 @@ export default function SchedulePage() {
         ordered.map((l) => `${l.name} draws every ${l.drawDay} at ${l.drawTime}`).join('; ') +
         '. All draws are held daily at 3:00 PM IST (Gorky Bhavan, Thiruvananthapuram) except bumper special draws.',
     },
-    ...(up
+    ...(up?.announced
       ? [
           {
             question: `${up.name} (${up.code})`,
@@ -94,7 +100,13 @@ export default function SchedulePage() {
         </p>
       </div>
 
-      {up && (
+      {!up?.announced && (
+        <div className="content-card" style={{ borderLeft: '4px solid #9ca3af' }}>
+          <p style={{ margin: 0 }}>{t(lang, 'bumperNotAnnounced')}</p>
+        </div>
+      )}
+
+      {up?.announced && (
         <div className="content-card" style={{ borderLeft: '4px solid #0c7a43' }}>
           <span className="badge" style={{ background: '#0c7a43', color: '#fff' }}>{t(lang, 'scheduleSpecialDraw')}</span>
           <h2 style={{ margin: '10px 0 4px' }}>{up.name} ({up.code})</h2>
