@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-16T09:41:38.588130Z",
-    "summary": "Result for Suvarna Keralam SK-73. 5/10 tiers updated.",
+    "lastUpdated": "2026-10-16T09:52:21.932837Z",
+    "summary": "Result for Suvarna Keralam SK-73. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "RA 404595"
+          {
+            "ticket": "RA 404595",
+            "district": "Ernakulam"
+          }
         ]
       },
       {
@@ -38,37 +41,89 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "RH 448539"
+          {
+            "ticket": "RH 448539",
+            "district": "Pathanamthitta"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "RG 847845"
+          {
+            "ticket": "RG 847845",
+            "district": "Alappuzha"
+          }
         ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
         "numbers": [
+          "0356",
+          "0502",
+          "0647",
+          "1081",
           "1161",
-          "8123",
+          "1255",
+          "3923",
+          "4209",
           "4528",
           "4787",
-          "4209",
-          "0502"
+          "4857",
+          "7043",
+          "7319",
+          "7400",
+          "8007",
+          "8121",
+          "8123",
+          "8967",
+          "9139"
         ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "1241",
+          "1932",
+          "3134",
+          "4585",
+          "4926",
+          "5857"
+        ]
       },
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0415",
+          "0572",
+          "0732",
+          "0779",
+          "1205",
+          "2306",
+          "3003",
+          "3704",
+          "3723",
+          "3752",
+          "3921",
+          "5488",
+          "5668",
+          "5709",
+          "5861",
+          "5936",
+          "6138",
+          "6140",
+          "6924",
+          "7130",
+          "7382",
+          "7393",
+          "7894",
+          "8204",
+          "9245"
+        ]
       },
       {
         "tier": "7th Prize",
