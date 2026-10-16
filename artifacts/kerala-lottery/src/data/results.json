@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-16T10:56:40.002894Z",
+    "lastUpdated": "2026-10-16T14:51:28.488834Z",
     "summary": "Result for Suvarna Keralam SK-73. 10/10 tiers updated.",
     "prizes": [
       {
@@ -43,7 +43,7 @@
         "numbers": [
           {
             "ticket": "RH 448539",
-            "district": "Pathanamthitta"
+            "district": "Adoor"
           }
         ]
       },
