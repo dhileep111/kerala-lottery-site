@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-17T09:45:45.415985Z",
+    "lastUpdated": "2026-10-17T09:50:47.025710Z",
     "summary": "Result for Karunya KR-772. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "KG 709965"
+          {
+            "ticket": "KG 709965",
+            "district": "Alappuzha"
+          }
         ]
       },
       {
