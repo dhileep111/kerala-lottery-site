@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-17T10:55:36.655713Z",
+    "lastUpdated": "2026-10-17T13:43:24.455701Z",
     "summary": "Result for Karunya KR-772. 10/10 tiers updated.",
     "prizes": [
       {
@@ -16,7 +16,7 @@
         "numbers": [
           {
             "ticket": "KG 709965",
-            "district": "Alappuzha"
+            "district": "Kayamkulam"
           }
         ]
       },
@@ -43,7 +43,7 @@
         "numbers": [
           {
             "ticket": "KA 724739",
-            "district": "Palakkad"
+            "district": "Pattambi"
           }
         ]
       },
@@ -53,7 +53,7 @@
         "numbers": [
           {
             "ticket": "KL 523947",
-            "district": "Palakkad"
+            "district": "Chittur"
           }
         ]
       },
@@ -442,12 +442,12 @@
           "9364",
           "9399",
           "9420",
+          "9465",
           "9521",
           "9634",
           "9665",
           "9814",
           "9832",
-          "9865",
           "9894",
           "9915",
           "9922",
