@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-17T09:40:46.389066Z",
-    "summary": "Result for Karunya KR-772. 4/10 tiers updated.",
+    "lastUpdated": "2026-10-17T09:45:45.415985Z",
+    "summary": "Result for Karunya KR-772. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -51,12 +51,39 @@
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0945",
+          "1969",
+          "2438",
+          "2850",
+          "3078",
+          "3099",
+          "3257",
+          "3607",
+          "3635",
+          "4045",
+          "4479",
+          "4726",
+          "5383",
+          "7462",
+          "7664",
+          "7696",
+          "8195",
+          "8822",
+          "9924"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "1316",
+          "2914",
+          "2938",
+          "6560",
+          "8018",
+          "8432"
+        ]
       },
       {
         "tier": "6th Prize",
