@@ -51,6 +51,35 @@ const TAMIL_DAYS = {
   Monday: 'திங்கள்கிழமை', Tuesday: 'செவ்வாய்கிழமை', Wednesday: 'புதன்கிழமை',
   Thursday: 'வியாழன்கிழமை', Friday: 'வெள்ளிக்கிழமை', Saturday: 'சனிக்கிழமை', Sunday: 'ஞாயிற்றுக்கிழமை',
 };
+const TAMIL_MONTHS = [
+  'ஜனவரி', 'பிப்ரவரி', 'மார்ச்', 'ஏப்ரல்', 'மே', 'ஜூன்',
+  'ஜூலை', 'ஆகஸ்ட்', 'செப்டம்பர்', 'அக்டோபர்', 'நவம்பர்', 'டிசம்பர்',
+];
+
+// /ta homepage title/desc feature the most recent draw with a result on the
+// board (newest drawDate that has a 1st-prize entry, regardless of
+// verified/live status — so it matches whatever the page itself is already
+// showing, not a narrower "verified only" subset that can lag a day behind).
+// Recomputed on every prerender build, so this never goes stale the way
+// bumpers.json's old static "upcoming" field did.
+function getLatestTaHomeDraw() {
+  const candidates = results.filter(r => {
+    const fp = r.prizes?.find(p => p.tier === '1st Prize');
+    return fp && fp.numbers && fp.numbers.length > 0;
+  });
+  if (!candidates.length) return null;
+  candidates.sort((a, b) =>
+    (b.drawDate || '').localeCompare(a.drawDate || '') ||
+    (b.lastUpdated || '').localeCompare(a.lastUpdated || '')
+  );
+  return candidates[0];
+}
+
+function tamilDrawDate(drawDateISO) {
+  // drawDate is stored as "YYYY-MM-DD"
+  const [y, m, d] = drawDateISO.split('-').map(Number);
+  return `${TAMIL_MONTHS[m - 1]} ${d}, ${y}`;
+}
 
 // Every non-English locale the site publishes under /<locale>/, besides
 // English itself. Shared by hreflang generation and the noindex-stub logic
@@ -751,6 +780,34 @@ function taH1(content, h1) {
   return content.replace(/<h1>[\s\S]*?<\/h1>/, `<h1>${h1}</h1>`);
 }
 
+// /ta homepage title/desc — feature the latest draw (getLatestTaHomeDraw)
+// so the SERP snippet looks fresh instead of a fixed, ever-staler claim.
+// Format approved: "கேரளா லாட்டரி ரிசல்ட் இன்று 3:00 மணி — <code>, <Tamil date>".
+// "Other lotteries" mention in the description picks 2 names from a fixed
+// pool, excluding today's featured lottery, so it never names the same
+// lottery twice.
+const TA_HOME_OTHER_NAMES_POOL = ['கருண்யா', 'சுவர்ண கேரளம்', 'பாக்யதாரா', 'ஸ்ரீ சக்தி', 'தனலட்சுமி', 'கருண்யா பிளஸ்'];
+
+function buildTaHomeTitleDesc() {
+  const latest = getLatestTaHomeDraw();
+  if (!latest) {
+    // No result with a first prize exists yet (should not happen in
+    // practice) — fall back to the original, date-free text rather than
+    // crash the build.
+    return {
+      title: 'கேரளா லாட்டரி ரிசல்ட் இன்று — 3:00 மணி முடிவு | இன்றைய கேரளா லாட்டரி',
+      desc: 'கேரளா லாட்டரி ரிசல்ட் இன்று 3:00 மணி — கருண்யா, பாக்யதாரா, ஸ்ரீ சக்தி, தனலட்சுமி, கருண்யா பிளஸ், சுவர்ண கேரளம் மற்றும் பல லாட்டரிகளின் முடிவுகள் இங்கே.',
+    };
+  }
+  const tName = TAMIL_NAMES[latest.lotterySlug] ?? latest.lotterySlug;
+  const tDate = tamilDrawDate(latest.drawDate);
+  const others = TA_HOME_OTHER_NAMES_POOL.filter(n => n !== tName).slice(0, 2);
+  return {
+    title: `கேரளா லாட்டரி ரிசல்ட் இன்று 3:00 மணி — ${latest.drawCode}, ${tDate}`,
+    desc: `கேரளா லாட்டரி ரிசல்ட் இன்று 3:00 மணி — ${tName} ${latest.drawCode}, ${tDate}. ${others.join(', ')} மற்றும் பல லாட்டரிகளின் முடிவுகள் இங்கே.`,
+  };
+}
+
 const STATIC_TA_OVERRIDES = [
   { // /schedule
     title: 'கேரளா லாட்டரி வார அட்டவணை — நாள் மற்றும் நேரம்',
@@ -783,8 +840,7 @@ const STATIC_TA_OVERRIDES = [
     content: taH1(buildChartContent('ta'), 'கேரளா லாட்டரி சார்ட் — அனைத்து முடிவுகள்'),
   },
   { // / (home)
-    title: 'கேரளா லாட்டரி ரிசல்ட் இன்று — 3:00 மணி முடிவு | இன்றைய கேரளா லாட்டரி',
-    desc: 'கேரளா லாட்டரி ரிசல்ட் இன்று 3:00 மணி — கருண்யா, பாக்யதாரா, ஸ்ரீ சக்தி, தனலட்சுமி, கருண்யா பிளஸ், சுவர்ண கேரளம் மற்றும் பல லாட்டரிகளின் முடிவுகள் இங்கே.',
+    ...buildTaHomeTitleDesc(),
     content: buildHomeContent('ta'),
   },
   { // /check-ticket
