@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-18T09:40:43.371999Z",
-    "summary": "Result for Samrudhi SM-77. 2/10 tiers updated.",
+    "lastUpdated": "2026-10-18T09:45:44.692463Z",
+    "summary": "Result for Samrudhi SM-77. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -37,22 +37,53 @@
       {
         "tier": "2nd Prize",
         "amount": "₹25,00,000",
-        "numbers": []
+        "numbers": [
+          "MK 867989"
+        ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
-        "numbers": []
+        "numbers": [
+          "MH 144696"
+        ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0197",
+          "1159",
+          "1689",
+          "2316",
+          "2684",
+          "2850",
+          "3197",
+          "3375",
+          "5517",
+          "6207",
+          "6581",
+          "6984",
+          "7033",
+          "7192",
+          "7307",
+          "7342",
+          "7978",
+          "8017",
+          "8342"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "0103",
+          "0970",
+          "2521",
+          "4063",
+          "6816",
+          "7368"
+        ]
       },
       {
         "tier": "6th Prize",
