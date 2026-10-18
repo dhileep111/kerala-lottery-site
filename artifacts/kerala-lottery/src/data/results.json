@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-18T09:45:44.692463Z",
-    "summary": "Result for Samrudhi SM-77. 6/10 tiers updated.",
+    "lastUpdated": "2026-10-18T09:50:48.621698Z",
+    "summary": "Result for Samrudhi SM-77. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "MM 289707"
+          {
+            "ticket": "MM 289707",
+            "district": "Thrissur"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹25,00,000",
         "numbers": [
-          "MK 867989"
+          {
+            "ticket": "MK 867989",
+            "district": "Kozhikode"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "MH 144696"
+          {
+            "ticket": "MH 144696",
+            "district": "Malappuram"
+          }
         ]
       },
       {
@@ -88,7 +97,26 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "6213",
+          "9830",
+          "6109",
+          "9727",
+          "8307",
+          "1775",
+          "3820",
+          "2733",
+          "9396",
+          "8404",
+          "2385",
+          "3713",
+          "5236",
+          "7528",
+          "5892",
+          "5711",
+          "8336",
+          "1550"
+        ]
       },
       {
         "tier": "7th Prize",
