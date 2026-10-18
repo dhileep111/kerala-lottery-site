@@ -1,5 +1,82 @@
 [
   {
+    "lotterySlug": "samrudhi",
+    "drawCode": "SM-77",
+    "drawDate": "2026-10-18",
+    "displayDate": "October 18, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-10-18T09:40:43.371999Z",
+    "summary": "Result for Samrudhi SM-77. 2/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "MM 289707"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "MA 289707",
+          "MB 289707",
+          "MC 289707",
+          "MD 289707",
+          "ME 289707",
+          "MF 289707",
+          "MG 289707",
+          "MH 289707",
+          "MJ 289707",
+          "MK 289707",
+          "ML 289707"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹25,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": []
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "karunya",
     "drawCode": "KR-772",
     "drawDate": "2026-10-17",
