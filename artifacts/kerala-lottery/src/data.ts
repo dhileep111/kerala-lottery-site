@@ -31,6 +31,89 @@ export function getGuessingHistory(limit = 30): GuessingDay[] {
   return guessingData.history.slice(0, limit);
 }
 
+// The most recently verified result with a 1st-prize ticket — same
+// selection rule update_guessing.py's derive_boards() uses server-side
+// (sorted by drawDate then lastUpdated, descending, first verified result
+// with a usable 1st-prize number). Exposed here so the client-side
+// calculator and "how these numbers are made" explainer use the exact same
+// source draw the daily generator itself would have used right now.
+export function getLatestVerifiedResult(): Result | null {
+  const candidates = [...results]
+    .filter(r => r.status === 'verified')
+    .sort((a, b) => (b.drawDate || '').localeCompare(a.drawDate || '') || (b.lastUpdated || '').localeCompare(a.lastUpdated || ''));
+  for (const r of candidates) {
+    const first = r.prizes.find(p => p.tier === '1st Prize');
+    if (first && first.numbers && first.numbers.length > 0) return r;
+  }
+  return null;
+}
+
+// Extracts the 6 ticket digits from free-text input — accepts a bare
+// 6-digit number ("289707") or a full ticket with a series prefix
+// ("SM 289707", "SM289707", etc). Takes the LAST 6 digits found, same as
+// update_guessing.py's extract_ticket_digits(). Returns null if there
+// aren't at least 6 digits.
+export function extractTicketDigits(input: string): string | null {
+  const digits = input.replace(/\D/g, '');
+  return digits.length >= 6 ? digits.slice(-6) : null;
+}
+
+export interface DerivedGuessingNumbers {
+  boards: { A: string; B: string; C: string };
+  numbers: GuessingDay['numbers'];
+}
+
+// Ports update_guessing.py's derive_boards() arithmetic (A/B/C from pairs
+// of the 6 ticket digits) and build_numbers() (the fixed combo/template
+// rules) EXACTLY — same formula, same labels, same two "hot" picks. Keep
+// this in sync with that script; it's the single source both the daily
+// generator (Python, server-side) and this calculator (TS, client-side)
+// are meant to agree with.
+const GUESSING_NUMBER_TEMPLATE: Array<{ digits: number; label: string; type: string }> = [
+  { digits: 1, label: 'A Board', type: 'board' },
+  { digits: 1, label: 'B Board', type: 'board' },
+  { digits: 1, label: 'C Board', type: 'board' },
+  { digits: 2, label: 'AB Combo', type: 'combo' },
+  { digits: 2, label: 'BC Combo', type: 'combo' },
+  { digits: 2, label: 'CA Combo', type: 'combo' },
+  { digits: 3, label: 'ABC Three Digit', type: 'triple' },
+  { digits: 3, label: 'BCA Three Digit', type: 'triple' },
+  { digits: 3, label: 'CAB Three Digit', type: 'triple' },
+  { digits: 4, label: 'Hot Pick', type: 'four' },
+  { digits: 4, label: 'Mirror Pick', type: 'four' },
+  { digits: 4, label: 'Pattern Pick', type: 'four' },
+  { digits: 4, label: 'Lucky Combo', type: 'four' },
+  { digits: 4, label: 'Reverse Pick', type: 'four' },
+  { digits: 4, label: 'Sequential', type: 'four' },
+  { digits: 4, label: 'Zero Start', type: 'four' },
+  { digits: 4, label: 'Double AB', type: 'four' },
+  { digits: 4, label: 'Double BC', type: 'four' },
+];
+const GUESSING_HOT_LABELS = new Set(['Hot Pick', 'Lucky Combo']);
+
+export function deriveGuessingNumbers(ticketDigits: string): DerivedGuessingNumbers {
+  const d = ticketDigits.split('').map(Number);
+  const A = String((d[0] + d[3]) % 10);
+  const B = String((d[1] + d[4]) % 10);
+  const C = String((d[2] + d[5]) % 10);
+
+  const comboMap: Record<string, string> = {
+    'A Board': A, 'B Board': B, 'C Board': C,
+    'AB Combo': A + B, 'BC Combo': B + C, 'CA Combo': C + A,
+    'ABC Three Digit': A + B + C, 'BCA Three Digit': B + C + A, 'CAB Three Digit': C + A + B,
+    'Hot Pick': A + A + B + C, 'Mirror Pick': B + B + C + A, 'Pattern Pick': C + C + A + B,
+    'Lucky Combo': A + B + C + A, 'Reverse Pick': C + B + A + C, 'Sequential': C + B + C + A,
+    'Zero Start': '0' + A + B + C, 'Double AB': A + B + A + B, 'Double BC': B + C + B + C,
+  };
+
+  const numbers: GuessingDay['numbers'] = GUESSING_NUMBER_TEMPLATE.map(({ digits, label, type }) => ({
+    digits, label, type, value: comboMap[label],
+    ...(GUESSING_HOT_LABELS.has(label) ? { hot: true } : {}),
+  }));
+
+  return { boards: { A, B, C }, numbers };
+}
+
 export const holidays = (holidaysJson as { dates: Record<string, string> }).dates;
 
 // Same holidays.json et_scraper.py reads — single source of truth, so the

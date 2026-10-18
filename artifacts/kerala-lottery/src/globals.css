@@ -747,6 +747,60 @@ th:last-child, td:last-child { text-align: right; font-weight: 800; color: var(-
   letter-spacing: 0.06em;
 }
 
+/* Tap-to-reveal flip flourish — pure CSS checkbox-hack, zero JS. The card
+   and its value are in the DOM and fully visible by default (unchanged
+   from the plain .guess-card markup); tapping only plays a decorative
+   360° spin, never hides or gates the number. prefers-reduced-motion is
+   already handled by the global `* { transition-duration: 0.01ms }` rule
+   near the top of this file, so no separate override is needed here. */
+.guess-card-flip { position: relative; perspective: 900px; }
+.guess-card-flip__toggle {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+.guess-card-flip__inner {
+  display: block;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+.guess-card-flip__toggle:checked ~ .guess-card-flip__inner {
+  transform: rotateY(360deg);
+}
+.guess-card-flip__toggle:focus-visible ~ .guess-card-flip__inner {
+  outline: 2px solid #2563eb;
+  outline-offset: 3px;
+  border-radius: 16px;
+}
+
+/* Make-your-own calculator */
+.guess-calc { background: var(--card); border: 2px solid var(--border); border-radius: 16px; padding: 18px; }
+.guess-calc__row { display: flex; gap: 10px; flex-wrap: wrap; }
+.guess-calc__input {
+  flex: 1;
+  min-width: 200px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 16px;
+  font-family: ui-monospace, monospace;
+  letter-spacing: 0.06em;
+}
+.guess-calc__button {
+  background: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 22px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+.guess-calc__error { color: #dc2626; font-size: 13px; margin-top: 8px; }
+
 /* Update guide */
 .guess-update-guide p { font-size: 14px; line-height: 1.75; color: #374151; }
 .guess-update-guide code {

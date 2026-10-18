@@ -731,6 +731,83 @@ function getSiteHotNumbersStatic(topN = 5) {
   return Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, topN).map(([number, count]) => ({ number, count }));
 }
 
+// Same selection rule update_guessing.py's derive_boards() and data.ts's
+// getLatestVerifiedResult() use: most recent verified result (by drawDate
+// then lastUpdated) that has a usable 1st-prize ticket.
+function getLatestVerifiedResultStatic() {
+  const candidates = [...results]
+    .filter(r => r.status === 'verified')
+    .sort((a, b) => (b.drawDate || '').localeCompare(a.drawDate || '') || (b.lastUpdated || '').localeCompare(a.lastUpdated || ''));
+  for (const r of candidates) {
+    const first = r.prizes?.find(p => p.tier === '1st Prize');
+    if (first && first.numbers && first.numbers.length > 0) return r;
+  }
+  return null;
+}
+
+// Mirrors deriveGuessingNumbers()'s A/B/C arithmetic in data.ts (itself a
+// port of update_guessing.py's derive_boards()) — this is a plain Node
+// script and can't import that TS module. Only the A/B/C half is needed
+// here (the explainer paragraph only cites A, B, C), not the full
+// combo/template map.
+function deriveBoardsStatic(ticketDigits) {
+  const d = ticketDigits.split('').map(Number);
+  return {
+    A: String((d[0] + d[3]) % 10),
+    B: String((d[1] + d[4]) % 10),
+    C: String((d[2] + d[5]) % 10),
+  };
+}
+
+// Mirrors i18n.ts's gnHowMadeBody / gnRandomNotice keys exactly. Keep in sync.
+const GN_HOW_MADE_COPY = {
+  en: {
+    title: 'How These Numbers Are Made',
+    body: 'We take the most recently verified 1st-prize ticket\'s 6 digits and add them in pairs (1st+4th, 2nd+5th, 3rd+6th), keeping only the last digit, to get boards A, B and C. Latest example — {code} ticket {ticket} ({digits}): A = {a}, B = {b}, C = {c}. Every other number on this page is built from these three digits.',
+    notice: 'For entertainment only, not a prediction. Lottery draws are random.',
+  },
+  ta: {
+    title: 'இந்த எண்கள் எவ்வாறு உருவாக்கப்படுகின்றன',
+    body: 'மிகச் சமீபத்தில் சரிபார்க்கப்பட்ட முதல் பரிசு டிக்கெட்டின் 6 இலக்கங்களை ஜோடிகளாக (1,4 / 2,5 / 3,6) கூட்டி, கடைசி இலக்கத்தை மட்டும் எடுத்து A, B, C போர்டுகளைப் பெறுகிறோம். சமீபத்திய உதாரணம் — {code} டிக்கெட் {ticket} ({digits}): A = {a}, B = {b}, C = {c}. இந்தப் பக்கத்தில் உள்ள மற்ற அனைத்து எண்களும் இந்த மூன்று இலக்கங்களிலிருந்தே உருவாக்கப்படுகின்றன.',
+    notice: 'வெறும் பொழுதுபோக்கிற்காக மட்டும், இது ஒரு முன்னறிவிப்பு அல்ல. லாட்டரி டிராக்கள் சீரற்றவை.',
+  },
+  ml: {
+    title: 'ഈ നമ്പറുകൾ എങ്ങനെ ഉണ്ടാക്കുന്നു',
+    body: 'ഏറ്റവും പുതുതായി സ്ഥിരീകരിച്ച ഒന്നാം സമ്മാന ടിക്കറ്റിന്റെ 6 അക്കങ്ങൾ ജോഡികളായി (1,4 / 2,5 / 3,6) കൂട്ടി, അവസാന അക്കം മാത്രം എടുത്താണ് A, B, C ബോർഡുകൾ ലഭിക്കുന്നത്. ഏറ്റവും പുതിയ ഉദാഹരണം — {code} ടിക്കറ്റ് {ticket} ({digits}): A = {a}, B = {b}, C = {c}. ഈ പേജിലെ മറ്റെല്ലാ നമ്പറുകളും ഈ മൂന്ന് അക്കങ്ങളിൽ നിന്ന് ഉണ്ടാക്കിയതാണ്.',
+    notice: 'വിനോദത്തിന് മാത്രം, ഇതൊരു പ്രവചനമല്ല. ലോട്ടറി നറുക്കെടുപ്പുകൾ ക്രമരഹിതമാണ്.',
+  },
+  hi: {
+    title: 'ये संख्याएं कैसे बनाई जाती हैं',
+    body: 'सबसे हाल ही में सत्यापित पहले पुरस्कार टिकट के 6 अंकों को जोड़ों में (1,4 / 2,5 / 3,6) जोड़कर, केवल अंतिम अंक लेकर बोर्ड A, B और C प्राप्त किए जाते हैं। ताज़ा उदाहरण — {code} टिकट {ticket} ({digits}): A = {a}, B = {b}, C = {c}। इस पेज की बाकी सभी संख्याएं इन्हीं तीन अंकों से बनाई गई हैं।',
+    notice: 'केवल मनोरंजन के लिए, यह कोई भविष्यवाणी नहीं है। लॉटरी ड्रॉ पूरी तरह यादृच्छिक होते हैं।',
+  },
+  kn: {
+    title: 'ಈ ಸಂಖ್ಯೆಗಳನ್ನು ಹೇಗೆ ತಯಾರಿಸಲಾಗುತ್ತದೆ',
+    body: 'ಇತ್ತೀಚೆಗೆ ಪರಿಶೀಲಿಸಲಾದ ಮೊದಲ ಬಹುಮಾನ ಟಿಕೆಟ್‌ನ 6 ಅಂಕಿಗಳನ್ನು ಜೋಡಿಗಳಾಗಿ (1,4 / 2,5 / 3,6) ಕೂಡಿಸಿ, ಕೊನೆಯ ಅಂಕಿಯನ್ನು ಮಾತ್ರ ತೆಗೆದುಕೊಂಡು A, B, C ಬೋರ್ಡ್‌ಗಳನ್ನು ಪಡೆಯಲಾಗುತ್ತದೆ. ಇತ್ತೀಚಿನ ಉದಾಹರಣೆ — {code} ಟಿಕೆಟ್ {ticket} ({digits}): A = {a}, B = {b}, C = {c}. ಈ ಪುಟದಲ್ಲಿರುವ ಇತರ ಎಲ್ಲಾ ಸಂಖ್ಯೆಗಳು ಈ ಮೂರು ಅಂಕಿಗಳಿಂದ ತಯಾರಿಸಲಾಗಿದೆ.',
+    notice: 'ಕೇವಲ ಮನರಂಜನೆಗಾಗಿ, ಇದು ಭವಿಷ್ಯವಾಣಿ ಅಲ್ಲ. ಲಾಟರಿ ಡ್ರಾಗಳು ಯಾದೃಚ್ಛಿಕವಾಗಿವೆ.',
+  },
+};
+
+function buildGuessingHowMadeHtml(lang) {
+  const copy = GN_HOW_MADE_COPY[lang] ?? GN_HOW_MADE_COPY.en;
+  const latest = getLatestVerifiedResultStatic();
+  if (!latest) return '';
+  const first = latest.prizes.find(p => p.tier === '1st Prize');
+  const ticketVal = first?.numbers?.[0];
+  const ticketStr = ticketVal && typeof ticketVal === 'object' ? ticketVal.ticket : String(ticketVal ?? '');
+  const digits = (ticketStr || '').replace(/\D/g, '').slice(-6);
+  if (digits.length !== 6) return '';
+  const boards = deriveBoardsStatic(digits);
+  const body = copy.body
+    .replace('{code}', latest.drawCode)
+    .replace('{ticket}', ticketStr)
+    .replace('{digits}', digits.split('').join('-'))
+    .replace('{a}', boards.A)
+    .replace('{b}', boards.B)
+    .replace('{c}', boards.C);
+  return `<h2>${e(copy.title)}</h2><p>${e(body)}</p><p><strong>${e(copy.notice)}</strong></p>`;
+}
+
 function buildHomeContent(lang = 'en') {
   const taH1  = 'கேரளா லாட்டரி ரிசல்ட் டுடே — கேரளா ரிசல்ட் இன்று — Kerala Lottery Result Today';
   const enH1  = 'Kerala Lottery Result Today';
@@ -756,6 +833,7 @@ function buildGuessingContent(lang = 'en') {
     <h2>Hot Numbers — Last 30 Draws</h2>
     <p>The 5 most frequent last-4-digit endings across every prize tier, from the most recent 30 draws.</p>
     <ul>${hotRows}</ul>
+    ${buildGuessingHowMadeHtml(lang)}
   </main>`;
 }
 

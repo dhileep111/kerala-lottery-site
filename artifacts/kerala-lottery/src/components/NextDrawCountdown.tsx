@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
+import { useLang, t } from "../lib/i18n";
 
 /**
  * NextDrawCountdown
@@ -114,6 +115,7 @@ export default function NextDrawCountdown({
   style,
   onDrawReached,
 }: NextDrawCountdownProps) {
+  const lang = useLang();
   const [state, setState] = useState<DrawState>(() =>
     computeDrawState(drawHourIST, drawMinuteIST, resultWindowMinutes)
   );
@@ -144,6 +146,11 @@ export default function NextDrawCountdown({
   const seconds = totalSeconds % 60;
 
   const drawTimeLabel = formatHourLabel(drawHourIST, drawMinuteIST);
+  // Non-English ndcDrawDailyAt phrasing already supplies its own
+  // afternoon/o'clock word (மதியம்/ഉച്ചയ്ക്ക്/दोपहर/ಮಧ್ಯಾಹ್ನ ... மணிக்கு/ന്/
+  // बजे/ಕ್ಕೆ), so inserting the English "AM/PM" suffix there would be
+  // redundant with it (e.g. "...3:00 PM बजे..."). English keeps it.
+  const drawTimeForLocale = lang === 'en' ? drawTimeLabel : drawTimeLabel.replace(/\s*(AM|PM)$/i, '');
 
   const wrapperStyle: React.CSSProperties = {
     width: "100%",
@@ -224,9 +231,9 @@ export default function NextDrawCountdown({
     return (
       <div className={className} style={wrapperStyle} role="status" aria-live="polite">
         <style>{`@keyframes ndc-pulse{0%,100%{opacity:1}50%{opacity:.45}}`}</style>
-        <p style={kickerStyle}>Live Now</p>
+        <p style={kickerStyle}>{t(lang, 'ndcLiveNow')}</p>
         <p style={{ ...titleStyle, marginBottom: 8 }}>
-          {lotteryName ? `${lotteryName} result` : "Today's result"} is being published
+          {t(lang, 'ndcResultBeingPublished').replace('{name}', lotteryName ? `${lotteryName} result` : t(lang, 'ndcTodaysResult'))}
         </p>
         <span
           style={{
@@ -239,25 +246,30 @@ export default function NextDrawCountdown({
           }}
           aria-hidden="true"
         />
-        <p style={footStyle}>Refresh in a moment to see the winning numbers.</p>
+        <p style={footStyle}>{t(lang, 'ndcRefreshMoment')}</p>
       </div>
     );
   }
 
   // ----- Countdown state -----
   const boxes: { value: number; unit: string; show: boolean }[] = [
-    { value: days, unit: "Days", show: days > 0 },
-    { value: hours, unit: "Hours", show: true },
-    { value: minutes, unit: "Mins", show: true },
-    { value: seconds, unit: "Secs", show: true },
+    { value: days, unit: t(lang, 'ndcDays'), show: days > 0 },
+    { value: hours, unit: t(lang, 'ndcHours'), show: true },
+    { value: minutes, unit: t(lang, 'ndcMins'), show: true },
+    { value: seconds, unit: t(lang, 'ndcSecs'), show: true },
   ];
 
-  const liveText = `${days > 0 ? `${days} days ` : ""}${hours} hours ${minutes} minutes ${seconds} seconds until the next draw`;
+  const daysPart = days > 0 ? t(lang, 'ndcLiveTextDaysPrefix').replace('{days}', String(days)) : '';
+  const liveText = t(lang, 'ndcLiveText')
+    .replace('{daysPart}', daysPart)
+    .replace('{hours}', String(hours))
+    .replace('{minutes}', String(minutes))
+    .replace('{seconds}', String(seconds));
 
   return (
     <div className={className} style={wrapperStyle} role="timer" aria-live="off">
-      <p style={kickerStyle}>Next Draw In</p>
-      <p style={titleStyle}>{lotteryName ?? "Kerala Lottery"}</p>
+      <p style={kickerStyle}>{t(lang, 'ndcNextDrawIn')}</p>
+      <p style={titleStyle}>{lotteryName ?? t(lang, 'ndcKeralaLottery')}</p>
 
       <div style={boxesStyle} aria-hidden="true">
         {boxes
@@ -275,7 +287,7 @@ export default function NextDrawCountdown({
         {liveText}
       </span>
 
-      <p style={footStyle}>Draw daily at {drawTimeLabel} IST</p>
+      <p style={footStyle}>{t(lang, 'ndcDrawDailyAt').replace('{time}', drawTimeForLocale)}</p>
     </div>
   );
 }

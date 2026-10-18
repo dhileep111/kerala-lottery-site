@@ -1,9 +1,30 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'wouter';
-import { getLatestGuessing, lotteries, getTodayLottery, getTomorrowLottery, site, getSeriesFrequency, getSiteHotNumbers } from '../data';
+import {
+  getLatestGuessing, lotteries, getTodayLottery, getTomorrowLottery, site,
+  getSeriesFrequency, getSiteHotNumbers, getLatestVerifiedResult,
+  extractTicketDigits, deriveGuessingNumbers,
+} from '../data';
 import type { GuessingDay, SeriesStat } from '../data';
 import { ShareGuessingButton } from '../components/ShareGuessingButton';
+import NextDrawCountdown from '../components/NextDrawCountdown';
+import bumpers from '../data/bumpers.json';
 import { useLang, t, getLotteryName, type Lang } from '../lib/i18n';
+
+// Same "which lottery draws next" rule HomePage.tsx's getUpcomingLottery()
+// uses (not exported there, so duplicated here rather than importing from
+// a page module) — before the 3 PM + 60min result window it's today's
+// lottery, after it's tomorrow's. Bumper-aware: GuessingNumbersPage's own
+// countdown switches to the bumper's own time/name when one is announced.
+function getUpcomingDailyLottery() {
+  const now = new Date();
+  const minsFromUtcMidnightIST = now.getUTCHours() * 60 + now.getUTCMinutes() + 330;
+  const istMinutes = minsFromUtcMidnightIST % 1440;
+  const istDay = (now.getUTCDay() + Math.floor(minsFromUtcMidnightIST / 1440)) % 7;
+  const drawWindowEndMins = 15 * 60 + 60;
+  const targetDay = istMinutes < drawWindowEndMins ? istDay : (istDay + 1) % 7;
+  return lotteries.find(l => !l.isBumper && l.drawDayIndex === targetDay);
+}
 
 const TYPE_CONFIG = {
   board:  { bg: '#f0fdf4', border: '#bbf7d0' },
@@ -22,14 +43,104 @@ function BoardCard({ letter, value }: { letter: string; value: string }) {
   );
 }
 
-function NumberCard({ item }: { item: GuessingDay['numbers'][0] }) {
+function NumberCard({ item, idPrefix = 'gc', lang }: { item: GuessingDay['numbers'][0]; idPrefix?: string; lang: Lang }) {
   const cfg = TYPE_CONFIG[item.type as keyof typeof TYPE_CONFIG] ?? TYPE_CONFIG.four;
+  const id = `${idPrefix}-${item.label.replace(/\s+/g, '-')}`;
   return (
-    <div className={`guess-card ${item.hot ? 'guess-card--hot' : ''}`} style={{ background: cfg.bg, borderColor: cfg.border }}>
-      {item.hot && <span className="guess-card__hot">🔥 Hot</span>}
-      <div className="guess-card__value">{item.value}</div>
-      <div className="guess-card__label">{item.label}</div>
-      <div className="guess-card__digits">{item.digits} digit{item.digits > 1 ? 's' : ''}</div>
+    <div className="guess-card-flip">
+      <input type="checkbox" id={id} className="guess-card-flip__toggle" aria-hidden="true" tabIndex={-1} />
+      <label
+        htmlFor={id}
+        className={`guess-card-flip__inner guess-card ${item.hot ? 'guess-card--hot' : ''}`}
+        style={{ background: cfg.bg, borderColor: cfg.border }}
+        aria-label={t(lang, 'gnTapToReveal')}
+      >
+        {item.hot && <span className="guess-card__hot">🔥 Hot</span>}
+        <div className="guess-card__value">{item.value}</div>
+        <div className="guess-card__label">{item.label}</div>
+        <div className="guess-card__digits">{item.digits} digit{item.digits > 1 ? 's' : ''}</div>
+      </label>
+    </div>
+  );
+}
+
+// Calculator-only input rule — deliberately stricter than, and separate
+// from, extractTicketDigits() in data.ts (that one is a straight port of
+// update_guessing.py's extract_ticket_digits() and must stay exactly as
+// the daily generator behaves). Here: take the LAST contiguous run of
+// digits in the input and require it to be EXACTLY 6 digits — so a longer
+// run (e.g. a 10-digit paste) is rejected rather than silently truncated.
+function extractCalculatorDigits(input: string): string | null {
+  const runs = input.match(/\d+/g);
+  if (!runs || runs.length === 0) return null;
+  const last = runs[runs.length - 1];
+  return last.length === 6 ? last : null;
+}
+
+function GuessingCalculator({ lang }: { lang: Lang }) {
+  const [input, setInput] = useState('');
+  const [submitted, setSubmitted] = useState<{ digits: string; result: ReturnType<typeof deriveGuessingNumbers> } | null>(null);
+  const [error, setError] = useState(false);
+
+  function handleGenerate() {
+    const digits = extractCalculatorDigits(input);
+    if (!digits) {
+      setError(true);
+      setSubmitted(null);
+      return;
+    }
+    setError(false);
+    setSubmitted({ digits, result: deriveGuessingNumbers(digits) });
+  }
+
+  const shareDay: GuessingDay | null = submitted
+    ? {
+        date: '', displayLabel: submitted.digits,
+        boards: submitted.result.boards,
+        numbers: submitted.result.numbers,
+      }
+    : null;
+
+  return (
+    <div className="guess-calc">
+      <div className="guess-calc__row">
+        <input
+          type="text"
+          inputMode="numeric"
+          className="guess-calc__input"
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && handleGenerate()}
+          placeholder={t(lang, 'gnMakeOwnInputLabel')}
+          aria-label={t(lang, 'gnMakeOwnInputLabel')}
+          maxLength={20}
+          autoComplete="off"
+          spellCheck={false}
+        />
+        <button className="guess-calc__button" onClick={handleGenerate}>{t(lang, 'gnMakeOwnButton')}</button>
+      </div>
+      {error && <p className="guess-calc__error">{t(lang, 'gnMakeOwnInvalid')}</p>}
+
+      {submitted && (
+        <div style={{ marginTop: 20 }}>
+          <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 12 }}>{t(lang, 'gnMakeOwnResultTitle')}</h3>
+          <div className="board-row" style={{ marginBottom: 16 }}>
+            <BoardCard letter="A" value={submitted.result.boards.A} />
+            <BoardCard letter="B" value={submitted.result.boards.B} />
+            <BoardCard letter="C" value={submitted.result.boards.C} />
+          </div>
+          <div className="guess-grid guess-grid--4">
+            {submitted.result.numbers.filter(n => n.type !== 'board').map(n => (
+              <NumberCard key={n.label} item={n} idPrefix="calc" lang={lang} />
+            ))}
+          </div>
+          {shareDay && (
+            <div style={{ marginTop: 16 }}>
+              <ShareGuessingButton day={shareDay} pageUrl={`${site.url}/guessing-numbers`} />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -113,6 +224,28 @@ export default function GuessingNumbersPage() {
   const seriesStats     = getSeriesFrequency();
   const hotNumbers      = getSiteHotNumbers(5);
 
+  const bumperUpcoming = (bumpers as { upcoming?: { announced: boolean; name?: string; code?: string } }).upcoming;
+  const upcomingDaily  = getUpcomingDailyLottery();
+  const countdownProps = bumperUpcoming?.announced
+    ? { drawHourIST: 14, drawMinuteIST: 0, lotteryName: `${bumperUpcoming.name} (${bumperUpcoming.code})` }
+    : { lotteryName: upcomingDaily?.name };
+
+  const latestVerified = getLatestVerifiedResult();
+  const explainerFirst = latestVerified?.prizes.find(p => p.tier === '1st Prize');
+  const explainerTicket = explainerFirst?.numbers?.[0];
+  const explainerTicketStr = explainerTicket && typeof explainerTicket === 'object' ? explainerTicket.ticket : String(explainerTicket ?? '');
+  const explainerDigits = extractTicketDigits(explainerTicketStr) ?? '';
+  const explainerDerived = explainerDigits ? deriveGuessingNumbers(explainerDigits) : null;
+  const explainerBody = latestVerified && explainerDerived
+    ? t(lang, 'gnHowMadeBody')
+        .replace('{code}', latestVerified.drawCode)
+        .replace('{ticket}', explainerTicketStr)
+        .replace('{digits}', explainerDigits.split('').join('-'))
+        .replace('{a}', explainerDerived.boards.A)
+        .replace('{b}', explainerDerived.boards.B)
+        .replace('{c}', explainerDerived.boards.C)
+    : null;
+
   return (
     <main className="page">
       <div className="container">
@@ -130,6 +263,14 @@ export default function GuessingNumbersPage() {
           <span className="guess-update-bar__sep" />
           <Link href="/guessing-numbers/archive">{t(lang, 'gnSeePast')}</Link>
         </div>
+
+        {/* Countdown to the next 3 PM IST draw (bumper-aware) */}
+        <section className="guess-section">
+          <NextDrawCountdown {...countdownProps} />
+          <div style={{ textAlign: 'center', marginTop: 12 }}>
+            <Link href="/" style={{ fontWeight: 700, fontSize: 13 }}>{t(lang, 'gnCheckLatestResult')}</Link>
+          </div>
+        </section>
 
         {/* Per-lottery quick links */}
         <section className="guess-section">
@@ -185,12 +326,12 @@ export default function GuessingNumbersPage() {
 
         <section className="guess-section">
           <div className="guess-section__header"><h2>{t(lang, 'gnTwoDigit')}</h2></div>
-          <div className="guess-grid guess-grid--3">{byType('combo').map(n => <NumberCard key={n.label} item={n} />)}</div>
+          <div className="guess-grid guess-grid--3">{byType('combo').map(n => <NumberCard key={n.label} item={n} lang={lang} />)}</div>
         </section>
 
         <section className="guess-section">
           <div className="guess-section__header"><h2>{t(lang, 'gnThreeDigit')}</h2></div>
-          <div className="guess-grid guess-grid--3">{byType('triple').map(n => <NumberCard key={n.label} item={n} />)}</div>
+          <div className="guess-grid guess-grid--3">{byType('triple').map(n => <NumberCard key={n.label} item={n} lang={lang} />)}</div>
         </section>
 
         <section className="guess-section">
@@ -198,10 +339,28 @@ export default function GuessingNumbersPage() {
             <h2>{t(lang, 'gnFourDigit')}</h2>
             <p>{t(lang, 'gnFourDigitSub')}</p>
           </div>
-          <div className="guess-grid guess-grid--4">{byType('four').map(n => <NumberCard key={n.label} item={n} />)}</div>
+          <div className="guess-grid guess-grid--4">{byType('four').map(n => <NumberCard key={n.label} item={n} lang={lang} />)}</div>
         </section>
 
         <ShareGuessingButton day={latest} pageUrl={`${site.url}/guessing-numbers`} />
+
+        {/* Make your own guessing number */}
+        <section className="guess-section">
+          <div className="guess-section__header">
+            <h2>{t(lang, 'gnMakeOwnTitle')}</h2>
+            <p>{t(lang, 'gnMakeOwnSub')}</p>
+          </div>
+          <GuessingCalculator lang={lang} />
+        </section>
+
+        {/* How these numbers are made */}
+        <section className="guess-section">
+          <div className="guess-section__header">
+            <h2>{t(lang, 'gnHowMadeTitle')}</h2>
+          </div>
+          {explainerBody && <p>{explainerBody}</p>}
+          <p style={{ fontWeight: 700, color: '#b45309' }}>{t(lang, 'gnRandomNotice')}</p>
+        </section>
 
         {/* Series Frequency — how often each 2-letter series has won 1st Prize */}
         <section className="guess-section">
