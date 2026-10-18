@@ -55,14 +55,35 @@ const TAMIL_MONTHS = [
   'ஜனவரி', 'பிப்ரவரி', 'மார்ச்', 'ஏப்ரல்', 'மே', 'ஜூன்',
   'ஜூலை', 'ஆகஸ்ட்', 'செப்டம்பர்', 'அக்டோபர்', 'நவம்பர்', 'டிசம்பர்',
 ];
+// Standard transliterated Gregorian month names — same convention as
+// TAMIL_MONTHS above. Not copied from existing site content: no ml/hi/kn
+// date localization existed anywhere in this file before (LOCALE_ARCHIVE_
+// PATTERN uses the raw English displayDate for all three), so these are
+// newly authored here, following the same construction as TAMIL_MONTHS.
+const MALAYALAM_MONTHS = [
+  'ജനുവരി', 'ഫെബ്രുവരി', 'മാർച്ച്', 'ഏപ്രിൽ', 'മെയ്', 'ജൂൺ',
+  'ജൂലൈ', 'ഓഗസ്റ്റ്', 'സെപ്റ്റംബർ', 'ഒക്ടോബർ', 'നവംബർ', 'ഡിസംബർ',
+];
+const HINDI_MONTHS = [
+  'जनवरी', 'फरवरी', 'मार्च', 'अप्रैल', 'मई', 'जून',
+  'जुलाई', 'अगस्त', 'सितंबर', 'अक्टूबर', 'नवंबर', 'दिसंबर',
+];
+const KANNADA_MONTHS = [
+  'ಜನವರಿ', 'ಫೆಬ್ರವರಿ', 'ಮಾರ್ಚ್', 'ಏಪ್ರಿಲ್', 'ಮೇ', 'ಜೂನ್',
+  'ಜುಲೈ', 'ಆಗಸ್ಟ್', 'ಸೆಪ್ಟೆಂಬರ್', 'ಅಕ್ಟೋಬರ್', 'ನವೆಂಬರ್', 'ಡಿಸೆಂಬರ್',
+];
+const EN_MONTHS = [
+  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+];
 
-// /ta homepage title/desc feature the most recent draw with a result on the
-// board (newest drawDate that has a 1st-prize entry, regardless of
-// verified/live status — so it matches whatever the page itself is already
-// showing, not a narrower "verified only" subset that can lag a day behind).
-// Recomputed on every prerender build, so this never goes stale the way
-// bumpers.json's old static "upcoming" field did.
-function getLatestTaHomeDraw() {
+// Home title/desc (every language) feature the most recent draw with a
+// result on the board (newest drawDate that has a 1st-prize entry,
+// regardless of verified/live status — so it matches whatever the page
+// itself is already showing, not a narrower "verified only" subset that can
+// lag a day behind). Recomputed on every prerender build, so this never
+// goes stale the way bumpers.json's old static "upcoming" field did.
+function getLatestHomeDraw() {
   const candidates = results.filter(r => {
     const fp = r.prizes?.find(p => p.tier === '1st Prize');
     return fp && fp.numbers && fp.numbers.length > 0;
@@ -75,10 +96,94 @@ function getLatestTaHomeDraw() {
   return candidates[0];
 }
 
-function tamilDrawDate(drawDateISO) {
+const HOME_DRAW_MONTHS = { en: EN_MONTHS, ta: TAMIL_MONTHS, ml: MALAYALAM_MONTHS, hi: HINDI_MONTHS, kn: KANNADA_MONTHS };
+
+function localizedDrawDate(lang, drawDateISO) {
   // drawDate is stored as "YYYY-MM-DD"
   const [y, m, d] = drawDateISO.split('-').map(Number);
-  return `${TAMIL_MONTHS[m - 1]} ${d}, ${y}`;
+  const months = HOME_DRAW_MONTHS[lang] ?? EN_MONTHS;
+  return `${months[m - 1]} ${d}, ${y}`;
+}
+
+// Home title/desc (every language) feature the latest draw
+// (getLatestHomeDraw) so the SERP snippet looks fresh instead of a fixed,
+// ever-staler claim. /ta's format was approved first and is kept exactly
+// as before (verified byte-identical); EN/ML/HI/KN follow the same
+// principle — keep each language's "3 PM"-equivalent phrase, drop
+// decorative tails to make room, append "<code>, <date>" — approved
+// separately per language.
+const TA_HOME_OTHER_NAMES_POOL = ['கருண்யா', 'சுவர்ண கேரளம்', 'பாக்யதாரா', 'ஸ்ரீ சக்தி', 'தனலட்சுமி', 'கருண்யா பிளஸ்'];
+
+// Fixed display order for the "other lotteries" mention in EN/ML/HI/KN
+// descriptions, matching each language's original (pre-dynamic) desc text
+// order exactly.
+const HOME_LOTTERY_ORDER = ['karunya', 'bhagyathara', 'sthree-sakthi', 'dhanalekshmi', 'karunya-plus', 'suvarna-keralam', 'samrudhi'];
+
+function homeLotteryName(lang, slug) {
+  if (lang === 'ta') return TAMIL_NAMES[slug] ?? slug;
+  if (lang === 'ml') return MALAYALAM_NAMES[slug] ?? slug;
+  if (lang === 'hi') return HINDI_NAMES[slug] ?? slug;
+  if (lang === 'kn') return KANNADA_NAMES[slug] ?? slug;
+  return lotteries.find(l => l.slug === slug)?.name ?? slug;
+}
+
+// No result with a first prize exists yet (should not happen in practice)
+// — fall back to each language's original, date-free text rather than
+// crash the build. These are byte-identical to the strings each language
+// used before this change.
+const HOME_FALLBACK = {
+  en: { title: 'Kerala Lottery Result Today — Live 3PM Results', desc: 'Kerala Lottery results today at 3 PM IST — Karunya, Bhagyathara, Sthree Sakthi, Dhanalekshmi, Karunya Plus, Suvarna Keralam, Samrudhi.' },
+  ta: { title: 'கேரளா லாட்டரி ரிசல்ட் இன்று — 3:00 மணி முடிவு | இன்றைய கேரளா லாட்டரி', desc: 'கேரளா லாட்டரி ரிசல்ட் இன்று 3:00 மணி — கருண்யா, பாக்யதாரா, ஸ்ரீ சக்தி, தனலட்சுமி, கருண்யா பிளஸ், சுவர்ண கேரளம் மற்றும் பல லாட்டரிகளின் முடிவுகள் இங்கே.' },
+  ml: { title: 'കേരള ലോട്ടറി ഫലം ഇന്ന് — ഉച്ചയ്ക്ക് 3 മണി', desc: 'ഇന്ന് ഉച്ചയ്ക്ക് 3 മണിക്ക് കേരള ലോട്ടറി ഫലം — കാരുണ്യ, ഭാഗ്യതാര, സ്ത്രീ ശക്തി, ധനലക്ഷ്മി, കാരുണ്യ പ്ലസ്, സ്വർണ്ണ കേരളം, സമൃദ്ധി.' },
+  hi: { title: 'केरल लॉटरी परिणाम आज — दोपहर 3 बजे लाइव | आज की केरल लॉटरी', desc: 'आज दोपहर 3 बजे केरल लॉटरी परिणाम — कारुण्य, भाग्यतारा, स्त्री शक्ति, धनलक्ष्मी, कारुण्य प्लस, स्वर्ण केरलम, समृद्धि।' },
+  kn: { title: 'ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶ ಇಂದು — ಮಧ್ಯಾಹ್ನ 3 ಗಂಟೆ', desc: 'ಇಂದು ಮಧ್ಯಾಹ್ನ 3 ಗಂಟೆಗೆ ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶ — ಕಾರುಣ್ಯ, ಭಾಗ್ಯತಾರ, ಸ್ತ್ರೀ ಶಕ್ತಿ, ಧನಲಕ್ಷ್ಮಿ, ಕಾರುಣ್ಯ ಪ್ಲಸ್, ಸ್ವರ್ಣ ಕೇರಳ, ಸಮೃದ್ಧಿ.' },
+};
+
+function buildHomeTitleDesc(lang) {
+  const latest = getLatestHomeDraw();
+  if (!latest) return HOME_FALLBACK[lang] ?? HOME_FALLBACK.en;
+
+  const tName = homeLotteryName(lang, latest.lotterySlug);
+  const tDate = localizedDrawDate(lang, latest.drawDate);
+  const code = latest.drawCode;
+
+  if (lang === 'ta') {
+    const others = TA_HOME_OTHER_NAMES_POOL.filter(n => n !== tName).slice(0, 2);
+    return {
+      title: `கேரளா லாட்டரி ரிசல்ட் இன்று 3:00 மணி — ${code}, ${tDate}`,
+      desc: `கேரளா லாட்டரி ரிசல்ட் இன்று 3:00 மணி — ${tName} ${code}, ${tDate}. ${others.join(', ')} மற்றும் பல லாட்டரிகளின் முடிவுகள் இங்கே.`,
+    };
+  }
+
+  const otherNames = HOME_LOTTERY_ORDER
+    .filter(slug => slug !== latest.lotterySlug)
+    .map(slug => homeLotteryName(lang, slug));
+
+  if (lang === 'en') {
+    return {
+      title: `Kerala Lottery Result Today 3 PM — ${code}, ${tDate}`,
+      desc: `${tName} ${code}, ${tDate}. Kerala Lottery results today at 3 PM IST — ${otherNames.join(', ')}.`,
+    };
+  }
+  if (lang === 'ml') {
+    return {
+      title: `കേരള ലോട്ടറി ഫലം ഇന്ന് 3 മണി — ${code}, ${tDate}`,
+      desc: `${tName} ${code}, ${tDate}. ഇന്ന് ഉച്ചയ്ക്ക് 3 മണിക്ക് കേരള ലോട്ടറി ഫലം — ${otherNames.join(', ')}.`,
+    };
+  }
+  if (lang === 'hi') {
+    return {
+      title: `केरल लॉटरी परिणाम आज 3 बजे — ${code}, ${tDate}`,
+      desc: `${tName} ${code}, ${tDate}। आज दोपहर 3 बजे केरल लॉटरी परिणाम — ${otherNames.join(', ')}।`,
+    };
+  }
+  if (lang === 'kn') {
+    return {
+      title: `ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶ ಇಂದು 3 ಗಂಟೆ — ${code}, ${tDate}`,
+      desc: `${tName} ${code}, ${tDate}. ಇಂದು ಮಧ್ಯಾಹ್ನ 3 ಗಂಟೆಗೆ ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶ — ${otherNames.join(', ')}.`,
+    };
+  }
+  return HOME_FALLBACK[lang] ?? HOME_FALLBACK.en;
 }
 
 // Every non-English locale the site publishes under /<locale>/, besides
@@ -724,8 +829,8 @@ const staticRoutes = [
   { path: '/chart', title: 'Kerala Lottery Chart 2026 — All Results',
     desc: 'Kerala lottery chart showing 1st prize for every draw — Karunya, Bhagyathara, Sthree Sakthi and all daily lotteries. Newest first.',
     content: buildChartContent() },
-  { path: '/', title: 'Kerala Lottery Result Today — Live 3PM Results',
-    desc: 'Kerala Lottery results today at 3 PM IST — Karunya, Bhagyathara, Sthree Sakthi, Dhanalekshmi, Karunya Plus, Suvarna Keralam, Samrudhi.',
+  { path: '/',
+    ...buildHomeTitleDesc('en'),
     jsonLd: [breadcrumbSchema([{ name: 'Home', url: `${SITE}/` }])],
     content: buildHomeContent() },
   { path: '/check-ticket', title: 'Check Kerala Lottery Ticket Number — Instant Result Lookup',
@@ -780,33 +885,6 @@ function taH1(content, h1) {
   return content.replace(/<h1>[\s\S]*?<\/h1>/, `<h1>${h1}</h1>`);
 }
 
-// /ta homepage title/desc — feature the latest draw (getLatestTaHomeDraw)
-// so the SERP snippet looks fresh instead of a fixed, ever-staler claim.
-// Format approved: "கேரளா லாட்டரி ரிசல்ட் இன்று 3:00 மணி — <code>, <Tamil date>".
-// "Other lotteries" mention in the description picks 2 names from a fixed
-// pool, excluding today's featured lottery, so it never names the same
-// lottery twice.
-const TA_HOME_OTHER_NAMES_POOL = ['கருண்யா', 'சுவர்ண கேரளம்', 'பாக்யதாரா', 'ஸ்ரீ சக்தி', 'தனலட்சுமி', 'கருண்யா பிளஸ்'];
-
-function buildTaHomeTitleDesc() {
-  const latest = getLatestTaHomeDraw();
-  if (!latest) {
-    // No result with a first prize exists yet (should not happen in
-    // practice) — fall back to the original, date-free text rather than
-    // crash the build.
-    return {
-      title: 'கேரளா லாட்டரி ரிசல்ட் இன்று — 3:00 மணி முடிவு | இன்றைய கேரளா லாட்டரி',
-      desc: 'கேரளா லாட்டரி ரிசல்ட் இன்று 3:00 மணி — கருண்யா, பாக்யதாரா, ஸ்ரீ சக்தி, தனலட்சுமி, கருண்யா பிளஸ், சுவர்ண கேரளம் மற்றும் பல லாட்டரிகளின் முடிவுகள் இங்கே.',
-    };
-  }
-  const tName = TAMIL_NAMES[latest.lotterySlug] ?? latest.lotterySlug;
-  const tDate = tamilDrawDate(latest.drawDate);
-  const others = TA_HOME_OTHER_NAMES_POOL.filter(n => n !== tName).slice(0, 2);
-  return {
-    title: `கேரளா லாட்டரி ரிசல்ட் இன்று 3:00 மணி — ${latest.drawCode}, ${tDate}`,
-    desc: `கேரளா லாட்டரி ரிசல்ட் இன்று 3:00 மணி — ${tName} ${latest.drawCode}, ${tDate}. ${others.join(', ')} மற்றும் பல லாட்டரிகளின் முடிவுகள் இங்கே.`,
-  };
-}
 
 const STATIC_TA_OVERRIDES = [
   { // /schedule
@@ -840,7 +918,7 @@ const STATIC_TA_OVERRIDES = [
     content: taH1(buildChartContent('ta'), 'கேரளா லாட்டரி சார்ட் — அனைத்து முடிவுகள்'),
   },
   { // / (home)
-    ...buildTaHomeTitleDesc(),
+    ...buildHomeTitleDesc('ta'),
     content: buildHomeContent('ta'),
   },
   { // /check-ticket
@@ -941,8 +1019,7 @@ const STATIC_ML_OVERRIDES = [
   { title: 'കേരള ലോട്ടറി ചാർട്ട് 2026 — എല്ലാ ഫലങ്ങളും',
     desc: 'എല്ലാ ദിവസത്തെയും ലോട്ടറി ഒന്നാം സമ്മാനം ഒരു നോട്ടത്തിൽ, ഏറ്റവും പുതിയത് ആദ്യം.',
     h1: 'കേരള ലോട്ടറി ചാർട്ട്' },
-  { title: 'കേരള ലോട്ടറി ഫലം ഇന്ന് — ഉച്ചയ്ക്ക് 3 മണി',
-    desc: 'ഇന്ന് ഉച്ചയ്ക്ക് 3 മണിക്ക് കേരള ലോട്ടറി ഫലം — കാരുണ്യ, ഭാഗ്യതാര, സ്ത്രീ ശക്തി, ധനലക്ഷ്മി, കാരുണ്യ പ്ലസ്, സ്വർണ്ണ കേരളം, സമൃദ്ധി.' },
+  { ...buildHomeTitleDesc('ml') },
   { title: 'കേരള ലോട്ടറി ടിക്കറ്റ് നമ്പർ പരിശോധന',
     desc: 'നിങ്ങളുടെ ടിക്കറ്റ് നമ്പർ വിജയിച്ചോ എന്ന് പരിശോധിക്കുക.',
     content: `<main><h1>കേരള ലോട്ടറി ടിക്കറ്റ് പരിശോധന</h1><p>നിങ്ങളുടെ ടിക്കറ്റ് നമ്പർ നൽകി, സമീപകാല കേരള ലോട്ടറി ഫലങ്ങളിൽ വിജയിച്ചോ എന്ന് പരിശോധിക്കുക.</p></main>` },
@@ -1010,8 +1087,7 @@ const STATIC_HI_OVERRIDES = [
   { title: 'केरल लॉटरी चार्ट 2026 — सभी परिणाम',
     desc: 'हर दिन की लॉटरी का पहला पुरस्कार एक नज़र में, नवीनतम पहले।',
     h1: 'केरल लॉटरी चार्ट' },
-  { title: 'केरल लॉटरी परिणाम आज — दोपहर 3 बजे लाइव | आज की केरल लॉटरी',
-    desc: 'आज दोपहर 3 बजे केरल लॉटरी परिणाम — कारुण्य, भाग्यतारा, स्त्री शक्ति, धनलक्ष्मी, कारुण्य प्लस, स्वर्ण केरलम, समृद्धि।' },
+  { ...buildHomeTitleDesc('hi') },
   { title: 'केरल लॉटरी टिकट नंबर जांच',
     desc: 'अपना टिकट नंबर डालकर जांचें कि आप जीते हैं या नहीं।',
     content: `<main><h1>केरल लॉटरी टिकट जांच</h1><p>अपना टिकट नंबर डालकर हाल के केरल लॉटरी परिणामों में जीत की जांच करें।</p></main>` },
@@ -1078,8 +1154,7 @@ const STATIC_KN_OVERRIDES = [
   { title: 'ಕೇರಳ ಲಾಟರಿ ಚಾರ್ಟ್ 2026 — ಎಲ್ಲಾ ಫಲಿತಾಂಶಗಳು',
     desc: 'ಪ್ರತಿ ದಿನದ ಲಾಟರಿಯ ಮೊದಲ ಬಹುಮಾನ ಒಂದೇ ನೋಟದಲ್ಲಿ, ಇತ್ತೀಚಿನದು ಮೊದಲು.',
     h1: 'ಕೇರಳ ಲಾಟರಿ ಚಾರ್ಟ್' },
-  { title: 'ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶ ಇಂದು — ಮಧ್ಯಾಹ್ನ 3 ಗಂಟೆ',
-    desc: 'ಇಂದು ಮಧ್ಯಾಹ್ನ 3 ಗಂಟೆಗೆ ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶ — ಕಾರುಣ್ಯ, ಭಾಗ್ಯತಾರ, ಸ್ತ್ರೀ ಶಕ್ತಿ, ಧನಲಕ್ಷ್ಮಿ, ಕಾರುಣ್ಯ ಪ್ಲಸ್, ಸ್ವರ್ಣ ಕೇರಳ, ಸಮೃದ್ಧಿ.' },
+  { ...buildHomeTitleDesc('kn') },
   { title: 'ಕೇರಳ ಲಾಟರಿ ಟಿಕೆಟ್ ಸಂಖ್ಯೆ ಪರಿಶೀಲನೆ',
     desc: 'ನಿಮ್ಮ ಟಿಕೆಟ್ ಸಂಖ್ಯೆ ಗೆದ್ದಿದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಿ.',
     content: `<main><h1>ಕೇರಳ ಲಾಟರಿ ಟಿಕೆಟ್ ಪರಿಶೀಲನೆ</h1><p>ನಿಮ್ಮ ಟಿಕೆಟ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ, ಇತ್ತೀಚಿನ ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶಗಳಲ್ಲಿ ಗೆದ್ದಿದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಿ.</p></main>` },
@@ -1360,13 +1435,14 @@ function makeHtml(route, { noindex = false } = {}) {
   // twitter:title / twitter:description fall through to the generic base
   // template text for every other route on the site (a pre-existing,
   // site-wide gap — og:* already gets the real per-page title/desc above).
-  // Scoped to just the Prize Tax Calculator's 5 pages (en + 4 locales, all
-  // share this enPath) per explicit instruction not to change any other
-  // page's meta tags.
-  if (route.enPath === '/prize-tax-calculator' && html.includes('name="twitter:title"')) {
+  // Scoped to the Prize Tax Calculator's 5 pages and the 5 homepages (en +
+  // 4 locales each, all sharing their respective enPath) per explicit
+  // instruction not to change any other page's meta tags.
+  const TWITTER_FIXED_ENPATHS = new Set(['/prize-tax-calculator', '/']);
+  if (TWITTER_FIXED_ENPATHS.has(route.enPath) && html.includes('name="twitter:title"')) {
     html = html.replace(/<meta name="twitter:title" content=".*?"/, `<meta name="twitter:title" content="${ea(route.title)}"`);
   }
-  if (route.enPath === '/prize-tax-calculator' && html.includes('name="twitter:description"')) {
+  if (TWITTER_FIXED_ENPATHS.has(route.enPath) && html.includes('name="twitter:description"')) {
     html = html.replace(/<meta name="twitter:description" content=".*?"/, `<meta name="twitter:description" content="${ea(route.desc)}"`);
   }
 
