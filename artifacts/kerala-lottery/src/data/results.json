@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-19T09:40:47.494781Z",
-    "summary": "Result for Bhagyathara BT-76. 3/10 tiers updated.",
+    "lastUpdated": "2026-10-19T09:45:46.008024Z",
+    "summary": "Result for Bhagyathara BT-76. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -44,17 +44,46 @@
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
-        "numbers": []
+        "numbers": [
+          "BN 357129"
+        ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "1022",
+          "1525",
+          "1662",
+          "1718",
+          "2347",
+          "2698",
+          "3088",
+          "3583",
+          "4441",
+          "5032",
+          "5903",
+          "6046",
+          "6926",
+          "7183",
+          "7603",
+          "7608",
+          "7845",
+          "8898",
+          "8947"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "1231",
+          "4156",
+          "6644",
+          "7731",
+          "9235",
+          "9892"
+        ]
       },
       {
         "tier": "6th Prize",
