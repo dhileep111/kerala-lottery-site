@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-20T09:40:47.306177Z",
-    "summary": "Result for Sthree Sakthi SS-542. 3/10 tiers updated.",
+    "lastUpdated": "2026-10-20T09:45:50.852493Z",
+    "summary": "Result for Sthree Sakthi SS-542. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -44,17 +44,46 @@
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
-        "numbers": []
+        "numbers": [
+          "SA 599662"
+        ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0082",
+          "0508",
+          "1280",
+          "1702",
+          "2089",
+          "2560",
+          "3084",
+          "3337",
+          "3353",
+          "4999",
+          "5740",
+          "6101",
+          "6112",
+          "6817",
+          "7072",
+          "7693",
+          "8514",
+          "8617",
+          "9796"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "0408",
+          "0512",
+          "0928",
+          "3566",
+          "4763",
+          "9497"
+        ]
       },
       {
         "tier": "6th Prize",
