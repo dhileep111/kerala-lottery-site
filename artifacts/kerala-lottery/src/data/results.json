@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-21T10:55:36.545942Z",
+    "lastUpdated": "2026-10-21T15:14:53.590950Z",
     "summary": "Result for Dhanalekshmi DL-74. 10/10 tiers updated.",
     "prizes": [
       {
@@ -16,7 +16,7 @@
         "numbers": [
           {
             "ticket": "DP 663990",
-            "district": "Palakkad"
+            "district": "Chittur"
           }
         ]
       },
@@ -53,7 +53,7 @@
         "numbers": [
           {
             "ticket": "DO 879725",
-            "district": "Kozhikode"
+            "district": "Thamarassery"
           }
         ]
       },
