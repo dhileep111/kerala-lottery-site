@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-21T09:45:50.356467Z",
-    "summary": "Result for Dhanalekshmi DL-74. 6/10 tiers updated.",
+    "lastUpdated": "2026-10-21T09:50:48.360168Z",
+    "summary": "Result for Dhanalekshmi DL-74. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "DP 663990"
+          {
+            "ticket": "DP 663990",
+            "district": "Palakkad"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "DW 235543"
+          {
+            "ticket": "DW 235543",
+            "district": "Kollam"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "DO 879725"
+          {
+            "ticket": "DO 879725",
+            "district": "Kozhikode"
+          }
         ]
       },
       {
@@ -88,7 +97,14 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "5257",
+          "4563",
+          "0226",
+          "4255",
+          "6835",
+          "0751"
+        ]
       },
       {
         "tier": "7th Prize",
