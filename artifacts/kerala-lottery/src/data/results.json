@@ -1,5 +1,84 @@
 [
   {
+    "lotterySlug": "karunya-plus",
+    "drawCode": "KN-646",
+    "drawDate": "2026-10-22",
+    "displayDate": "October 22, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-10-22T09:40:45.498716Z",
+    "summary": "Result for Karunya Plus KN-646. 3/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "PR 328935"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "PN 328935",
+          "PO 328935",
+          "PP 328935",
+          "PS 328935",
+          "PT 328935",
+          "PU 328935",
+          "PV 328935",
+          "PW 328935",
+          "PX 328935",
+          "PY 328935",
+          "PZ 328935"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          "PZ 692702"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": []
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "dhanalekshmi",
     "drawCode": "DL-74",
     "drawDate": "2026-10-21",
