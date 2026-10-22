@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-22T10:55:39.369174Z",
+    "lastUpdated": "2026-10-22T15:17:06.155824Z",
     "summary": "Result for Karunya Plus KN-646. 10/10 tiers updated.",
     "prizes": [
       {
@@ -16,7 +16,7 @@
         "numbers": [
           {
             "ticket": "PR 328935",
-            "district": "Thiruvananthapuram"
+            "district": "Neyyattinkara"
           }
         ]
       },
@@ -53,7 +53,7 @@
         "numbers": [
           {
             "ticket": "PZ 510686",
-            "district": "Palakkad"
+            "district": "Pattambi"
           }
         ]
       },
@@ -218,7 +218,7 @@
           "0632",
           "0800",
           "0866",
-          "0987",
+          "0967",
           "1006",
           "1219",
           "1248",
