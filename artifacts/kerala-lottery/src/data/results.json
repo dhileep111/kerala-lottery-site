@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-22T09:45:49.410631Z",
-    "summary": "Result for Karunya Plus KN-646. 6/10 tiers updated.",
+    "lastUpdated": "2026-10-22T09:50:46.645255Z",
+    "summary": "Result for Karunya Plus KN-646. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "PR 328935"
+          {
+            "ticket": "PR 328935",
+            "district": "Thiruvananthapuram"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "PZ 692702"
+          {
+            "ticket": "PZ 692702",
+            "district": "Thrissur"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "PZ 510686"
+          {
+            "ticket": "PZ 510686",
+            "district": "Palakkad"
+          }
         ]
       },
       {
@@ -88,7 +97,26 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "3248",
+          "3069",
+          "3408",
+          "1677",
+          "0476",
+          "6290",
+          "8875",
+          "8085",
+          "7914",
+          "8146",
+          "6877",
+          "3794",
+          "7873",
+          "9439",
+          "3787",
+          "1568",
+          "2320",
+          "1505"
+        ]
       },
       {
         "tier": "7th Prize",
