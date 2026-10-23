@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-23T09:45:44.848311Z",
-    "summary": "Result for Suvarna Keralam SK-74. 6/10 tiers updated.",
+    "lastUpdated": "2026-10-23T09:50:42.721703Z",
+    "summary": "Result for Suvarna Keralam SK-74. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "RX 418236"
+          {
+            "ticket": "RX 418236",
+            "district": "Thrissur"
+          }
         ]
       },
       {
@@ -37,14 +40,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "RW 817963"
+          {
+            "ticket": "RW 817963",
+            "district": "Kollam"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "RT 445854"
+          {
+            "ticket": "RT 445854",
+            "district": "Thrissur"
+          }
         ]
       },
       {
@@ -87,7 +96,26 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "6613",
+          "7593",
+          "1458",
+          "3532",
+          "1100",
+          "9773",
+          "2472",
+          "3342",
+          "6710",
+          "7906",
+          "2171",
+          "7884",
+          "8789",
+          "6153",
+          "3692",
+          "9970",
+          "0387",
+          "6612"
+        ]
       },
       {
         "tier": "7th Prize",
