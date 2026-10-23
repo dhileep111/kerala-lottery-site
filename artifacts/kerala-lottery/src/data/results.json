@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-23T10:55:34.548938Z",
+    "lastUpdated": "2026-10-23T15:04:07.490795Z",
     "summary": "Result for Suvarna Keralam SK-74. 10/10 tiers updated.",
     "prizes": [
       {
@@ -52,7 +52,7 @@
         "numbers": [
           {
             "ticket": "RT 445854",
-            "district": "Thrissur"
+            "district": "Irinjalakuda"
           }
         ]
       },
