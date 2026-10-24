@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-24T09:40:45.915925Z",
-    "summary": "Result for Karunya KR-773. 3/10 tiers updated.",
+    "lastUpdated": "2026-10-24T09:45:45.251221Z",
+    "summary": "Result for Karunya KR-773. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -44,17 +44,46 @@
       {
         "tier": "3rd Prize",
         "amount": "₹10,00,000",
-        "numbers": []
+        "numbers": [
+          "KT 982060"
+        ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0146",
+          "1073",
+          "2966",
+          "3229",
+          "3283",
+          "3924",
+          "4317",
+          "4498",
+          "5569",
+          "5606",
+          "6369",
+          "6464",
+          "6505",
+          "7994",
+          "8070",
+          "8934",
+          "9112",
+          "9285",
+          "9442"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "0616",
+          "2313",
+          "3172",
+          "6134",
+          "8893",
+          "8902"
+        ]
       },
       {
         "tier": "6th Prize",
