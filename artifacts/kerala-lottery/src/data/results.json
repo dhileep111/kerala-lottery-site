@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-24T10:55:31.613183Z",
+    "lastUpdated": "2026-10-24T14:00:43.101823Z",
     "summary": "Result for Karunya KR-773. 10/10 tiers updated.",
     "prizes": [
       {
@@ -16,7 +16,7 @@
         "numbers": [
           {
             "ticket": "KX 899863",
-            "district": "Thrissur"
+            "district": "Irinjalakuda"
           }
         ]
       },
@@ -43,7 +43,7 @@
         "numbers": [
           {
             "ticket": "KN 508592",
-            "district": "Thiruvananthapuram"
+            "district": "Neyyattinkara"
           }
         ]
       },
@@ -53,7 +53,7 @@
         "numbers": [
           {
             "ticket": "KT 982060",
-            "district": "Idukki"
+            "district": "Adimaly"
           }
         ]
       },
