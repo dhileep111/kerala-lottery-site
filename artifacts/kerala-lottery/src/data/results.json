@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-25T09:45:43.599234Z",
-    "summary": "Result for Samrudhi SM-78. 6/10 tiers updated.",
+    "lastUpdated": "2026-10-25T09:50:41.171444Z",
+    "summary": "Result for Samrudhi SM-78. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "MZ 260810"
+          {
+            "ticket": "MZ 260810",
+            "district": "Thiruvananthapuram"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹25,00,000",
         "numbers": [
-          "MS 225898"
+          {
+            "ticket": "MS 225898",
+            "district": "Malappuram"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "MN 343770"
+          {
+            "ticket": "MN 343770",
+            "district": "Palakkad"
+          }
         ]
       },
       {
@@ -88,7 +97,20 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "8256",
+          "0852",
+          "4741",
+          "4190",
+          "8637",
+          "4811",
+          "8967",
+          "6968",
+          "2089",
+          "3867",
+          "3902",
+          "6164"
+        ]
       },
       {
         "tier": "7th Prize",
