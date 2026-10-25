@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-25T09:40:44.346994Z",
-    "summary": "Result for Samrudhi SM-78. 4/10 tiers updated.",
+    "lastUpdated": "2026-10-25T09:45:43.599234Z",
+    "summary": "Result for Samrudhi SM-78. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -51,12 +51,39 @@
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0118",
+          "1101",
+          "1632",
+          "2447",
+          "2749",
+          "3036",
+          "3269",
+          "3696",
+          "4192",
+          "4680",
+          "5107",
+          "5110",
+          "5511",
+          "6545",
+          "7131",
+          "8012",
+          "8425",
+          "9003",
+          "9720"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "3831",
+          "5655",
+          "6390",
+          "7773",
+          "8322",
+          "9006"
+        ]
       },
       {
         "tier": "6th Prize",
