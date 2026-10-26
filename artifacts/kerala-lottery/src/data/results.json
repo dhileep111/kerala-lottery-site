@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-26T09:45:45.632728Z",
-    "summary": "Result for Bhagyathara BT-77. 6/10 tiers updated.",
+    "lastUpdated": "2026-10-26T09:50:41.283508Z",
+    "summary": "Result for Bhagyathara BT-77. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "BJ 186570"
+          {
+            "ticket": "BJ 186570",
+            "district": "Thrissur"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "BM 141560"
+          {
+            "ticket": "BM 141560",
+            "district": "Ernakulam"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "BJ 210059"
+          {
+            "ticket": "BJ 210059",
+            "district": "Malappuram"
+          }
         ]
       },
       {
@@ -88,7 +97,14 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "7381",
+          "2987",
+          "0740",
+          "3177",
+          "5209",
+          "1230"
+        ]
       },
       {
         "tier": "7th Prize",
