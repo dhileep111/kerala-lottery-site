@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-27T09:50:45.114284Z",
-    "summary": "Result for Sthree Sakthi SS-543. 6/10 tiers updated.",
+    "lastUpdated": "2026-10-27T09:55:36.661042Z",
+    "summary": "Result for Sthree Sakthi SS-543. 8/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "SP 760709"
+          {
+            "ticket": "SP 760709",
+            "district": "Kollam"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "ST 580183"
+          {
+            "ticket": "ST 580183",
+            "district": "Thrissur"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "SR 609867"
+          {
+            "ticket": "SR 609867",
+            "district": "Kottayam"
+          }
         ]
       },
       {
@@ -88,12 +97,56 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0072",
+          "0786",
+          "1451",
+          "2134",
+          "2616",
+          "3081",
+          "3240",
+          "3363",
+          "3378",
+          "3527",
+          "3573",
+          "3630",
+          "3808",
+          "4465",
+          "4525",
+          "4633",
+          "6170",
+          "7383",
+          "7512",
+          "7768",
+          "7925",
+          "8046",
+          "8162",
+          "9191",
+          "9291"
+        ]
       },
       {
         "tier": "7th Prize",
         "amount": "₹500",
-        "numbers": []
+        "numbers": [
+          "7484",
+          "1866",
+          "2830",
+          "4074",
+          "5471",
+          "2791",
+          "5268",
+          "4603",
+          "2602",
+          "5162",
+          "3091",
+          "3145",
+          "2329",
+          "8704",
+          "5140",
+          "2813",
+          "3763"
+        ]
       },
       {
         "tier": "8th Prize",
