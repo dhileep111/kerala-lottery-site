@@ -1,5 +1,93 @@
 [
   {
+    "lotterySlug": "sthree-sakthi",
+    "drawCode": "SS-543",
+    "drawDate": "2026-10-27",
+    "displayDate": "October 27, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-10-27T09:40:45.259674Z",
+    "summary": "Result for Sthree Sakthi SS-543. 5/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "SP 760709"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "SN 760709",
+          "SO 760709",
+          "SR 760709",
+          "SS 760709",
+          "ST 760709",
+          "SU 760709",
+          "SV 760709",
+          "SW 760709",
+          "SX 760709",
+          "SY 760709",
+          "SZ 760709"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          "ST 580183"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "SR 609867"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "4198",
+          "6490",
+          "2099",
+          "4932",
+          "4791",
+          "5539"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "bhagyathara",
     "drawCode": "BT-77",
     "drawDate": "2026-10-26",
