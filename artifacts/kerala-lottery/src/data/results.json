@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-28T09:45:50.489443Z",
-    "summary": "Result for Dhanalekshmi DL-75. 6/10 tiers updated.",
+    "lastUpdated": "2026-10-28T09:50:44.777411Z",
+    "summary": "Result for Dhanalekshmi DL-75. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "DE 827984"
+          {
+            "ticket": "DE 827984",
+            "district": "Pathanamthitta"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "DL 148445"
+          {
+            "ticket": "DL 148445",
+            "district": "Pathanamthitta"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "DM 731832"
+          {
+            "ticket": "DM 731832",
+            "district": "Kannur"
+          }
         ]
       },
       {
@@ -88,7 +97,26 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "9476",
+          "6037",
+          "8262",
+          "3675",
+          "2061",
+          "6649",
+          "7454",
+          "6243",
+          "4802",
+          "4046",
+          "1382",
+          "3429",
+          "6774",
+          "8255",
+          "7685",
+          "1641",
+          "6666",
+          "2391"
+        ]
       },
       {
         "tier": "7th Prize",
