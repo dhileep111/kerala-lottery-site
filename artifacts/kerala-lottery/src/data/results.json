@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-28T10:55:34.963667Z",
+    "lastUpdated": "2026-10-28T16:37:45.323255Z",
     "summary": "Result for Dhanalekshmi DL-75. 10/10 tiers updated.",
     "prizes": [
       {
@@ -16,7 +16,7 @@
         "numbers": [
           {
             "ticket": "DE 827984",
-            "district": "Pathanamthitta"
+            "district": "Adoor"
           }
         ]
       },
