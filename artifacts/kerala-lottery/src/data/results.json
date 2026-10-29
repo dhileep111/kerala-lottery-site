@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-29T09:45:48.572609Z",
-    "summary": "Result for Karunya Plus KN-647. 6/10 tiers updated.",
+    "lastUpdated": "2026-10-29T09:50:46.289855Z",
+    "summary": "Result for Karunya Plus KN-647. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "PA 402332"
+          {
+            "ticket": "PA 402332",
+            "district": "Palakkad"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "PK 145530"
+          {
+            "ticket": "PK 145530",
+            "district": "Kottayam"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "PJ 785296"
+          {
+            "ticket": "PJ 785296",
+            "district": "Alappuzha"
+          }
         ]
       },
       {
@@ -88,7 +97,26 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "6330",
+          "8499",
+          "9422",
+          "4300",
+          "7868",
+          "6809",
+          "9312",
+          "5930",
+          "8604",
+          "7571",
+          "6423",
+          "6315",
+          "1962",
+          "3291",
+          "1060",
+          "6635",
+          "2534",
+          "3112"
+        ]
       },
       {
         "tier": "7th Prize",
