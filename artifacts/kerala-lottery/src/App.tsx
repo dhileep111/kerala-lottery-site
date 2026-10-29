@@ -2,6 +2,7 @@ import { useEffect, type ComponentType } from "react";
 import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
+import AppPrompts from "./components/AppPrompts";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import CheckTicketPage from "./pages/CheckTicketPage";
@@ -96,6 +97,7 @@ function Router() {
         <Route component={NotFound} />
       </Switch>
       <Footer />
+      <AppPrompts />
     </>
   );
 }

@@ -167,6 +167,11 @@ jobs:
           fb  = lottery+' '+draw_code+' Result Today\n\n1st Prize: '+prize+'\n'+status+'\n\nFull prize list: '+url
           tg  = '*'+lottery+' '+draw_code+' Result*\n\n1st Prize: '+prize+'\n'+status+'\n\n[View full prize table]('+url+')'
           payload = {'lottery':lottery,'draw_code':draw_code,'first_prize':prize,'is_full_result':is_full,'result_url':url,'fb_message':fb,'tg_message':tg}
+          try:
+              with open('artifacts/kerala-lottery/src/data/lotteries.json', encoding='utf-8') as f:
+                  payload['lottery_name'] = next((l['name'] for l in json.load(f) if l.get('slug') == lottery), lottery)
+          except Exception:
+              payload['lottery_name'] = lottery
           data = json.dumps(payload).encode('utf-8')
           req = urllib.request.Request(webhook,data=data,headers={'Content-Type':'application/json'})
           try:

@@ -119,6 +119,8 @@ export type UIKey =
   | 'ndcLiveNow' | 'ndcTodaysResult' | 'ndcResultBeingPublished' | 'ndcRefreshMoment'
   | 'ndcNextDrawIn' | 'ndcKeralaLottery' | 'ndcDays' | 'ndcHours' | 'ndcMins' | 'ndcSecs'
   | 'ndcDrawDailyAt' | 'ndcLiveText' | 'ndcLiveTextDaysPrefix'
+  // ── AppPrompts (install / push chips) ───────────────────────────
+  | 'pwaInstall' | 'pwaInstallDismiss' | 'pushGetAlerts' | 'pushGetAlertsSub' | 'pushDismiss'
   // ── DrawArchivePage / LotteryResultPage (shared) ────────────────
   | 'resultNotFound' | 'lotteryNotFound' | 'resultLabel' | 'moreResultsPrefix'
   | 'moreResultsSuffix' | 'importantDisclaimer' | 'archiveDisclaimerBody'
@@ -315,6 +317,11 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     ndcDrawDailyAt: 'Draw daily at {time} IST',
     ndcLiveText: '{daysPart}{hours} hours {minutes} minutes {seconds} seconds until the next draw',
     ndcLiveTextDaysPrefix: '{days} days ',
+    pwaInstall: 'Install app',
+    pwaInstallDismiss: 'Hide install button',
+    pushGetAlerts: 'Get result alerts',
+    pushGetAlertsSub: '1st prize at 3 PM · free',
+    pushDismiss: 'Hide result alerts button',
 
     resultNotFound: 'Result not found.', lotteryNotFound: 'Lottery not found.', resultLabel: 'Result',
     moreResultsPrefix: 'More', moreResultsSuffix: 'Results', importantDisclaimer: 'Important Disclaimer',
@@ -542,6 +549,11 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     ndcDrawDailyAt: 'தினமும் மதியம் {time} மணிக்கு டிராவ்',
     ndcLiveText: '{daysPart}{hours} மணிநேரம் {minutes} நிமிடங்கள் {seconds} வினாடிகளில் அடுத்த டிராவ்',
     ndcLiveTextDaysPrefix: '{days} நாட்கள் ',
+    pwaInstall: 'ஆப் இன்ஸ்டால் செய்ய',
+    pwaInstallDismiss: 'இன்ஸ்டால் பட்டனை மறை',
+    pushGetAlerts: 'ரிசல்ட் அலர்ட் பெறுங்கள்',
+    pushGetAlertsSub: 'மதியம் 3 மணிக்கு 1வது பரிசு · இலவசம்',
+    pushDismiss: 'அலர்ட் பட்டனை மறை',
 
     resultNotFound: 'முடிவு கிடைக்கவில்லை.', lotteryNotFound: 'லாட்டரி கிடைக்கவில்லை.', resultLabel: 'முடிவு',
     moreResultsPrefix: 'மேலும்', moreResultsSuffix: 'முடிவுகள்', importantDisclaimer: 'முக்கிய மறுப்பு அறிக்கை',
@@ -769,6 +781,11 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     ndcDrawDailyAt: 'ദിവസവും ഉച്ചയ്ക്ക് {time}ന് നറുക്കെടുപ്പ്',
     ndcLiveText: '{daysPart}{hours} മണിക്കൂർ {minutes} മിനിറ്റ് {seconds} സെക്കൻഡിൽ അടുത്ത നറുക്കെടുപ്പ്',
     ndcLiveTextDaysPrefix: '{days} ദിവസം ',
+    pwaInstall: 'ആപ്പ് ഇൻസ്റ്റാൾ ചെയ്യുക',
+    pwaInstallDismiss: 'ഇൻസ്റ്റാൾ ബട്ടൺ മറയ്ക്കുക',
+    pushGetAlerts: 'ഫല അറിയിപ്പുകൾ നേടുക',
+    pushGetAlertsSub: 'ഉച്ചയ്ക്ക് 3 മണിക്ക് ഒന്നാം സമ്മാനം · സൗജന്യം',
+    pushDismiss: 'അറിയിപ്പ് ബട്ടൺ മറയ്ക്കുക',
 
     resultNotFound: 'ഫലം കണ്ടെത്തിയില്ല.', lotteryNotFound: 'ലോട്ടറി കണ്ടെത്തിയില്ല.', resultLabel: 'ഫലം',
     moreResultsPrefix: 'കൂടുതൽ', moreResultsSuffix: 'ഫലങ്ങൾ', importantDisclaimer: 'പ്രധാന നിരാകരണം',
@@ -996,6 +1013,11 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     ndcDrawDailyAt: 'रोज़ दोपहर {time} बजे ड्रॉ',
     ndcLiveText: '{daysPart}{hours} घंटे {minutes} मिनट {seconds} सेकंड में अगला ड्रॉ',
     ndcLiveTextDaysPrefix: '{days} दिन ',
+    pwaInstall: 'ऐप इंस्टॉल करें',
+    pwaInstallDismiss: 'इंस्टॉल बटन छिपाएं',
+    pushGetAlerts: 'रिज़ल्ट अलर्ट पाएं',
+    pushGetAlertsSub: 'दोपहर 3 बजे पहला इनाम · मुफ़्त',
+    pushDismiss: 'अलर्ट बटन छिपाएं',
 
     resultNotFound: 'परिणाम नहीं मिला।', lotteryNotFound: 'लॉटरी नहीं मिली।', resultLabel: 'परिणाम',
     moreResultsPrefix: 'अधिक', moreResultsSuffix: 'परिणाम', importantDisclaimer: 'महत्वपूर्ण अस्वीकरण',
@@ -1223,6 +1245,11 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     ndcDrawDailyAt: 'ಪ್ರತಿದಿನ ಮಧ್ಯಾಹ್ನ {time} ಕ್ಕೆ ಡ್ರಾ',
     ndcLiveText: '{daysPart}{hours} ಗಂಟೆ {minutes} ನಿಮಿಷ {seconds} ಸೆಕೆಂಡುಗಳಲ್ಲಿ ಮುಂದಿನ ಡ್ರಾ',
     ndcLiveTextDaysPrefix: '{days} ದಿನ ',
+    pwaInstall: 'ಆ್ಯಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿ',
+    pwaInstallDismiss: 'ಇನ್‌ಸ್ಟಾಲ್ ಬಟನ್ ಮರೆಮಾಡಿ',
+    pushGetAlerts: 'ಫಲಿತಾಂಶ ಅಲರ್ಟ್ ಪಡೆಯಿರಿ',
+    pushGetAlertsSub: 'ಮಧ್ಯಾಹ್ನ 3 ಗಂಟೆಗೆ ಮೊದಲ ಬಹುಮಾನ · ಉಚಿತ',
+    pushDismiss: 'ಅಲರ್ಟ್ ಬಟನ್ ಮರೆಮಾಡಿ',
 
     resultNotFound: 'ಫಲಿತಾಂಶ ಕಂಡುಬಂದಿಲ್ಲ.', lotteryNotFound: 'ಲಾಟರಿ ಕಂಡುಬಂದಿಲ್ಲ.', resultLabel: 'ಫಲಿತಾಂಶ',
     moreResultsPrefix: 'ಹೆಚ್ಚು', moreResultsSuffix: 'ಫಲಿತಾಂಶಗಳು', importantDisclaimer: 'ಪ್ರಮುಖ ಹೊಣೆಗಾರಿಕೆ ನಿರಾಕರಣೆ',

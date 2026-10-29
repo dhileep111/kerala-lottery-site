@@ -1,1 +1,25 @@
-{"name":"","short_name":"","icons":[{"src":"/android-chrome-192x192.png","sizes":"192x192","type":"image/png"},{"src":"/android-chrome-512x512.png","sizes":"512x512","type":"image/png"}],"theme_color":"#ffffff","background_color":"#ffffff","display":"standalone"}
+{
+  "id": "/",
+  "name": "Kerala Ticket Results",
+  "short_name": "KL Results",
+  "description": "Kerala lottery results today at 3 PM — live first prize, full prize list, ticket checker.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "/?utm_source=pwa&utm_medium=homescreen",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#15803d",
+  "background_color": "#ffffff",
+  "categories": ["news", "entertainment"],
+  "icons": [
+    { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/maskable-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Today's Result", "short_name": "Today", "url": "/?utm_source=pwa_shortcut", "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Yesterday's Result", "short_name": "Yesterday", "url": "/yesterday-result?utm_source=pwa_shortcut", "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Check My Ticket", "short_name": "Check", "url": "/check-ticket?utm_source=pwa_shortcut", "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" }] }
+  ]
+}
