@@ -282,6 +282,17 @@ function getFirstPrize(result) {
 function getResultForSlug(slug) {
   return results.find(r => r.lotterySlug === slug) || null;
 }
+// Same rule as getLatestHomeDraw, scoped to one lottery: newest draw that has a 1st-prize ticket.
+function getLatestDrawForSlug(slug) {
+  const candidates = results.filter(r =>
+    r.lotterySlug === slug && getTicket(r.prizes?.find(p => p.tier === '1st Prize')?.numbers?.[0])
+  );
+  candidates.sort((a, b) =>
+    (b.drawDate || '').localeCompare(a.drawDate || '') ||
+    (b.lastUpdated || '').localeCompare(a.lastUpdated || '')
+  );
+  return candidates[0] || null;
+}
 function getLottery(slug) {
   return lotteries.find(l => l.slug === slug) || null;
 }
@@ -1296,10 +1307,19 @@ const lotteryRoutePairs = lotteries.map(l => {
   const tName   = TAMIL_NAMES[l.slug] ?? l.name;
   const tDay    = TAMIL_DAYS[l.drawDay] ?? l.drawDay;
   const enPath  = `/results/${l.slug}`;
+  // Bumpers draw months apart, so "Result Today" would mislead — bumper keeps the static title.
+  const latest  = l.isBumper ? null : getLatestDrawForSlug(l.slug);
+  const latestFirst = latest?.prizes.find(p => p.tier === '1st Prize').numbers[0];
+  const latestDistrict = getDistrict(latestFirst);
+  const latestDate = latest ? localizedDrawDate('en', latest.drawDate) : '';
   const en = {
     path:    enPath,
-    title:   `${l.name} Lottery Result Today ${l.code} — ${compactAmPm(l.drawTime)} Live`,
-    desc:    `${l.name} (${l.code}) Kerala lottery result today — 1st Prize: ${firstP}. Draw every ${l.drawDay} at ${l.drawTime}. Updated the moment results are announced.`,
+    title:   latest
+      ? `${l.name} ${latest.drawCode} Result Today 3 PM — ${latestDate}`
+      : `${l.name} Lottery Result Today ${l.code} — ${compactAmPm(l.drawTime)} Live`,
+    desc:    latest
+      ? `${l.name} ${latest.drawCode}, ${latestDate} — 1st Prize ${getTicket(latestFirst)}${latestDistrict ? ` (${latestDistrict})` : ''}. Kerala lottery result today at 3 PM IST with the full prize list. Draws every ${l.drawDay}.`
+      : `${l.name} (${l.code}) Kerala lottery result today — 1st Prize: ${firstP}. ${l.isBumper ? `Special draws at ${l.drawTime}` : `Draw every ${l.drawDay} at ${l.drawTime}`}. Updated the moment results are announced.`,
     canonical: `${SITE}${enPath}`,
     enPath,
     lang: 'en',
@@ -1517,10 +1537,14 @@ function makeHtml(route, { noindex = false } = {}) {
   // 4 locales each, all sharing their respective enPath) per explicit
   // instruction not to change any other page's meta tags.
   const TWITTER_FIXED_ENPATHS = new Set(['/prize-tax-calculator', '/']);
-  if (TWITTER_FIXED_ENPATHS.has(route.enPath) && html.includes('name="twitter:title"')) {
+  // English-only: locale lottery pages share this enPath but keep their current twitter tags.
+  const TWITTER_FIXED_EN_ONLY_PATHS = new Set(lotteries.filter(l => !l.isBumper).map(l => `/results/${l.slug}`));
+  const twitterFixed = TWITTER_FIXED_ENPATHS.has(route.enPath) ||
+    (route.lang === 'en' && TWITTER_FIXED_EN_ONLY_PATHS.has(route.path));
+  if (twitterFixed && html.includes('name="twitter:title"')) {
     html = html.replace(/<meta name="twitter:title" content=".*?"/, `<meta name="twitter:title" content="${ea(route.title)}"`);
   }
-  if (TWITTER_FIXED_ENPATHS.has(route.enPath) && html.includes('name="twitter:description"')) {
+  if (twitterFixed && html.includes('name="twitter:description"')) {
     html = html.replace(/<meta name="twitter:description" content=".*?"/, `<meta name="twitter:description" content="${ea(route.desc)}"`);
   }
 
