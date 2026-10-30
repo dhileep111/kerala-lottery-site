@@ -1,7 +1,6 @@
 import { Link } from 'wouter';
 import { BreadcrumbSchema } from '../components/JsonLd';
-import { results, lotteries, drawPath, getFirstPrizeNumber, getTodayLottery, site } from '../data';
-import bumpers from '../data/bumpers.json';
+import { results, lotteries, drawPath, getFirstPrizeNumber, getTodayLottery, site, getActiveUpcomingBumper } from '../data';
 import { useCountdown } from '../lib/useCountdown';
 import { useLang, t, getLotteryName } from '../lib/i18n';
 
@@ -14,13 +13,7 @@ function firstPrizeDistrict(result: Row): string | null {
 
 export default function JackpotPage() {
   const lang = useLang();
-  const up = (bumpers as {
-    upcoming?: {
-      announced: boolean;
-      name?: string; code?: string; drawDateISO?: string; drawDateLabel?: string;
-      drawTime?: string; firstPrize?: string; ticketPrice?: string; series?: string; venue?: string;
-    };
-  }).upcoming;
+  const up = getActiveUpcomingBumper();
   const cd = useCountdown(up?.drawDateISO ?? '');
   const todayLottery = getTodayLottery();
   const daily = lotteries.filter((l) => !l.isBumper);

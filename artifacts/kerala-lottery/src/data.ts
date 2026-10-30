@@ -200,6 +200,38 @@ function isBumperDay(date: Date): boolean {
   return upcoming.drawDateISO.slice(0, 10) === todayStr;
 }
 
+export interface UpcomingBumper {
+  announced: boolean;
+  name?: string; code?: string; drawDateISO?: string; drawDateLabel?: string;
+  drawTime?: string; firstPrize?: string; ticketPrice?: string; series?: string; venue?: string;
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+// Mirrors prerender.mjs getActiveUpcomingBumper(): the announced bumper stops being
+// "upcoming" once its result has a 1st prize, or 24h after the draw, without anyone
+// having to reset announced:false.
+export function getActiveUpcomingBumper(now = Date.now()): UpcomingBumper | null {
+  const up = (bumpersJson as { upcoming?: UpcomingBumper }).upcoming;
+  if (!up?.announced) return null;
+  const hasResult = results.some((r) =>
+    r.lotterySlug === 'bumper' && r.drawCode === up.code &&
+    (r.prizes.find((p) => p.tier === '1st Prize')?.numbers.length ?? 0) > 0,
+  );
+  if (hasResult) return null;
+  const drawMs = Date.parse(up.drawDateISO ?? '');
+  if (Number.isFinite(drawMs) && now > drawMs + DAY_MS) return null;
+  return up;
+}
+
+// True only while the bumper draw is 0–24h away, so the daily countdown isn't replaced weeks early.
+export function isBumperCountdownWindow(up: UpcomingBumper | null, now = Date.now()): boolean {
+  const drawMs = Date.parse(up?.drawDateISO ?? '');
+  if (!Number.isFinite(drawMs)) return false;
+  const untilDraw = drawMs - now;
+  return untilDraw >= 0 && untilDraw <= DAY_MS;
+}
+
 export function getTodayLottery(date = new Date()) {
   if (isBumperDay(date)) {
     const bumper = lotteries.find((l) => l.isBumper);

@@ -1,8 +1,7 @@
 import { useMemo } from 'react';
 import { Link } from 'wouter';
 import { JsonLd } from '../components/JsonLd';
-import { results, drawPath, getFirstPrizeNumber } from '../data';
-import bumpers from '../data/bumpers.json';
+import { results, drawPath, getFirstPrizeNumber, getActiveUpcomingBumper } from '../data';
 import { useCountdown } from '../lib/useCountdown';
 import { useLang, t, getLotteryName } from '../lib/i18n';
 
@@ -15,13 +14,7 @@ function firstPrizeDistrict(result: Row): string | null {
 
 export default function BumperPage() {
   const lang = useLang();
-  const up = (bumpers as {
-    upcoming?: {
-      announced: boolean;
-      name?: string; code?: string; drawDateISO?: string; drawDateLabel?: string;
-      drawTime?: string; firstPrize?: string; ticketPrice?: string; series?: string; venue?: string;
-    };
-  }).upcoming;
+  const up = getActiveUpcomingBumper();
   const cd = useCountdown(up?.drawDateISO ?? '');
 
   const pastBumpers = useMemo(

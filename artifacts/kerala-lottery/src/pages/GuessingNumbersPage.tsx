@@ -3,12 +3,11 @@ import { Link } from 'wouter';
 import {
   getLatestGuessing, lotteries, getTodayLottery, getTomorrowLottery, site,
   getSeriesFrequency, getSiteHotNumbers, getLatestVerifiedResult,
-  extractTicketDigits, deriveGuessingNumbers,
+  extractTicketDigits, deriveGuessingNumbers, getActiveUpcomingBumper, isBumperCountdownWindow,
 } from '../data';
 import type { GuessingDay, SeriesStat } from '../data';
 import { ShareGuessingButton } from '../components/ShareGuessingButton';
 import NextDrawCountdown from '../components/NextDrawCountdown';
-import bumpers from '../data/bumpers.json';
 import { useLang, t, getLotteryName, type Lang } from '../lib/i18n';
 
 // Same "which lottery draws next" rule HomePage.tsx's getUpcomingLottery()
@@ -224,9 +223,9 @@ export default function GuessingNumbersPage() {
   const seriesStats     = getSeriesFrequency();
   const hotNumbers      = getSiteHotNumbers(5);
 
-  const bumperUpcoming = (bumpers as { upcoming?: { announced: boolean; name?: string; code?: string } }).upcoming;
+  const bumperUpcoming = getActiveUpcomingBumper();
   const upcomingDaily  = getUpcomingDailyLottery();
-  const countdownProps = bumperUpcoming?.announced
+  const countdownProps = bumperUpcoming && isBumperCountdownWindow(bumperUpcoming)
     ? { drawHourIST: 14, drawMinuteIST: 0, lotteryName: `${bumperUpcoming.name} (${bumperUpcoming.code})` }
     : { lotteryName: upcomingDaily?.name };
 

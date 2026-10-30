@@ -394,8 +394,45 @@ const BUMPER_NOT_ANNOUNCED = {
   kn: 'ಮುಂದಿನ ಬಂಪರ್ ಲಾಟರಿ: ಕೇರಳ ಲಾಟರಿ ಇಲಾಖೆ ದಿನಾಂಕವನ್ನು ಇನ್ನೂ ಘೋಷಿಸಿಲ್ಲ. ಅಧಿಕೃತ ಸೂಚನೆ ಪ್ರಕಟವಾದ ಕೂಡಲೇ ಈ ಪುಟವನ್ನು ಅಪ್ಡೇಟ್ ಮಾಡಲಾಗುತ್ತದೆ.',
 };
 
-function buildBumperContent(lang = 'en') {
+// Same rule as data.ts getActiveUpcomingBumper(), evaluated at build time: the announced
+// bumper stops being "upcoming" once its result has a 1st prize, or 24h after the draw.
+function getActiveUpcomingBumper(now = Date.now()) {
   const up = bumpers?.upcoming;
+  if (!up?.announced) return null;
+  const hasResult = results.some(r =>
+    r.lotterySlug === 'bumper' && r.drawCode === up.code &&
+    (r.prizes?.find(p => p.tier === '1st Prize')?.numbers?.length ?? 0) > 0
+  );
+  if (hasResult) return null;
+  const drawMs = Date.parse(up.drawDateISO ?? '');
+  if (Number.isFinite(drawMs) && now > drawMs + 24 * 60 * 60 * 1000) return null;
+  return up;
+}
+
+const BUMPER_STATIC_TITLE = 'Kerala Bumper Lottery 2026 — Next Draw Date & Results';
+const BUMPER_STATIC_DESC  = 'Next Kerala bumper lottery draw date, prize structure and past results. Updated the moment results are announced.';
+
+// /bumper (EN) title/desc from bumpers.json while a bumper is upcoming; static text otherwise.
+function buildBumperTitleDesc() {
+  const up = getActiveUpcomingBumper();
+  const required = ['name', 'code', 'drawDateISO', 'drawTime', 'venue', 'firstPrize', 'ticketPrice', 'series'];
+  if (!up || required.some(k => !up[k])) return { title: BUMPER_STATIC_TITLE, desc: BUMPER_STATIC_DESC };
+  const iso = up.drawDateISO.slice(0, 10);
+  const [y, m, d] = iso.split('-').map(Number);
+  const weekday = new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-US', { weekday: 'long', timeZone: 'UTC' });
+  const series = up.series.split(',').map(s => s.trim()).filter(Boolean);
+  // "JA, JB, JC, JD, JE" -> "JA–JE", but only when the series really are consecutive.
+  const consecutive = series.length > 2 && series.every((s, i) =>
+    s.length === 2 && s[0] === series[0][0] && s.charCodeAt(1) === series[0].charCodeAt(1) + i);
+  const seriesText = consecutive ? `${series[0]}–${series[series.length - 1]}` : series.join(', ');
+  return {
+    title: `Kerala Bumper Lottery ${y} — ${up.name} ${up.code}, ${EN_MONTHS[m - 1]} ${d} Draw`,
+    desc: `${up.name} ${up.code} draw: ${weekday}, ${localizedDrawDate('en', iso)} at ${up.drawTime.replace(':00', '')}, ${up.venue}. ${up.firstPrize.toLowerCase()} first prize, ticket ${up.ticketPrice}, series ${seriesText}.`,
+  };
+}
+
+function buildBumperContent(lang = 'en') {
+  const up = getActiveUpcomingBumper();
   const past = [...results]
     .filter(r => r.lotterySlug === 'bumper')
     .sort((a, b) => (b.drawDate || '').localeCompare(a.drawDate || '') || (b.lastUpdated || '').localeCompare(a.lastUpdated || ''));
@@ -477,7 +514,7 @@ function buildScheduleFaqItems() {
   const weekOrder = [1, 2, 3, 4, 5, 6, 0];
   const daily = lotteries.filter(l => !l.isBumper);
   const ordered = weekOrder.map(idx => daily.find(l => l.drawDayIndex === idx)).filter(Boolean);
-  const up = bumpers?.upcoming;
+  const up = getActiveUpcomingBumper();
   const items = [
     {
       question: 'Weekly Draw Schedule',
@@ -501,7 +538,7 @@ function buildScheduleContent(lang = 'en') {
     const dayLabel = lang === 'ta' ? `${e(l.drawDay)} (${e(TAMIL_DAYS[l.drawDay] ?? l.drawDay)})` : e(l.drawDay);
     return `<tr><td>${dayLabel}</td><td>${e(l.name)}</td><td>${e(l.code)}</td><td>${e(l.drawTime)}</td><td>${e(l.firstPrizeAmount)}</td></tr>`;
   }).join('');
-  const up = bumpers?.upcoming;
+  const up = getActiveUpcomingBumper();
   const upHtml = up?.announced
     ? `<h2>Special Draw: ${e(up.name)} (${e(up.code)})</h2><p><strong>${e(up.drawDateLabel)}</strong> at ${e(up.drawTime)}, first prize ${e(up.firstPrize)}.</p>`
     : `<p>${e(BUMPER_NOT_ANNOUNCED[lang] ?? BUMPER_NOT_ANNOUNCED.en)}</p>`;
@@ -527,7 +564,7 @@ function buildJackpotContent(lang = 'en') {
     const href = `/results/${r.lotterySlug}/${String(r.drawCode || '').toLowerCase()}`;
     return `<tr><td>${e(r.displayDate || r.drawDate)}</td><td>${e(lottery?.name || r.lotterySlug)} (${e(r.drawCode)})</td><td>${e(fp)}${dist ? ` (${e(dist)})` : ''}</td><td><a href="${ea(href)}">View result</a></td></tr>`;
   }).join('');
-  const up = bumpers?.upcoming;
+  const up = getActiveUpcomingBumper();
   const upHtml = up?.announced
     ? `<h2>Biggest Jackpot: ${e(up.name)} (${e(up.code)}) — ${e(up.firstPrize)}</h2><p><strong>${e(up.drawDateLabel)}</strong> at ${e(up.drawTime)}.</p>`
     : `<p>${e(BUMPER_NOT_ANNOUNCED[lang] ?? BUMPER_NOT_ANNOUNCED.en)}</p>`;
@@ -912,8 +949,7 @@ const staticRoutes = [
   { path: '/yesterday-result', title: 'Kerala Lottery Result Yesterday — All Prizes',
     desc: "Yesterday's Kerala lottery result with complete prize list from 1st prize to consolation. Updated daily.",
     content: buildYesterdayContent() },
-  { path: '/bumper', title: 'Kerala Bumper Lottery 2026 — Next Draw Date & Results',
-    desc: 'Next Kerala bumper lottery draw date, prize structure and past results. Updated the moment results are announced.',
+  { path: '/bumper', ...buildBumperTitleDesc(),
     content: buildBumperContent() },
   { path: '/chart', title: 'Kerala Lottery Chart 2026 — All Results',
     desc: 'Kerala lottery chart showing 1st prize for every draw — Karunya, Bhagyathara, Sthree Sakthi and all daily lotteries. Newest first.',

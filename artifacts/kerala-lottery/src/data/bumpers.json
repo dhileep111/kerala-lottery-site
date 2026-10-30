@@ -1,6 +1,15 @@
 {
-  "_comment": "EDIT THIS when a new bumper is announced. Set announced:true, drawDateISO in IST (+05:30), and all other fields from the official notification (bumper prize structures vary edition to edition — do not assume the previous bumper's amounts or tier count still apply; some editions have no 9th Prize tier). While no bumper is confirmed, keep announced:false and no other fields — do not invent a name, date, code or prize. After the draw, its result flows into results.json via the scraper and shows under Past Bumpers automatically — then set this back to announced:false until the next one is confirmed.",
+  "_comment": "EDIT THIS when a new bumper is announced. Set announced:true, drawDateISO in IST (+05:30), and all other fields from the official notification (bumper prize structures vary edition to edition — do not assume the previous bumper's amounts or tier count still apply; some editions have no 9th Prize tier). Only add prizeTiers once the official prize structure is verified. While no bumper is confirmed, keep announced:false and no other fields — do not invent a name, date, code or prize. After the draw, its result flows into results.json via the scraper and shows under Past Bumpers automatically. The site then stops showing this entry as upcoming on its own (as soon as a result with a 1st prize for this code exists, or 24 hours after drawDateISO), so announced does not have to be reset by hand; replace this block when the next bumper is confirmed. et_scraper.py and data.ts still use drawDateISO to treat that date as a bumper day.",
   "upcoming": {
-    "announced": false
+    "announced": true,
+    "name": "Pooja Bumper",
+    "code": "BR-112",
+    "drawDateISO": "2026-11-28T14:00:00+05:30",
+    "drawDateLabel": "Saturday, November 28, 2026",
+    "drawTime": "2:00 PM",
+    "firstPrize": "₹12 Crore",
+    "ticketPrice": "₹300",
+    "series": "JA, JB, JC, JD, JE",
+    "venue": "Gorky Bhavan, Thiruvananthapuram"
   }
 }

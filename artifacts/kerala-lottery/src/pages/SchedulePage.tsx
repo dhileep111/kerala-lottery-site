@@ -1,8 +1,7 @@
 import { Link } from 'wouter';
-import { lotteries, getTodayLottery, getTomorrowLottery } from '../data';
+import { lotteries, getTodayLottery, getTomorrowLottery, getActiveUpcomingBumper } from '../data';
 import { ScheduleGrid } from '../components/ScheduleGrid';
 import { FaqSchema } from '../components/JsonLd';
-import bumpers from '../data/bumpers.json';
 import { useLang, t, getLotteryName } from '../lib/i18n';
 
 const TAMIL_DAYS: Record<string, string> = {
@@ -21,13 +20,7 @@ export default function SchedulePage() {
   const ordered = WEEK_ORDER.map((idx) => daily.find((l) => l.drawDayIndex === idx)).filter(
     (l): l is (typeof daily)[number] => Boolean(l),
   );
-  const up = (bumpers as {
-    upcoming?: {
-      announced: boolean;
-      name?: string; code?: string; drawDateISO?: string; drawDateLabel?: string;
-      drawTime?: string; firstPrize?: string; ticketPrice?: string; series?: string; venue?: string;
-    };
-  }).upcoming;
+  const up = getActiveUpcomingBumper();
 
   const faqItems = [
     {
