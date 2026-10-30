@@ -6,13 +6,49 @@ import { ResultDetails } from '../components/ResultDetails';
 import { TamilResultSection } from '../components/TamilResultSection';
 import { ShareResultButton } from '../components/ShareResultButton';
 import { DownloadPdfButton } from '../components/DownloadPdfButton';
-import { getLatestResult, getLottery, site, getTodayHoliday } from '../data';
-import { useLang, t, getLotteryName } from '../lib/i18n';
+import { getLatestResult, getLottery, site, getTodayHoliday, getActiveUpcomingBumper, type UpcomingBumper } from '../data';
+import { useCountdown } from '../lib/useCountdown';
+import { useLang, t, getLotteryName, type Lang } from '../lib/i18n';
+
+const EN_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const UPCOMING_FIELDS = ['name', 'code', 'drawDateISO', 'drawDateLabel', 'drawTime', 'venue', 'firstPrize', 'ticketPrice', 'series'] as const;
+
+function shortDate(iso: string) {
+  const [y, m, d] = iso.slice(0, 10).split('-').map(Number);
+  return `${EN_MONTHS[m - 1]} ${d}, ${y}`;
+}
+
+// Mirrors prerender.mjs buildBumperUpcomingEn() facts block (EN only).
+function BumperUpcoming({ up, lang }: { up: Required<UpcomingBumper>; lang: Lang }) {
+  const cd = useCountdown(up.drawDateISO);
+  return (
+    <section className="content-card">
+      <h2>{t(lang, 'bumperNextBumper')}: {up.name} ({up.code})</h2>
+      <table className="table">
+        <tbody>
+          <tr><td>{t(lang, 'date')}</td><td>{up.drawDateLabel} · {up.drawTime} IST</td></tr>
+          <tr><td>{t(lang, 'bumperVenue')}</td><td>{up.venue}</td></tr>
+          <tr><td>{t(lang, 'firstPrize')}</td><td>{up.firstPrize}</td></tr>
+          <tr><td>{t(lang, 'ticketPrice')}</td><td>{up.ticketPrice}</td></tr>
+          <tr><td>{t(lang, 'bumperSeries')}</td><td>{up.series}</td></tr>
+        </tbody>
+      </table>
+      <p>Results appear here on draw day, live from {up.drawTime} IST.</p>
+      {!cd.done && (
+        <p>
+          <strong>{cd.days}</strong> {t(lang, 'days')} · <strong>{cd.hours}</strong> {t(lang, 'hours')} · <strong>{cd.mins}</strong> {t(lang, 'minutes')} · <strong>{cd.secs}</strong> {t(lang, 'seconds')}
+        </p>
+      )}
+    </section>
+  );
+}
 
 export default function LotteryResultPage() {
   const lang = useLang();
   const params = useParams<{ slug: string }>();
   const lottery = getLottery(params.slug);
+  const upcoming = lang === 'en' && lottery?.slug === 'bumper' ? getActiveUpcomingBumper() : null;
+  const bumperUp = upcoming && UPCOMING_FIELDS.every((k) => upcoming[k]) ? (upcoming as Required<UpcomingBumper>) : null;
 
   if (!lottery) {
     return <main className="page"><div className="container"><p>{t(lang, 'lotteryNotFound')}</p></div></main>;
@@ -78,10 +114,22 @@ export default function LotteryResultPage() {
           <span aria-hidden="true"> › </span>
           <span>{getLotteryName(lottery.slug, lottery.name, lang)} {t(lang, 'resultLabel')}</span>
         </nav>
-        <div className="hero">
-          <h1>{getLotteryName(lottery.slug, lottery.name, lang)} {t(lang, 'lrH1Suffix')}</h1>
-          <p>{getLotteryName(lottery.slug, lottery.name, lang)} winning numbers and full prize table, updated daily at {lottery.drawTime} IST. {t(lang, 'homeDrawsEvery')} {lottery.drawDay}.</p>
-        </div>
+        {bumperUp && getLatestResult(lottery.slug) ? (
+          <>
+            <div className="hero">
+              <h1>{bumperUp.name} {bumperUp.code} Result — Draw on {shortDate(bumperUp.drawDateISO)} at {bumperUp.drawTime.replace(':00', '')}</h1>
+            </div>
+            <BumperUpcoming up={bumperUp} lang={lang} />
+            <h2>Previous bumper result: {result.drawCode} ({shortDate(result.drawDate)})</h2>
+          </>
+        ) : (
+          <div className="hero">
+            <h1>{getLotteryName(lottery.slug, lottery.name, lang)} {t(lang, 'lrH1Suffix')}</h1>
+            <p>{getLotteryName(lottery.slug, lottery.name, lang)} winning numbers and full prize table, updated daily at {lottery.drawTime} IST. {lottery.slug === 'bumper'
+              ? (lang === 'en' ? `Special draws at ${lottery.drawTime}.` : `${t(lang, 'scheduleSpecialDraw')}.`)
+              : <>{t(lang, 'homeDrawsEvery')} {lottery.drawDay}.</>}</p>
+          </div>
+        )}
         {todayHoliday && (
           <div className="notice" style={{ borderLeft: '4px solid #f59e0b', background: '#fffbeb', marginBottom: 16 }}>
             🎉 {lang === 'ta'

@@ -304,6 +304,8 @@ function buildResultContent(lottery, result, lang = 'en') {
   const isPending  = result.status === 'pending';
   const tName      = TAMIL_NAMES[lottery.slug] ?? lottery.name;
   const tDay       = TAMIL_DAYS[lottery.drawDay] ?? lottery.drawDay;
+  // Bumpers have no weekday (drawDay is the "Special Draws" nav label) and draw at 2 PM, not 3.
+  const isBumper   = lottery.slug === 'bumper';
 
   // Prize rows
   const prizeRows = result.prizes.map(prize => {
@@ -330,7 +332,7 @@ function buildResultContent(lottery, result, lang = 'en') {
   return `
 <main>
   <h1>${e(lottery.name)} ${e(result.drawCode)} Lottery Result — ${e(result.displayDate)}</h1>
-  <p>${e(lottery.name)} (${e(lottery.code)}) draws every ${e(lottery.drawDay)} at ${e(lottery.drawTime)}. 
+  <p>${e(lottery.name)} (${e(lottery.code)})${isBumper ? `: Special draws at ${e(lottery.drawTime)}.` : ` draws every ${e(lottery.drawDay)} at ${e(lottery.drawTime)}.`} 
      Draw date: ${e(result.displayDate)}. Status: ${e(result.status)}.</p>
   ${!isPending ? `
   <section>
@@ -356,7 +358,7 @@ function buildResultContent(lottery, result, lang = 'en') {
   ${lang === 'ta' ? `<section lang="ta">
     <h2>${e(tName)} லாட்டரி ரிசல்ட் — தமிழில்</h2>
     <p>${isPending ? `கேரளா ${e(tName)} லாட்டரி இன்றைய முடிவு இன்னும் வெளியிடப்படவில்லை — மதியம் 3 மணிக்குப் பிறகு பாருங்கள்.` : `இன்றைய ${e(tName)} லாட்டரி முதல் பரிசு எண்: ${e(firstPrize)}. முழு பரிசு அட்டவணையை மேலே பாருங்கள்.`}</p>
-    <p>கேரளா ${e(tName)} லாட்டரி (${e(lottery.code)}) ஒவ்வொரு ${e(tDay)}யும் மதியம் 3:00 மணிக்கு நடத்தப்படுகிறது.</p>
+    <p>கேரளா ${e(tName)} லாட்டரி (${e(lottery.code)}) ${isBumper ? `சிறப்பு டிராவ் மதியம் ${e(tamilTime(lottery.drawTime))} மணிக்கு` : `ஒவ்வொரு ${e(tDay)}யும் மதியம் 3:00 மணிக்கு`} நடத்தப்படுகிறது.</p>
     <p>Searching for ${e(tName)} lottery mudivugal, innathe ${e(result.drawCode)} lottari result, or the kulukkal (draw) outcome? You're on the right page — the result above is updated the moment it's announced.</p>
   </section>` : ''}
   <p><em>This page is published by Kerala Ticket Results (keralaticketresults.in), an independent informational website 
@@ -428,6 +430,35 @@ function buildBumperTitleDesc() {
   return {
     title: `Kerala Bumper Lottery ${y} — ${up.name} ${up.code}, ${EN_MONTHS[m - 1]} ${d} Draw`,
     desc: `${up.name} ${up.code} draw: ${weekday}, ${localizedDrawDate('en', iso)} at ${up.drawTime.replace(':00', '')}, ${up.venue}. ${up.firstPrize.toLowerCase()} first prize, ticket ${up.ticketPrice}, series ${seriesText}.`,
+  };
+}
+
+// EN /results/bumper while a bumper is upcoming: title/desc/H1 from bumpers.json, a facts block,
+// and the latest bumper result kept below as "Previous bumper result". Null = keep the page as is.
+// Mirrored in LotteryResultPage.tsx (BumperUpcoming) so the H1 doesn't change after hydration.
+function buildBumperUpcomingEn(baseContent, prev) {
+  const up = getActiveUpcomingBumper();
+  const required = ['name', 'code', 'drawDateISO', 'drawDateLabel', 'drawTime', 'venue', 'firstPrize', 'ticketPrice', 'series'];
+  if (!up || required.some(k => !up[k]) || !baseContent || !prev) return null;
+  const date = localizedDrawDate('en', up.drawDateISO.slice(0, 10));
+  const hour = up.drawTime.replace(':00', '');
+  const h1 = `${up.name} ${up.code} Result — Draw on ${date} at ${hour}`;
+  const facts = `<section class="content-card">
+    <h2>Next Bumper: ${e(up.name)} (${e(up.code)})</h2>
+    <table class="table"><tbody>
+      <tr><td>Date</td><td>${e(up.drawDateLabel)} · ${e(up.drawTime)} IST</td></tr>
+      <tr><td>Draw venue</td><td>${e(up.venue)}</td></tr>
+      <tr><td>First Prize</td><td>${e(up.firstPrize)}</td></tr>
+      <tr><td>Ticket price</td><td>${e(up.ticketPrice)}</td></tr>
+      <tr><td>Series</td><td>${e(up.series)}</td></tr>
+    </tbody></table>
+    <p>Results appear here on draw day, live from ${e(up.drawTime)} IST.</p>
+  </section>`;
+  const prevHeading = `<h2>Previous bumper result: ${e(prev.drawCode)} (${e(localizedDrawDate('en', prev.drawDate))})</h2>`;
+  return {
+    title: `${up.name} ${up.code} Result — ${date}, ${hour} Live`,
+    desc: `${up.name} ${up.code} result on ${date} at ${hour} IST — ${up.firstPrize.toLowerCase()} first prize, ticket ${up.ticketPrice}. Live here on draw day. Previous bumper: ${prev.drawCode}.`,
+    content: baseContent.replace(/<h1>[\s\S]*?<\/h1>/, () => `<h1>${e(h1)}</h1>\n  ${facts}\n  ${prevHeading}`),
   };
 }
 
@@ -1369,7 +1400,7 @@ const lotteryRoutePairs = lotteries.map(l => {
   // for daily draws) rather than a hardcoded "3:00 மணி" — bumper doesn't
   // draw at 3 PM, and a wrong time on the page is worse than a fixed string.
   const taTitle = `${tName} லாட்டரி இன்றைய முடிவு ${l.code} — ${tamilTime(l.drawTime)} மணி`;
-  const taDesc  = `இன்று ${tamilTime(l.drawTime)} மணி ${tName} லாட்டரி முடிவு — ${l.code} டிராவ் கோட், ஒவ்வொரு ${tDay}யும் நடத்தப்படுகிறது. புதுப்பிக்கப்பட்ட முடிவுகள் இங்கே.`;
+  const taDesc  = `இன்று ${tamilTime(l.drawTime)} மணி ${tName} லாட்டரி முடிவு — ${l.code} டிராவ் கோட், ${l.slug === 'bumper' ? `சிறப்பு டிராவ் மதியம் ${tamilTime(l.drawTime)} மணிக்கு` : `ஒவ்வொரு ${tDay}யும்`} நடத்தப்படுகிறது. புதுப்பிக்கப்பட்ட முடிவுகள் இங்கே.`;
   // Passing content explicitly (built with lang: 'ta') keeps /ta's rendered
   // output identical to before — it just no longer flows through the
   // shared en.content that ml/hi/kn also read from. Since an explicit
@@ -1391,6 +1422,8 @@ const lotteryRoutePairs = lotteries.map(l => {
   const ml = makeLocaleRoute(en, 'ml', { ...LOCALE_LOTTERY_PATTERN.ml(mlName, l.code, hour), ...(result ? { h1: LOCALE_LOTTERY_PATTERN.ml(mlName, l.code, hour).title } : {}) });
   const hi = makeLocaleRoute(en, 'hi', { ...LOCALE_LOTTERY_PATTERN.hi(hiName, l.code, hour), ...(result ? { h1: LOCALE_LOTTERY_PATTERN.hi(hiName, l.code, hour).title } : {}) });
   const kn = makeLocaleRoute(en, 'kn', { ...LOCALE_LOTTERY_PATTERN.kn(knName, l.code, hour), ...(result ? { h1: LOCALE_LOTTERY_PATTERN.kn(knName, l.code, hour).title } : {}) });
+  // EN-only upcoming bumper state, applied after the locale routes copied the pre-draw content.
+  if (l.slug === 'bumper') Object.assign(en, buildBumperUpcomingEn(en.content, result) ?? {});
   return { en, ta, ml, hi, kn };
 });
 const lotteryRoutes   = lotteryRoutePairs.map(p => p.en);

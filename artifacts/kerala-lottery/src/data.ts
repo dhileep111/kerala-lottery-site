@@ -200,6 +200,11 @@ function isBumperDay(date: Date): boolean {
   return upcoming.drawDateISO.slice(0, 10) === todayStr;
 }
 
+// The bumper's IST draw date ("YYYY-MM-DD") — the same date isBumperDay() treats as having no regular draw.
+export function getBumperDrawDateIST(): string | null {
+  return (bumpersJson as { upcoming?: { drawDateISO?: string } }).upcoming?.drawDateISO?.slice(0, 10) ?? null;
+}
+
 export interface UpcomingBumper {
   announced: boolean;
   name?: string; code?: string; drawDateISO?: string; drawDateLabel?: string;

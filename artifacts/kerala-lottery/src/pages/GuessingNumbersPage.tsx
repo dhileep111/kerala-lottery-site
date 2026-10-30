@@ -4,6 +4,7 @@ import {
   getLatestGuessing, lotteries, getTodayLottery, getTomorrowLottery, site,
   getSeriesFrequency, getSiteHotNumbers, getLatestVerifiedResult,
   extractTicketDigits, deriveGuessingNumbers, getActiveUpcomingBumper, isBumperCountdownWindow,
+  getBumperDrawDateIST,
 } from '../data';
 import type { GuessingDay, SeriesStat } from '../data';
 import { ShareGuessingButton } from '../components/ShareGuessingButton';
@@ -15,14 +16,15 @@ import { useLang, t, getLotteryName, type Lang } from '../lib/i18n';
 // a page module) — before the 3 PM + 60min result window it's today's
 // lottery, after it's tomorrow's. Bumper-aware: GuessingNumbersPage's own
 // countdown switches to the bumper's own time/name when one is announced.
-function getUpcomingDailyLottery() {
-  const now = new Date();
+function getUpcomingDailyLottery(now = new Date()) {
   const minsFromUtcMidnightIST = now.getUTCHours() * 60 + now.getUTCMinutes() + 330;
   const istMinutes = minsFromUtcMidnightIST % 1440;
   const istDay = (now.getUTCDay() + Math.floor(minsFromUtcMidnightIST / 1440)) % 7;
   const drawWindowEndMins = 15 * 60 + 60;
-  const targetDay = istMinutes < drawWindowEndMins ? istDay : (istDay + 1) % 7;
-  return lotteries.find(l => !l.isBumper && l.drawDayIndex === targetDay);
+  let offsetDays = istMinutes < drawWindowEndMins ? 0 : 1;
+  // A bumper date has no regular draw, so point at the next day's lottery instead.
+  if (getTodayLottery(new Date(now.getTime() + offsetDays * 86400000)).isBumper) offsetDays += 1;
+  return lotteries.find(l => !l.isBumper && l.drawDayIndex === (istDay + offsetDays) % 7);
 }
 
 const TYPE_CONFIG = {
@@ -227,7 +229,7 @@ export default function GuessingNumbersPage() {
   const upcomingDaily  = getUpcomingDailyLottery();
   const countdownProps = bumperUpcoming && isBumperCountdownWindow(bumperUpcoming)
     ? { drawHourIST: 14, drawMinuteIST: 0, lotteryName: `${bumperUpcoming.name} (${bumperUpcoming.code})` }
-    : { lotteryName: upcomingDaily?.name };
+    : { lotteryName: upcomingDaily?.name, skipDateIST: getBumperDrawDateIST() ?? undefined };
 
   const latestVerified = getLatestVerifiedResult();
   const explainerFirst = latestVerified?.prizes.find(p => p.tier === '1st Prize');

@@ -51,6 +51,8 @@ export interface NextDrawCountdownProps {
    * forced ad refreshes are invalid traffic under AdSense policy.
    */
   onDrawReached?: () => void;
+  /** IST date ("YYYY-MM-DD") with no regular draw (a bumper day): count to the next day's draw instead. */
+  skipDateIST?: string;
 }
 
 const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000; // UTC+05:30
@@ -64,9 +66,10 @@ interface DrawState {
 function computeDrawState(
   drawHourIST: number,
   drawMinuteIST: number,
-  resultWindowMinutes: number
+  resultWindowMinutes: number,
+  skipDateIST?: string,
+  now = Date.now()
 ): DrawState {
-  const now = Date.now();
 
   // Shift "now" into IST wall-clock so UTC getters read IST values.
   const istNow = new Date(now + IST_OFFSET_MS);
@@ -82,6 +85,10 @@ function computeDrawState(
 
   // Real UTC instant of today's IST draw time.
   const todayDrawUtc = istWallDrawMs - IST_OFFSET_MS;
+  const todayIST = `${istNow.getUTCFullYear()}-${pad(istNow.getUTCMonth() + 1)}-${pad(istNow.getUTCDate())}`;
+  if (skipDateIST === todayIST) {
+    return { diffMs: Math.max(0, todayDrawUtc + DAY_MS - now), inResultWindow: false };
+  }
   const windowEnd = todayDrawUtc + resultWindowMinutes * 60 * 1000;
 
   const inResultWindow = now >= todayDrawUtc && now < windowEnd;
@@ -114,15 +121,16 @@ export default function NextDrawCountdown({
   className,
   style,
   onDrawReached,
+  skipDateIST,
 }: NextDrawCountdownProps) {
   const lang = useLang();
   const [state, setState] = useState<DrawState>(() =>
-    computeDrawState(drawHourIST, drawMinuteIST, resultWindowMinutes)
+    computeDrawState(drawHourIST, drawMinuteIST, resultWindowMinutes, skipDateIST)
   );
   const firedRef = useRef(false);
 
   const tick = useCallback(() => {
-    const next = computeDrawState(drawHourIST, drawMinuteIST, resultWindowMinutes);
+    const next = computeDrawState(drawHourIST, drawMinuteIST, resultWindowMinutes, skipDateIST);
     setState(next);
     if (next.inResultWindow && !firedRef.current) {
       firedRef.current = true;
@@ -131,7 +139,7 @@ export default function NextDrawCountdown({
     if (!next.inResultWindow) {
       firedRef.current = false; // re-arm for the next day
     }
-  }, [drawHourIST, drawMinuteIST, resultWindowMinutes, onDrawReached]);
+  }, [drawHourIST, drawMinuteIST, resultWindowMinutes, onDrawReached, skipDateIST]);
 
   useEffect(() => {
     tick(); // sync immediately on mount / prop change
