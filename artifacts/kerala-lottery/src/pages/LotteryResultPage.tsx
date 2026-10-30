@@ -127,7 +127,7 @@ export default function LotteryResultPage() {
             <h1>{getLotteryName(lottery.slug, lottery.name, lang)} {t(lang, 'lrH1Suffix')}</h1>
             <p>{getLotteryName(lottery.slug, lottery.name, lang)} winning numbers and full prize table, updated daily at {lottery.drawTime} IST. {lottery.slug === 'bumper'
               ? (lang === 'en' ? `Special draws at ${lottery.drawTime}.` : `${t(lang, 'scheduleSpecialDraw')}.`)
-              : <>{t(lang, 'homeDrawsEvery')} {lottery.drawDay}.</>}</p>
+              : <>{getLotteryName(lottery.slug, lottery.name, lang)} {t(lang, 'homeDrawsEvery')} {lottery.drawDay}.</>}</p>
           </div>
         )}
         {todayHoliday && (

@@ -1,5 +1,5 @@
 import { Badge } from './Badge';
-import { getFirstPrizeNumber } from '../data';
+import { getFirstPrizeNumber, displaySource } from '../data';
 import type { Lottery, Result } from '../types';
 import { useLang, t } from '../lib/i18n';
 
@@ -19,7 +19,7 @@ export function ResultCard({ lottery, result }: { lottery: Lottery; result: Resu
         <div>
           <div className="eyebrow">{t(lang, 'todaysDraw')}</div>
           <div className="result-card__name">{lottery.name} {result.drawCode}</div>
-          <div className="meta"><span>{result.displayDate}</span><span>{lottery.drawTime}</span><span>{result.sourceName}</span></div>
+          <div className="meta"><span>{result.displayDate}</span><span>{lottery.drawTime}</span><span>{displaySource(result.sourceName)}</span></div>
         </div>
         <Badge status={result.status} />
       </div>

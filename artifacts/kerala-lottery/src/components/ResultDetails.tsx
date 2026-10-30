@@ -1,5 +1,6 @@
 import type { Result } from '../types';
 import { useLang, t } from '../lib/i18n';
+import { displaySource } from '../data';
 
 export function ResultDetails({ result }: { result: Result }) {
   const lang = useLang();
@@ -10,7 +11,7 @@ export function ResultDetails({ result }: { result: Result }) {
     [t(lang, 'rdFirstPrizeDistrict'), result.firstPrizeDistrict],
     [t(lang, 'rdTotalWinners'), result.totalWinners?.toLocaleString('en-IN')],
     [t(lang, 'rdTotalDistribution'), result.totalPrizeDistribution],
-    [t(lang, 'rdSource'), result.sourceName]
+    [t(lang, 'rdSource'), displaySource(result.sourceName)]
   ].filter(([, value]) => value);
 
   return (

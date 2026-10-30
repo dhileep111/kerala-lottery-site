@@ -34,7 +34,7 @@ function holidayNoticeHtml() {
 }
 
 const SITE     = 'https://keralaticketresults.in';
-const OG_IMAGE = `${SITE}/opengraph.jpg`;
+const OG_IMAGE = `${SITE}/opengraph.jpg?v=2`;
 
 // Tamil lottery names + weekdays (mirrors TamilResultSection.tsx)
 const TAMIL_NAMES = {

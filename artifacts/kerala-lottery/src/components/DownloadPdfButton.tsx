@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Lottery, Result } from '../types';
-import { getTicketText } from '../data';
+import { getTicketText, displaySource } from '../data';
 
 interface Props {
   lottery: Lottery;
@@ -85,7 +85,7 @@ function buildPrintHtml(lottery: Lottery, result: Result): string {
 
 <div class="footer">
   Generated: ${now} IST &nbsp;|&nbsp; Draw code: ${result.drawCode} &nbsp;|&nbsp; Status: ${result.status}
-  ${result.sourceUrl ? `&nbsp;|&nbsp; Source: <a href="${result.sourceUrl}">${result.sourceName || result.sourceUrl}</a>` : ''}
+  ${result.sourceUrl ? `&nbsp;|&nbsp; Source: <a href="${result.sourceUrl}">${displaySource(result.sourceName) || result.sourceUrl}</a>` : ''}
 </div>
 <div class="disclaimer">
   This document is for informational purposes only. Always verify results with the official Kerala Government Gazette

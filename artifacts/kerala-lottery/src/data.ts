@@ -200,6 +200,15 @@ function isBumperDay(date: Date): boolean {
   return upcoming.drawDateISO.slice(0, 10) === todayStr;
 }
 
+// Public wording for results.json's internal sourceName labels (display only; the data is unchanged).
+const SOURCE_LABELS: Record<string, string> = {
+  'ET auto scraper': 'Automated update',
+  'Manual admin update': 'Manual update',
+};
+export function displaySource(name: string): string {
+  return SOURCE_LABELS[name] ?? name;
+}
+
 // The bumper's IST draw date ("YYYY-MM-DD") — the same date isBumperDay() treats as having no regular draw.
 export function getBumperDrawDateIST(): string | null {
   return (bumpersJson as { upcoming?: { drawDateISO?: string } }).upcoming?.drawDateISO?.slice(0, 10) ?? null;
