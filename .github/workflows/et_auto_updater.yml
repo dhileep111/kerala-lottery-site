@@ -155,7 +155,7 @@ jobs:
           HAS_FULL:     ${{ steps.scraper.outputs.full_results != '' }}
         run: |
           python3 - << 'PYEOF'
-          import os, json, urllib.request
+          import os, json, re, time, urllib.request
           webhook = os.environ.get('MAKE_WEBHOOK','')
           if not webhook: exit(0)
           lottery   = os.environ.get('LOTTERY_NAME','')
@@ -164,14 +164,35 @@ jobs:
           url       = os.environ.get('RESULT_URL','').lower()
           is_full   = os.environ.get('HAS_FULL','false').lower()=='true'
           status    = 'Verified full result' if is_full else 'Auto-fetched — full result may follow'
-          fb  = lottery+' '+draw_code+' Result Today\n\n1st Prize: '+prize+'\n'+status+'\n\nFull prize list: '+url
-          tg  = '*'+lottery+' '+draw_code+' Result*\n\n1st Prize: '+prize+'\n'+status+'\n\n[View full prize table]('+url+')'
-          payload = {'lottery':lottery,'draw_code':draw_code,'first_prize':prize,'is_full_result':is_full,'result_url':url,'fb_message':fb,'tg_message':tg}
           try:
               with open('artifacts/kerala-lottery/src/data/lotteries.json', encoding='utf-8') as f:
-                  payload['lottery_name'] = next((l['name'] for l in json.load(f) if l.get('slug') == lottery), lottery)
+                  name = next((l['name'] for l in json.load(f) if l.get('slug') == lottery), lottery)
           except Exception:
-              payload['lottery_name'] = lottery
+              name = lottery
+          fb  = name+' '+draw_code+' Result Today\n\n1st Prize: '+prize+'\n'+status+'\n\nFull prize list: '+url
+          tg  = '*'+name+' '+draw_code+' Result*\n\n1st Prize: '+prize+'\n'+status+'\n\n[View full prize table]('+url+')'
+          payload = {'lottery':lottery,'draw_code':draw_code,'first_prize':prize,'is_full_result':is_full,'result_url':url,'fb_message':fb,'tg_message':tg}
+          payload['lottery_name'] = name
+
+          # Facebook/Telegram fetch the link within seconds, so wait until the page is really served.
+          # Every poll uses a fresh ?_cb= query: a 404 on the plain URL would stay cached at the CDN for ~10 min.
+          def wait_until_live(page_url, code, max_wait=300, interval=10, settle=30):
+              start = time.time()
+              while time.time() - start < max_wait:
+                  try:
+                      req = urllib.request.Request(f'{page_url}?_cb={time.time_ns()}', headers={'User-Agent': 'KeralaTicketResults-NotifyCheck/1.0 (+https://keralaticketresults.in)'})
+                      with urllib.request.urlopen(req, timeout=15) as r:
+                          m = re.search(r'<title>(.*?)</title>', r.read().decode('utf-8', 'ignore'), re.S | re.I)
+                          if r.status == 200 and m and code.lower() in m.group(1).lower():
+                              time.sleep(settle)
+                              return True, time.time() - start
+                  except Exception as e:
+                      print('Poll not live yet:', e)
+                  time.sleep(interval)
+              return False, time.time() - start
+
+          live, waited = wait_until_live(url, draw_code)
+          print(f'Page live; waited {waited:.0f}s before notifying' if live else f'WARNING: page not confirmed live after {waited:.0f}s; notifying anyway')
           data = json.dumps(payload).encode('utf-8')
           req = urllib.request.Request(webhook,data=data,headers={'Content-Type':'application/json'})
           try:
