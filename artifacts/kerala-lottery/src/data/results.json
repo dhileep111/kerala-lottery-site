@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-30T09:45:45.904702Z",
-    "summary": "Result for Suvarna Keralam SK-75. 5/10 tiers updated.",
+    "lastUpdated": "2026-10-30T09:50:46.059657Z",
+    "summary": "Result for Suvarna Keralam SK-75. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "RC 903806"
+          {
+            "ticket": "RC 903806",
+            "district": "Idukki"
+          }
         ]
       },
       {
@@ -38,48 +41,88 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "RM 502433"
+          {
+            "ticket": "RM 502433",
+            "district": "Kollam"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "RK 190155"
+          {
+            "ticket": "RK 190155",
+            "district": "Wayanad"
+          }
         ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
         "numbers": [
-          "7167",
-          "5469",
-          "0894",
-          "2928",
-          "8473",
-          "1303",
-          "6133",
-          "5896",
-          "2952",
-          "6879",
-          "1343",
           "0520",
+          "0894",
+          "1303",
+          "1343",
+          "1350",
+          "2928",
+          "2952",
           "4503",
           "5376",
+          "5469",
+          "5896",
+          "6133",
+          "6879",
+          "7167",
           "7417",
-          "9623",
-          "9241"
+          "8473",
+          "9241",
+          "9623"
         ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "2289",
+          "2814",
+          "2946",
+          "3205",
+          "3326",
+          "8833"
+        ]
       },
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0275",
+          "0658",
+          "0691",
+          "1316",
+          "1572",
+          "2129",
+          "2315",
+          "2595",
+          "2762",
+          "3190",
+          "3661",
+          "3880",
+          "4922",
+          "5024",
+          "5103",
+          "5561",
+          "5790",
+          "6067",
+          "6160",
+          "6979",
+          "7204",
+          "8289",
+          "8468",
+          "9299",
+          "9770"
+        ]
       },
       {
         "tier": "7th Prize",
