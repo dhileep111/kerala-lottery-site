@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-31T10:20:42.063262Z",
+    "lastUpdated": "2026-10-31T10:25:34.045254Z",
     "summary": "Result for Karunya KR-774. 10/10 tiers updated.",
     "prizes": [
       {
@@ -45,10 +45,7 @@
         "tier": "3rd Prize",
         "amount": "₹10,00,000",
         "numbers": [
-          {
-            "ticket": "KM 364503",
-            "district": "Kollam"
-          }
+          "KM 364503"
         ]
       },
       {
