@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-31T09:40:47.864805Z",
-    "summary": "Result for Karunya KR-774. 5/10 tiers updated.",
+    "lastUpdated": "2026-10-31T09:45:42.055523Z",
+    "summary": "Result for Karunya KR-774. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -21,7 +21,17 @@
         "tier": "Consolation Prize",
         "amount": "₹5,000",
         "numbers": [
-          "KR 501790"
+          "KA 501790",
+          "KB 501790",
+          "KC 501790",
+          "KD 501790",
+          "KE 501790",
+          "KF 501790",
+          "KH 501790",
+          "KJ 501790",
+          "KK 501790",
+          "KL 501790",
+          "KM 501790"
         ]
       },
       {
@@ -42,29 +52,38 @@
         "tier": "4th Prize",
         "amount": "₹5,000",
         "numbers": [
-          "0908",
           "0054",
-          "7996",
-          "4107",
-          "3611",
-          "3973",
-          "5065",
-          "7212",
-          "3251",
-          "3277",
+          "0061",
+          "0908",
           "1220",
+          "1459",
           "1461",
           "2503",
+          "3251",
+          "3277",
+          "3611",
           "3737",
+          "3973",
+          "4107",
+          "5065",
+          "7212",
           "7328",
-          "1459",
-          "9383"
+          "7996",
+          "9383",
+          "9887"
         ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "1243",
+          "1832",
+          "4547",
+          "5765",
+          "6026",
+          "9703"
+        ]
       },
       {
         "tier": "6th Prize",
