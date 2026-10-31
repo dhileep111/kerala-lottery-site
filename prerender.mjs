@@ -887,13 +887,72 @@ function buildGuessingHowMadeHtml(lang) {
   return `<h2>${e(copy.title)}</h2><p>${e(body)}</p><p><strong>${e(copy.notice)}</strong></p>`;
 }
 
-function buildHomeContent(lang = 'en') {
+function buildHomeContent(lang = 'en', { extras = false } = {}) {
   const taH1  = 'கேரளா லாட்டரி ரிசல்ட் டுடே — கேரளா ரிசல்ட் இன்று — Kerala Lottery Result Today';
   const enH1  = 'Kerala Lottery Result Today';
   const taLead = 'இன்று மதியம் 3:00 மணி கேரளா லாட்டரி ரிசல்ட் இங்கே புதுப்பிக்கப்படும். ';
   const taTail = ' கேரளா ரிசல்ட், Innathe lottari result, kulukkal mudivugal — all here the moment each draw is announced.';
   const enTail = ' Innathe lottari result, kulukkal mudivugal — all here the moment each draw is announced.';
-  return `<main><h1>${lang === 'ta' ? taH1 : enH1}</h1>${holidayNoticeHtml()}<p>${lang === 'ta' ? taLead : ''}Kerala Lottery results published daily at 3:00 PM IST — Karunya (KR), Sthree Sakthi (SS), Dhanalekshmi (DL), Bhagyathara (BT), Karunya Plus (KN), Suvarna Keralam (SK) and Samrudhi (SM).${lang === 'ta' ? taTail : enTail}</p></main>`;
+  return `<main><h1>${lang === 'ta' ? taH1 : enH1}</h1>${holidayNoticeHtml()}<p>${lang === 'ta' ? taLead : ''}Kerala Lottery results published daily at 3:00 PM IST — Karunya (KR), Sthree Sakthi (SS), Dhanalekshmi (DL), Bhagyathara (BT), Karunya Plus (KN), Suvarna Keralam (SK) and Samrudhi (SM).${lang === 'ta' ? taTail : enTail}</p>${extras && lang === 'en' ? buildHomeExtrasEn() : ''}</main>`;
+}
+
+// Same skip rule as archiveRoutePairs: a pending draw with no prize data gets no page.
+function hasDrawPage(r) {
+  const hasData = r.prizes && r.prizes.some(p => p.numbers && p.numbers.length > 0);
+  return !(r.status === 'pending' && !hasData);
+}
+const drawHref = r => `/results/${r.lotterySlug}/${r.drawCode.toLowerCase().replace(/\s+/g, '-')}`;
+
+// EN homepage only: crawlable copy of what HomePage.tsx renders after hydration
+// (ResultCard, RecentResults, ScheduleGrid, Quick Links + header nav), same data and wording.
+function buildHomeExtrasEn() {
+  const parts = [];
+  const latest = getLatestHomeDraw();
+  const lottery = latest && getLottery(latest.lotterySlug);
+  if (lottery) {
+    const fp = latest.prizes.find(p => p.tier === '1st Prize');
+    const dist = getDistrict(fp.numbers[0]);
+    parts.push(`<section>
+    <h2>Today's draw: ${e(lottery.name)} ${e(latest.drawCode)}</h2>
+    <p>${e(latest.displayDate)} · ${e(lottery.drawTime)}. First Prize ${e(fp.amount || lottery.firstPrizeAmount)}: <strong>${e(getTicket(fp.numbers[0]))}</strong>${dist ? ` (${e(dist)})` : ''}.</p>
+    <p><a href="${ea(drawHref(latest))}">${e(lottery.name)} ${e(latest.drawCode)}</a> · <a href="/results/${ea(lottery.slug)}">${e(lottery.name)} Results</a></p>
+  </section>`);
+  }
+  // Mirrors data.ts getRecentResults(8): newest 8 draws of any status.
+  const recent = results
+    .map(r => ({ r, l: getLottery(r.lotterySlug) }))
+    .filter(x => x.l)
+    .sort((a, b) => (b.r.drawDate || '').localeCompare(a.r.drawDate || '') || (b.r.lastUpdated || '').localeCompare(a.r.lastUpdated || ''))
+    .slice(0, 8);
+  const rows = recent.map(({ r, l }) => {
+    const ticket = getTicket(r.prizes?.find(p => p.tier.toLowerCase().includes('1st'))?.numbers?.[0]) || 'PENDING';
+    const code = hasDrawPage(r) ? `<a href="${ea(drawHref(r))}">${e(r.drawCode)}</a>` : e(r.drawCode);
+    return `<tr><td>${e(r.displayDate)}</td><td>${e(l.name)}</td><td>${code}</td><td>${e(ticket)}</td></tr>`;
+  }).join('');
+  parts.push(`<section>
+    <h2>Recent Results</h2>
+    <p>Archive-ready draw records with status, source, and prize summary.</p>
+    <table class="table"><thead><tr><th>Date</th><th>Lottery</th><th>Draw</th><th>First Prize</th></tr></thead><tbody>${rows}</tbody></table>
+  </section>`);
+  const schedule = lotteries.map(l => `<li><a href="/results/${ea(l.slug)}">${e(l.name)}</a> (${e(l.code)}) — ${e(l.drawDay)}, ${e(l.drawTime)}</li>`).join('');
+  parts.push(`<section>
+    <h2>Weekly Lottery Schedule</h2>
+    <ul>${schedule}</ul>
+    <p><a href="/about">View Guidelines</a></p>
+  </section>`);
+  const quick = [
+    ['/check-ticket', 'Check Ticket', "Enter your ticket number to check if you've won any prize"],
+    ['/claim-guide', 'How to Claim', 'Step-by-step guide to claiming your prize'],
+    ['/guessing-numbers', 'Guessing Numbers', "Today's guessing numbers — for entertainment only"],
+    ['/faq', 'FAQ', 'Common questions about results, prizes, and claims'],
+  ].map(([href, label, desc]) => `<li><a href="${href}">${e(label)}</a> — ${e(desc)}</li>`).join('');
+  const nav = [['/yesterday-result', "Yesterday's Result"], ['/chart', 'Chart'], ['/bumper', 'Bumper'], ['/schedule', 'Schedule'], ['/jackpot', 'Jackpot']]
+    .map(([href, label]) => `<li><a href="${href}">${e(label)}</a></li>`).join('');
+  parts.push(`<section>
+    <h2>Quick Links</h2>
+    <ul>${quick}${nav}</ul>
+  </section>`);
+  return parts.join('\n  ');
 }
 
 function buildGuessingContent(lang = 'en') {
@@ -988,7 +1047,7 @@ const staticRoutes = [
   { path: '/',
     ...buildHomeTitleDesc('en'),
     jsonLd: [breadcrumbSchema([{ name: 'Home', url: `${SITE}/` }])],
-    content: buildHomeContent() },
+    content: buildHomeContent('en', { extras: true }) },
   { path: '/check-ticket', title: 'Check Kerala Lottery Ticket Number — Instant Result Lookup',
     desc: 'Check if your Kerala lottery ticket number is a winner. Enter your full ticket or last 4 digits to search across all recent draws instantly.',
     content: `<main><h1>Kerala Lottery Ticket Checker</h1><p>Enter your ticket number to check if it matches any winning number across recent Kerala lottery draws. You can enter the full ticket (e.g. RR 281074), 6-digit number, or last 4 digits.</p></main>` },
@@ -1175,7 +1234,7 @@ const STATIC_ML_OVERRIDES = [
   { title: 'കേരള ലോട്ടറി ചാർട്ട് 2026 — എല്ലാ ഫലങ്ങളും',
     desc: 'എല്ലാ ദിവസത്തെയും ലോട്ടറി ഒന്നാം സമ്മാനം ഒരു നോട്ടത്തിൽ, ഏറ്റവും പുതിയത് ആദ്യം.',
     h1: 'കേരള ലോട്ടറി ചാർട്ട്' },
-  { ...buildHomeTitleDesc('ml') },
+  { ...buildHomeTitleDesc('ml'), content: buildHomeContent() },
   { title: 'കേരള ലോട്ടറി ടിക്കറ്റ് നമ്പർ പരിശോധന',
     desc: 'നിങ്ങളുടെ ടിക്കറ്റ് നമ്പർ വിജയിച്ചോ എന്ന് പരിശോധിക്കുക.',
     content: `<main><h1>കേരള ലോട്ടറി ടിക്കറ്റ് പരിശോധന</h1><p>നിങ്ങളുടെ ടിക്കറ്റ് നമ്പർ നൽകി, സമീപകാല കേരള ലോട്ടറി ഫലങ്ങളിൽ വിജയിച്ചോ എന്ന് പരിശോധിക്കുക.</p></main>` },
@@ -1243,7 +1302,7 @@ const STATIC_HI_OVERRIDES = [
   { title: 'केरल लॉटरी चार्ट 2026 — सभी परिणाम',
     desc: 'हर दिन की लॉटरी का पहला पुरस्कार एक नज़र में, नवीनतम पहले।',
     h1: 'केरल लॉटरी चार्ट' },
-  { ...buildHomeTitleDesc('hi') },
+  { ...buildHomeTitleDesc('hi'), content: buildHomeContent() },
   { title: 'केरल लॉटरी टिकट नंबर जांच',
     desc: 'अपना टिकट नंबर डालकर जांचें कि आप जीते हैं या नहीं।',
     content: `<main><h1>केरल लॉटरी टिकट जांच</h1><p>अपना टिकट नंबर डालकर हाल के केरल लॉटरी परिणामों में जीत की जांच करें।</p></main>` },
@@ -1310,7 +1369,7 @@ const STATIC_KN_OVERRIDES = [
   { title: 'ಕೇರಳ ಲಾಟರಿ ಚಾರ್ಟ್ 2026 — ಎಲ್ಲಾ ಫಲಿತಾಂಶಗಳು',
     desc: 'ಪ್ರತಿ ದಿನದ ಲಾಟರಿಯ ಮೊದಲ ಬಹುಮಾನ ಒಂದೇ ನೋಟದಲ್ಲಿ, ಇತ್ತೀಚಿನದು ಮೊದಲು.',
     h1: 'ಕೇರಳ ಲಾಟರಿ ಚಾರ್ಟ್' },
-  { ...buildHomeTitleDesc('kn') },
+  { ...buildHomeTitleDesc('kn'), content: buildHomeContent() },
   { title: 'ಕೇರಳ ಲಾಟರಿ ಟಿಕೆಟ್ ಸಂಖ್ಯೆ ಪರಿಶೀಲನೆ',
     desc: 'ನಿಮ್ಮ ಟಿಕೆಟ್ ಸಂಖ್ಯೆ ಗೆದ್ದಿದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಿ.',
     content: `<main><h1>ಕೇರಳ ಲಾಟರಿ ಟಿಕೆಟ್ ಪರಿಶೀಲನೆ</h1><p>ನಿಮ್ಮ ಟಿಕೆಟ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ, ಇತ್ತೀಚಿನ ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶಗಳಲ್ಲಿ ಗೆದ್ದಿದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಿ.</p></main>` },
