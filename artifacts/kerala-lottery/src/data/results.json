@@ -7,17 +7,14 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-10-31T10:15:42.777705Z",
+    "lastUpdated": "2026-10-31T10:20:42.063262Z",
     "summary": "Result for Karunya KR-774. 10/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          {
-            "ticket": "KG 501790",
-            "district": "Kozhikkode"
-          }
+          "KG 501790"
         ]
       },
       {
@@ -41,10 +38,7 @@
         "tier": "2nd Prize",
         "amount": "₹25,00,000",
         "numbers": [
-          {
-            "ticket": "KB 845961",
-            "district": "Kottayam"
-          }
+          "KB 845961"
         ]
       },
       {
