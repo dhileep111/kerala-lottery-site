@@ -28,7 +28,7 @@ function getLotteryColor(slug: string) {
 
 // Day of week helper
 const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-function getTodayDayIndex() { return new Date().getDay(); }
+function getTodayDayIndex() { return new Date(Date.now() + 5.5 * 3600e3).getUTCDay(); }
 
 // Which lottery draws next, IST-aware. Before ~4 PM IST it's today's lottery
 // (counting down to / publishing the 3 PM draw); after the result window it's tomorrow's.

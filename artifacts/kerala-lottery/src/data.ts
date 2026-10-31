@@ -251,7 +251,7 @@ export function getTodayLottery(date = new Date()) {
     const bumper = lotteries.find((l) => l.isBumper);
     if (bumper) return bumper;
   }
-  const day = date.getDay();
+  const day = new Date(date.getTime() + 5.5 * 3600e3).getUTCDay(); // IST weekday, whatever the device timezone
   return lotteries.find((lottery) => lottery.drawDayIndex === day) ?? lotteries[0];
 }
 
@@ -268,9 +268,7 @@ export function absolute(path = '') {
 }
 
 export function getTomorrowLottery(date = new Date()) {
-  const tomorrow = new Date(date);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const day = tomorrow.getDay();
+  const day = (new Date(date.getTime() + 5.5 * 3600e3).getUTCDay() + 1) % 7; // IST weekday + 1
   return lotteries.find((l) => l.drawDayIndex === day && !l.isBumper) ?? lotteries[0];
 }
 

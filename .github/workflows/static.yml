@@ -3,6 +3,8 @@ name: Deploy Kerala Lottery Site
 on:
   push:
     branches: ["main"]
+  schedule:
+    - cron: '35 18 * * *'   # 00:05 IST — refresh date-dependent prerendered pages (e.g. /yesterday-result)
   workflow_dispatch:
 
 permissions:
