@@ -16,6 +16,9 @@ const KEY_PUSH_DISMISSED = "ktr_push_dismissed_until";
 const KEY_INSTALLED = "ktr_pwa_installed";
 const KEY_RESULT_VIEWED = "ktr_result_viewed";
 const KEY_OS_LANG = "ktr_os_lang";
+const KEY_PUSH_STATE = "ktr_push_state";
+const KEY_UNSUB_SENT = "ktr_unsub_sent";
+const KEY_INSTALL_SHOWN_SENT = "ktr_install_shown_sent";
 
 const NO_CHIP_PATHS = new Set(["/about", "/contact", "/disclaimer", "/privacy-policy", "/terms"]);
 
@@ -97,6 +100,38 @@ function syncLangTag(os: any, lang: Lang, force: boolean) {
   if (!force && readStore("local", KEY_OS_LANG) === lang) return;
   os.User.addTag("lang", lang);
   writeStore("local", KEY_OS_LANG, lang);
+}
+
+// Push events are counted against this browser's last known state ("in"/"out"), so a
+// subscriber is only counted as new or lost on a real change, never on a plain page load.
+function markPushIn(lang: Lang) {
+  if (readStore("local", KEY_PUSH_STATE) === "out") track("push_subscribed", lang);
+  writeStore("local", KEY_PUSH_STATE, "in");
+}
+
+function markPushOut(lang: Lang) {
+  if (readStore("local", KEY_PUSH_STATE) === "in" && readStore("session", KEY_UNSUB_SENT) !== "1") {
+    track("push_unsubscribed", lang);
+    writeStore("session", KEY_UNSUB_SENT, "1");
+  }
+  writeStore("local", KEY_PUSH_STATE, "out");
+}
+
+function onPushChange(was: boolean, now: boolean, lang: Lang) {
+  if (!was && now) {
+    // Listener path: empty state (first visit after deploy) also counts — this is a real subscribe.
+    if (readStore("local", KEY_PUSH_STATE) !== "in") track("push_subscribed", lang);
+    writeStore("local", KEY_PUSH_STATE, "in");
+  } else if (was && !now) {
+    markPushOut(lang);
+  }
+}
+
+function claimInstallShown(): boolean {
+  if (installShownTracked || readStore("session", KEY_INSTALL_SHOWN_SENT) === "1") return false;
+  installShownTracked = true;
+  writeStore("session", KEY_INSTALL_SHOWN_SENT, "1");
+  return true;
 }
 
 interface AdLayout {
@@ -187,12 +222,8 @@ export default function AppPrompts() {
       os.User.PushSubscription.addEventListener("change", (e: any) => {
         const was = !!e?.previous?.optedIn;
         const now = !!e?.current?.optedIn;
-        if (!was && now) {
-          track("push_subscribed", langRef.current);
-          syncLangTag(os, langRef.current, true);
-        } else if (was && !now) {
-          track("push_unsubscribed", langRef.current);
-        }
+        onPushChange(was, now, langRef.current);
+        if (!was && now) syncLangTag(os, langRef.current, true);
         refreshEligible();
       });
       // optedIn reads false until init finishes restoring state, so re-check briefly.
@@ -200,10 +231,16 @@ export default function AppPrompts() {
         [0, 3000, 10000].forEach((ms) =>
           timers.push(
             window.setTimeout(() => {
-              if (!cancelled && os.User.PushSubscription.optedIn) syncLangTag(os, langRef.current, false);
+              if (!cancelled && os.User.PushSubscription.optedIn) {
+                markPushIn(langRef.current);
+                syncLangTag(os, langRef.current, false);
+              }
             }, ms)
           )
         );
+      } else if (pushCapable) {
+        // Without granted permission this browser cannot be subscribed.
+        markPushOut(langRef.current);
       }
     });
 
@@ -280,8 +317,7 @@ export default function AppPrompts() {
   }, [ad, showInstall, showPush]);
 
   useEffect(() => {
-    if (showInstall && !overlapHidden && !installShownTracked) {
-      installShownTracked = true;
+    if (showInstall && !overlapHidden && claimInstallShown()) {
       track("pwa_install_prompt_shown", lang);
     }
   }, [showInstall, overlapHidden, lang]);
@@ -289,11 +325,13 @@ export default function AppPrompts() {
   if (!anyChip) return null;
 
   const onInstall = async () => {
+    track("pwa_install_clicked", lang);
     const evt = deferredInstall;
     if (!evt) return;
     deferredInstall = null;
     await evt.prompt();
     const choice = await evt.userChoice.catch(() => null);
+    if (choice) track(choice.outcome === "accepted" ? "pwa_install_accepted" : "pwa_install_dismissed", lang);
     if (choice?.outcome === "dismissed") {
       writeStore("local", KEY_INSTALL_DISMISSED, String(Date.now() + DISMISS_MS));
       setInstallDismissed(true);
@@ -302,6 +340,7 @@ export default function AppPrompts() {
   };
 
   const onDismissInstall = () => {
+    track("pwa_install_chip_closed", lang);
     writeStore("local", KEY_INSTALL_DISMISSED, String(Date.now() + DISMISS_MS));
     setInstallDismissed(true);
   };
