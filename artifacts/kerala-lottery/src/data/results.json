@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-01T09:45:41.884476Z",
-    "summary": "Result for Samrudhi SM-79. 6/10 tiers updated.",
+    "lastUpdated": "2026-11-01T09:50:45.159571Z",
+    "summary": "Result for Samrudhi SM-79. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "MA 847261"
+          {
+            "ticket": "MA 847261",
+            "district": "Kasaragod"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹25,00,000",
         "numbers": [
-          "ME 352847"
+          {
+            "ticket": "ME 352847",
+            "district": "Alappuzha"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "MK 247531"
+          {
+            "ticket": "MK 247531",
+            "district": "Pathanamthitta"
+          }
         ]
       },
       {
@@ -88,7 +97,26 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0271",
+          "0900",
+          "7380",
+          "4409",
+          "6942",
+          "7239",
+          "4886",
+          "6046",
+          "7078",
+          "1790",
+          "8697",
+          "6125",
+          "4063",
+          "7591",
+          "6653",
+          "5264",
+          "6947",
+          "4770"
+        ]
       },
       {
         "tier": "7th Prize",
