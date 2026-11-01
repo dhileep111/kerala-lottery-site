@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-01T09:40:46.766675Z",
-    "summary": "Result for Samrudhi SM-79. 4/10 tiers updated.",
+    "lastUpdated": "2026-11-01T09:45:41.884476Z",
+    "summary": "Result for Samrudhi SM-79. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -51,12 +51,39 @@
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0141",
+          "0979",
+          "1500",
+          "1549",
+          "2299",
+          "4452",
+          "4669",
+          "5230",
+          "5246",
+          "6037",
+          "6339",
+          "6863",
+          "7191",
+          "7268",
+          "7670",
+          "8127",
+          "8616",
+          "9281",
+          "9692"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "3645",
+          "4628",
+          "7130",
+          "7474",
+          "8087",
+          "8424"
+        ]
       },
       {
         "tier": "6th Prize",
