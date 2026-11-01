@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-01T10:55:36.697176Z",
+    "lastUpdated": "2026-11-01T16:48:30.858931Z",
     "summary": "Result for Samrudhi SM-79. 10/10 tiers updated.",
     "prizes": [
       {
@@ -16,7 +16,7 @@
         "numbers": [
           {
             "ticket": "MA 847261",
-            "district": "Kasaragod"
+            "district": "Kanhangad"
           }
         ]
       },
@@ -211,7 +211,6 @@
         "tier": "8th Prize",
         "amount": "₹200",
         "numbers": [
-          "0200",
           "0268",
           "0613",
           "0655",
