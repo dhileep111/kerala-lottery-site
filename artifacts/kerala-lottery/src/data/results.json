@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-02T09:45:57.578252Z",
-    "summary": "Result for Bhagyathara BT-78. 6/10 tiers updated.",
+    "lastUpdated": "2026-11-02T09:50:46.050625Z",
+    "summary": "Result for Bhagyathara BT-78. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "BR 399494"
+          {
+            "ticket": "BR 399494",
+            "district": "Kannur"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "BT 208354"
+          {
+            "ticket": "BT 208354",
+            "district": "Kozhikode"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "BT 435156"
+          {
+            "ticket": "BT 435156",
+            "district": "Thrissur"
+          }
         ]
       },
       {
@@ -88,7 +97,26 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0614",
+          "4159",
+          "7188",
+          "9321",
+          "2621",
+          "1619",
+          "4553",
+          "6868",
+          "5110",
+          "3657",
+          "5636",
+          "9079",
+          "8951",
+          "3161",
+          "7246",
+          "6956",
+          "3461",
+          "4262"
+        ]
       },
       {
         "tier": "7th Prize",
