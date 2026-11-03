@@ -1,6 +1,127 @@
 {
   "history": [
     {
+      "date": "2026-11-03",
+      "displayLabel": "November 3, 2026",
+      "boards": {
+        "A": "7",
+        "B": "8",
+        "C": "3"
+      },
+      "numbers": [
+        {
+          "digits": 1,
+          "label": "A Board",
+          "value": "7",
+          "type": "board"
+        },
+        {
+          "digits": 1,
+          "label": "B Board",
+          "value": "8",
+          "type": "board"
+        },
+        {
+          "digits": 1,
+          "label": "C Board",
+          "value": "3",
+          "type": "board"
+        },
+        {
+          "digits": 2,
+          "label": "AB Combo",
+          "value": "78",
+          "type": "combo"
+        },
+        {
+          "digits": 2,
+          "label": "BC Combo",
+          "value": "83",
+          "type": "combo"
+        },
+        {
+          "digits": 2,
+          "label": "CA Combo",
+          "value": "37",
+          "type": "combo"
+        },
+        {
+          "digits": 3,
+          "label": "ABC Three Digit",
+          "value": "783",
+          "type": "triple"
+        },
+        {
+          "digits": 3,
+          "label": "BCA Three Digit",
+          "value": "837",
+          "type": "triple"
+        },
+        {
+          "digits": 3,
+          "label": "CAB Three Digit",
+          "value": "378",
+          "type": "triple"
+        },
+        {
+          "digits": 4,
+          "label": "Hot Pick",
+          "value": "7783",
+          "type": "four",
+          "hot": true
+        },
+        {
+          "digits": 4,
+          "label": "Mirror Pick",
+          "value": "8837",
+          "type": "four"
+        },
+        {
+          "digits": 4,
+          "label": "Pattern Pick",
+          "value": "3378",
+          "type": "four"
+        },
+        {
+          "digits": 4,
+          "label": "Lucky Combo",
+          "value": "7837",
+          "type": "four",
+          "hot": true
+        },
+        {
+          "digits": 4,
+          "label": "Reverse Pick",
+          "value": "3873",
+          "type": "four"
+        },
+        {
+          "digits": 4,
+          "label": "Sequential",
+          "value": "3837",
+          "type": "four"
+        },
+        {
+          "digits": 4,
+          "label": "Zero Start",
+          "value": "0783",
+          "type": "four"
+        },
+        {
+          "digits": 4,
+          "label": "Double AB",
+          "value": "7878",
+          "type": "four"
+        },
+        {
+          "digits": 4,
+          "label": "Double BC",
+          "value": "8383",
+          "type": "four"
+        }
+      ]
+    },
+    {
       "date": "2026-11-02",
       "displayLabel": "November 2, 2026",
       "boards": {
