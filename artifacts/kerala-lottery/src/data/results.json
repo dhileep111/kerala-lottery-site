@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-03T09:40:45.124506Z",
-    "summary": "Result for Sthree Sakthi SS-544. 4/10 tiers updated.",
+    "lastUpdated": "2026-11-03T09:45:47.538658Z",
+    "summary": "Result for Sthree Sakthi SS-544. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -51,12 +51,39 @@
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0318",
+          "0509",
+          "0602",
+          "1313",
+          "2051",
+          "2299",
+          "2421",
+          "2901",
+          "3211",
+          "3855",
+          "4097",
+          "4208",
+          "5608",
+          "5640",
+          "6354",
+          "6417",
+          "6725",
+          "7663",
+          "9644"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "0370",
+          "2465",
+          "4418",
+          "7241",
+          "8960",
+          "9894"
+        ]
       },
       {
         "tier": "6th Prize",
