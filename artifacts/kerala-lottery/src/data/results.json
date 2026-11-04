@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-04T09:45:47.799685Z",
-    "summary": "Result for Dhanalekshmi DL-76. 6/10 tiers updated.",
+    "lastUpdated": "2026-11-04T09:50:44.211714Z",
+    "summary": "Result for Dhanalekshmi DL-76. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "DN 862528"
+          {
+            "ticket": "DN 862528",
+            "district": "Kannur"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "DP 984282"
+          {
+            "ticket": "DP 984282",
+            "district": "Kozhikode"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "DO 531490"
+          {
+            "ticket": "DO 531490",
+            "district": "Kollam"
+          }
         ]
       },
       {
@@ -88,7 +97,20 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "5757",
+          "7881",
+          "7568",
+          "6324",
+          "4536",
+          "6839",
+          "0942",
+          "2755",
+          "2601",
+          "9851",
+          "6940",
+          "5648"
+        ]
       },
       {
         "tier": "7th Prize",
