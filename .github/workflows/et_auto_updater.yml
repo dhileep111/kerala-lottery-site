@@ -208,16 +208,28 @@ jobs:
         run: |
           git config --global user.name "ET Auto Bot"
           git config --global user.email "bot@keralaticketresults.in"
-          # Build artifacts (e.g. the "Generate sitemap" step's refresh of
-          # artifacts/kerala-lottery/public/sitemap.xml) are left uncommitted
-          # in the working directory — stash them out of the way so `git
-          # pull --rebase` doesn't refuse to run ("you have unstaged
-          # changes"), then restore them afterward.
-          git add -A
-          git stash
-          git pull --rebase
-          git stash pop || true
-          echo "${{ steps.scraper.outputs.draw_code }}" >> notified_draws.txt
+          # A failure here runs after the webhook, so the next run would notify the same
+          # draw again: retry transient Git errors. --autostash keeps build artifacts
+          # (e.g. the refreshed public/sitemap.xml) from blocking the rebase.
+          pull_only() { git pull --rebase --autostash; }
+          pull_and_push() { git pull --rebase --autostash && git push; }
+          retry_git() {
+            local attempt output
+            for attempt in 1 2 3 4 5; do
+              if output=$("$@" 2>&1); then
+                echo "$output"
+                return 0
+              fi
+              echo "Attempt $attempt of 5 failed ($1): $output"
+              git rebase --abort >/dev/null 2>&1 || true
+              if [ "$attempt" -lt 5 ]; then sleep $((attempt * 10)); fi
+            done
+            echo "::error::Save notified draw failed after 5 attempts ($1). Last error: ${output//$'\n'/ }"
+            return 1
+          }
+          CODE="${{ steps.scraper.outputs.draw_code }}"
+          retry_git pull_only || exit 1
+          grep -qxF "$CODE" notified_draws.txt || echo "$CODE" >> notified_draws.txt
           git add notified_draws.txt artifacts/kerala-lottery/public/sitemap.xml
-          git diff --staged --quiet || git commit -m "track: notified ${{ steps.scraper.outputs.draw_code }}"
-          git push
+          git diff --staged --quiet || git commit -m "track: notified $CODE"
+          retry_git pull_and_push || exit 1
