@@ -36,7 +36,7 @@ function BumperUpcoming({ up, lang }: { up: Required<UpcomingBumper>; lang: Lang
       <p>Results appear here on draw day, live from {up.drawTime} IST.</p>
       {!cd.done && (
         <p>
-          <strong>{cd.days}</strong> {t(lang, 'days')} · <strong>{cd.hours}</strong> {t(lang, 'hours')} · <strong>{cd.mins}</strong> {t(lang, 'minutes')} · <strong>{cd.secs}</strong> {t(lang, 'seconds')}
+          <strong>{cd.days}</strong> {t(lang, cd.days === 1 ? 'dayOne' : 'days')} · <strong>{cd.hours}</strong> {t(lang, 'hours')} · <strong>{cd.mins}</strong> {t(lang, 'minutes')} · <strong>{cd.secs}</strong> {t(lang, 'seconds')}
         </p>
       )}
     </section>

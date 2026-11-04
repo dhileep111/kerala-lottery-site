@@ -52,8 +52,8 @@ export default function PrizeTaxCalculatorPage() {
   const lang = useLang();
   const quickPicks = useQuickPicks();
   const [input, setInput] = useState('');
-  const [includeCess, setIncludeCess] = useState(TAX_CONSTANTS.cessAppliedByDefault);
-  const [includeSurcharge, setIncludeSurcharge] = useState(TAX_CONSTANTS.surchargeAppliedByDefault);
+  const [includeCess, setIncludeCess] = useState<boolean>(TAX_CONSTANTS.cessAppliedByDefault);
+  const [includeSurcharge, setIncludeSurcharge] = useState<boolean>(TAX_CONSTANTS.surchargeAppliedByDefault);
 
   const grossPrize = Number(input) || 0;
   const breakdown = calculateNetPrize(grossPrize, { includeCess });

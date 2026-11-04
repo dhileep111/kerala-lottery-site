@@ -58,7 +58,7 @@ export default function JackpotPage() {
           </p>
           {!cd.done ? (
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
-              <div style={box}><div style={num}>{cd.days}</div><div style={lbl}>{t(lang, 'days')}</div></div>
+              <div style={box}><div style={num}>{cd.days}</div><div style={lbl}>{t(lang, cd.days === 1 ? 'dayOne' : 'days')}</div></div>
               <div style={box}><div style={num}>{cd.hours}</div><div style={lbl}>{t(lang, 'hours')}</div></div>
               <div style={box}><div style={num}>{cd.mins}</div><div style={lbl}>{t(lang, 'minutes')}</div></div>
               <div style={box}><div style={num}>{cd.secs}</div><div style={lbl}>{t(lang, 'seconds')}</div></div>

@@ -118,7 +118,7 @@ export type UIKey =
   // ── NextDrawCountdown (shared component) ────────────────────────
   | 'ndcLiveNow' | 'ndcTodaysResult' | 'ndcResultBeingPublished' | 'ndcRefreshMoment'
   | 'ndcNextDrawIn' | 'ndcKeralaLottery' | 'ndcDays' | 'ndcHours' | 'ndcMins' | 'ndcSecs'
-  | 'ndcDrawDailyAt' | 'ndcLiveText' | 'ndcLiveTextDaysPrefix'
+  | 'ndcDrawDailyAt' | 'ndcLiveText' | 'ndcLiveTextDaysPrefix' | 'ndcLiveTextDayOnePrefix' | 'dayOne'
   // ── AppPrompts (install / push chips) ───────────────────────────
   | 'pwaInstall' | 'pwaInstallDismiss' | 'pushGetAlerts' | 'pushGetAlertsSub' | 'pushDismiss'
   // ── DrawArchivePage / LotteryResultPage (shared) ────────────────
@@ -317,6 +317,7 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     ndcDrawDailyAt: 'Draw daily at {time} IST',
     ndcLiveText: '{daysPart}{hours} hours {minutes} minutes {seconds} seconds until the next draw',
     ndcLiveTextDaysPrefix: '{days} days ',
+    ndcLiveTextDayOnePrefix: '{days} day ', dayOne: 'Day',
     pwaInstall: 'Install app',
     pwaInstallDismiss: 'Hide install button',
     pushGetAlerts: 'Get result alerts',
@@ -549,6 +550,7 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     ndcDrawDailyAt: 'தினமும் மதியம் {time} மணிக்கு டிராவ்',
     ndcLiveText: '{daysPart}{hours} மணிநேரம் {minutes} நிமிடங்கள் {seconds} வினாடிகளில் அடுத்த டிராவ்',
     ndcLiveTextDaysPrefix: '{days} நாட்கள் ',
+    ndcLiveTextDayOnePrefix: '{days} நாள் ', dayOne: 'நாள்',
     pwaInstall: 'ஆப் இன்ஸ்டால் செய்ய',
     pwaInstallDismiss: 'இன்ஸ்டால் பட்டனை மறை',
     pushGetAlerts: 'ரிசல்ட் அலர்ட் பெறுங்கள்',
@@ -781,6 +783,7 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     ndcDrawDailyAt: 'ദിവസവും ഉച്ചയ്ക്ക് {time}ന് നറുക്കെടുപ്പ്',
     ndcLiveText: '{daysPart}{hours} മണിക്കൂർ {minutes} മിനിറ്റ് {seconds} സെക്കൻഡിൽ അടുത്ത നറുക്കെടുപ്പ്',
     ndcLiveTextDaysPrefix: '{days} ദിവസം ',
+    ndcLiveTextDayOnePrefix: '{days} ദിവസം ', dayOne: 'ദിവസം',
     pwaInstall: 'ആപ്പ് ഇൻസ്റ്റാൾ ചെയ്യുക',
     pwaInstallDismiss: 'ഇൻസ്റ്റാൾ ബട്ടൺ മറയ്ക്കുക',
     pushGetAlerts: 'ഫല അറിയിപ്പുകൾ നേടുക',
@@ -1013,6 +1016,7 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     ndcDrawDailyAt: 'रोज़ दोपहर {time} बजे ड्रॉ',
     ndcLiveText: '{daysPart}{hours} घंटे {minutes} मिनट {seconds} सेकंड में अगला ड्रॉ',
     ndcLiveTextDaysPrefix: '{days} दिन ',
+    ndcLiveTextDayOnePrefix: '{days} दिन ', dayOne: 'दिन',
     pwaInstall: 'ऐप इंस्टॉल करें',
     pwaInstallDismiss: 'इंस्टॉल बटन छिपाएं',
     pushGetAlerts: 'रिज़ल्ट अलर्ट पाएं',
@@ -1245,6 +1249,7 @@ export const translations: Record<Lang, Record<UIKey, string>> = {
     ndcDrawDailyAt: 'ಪ್ರತಿದಿನ ಮಧ್ಯಾಹ್ನ {time} ಕ್ಕೆ ಡ್ರಾ',
     ndcLiveText: '{daysPart}{hours} ಗಂಟೆ {minutes} ನಿಮಿಷ {seconds} ಸೆಕೆಂಡುಗಳಲ್ಲಿ ಮುಂದಿನ ಡ್ರಾ',
     ndcLiveTextDaysPrefix: '{days} ದಿನ ',
+    ndcLiveTextDayOnePrefix: '{days} ದಿನ ', dayOne: 'ದಿನ',
     pwaInstall: 'ಆ್ಯಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿ',
     pwaInstallDismiss: 'ಇನ್‌ಸ್ಟಾಲ್ ಬಟನ್ ಮರೆಮಾಡಿ',
     pushGetAlerts: 'ಫಲಿತಾಂಶ ಅಲರ್ಟ್ ಪಡೆಯಿರಿ',

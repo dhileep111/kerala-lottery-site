@@ -261,13 +261,13 @@ export default function NextDrawCountdown({
 
   // ----- Countdown state -----
   const boxes: { value: number; unit: string; show: boolean }[] = [
-    { value: days, unit: t(lang, 'ndcDays'), show: days > 0 },
+    { value: days, unit: t(lang, days === 1 ? 'dayOne' : 'ndcDays'), show: days > 0 },
     { value: hours, unit: t(lang, 'ndcHours'), show: true },
     { value: minutes, unit: t(lang, 'ndcMins'), show: true },
     { value: seconds, unit: t(lang, 'ndcSecs'), show: true },
   ];
 
-  const daysPart = days > 0 ? t(lang, 'ndcLiveTextDaysPrefix').replace('{days}', String(days)) : '';
+  const daysPart = days > 0 ? t(lang, days === 1 ? 'ndcLiveTextDayOnePrefix' : 'ndcLiveTextDaysPrefix').replace('{days}', String(days)) : '';
   const liveText = t(lang, 'ndcLiveText')
     .replace('{daysPart}', daysPart)
     .replace('{hours}', String(hours))
