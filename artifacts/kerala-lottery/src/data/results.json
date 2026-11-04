@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-04T10:55:36.048757Z",
+    "lastUpdated": "2026-11-04T17:59:17.702783Z",
     "summary": "Result for Dhanalekshmi DL-76. 10/10 tiers updated.",
     "prizes": [
       {
@@ -16,7 +16,7 @@
         "numbers": [
           {
             "ticket": "DN 862528",
-            "district": "Kannur"
+            "district": "Payyanur"
           }
         ]
       },
@@ -43,7 +43,7 @@
         "numbers": [
           {
             "ticket": "DP 984282",
-            "district": "Kozhikode"
+            "district": "Thamarassery"
           }
         ]
       },
@@ -53,7 +53,7 @@
         "numbers": [
           {
             "ticket": "DO 531490",
-            "district": "Kollam"
+            "district": "Karunagapally"
           }
         ]
       },
