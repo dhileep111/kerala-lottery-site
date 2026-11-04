@@ -7,7 +7,10 @@
  * Mirrors the exact route universe prerender.mjs generates — staticRoutes,
  * lotteryRoutes and archiveRoutes, each with its /ta, /ml, /hi and /kn
  * counterpart — and writes a single sitemap.xml covering all of them.
- * lastmod is today's date for every entry.
+ * lastmod is the date a page's content really changed: the newest draw for
+ * data-driven pages, the draw's own date for per-draw pages, and a fixed date
+ * for static pages (update those by hand when the page's content changes).
+ * Every date is capped at today's IST date.
  *
  * Replaces generate-sitemap.mjs in the deploy pipeline (static.yml,
  * manual_updater.yml, et_auto_updater.yml): that script's hand-maintained
@@ -37,35 +40,59 @@ const sourceDir   = resolve(__dir, 'artifacts/kerala-lottery/public');
 const buildDir    = resolve(__dir, 'artifacts/kerala-lottery/dist/public');
 
 const SITE  = 'https://keralaticketresults.in';
-const TODAY = new Date().toISOString().slice(0, 10); // today's date, e.g. 2026-09-15
+const TODAY_IST = new Date(Date.now() + 5.5 * 3600e3).toISOString().slice(0, 10);
 
 const lotteries = JSON.parse(readFileSync(`${dataDir}/lotteries.json`, 'utf8'));
 const results   = JSON.parse(readFileSync(`${dataDir}/results.json`,   'utf8'));
+
+// Fixed dates: the last real content change of each static page.
+const STATIC_LASTMOD     = '2026-09-16';
+const SCHEDULE_LASTMOD   = '2026-10-30';
+const TAX_CALC_LASTMOD   = '2026-10-10';
+const BUMPER_LASTMOD     = '2026-10-30'; // BR-112 upcoming block went live
+
+// Same "has a result" rule as prerender.mjs: newest drawDate with a 1st-prize number.
+function newestDraw(slug) {
+  return results
+    .filter(r => (!slug || r.lotterySlug === slug) && r.prizes?.find(p => p.tier === '1st Prize')?.numbers?.length > 0)
+    .map(r => r.drawDate)
+    .sort()
+    .pop();
+}
+const NEWEST_ANY = newestDraw();
+const laterOf = (a, b) => ((a || '') > b ? a : b);
+const BUMPER_DATE = laterOf(newestDraw('bumper'), BUMPER_LASTMOD);
+
+// Fall back to the fixed date if a value is missing or malformed; never a future date.
+function capLastmod(date, fallback = STATIC_LASTMOD) {
+  const d = /^\d{4}-\d{2}-\d{2}$/.test(date || '') ? date : fallback;
+  return d > TODAY_IST ? TODAY_IST : d;
+}
 
 // ── staticRoutes — same 19 unique paths as prerender.mjs's staticRoutes
 // (that array lists /lottery-offices twice; deduped here since a sitemap
 // must not repeat a URL) ────────────────────────────────────────────────
 const staticPages = [
-  { url: '/',                          priority: '1.00', changefreq: 'daily'   },
-  { url: '/schedule',                  priority: '0.70', changefreq: 'monthly' },
-  { url: '/jackpot',                   priority: '0.85', changefreq: 'daily'   },
-  { url: '/claim-prize',               priority: '0.70', changefreq: 'monthly' },
-  { url: '/yesterday-result',          priority: '0.80', changefreq: 'daily'   },
-  { url: '/bumper',                    priority: '0.90', changefreq: 'daily'   },
-  { url: '/chart',                     priority: '0.90', changefreq: 'daily'   },
-  { url: '/check-ticket',              priority: '0.80', changefreq: 'monthly' },
-  { url: '/guessing-numbers',          priority: '0.80', changefreq: 'daily'   },
-  { url: '/guessing-numbers/archive',  priority: '0.70', changefreq: 'daily'   },
-  { url: '/claim-guide',               priority: '0.70', changefreq: 'monthly' },
-  { url: '/faq',                       priority: '0.60', changefreq: 'monthly' },
-  { url: '/lottery-offices',           priority: '0.50', changefreq: 'monthly' },
-  { url: '/about',                     priority: '0.50', changefreq: 'monthly' },
-  { url: '/contact',                   priority: '0.50', changefreq: 'monthly' },
-  { url: '/disclaimer',                priority: '0.40', changefreq: 'yearly'  },
-  { url: '/privacy-policy',            priority: '0.40', changefreq: 'yearly'  },
-  { url: '/terms',                     priority: '0.40', changefreq: 'yearly'  },
-  { url: '/download-forms',            priority: '0.50', changefreq: 'monthly' },
-  { url: '/prize-tax-calculator',      priority: '0.70', changefreq: 'monthly' },
+  { url: '/',                          priority: '1.00', changefreq: 'daily',   lastmod: NEWEST_ANY },
+  { url: '/schedule',                  priority: '0.70', changefreq: 'monthly', lastmod: SCHEDULE_LASTMOD },
+  { url: '/jackpot',                   priority: '0.85', changefreq: 'daily',   lastmod: NEWEST_ANY },
+  { url: '/claim-prize',               priority: '0.70', changefreq: 'monthly', lastmod: STATIC_LASTMOD },
+  { url: '/yesterday-result',          priority: '0.80', changefreq: 'daily',   lastmod: NEWEST_ANY },
+  { url: '/bumper',                    priority: '0.90', changefreq: 'daily',   lastmod: BUMPER_DATE },
+  { url: '/chart',                     priority: '0.90', changefreq: 'daily',   lastmod: NEWEST_ANY },
+  { url: '/check-ticket',              priority: '0.80', changefreq: 'monthly', lastmod: STATIC_LASTMOD },
+  { url: '/guessing-numbers',          priority: '0.80', changefreq: 'daily',   lastmod: NEWEST_ANY },
+  { url: '/guessing-numbers/archive',  priority: '0.70', changefreq: 'daily',   lastmod: NEWEST_ANY },
+  { url: '/claim-guide',               priority: '0.70', changefreq: 'monthly', lastmod: STATIC_LASTMOD },
+  { url: '/faq',                       priority: '0.60', changefreq: 'monthly', lastmod: STATIC_LASTMOD },
+  { url: '/lottery-offices',           priority: '0.50', changefreq: 'monthly', lastmod: STATIC_LASTMOD },
+  { url: '/about',                     priority: '0.50', changefreq: 'monthly', lastmod: STATIC_LASTMOD },
+  { url: '/contact',                   priority: '0.50', changefreq: 'monthly', lastmod: STATIC_LASTMOD },
+  { url: '/disclaimer',                priority: '0.40', changefreq: 'yearly',  lastmod: STATIC_LASTMOD },
+  { url: '/privacy-policy',            priority: '0.40', changefreq: 'yearly',  lastmod: STATIC_LASTMOD },
+  { url: '/terms',                     priority: '0.40', changefreq: 'yearly',  lastmod: STATIC_LASTMOD },
+  { url: '/download-forms',            priority: '0.50', changefreq: 'monthly', lastmod: STATIC_LASTMOD },
+  { url: '/prize-tax-calculator',      priority: '0.70', changefreq: 'monthly', lastmod: TAX_CALC_LASTMOD },
 ];
 
 // ── lotteryRoutes — /results/:slug, one per lottery (incl. bumper) ──────
@@ -73,6 +100,7 @@ const lotteryPages = lotteries.map(l => ({
   url:        `/results/${l.slug}`,
   priority:   '0.90',
   changefreq: l.slug === 'bumper' ? 'weekly' : 'daily',
+  lastmod:    l.slug === 'bumper' ? BUMPER_DATE : newestDraw(l.slug),
 }));
 
 // ── archiveRoutes — /results/:slug/:drawCode, same skip rule as
@@ -88,6 +116,7 @@ const archivePages = results
       url:        `/results/${r.lotterySlug}/${drawCodeLower}`,
       priority:   r.status === 'live' || r.status === 'verified' ? '0.85' : '0.60',
       changefreq: r.status === 'pending' ? 'hourly' : 'monthly',
+      lastmod:    r.drawDate,
     };
   });
 
@@ -107,7 +136,7 @@ const localePages = ALT_LOCALES.flatMap((locale) =>
 const allPages = [...enPages, ...localePages];
 
 // ── Build XML ─────────────────────────────────────────────────────────
-function urlEntry({ url, priority, changefreq }) {
+function urlEntry({ url, priority, changefreq, lastmod }) {
   // No forced trailing slash — matches the canonical no-slash convention
   // used everywhere else on the site (canonical tags, internal <Link>s,
   // prerender.mjs's sibling ".html" file layout). '/' already ends in a
@@ -116,7 +145,7 @@ function urlEntry({ url, priority, changefreq }) {
   return [
     '  <url>',
     `    <loc>${loc}</loc>`,
-    `    <lastmod>${TODAY}</lastmod>`,
+    `    <lastmod>${capLastmod(lastmod)}</lastmod>`,
     `    <changefreq>${changefreq}</changefreq>`,
     `    <priority>${priority}</priority>`,
     '  </url>',
@@ -144,4 +173,4 @@ console.log(`   English: ${enPages.length} (static ${staticPages.length}, lotter
 for (const locale of ALT_LOCALES) {
   console.log(`   /${locale}: ${enPages.length}`);
 }
-console.log(`   lastmod: ${TODAY}`);
+console.log(`   lastmod: real change dates, newest draw ${NEWEST_ANY}, capped at ${TODAY_IST}`);
