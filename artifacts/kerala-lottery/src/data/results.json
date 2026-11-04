@@ -1,5 +1,113 @@
 [
   {
+    "lotterySlug": "dhanalekshmi",
+    "drawCode": "DL-76",
+    "drawDate": "2026-11-04",
+    "displayDate": "November 04, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-11-04T09:45:47.799685Z",
+    "summary": "Result for Dhanalekshmi DL-76. 6/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "DN 862528"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "DO 862528",
+          "DP 862528",
+          "DR 862528",
+          "DS 862528",
+          "DT 862528",
+          "DU 862528",
+          "DV 862528",
+          "DW 862528",
+          "DX 862528",
+          "DY 862528",
+          "DZ 862528"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          "DP 984282"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "DO 531490"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "0313",
+          "0679",
+          "1265",
+          "1704",
+          "1903",
+          "2907",
+          "4290",
+          "4827",
+          "4881",
+          "5736",
+          "6272",
+          "7797",
+          "8171",
+          "8194",
+          "8493",
+          "8738",
+          "8827",
+          "9389",
+          "9899"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": [
+          "0631",
+          "2355",
+          "3371",
+          "3376",
+          "3379",
+          "3653"
+        ]
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "sthree-sakthi",
     "drawCode": "SS-544",
     "drawDate": "2026-11-03",
