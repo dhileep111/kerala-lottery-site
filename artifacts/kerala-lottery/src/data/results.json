@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-05T09:40:44.965558Z",
-    "summary": "Result for Karunya Plus KN-648. 4/10 tiers updated.",
+    "lastUpdated": "2026-11-05T09:45:47.288429Z",
+    "summary": "Result for Karunya Plus KN-648. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -51,12 +51,39 @@
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0706",
+          "1307",
+          "1432",
+          "2125",
+          "2325",
+          "3007",
+          "3290",
+          "3997",
+          "4120",
+          "4717",
+          "5058",
+          "5181",
+          "5207",
+          "5951",
+          "6944",
+          "7732",
+          "7975",
+          "9298",
+          "9692"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "2462",
+          "3856",
+          "6461",
+          "7277",
+          "7314",
+          "9200"
+        ]
       },
       {
         "tier": "6th Prize",
