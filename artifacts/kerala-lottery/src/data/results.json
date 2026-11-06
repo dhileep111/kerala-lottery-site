@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-06T10:55:36.479939Z",
+    "lastUpdated": "2026-11-06T17:29:49.739797Z",
     "summary": "Result for Suvarna Keralam SK-76. 10/10 tiers updated.",
     "prizes": [
       {
@@ -16,7 +16,7 @@
         "numbers": [
           {
             "ticket": "RN 802143",
-            "district": "Kozhikode"
+            "district": "Kozhikkode"
           }
         ]
       },
@@ -52,7 +52,7 @@
         "numbers": [
           {
             "ticket": "RZ 314956",
-            "district": "Palakkad"
+            "district": "Chittur"
           }
         ]
       },
@@ -128,6 +128,7 @@
         "tier": "7th Prize",
         "amount": "₹500",
         "numbers": [
+          "0043",
           "0094",
           "0310",
           "0324",
@@ -189,7 +190,6 @@
           "7572",
           "7755",
           "7958",
-          "8043",
           "8197",
           "8313",
           "8812",
