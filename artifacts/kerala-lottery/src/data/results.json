@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-07T10:55:36.678778Z",
+    "lastUpdated": "2026-11-07T16:26:53.751163Z",
     "summary": "Result for Karunya KR-775. 10/10 tiers updated.",
     "prizes": [
       {
@@ -16,7 +16,7 @@
         "numbers": [
           {
             "ticket": "KO 447257",
-            "district": "Thrissur"
+            "district": "Irinjalakuda"
           }
         ]
       },
@@ -43,7 +43,7 @@
         "numbers": [
           {
             "ticket": "KP 868105",
-            "district": "Thrissur"
+            "district": "Guruvayoor"
           }
         ]
       },
@@ -331,6 +331,7 @@
           "1940",
           "2070",
           "2285",
+          "2359",
           "2374",
           "2388",
           "2494",
@@ -339,7 +340,6 @@
           "2572",
           "2627",
           "2907",
-          "2959",
           "3032",
           "3038",
           "3039",
