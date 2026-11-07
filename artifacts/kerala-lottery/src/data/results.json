@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-07T09:40:44.987885Z",
-    "summary": "Result for Karunya KR-775. 3/10 tiers updated.",
+    "lastUpdated": "2026-11-07T09:45:43.769228Z",
+    "summary": "Result for Karunya KR-775. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -44,17 +44,46 @@
       {
         "tier": "3rd Prize",
         "amount": "₹10,00,000",
-        "numbers": []
+        "numbers": [
+          "KW 852274"
+        ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0342",
+          "1243",
+          "1905",
+          "2499",
+          "2719",
+          "2920",
+          "3304",
+          "4015",
+          "4206",
+          "4262",
+          "4716",
+          "5323",
+          "5542",
+          "5790",
+          "6122",
+          "6324",
+          "8068",
+          "8987",
+          "9863"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "2681",
+          "2905",
+          "4562",
+          "8205",
+          "8985",
+          "9316"
+        ]
       },
       {
         "tier": "6th Prize",
