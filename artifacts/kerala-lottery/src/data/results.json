@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-08T09:45:42.359647Z",
-    "summary": "Result for Samrudhi SM-80. 6/10 tiers updated.",
+    "lastUpdated": "2026-11-08T09:50:43.850564Z",
+    "summary": "Result for Samrudhi SM-80. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "MX 703439"
+          {
+            "ticket": "MX 703439",
+            "district": "Palakkad"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹25,00,000",
         "numbers": [
-          "MO 128818"
+          {
+            "ticket": "MO 128818",
+            "district": "Kozhikode"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "MZ 218759"
+          {
+            "ticket": "MZ 218759",
+            "district": "Ernakulam"
+          }
         ]
       },
       {
@@ -88,7 +97,20 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "6306",
+          "1210",
+          "6265",
+          "4132",
+          "3294",
+          "5517",
+          "3048",
+          "6650",
+          "9644",
+          "4646",
+          "5181",
+          "8086"
+        ]
       },
       {
         "tier": "7th Prize",
