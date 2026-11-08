@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-08T10:55:34.833057Z",
+    "lastUpdated": "2026-11-08T16:40:25.530312Z",
     "summary": "Result for Samrudhi SM-80. 10/10 tiers updated.",
     "prizes": [
       {
@@ -43,7 +43,7 @@
         "numbers": [
           {
             "ticket": "MO 128818",
-            "district": "Kozhikode"
+            "district": "Vadakara"
           }
         ]
       },
