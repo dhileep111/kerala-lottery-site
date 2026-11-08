@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-08T09:40:45.453766Z",
-    "summary": "Result for Samrudhi SM-80. 2/10 tiers updated.",
+    "lastUpdated": "2026-11-08T09:45:42.359647Z",
+    "summary": "Result for Samrudhi SM-80. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -37,22 +37,53 @@
       {
         "tier": "2nd Prize",
         "amount": "₹25,00,000",
-        "numbers": []
+        "numbers": [
+          "MO 128818"
+        ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
-        "numbers": []
+        "numbers": [
+          "MZ 218759"
+        ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0047",
+          "0209",
+          "0233",
+          "0511",
+          "0839",
+          "1217",
+          "1722",
+          "2172",
+          "2497",
+          "3075",
+          "3340",
+          "3682",
+          "3818",
+          "3951",
+          "4541",
+          "4713",
+          "5223",
+          "7207",
+          "7318"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "2070",
+          "4650",
+          "4967",
+          "5669",
+          "6880",
+          "7437"
+        ]
       },
       {
         "tier": "6th Prize",
