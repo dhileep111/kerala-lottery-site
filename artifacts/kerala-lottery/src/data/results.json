@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-10T09:40:45.750386Z",
-    "summary": "Result for Sthree Sakthi SS-545. 5/10 tiers updated.",
+    "lastUpdated": "2026-11-10T09:46:09.196670Z",
+    "summary": "Result for Sthree Sakthi SS-545. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -52,18 +52,38 @@
         "tier": "4th Prize",
         "amount": "₹5,000",
         "numbers": [
-          "9352",
-          "9953",
-          "7685",
-          "4874",
+          "0077",
           "0562",
-          "4449"
+          "2829",
+          "3100",
+          "3259",
+          "4377",
+          "4449",
+          "4856",
+          "4874",
+          "5208",
+          "5795",
+          "6791",
+          "7076",
+          "7685",
+          "7768",
+          "8779",
+          "9068",
+          "9352",
+          "9953"
         ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "0226",
+          "1141",
+          "2030",
+          "2980",
+          "8185",
+          "8925"
+        ]
       },
       {
         "tier": "6th Prize",
