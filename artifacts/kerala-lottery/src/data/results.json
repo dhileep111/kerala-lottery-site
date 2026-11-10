@@ -1,5 +1,93 @@
 [
   {
+    "lotterySlug": "sthree-sakthi",
+    "drawCode": "SS-545",
+    "drawDate": "2026-11-10",
+    "displayDate": "November 10, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-11-10T09:40:45.750386Z",
+    "summary": "Result for Sthree Sakthi SS-545. 5/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "SV 182817"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "SN 182817",
+          "SO 182817",
+          "SP 182817",
+          "SR 182817",
+          "SS 182817",
+          "ST 182817",
+          "SU 182817",
+          "SW 182817",
+          "SX 182817",
+          "SY 182817",
+          "SZ 182817"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          "SS 248520"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "SP 915233"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "9352",
+          "9953",
+          "7685",
+          "4874",
+          "0562",
+          "4449"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "bhagyathara",
     "drawCode": "BT-79",
     "drawDate": "2026-11-09",
