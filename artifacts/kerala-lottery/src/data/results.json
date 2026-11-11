@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-11T09:45:45.442461Z",
-    "summary": "Result for Dhanalekshmi DL-77. 6/10 tiers updated.",
+    "lastUpdated": "2026-11-11T09:50:49.857811Z",
+    "summary": "Result for Dhanalekshmi DL-77. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "DJ 943076"
+          {
+            "ticket": "DJ 943076",
+            "district": "Kattappana"
+          }
         ]
       },
       {
@@ -87,7 +90,26 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "3868",
+          "3964",
+          "1163",
+          "2702",
+          "5943",
+          "0825",
+          "4747",
+          "1002",
+          "5658",
+          "3860",
+          "1044",
+          "4879",
+          "3862",
+          "7618",
+          "6906",
+          "2988",
+          "7125",
+          "4063"
+        ]
       },
       {
         "tier": "7th Prize",
