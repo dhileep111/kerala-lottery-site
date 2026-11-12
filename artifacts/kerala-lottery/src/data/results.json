@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-12T10:25:37.045886Z",
+    "lastUpdated": "2026-11-12T10:31:05.107541Z",
     "summary": "Result for Karunya Plus KN-649. 10/10 tiers updated.",
     "prizes": [
       {
@@ -384,7 +384,12 @@
           "0200",
           "1211",
           "8457",
-          "1504"
+          "1504",
+          "8707",
+          "5533",
+          "6097",
+          "0040",
+          "8575"
         ]
       }
     ]
