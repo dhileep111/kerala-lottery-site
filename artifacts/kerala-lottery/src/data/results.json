@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-13T10:55:38.664625Z",
+    "lastUpdated": "2026-11-13T17:45:22.472418Z",
     "summary": "Result for Suvarna Keralam SK-77. 10/10 tiers updated.",
     "prizes": [
       {
@@ -16,7 +16,7 @@
         "numbers": [
           {
             "ticket": "RM 105954",
-            "district": "Kollam"
+            "district": "Karunagapally"
           }
         ]
       },
@@ -43,7 +43,7 @@
         "numbers": [
           {
             "ticket": "RB 968051",
-            "district": "Alappuzha"
+            "district": "Cherthala"
           }
         ]
       },
