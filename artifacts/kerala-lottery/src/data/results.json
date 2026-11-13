@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-13T09:40:47.538817Z",
-    "summary": "Result for Suvarna Keralam SK-77. 4/10 tiers updated.",
+    "lastUpdated": "2026-11-13T09:45:47.568158Z",
+    "summary": "Result for Suvarna Keralam SK-77. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -51,12 +51,39 @@
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "1307",
+          "2002",
+          "2351",
+          "2486",
+          "2505",
+          "3668",
+          "3754",
+          "4341",
+          "5916",
+          "6065",
+          "6216",
+          "7057",
+          "7852",
+          "8830",
+          "8908",
+          "9262",
+          "9687",
+          "9909",
+          "9995"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "5295",
+          "5576",
+          "5637",
+          "6050",
+          "9850",
+          "9974"
+        ]
       },
       {
         "tier": "6th Prize",
