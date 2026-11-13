@@ -7,8 +7,8 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-13T10:15:51.507694Z",
-    "summary": "Result for Suvarna Keralam SK-77. 9/10 tiers updated.",
+    "lastUpdated": "2026-11-13T10:20:45.939144Z",
+    "summary": "Result for Suvarna Keralam SK-77. 10/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -41,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "RB 968051"
+          {
+            "ticket": "RB 968051",
+            "district": "Alappuzha"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "RE 931878"
+          {
+            "ticket": "RE 931878",
+            "district": "Palakkad"
+          }
         ]
       },
       {
@@ -302,7 +308,42 @@
       {
         "tier": "9th Prize",
         "amount": "₹100",
-        "numbers": []
+        "numbers": [
+          "0079",
+          "7419",
+          "2727",
+          "5555",
+          "3549",
+          "0976",
+          "1660",
+          "8822",
+          "7341",
+          "2192",
+          "6153",
+          "4762",
+          "3534",
+          "4499",
+          "2653",
+          "3638",
+          "7919",
+          "0920",
+          "1393",
+          "2940",
+          "9388",
+          "5685",
+          "2600",
+          "0215",
+          "8025",
+          "4064",
+          "6914",
+          "7999",
+          "7230",
+          "2120",
+          "2448",
+          "9013",
+          "0406",
+          "6448"
+        ]
       }
     ]
   },
