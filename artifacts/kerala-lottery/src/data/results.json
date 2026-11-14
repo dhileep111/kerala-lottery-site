@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-14T09:45:49.031114Z",
-    "summary": "Result for Karunya KR-776. 6/10 tiers updated.",
+    "lastUpdated": "2026-11-14T09:50:45.520998Z",
+    "summary": "Result for Karunya KR-776. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "KH 364425"
+          {
+            "ticket": "KH 364425",
+            "district": "Palakkad"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹25,00,000",
         "numbers": [
-          "KB 805855"
+          {
+            "ticket": "KB 805855",
+            "district": "Kannur"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹10,00,000",
         "numbers": [
-          "KJ 648210"
+          {
+            "ticket": "KJ 648210",
+            "district": "Alappuzha"
+          }
         ]
       },
       {
@@ -88,7 +97,26 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "5720",
+          "8632",
+          "8630",
+          "1416",
+          "3311",
+          "5943",
+          "7879",
+          "1432",
+          "3620",
+          "0128",
+          "0501",
+          "7608",
+          "0452",
+          "1800",
+          "7289",
+          "4514",
+          "1540",
+          "1748"
+        ]
       },
       {
         "tier": "7th Prize",
