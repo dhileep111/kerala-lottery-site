@@ -7,7 +7,7 @@
     "status": "verified",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-15T10:55:37.296337Z",
+    "lastUpdated": "2026-11-15T17:11:49.659411Z",
     "summary": "Result for Samrudhi SM-81. 10/10 tiers updated.",
     "prizes": [
       {
@@ -43,7 +43,7 @@
         "numbers": [
           {
             "ticket": "MJ 699646",
-            "district": "Idukki"
+            "district": "Adimaly"
           }
         ]
       },
@@ -53,7 +53,7 @@
         "numbers": [
           {
             "ticket": "MM 772440",
-            "district": "Thrissur"
+            "district": "Guruvayoor"
           }
         ]
       },
@@ -132,7 +132,6 @@
           "0267",
           "0429",
           "0480",
-          "0500",
           "0576",
           "0656",
           "0685",
