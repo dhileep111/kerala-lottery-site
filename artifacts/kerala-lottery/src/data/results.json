@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-15T09:40:49.303658Z",
-    "summary": "Result for Samrudhi SM-81. 4/10 tiers updated.",
+    "lastUpdated": "2026-11-15T09:45:45.219971Z",
+    "summary": "Result for Samrudhi SM-81. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -51,12 +51,39 @@
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0329",
+          "0460",
+          "0527",
+          "1506",
+          "1599",
+          "2343",
+          "2749",
+          "3242",
+          "3549",
+          "4035",
+          "4878",
+          "5590",
+          "5602",
+          "6089",
+          "6194",
+          "7572",
+          "7644",
+          "8808",
+          "9097"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "0827",
+          "6021",
+          "6090",
+          "6372",
+          "8887",
+          "8999"
+        ]
       },
       {
         "tier": "6th Prize",
