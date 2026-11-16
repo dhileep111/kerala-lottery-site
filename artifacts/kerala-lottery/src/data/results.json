@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-16T09:45:47.310062Z",
-    "summary": "Result for Bhagyathara BT-80. 5/10 tiers updated.",
+    "lastUpdated": "2026-11-16T09:50:46.769772Z",
+    "summary": "Result for Bhagyathara BT-80. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "BV 543398"
+          {
+            "ticket": "BV 543398",
+            "district": "Ernakulam"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "BV 362422"
+          {
+            "ticket": "BV 362422",
+            "district": "Thrissur"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "BW 882812"
+          {
+            "ticket": "BW 882812",
+            "district": "Palakkad"
+          }
         ]
       },
       {
@@ -76,12 +85,38 @@
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "0287",
+          "0464",
+          "2142",
+          "2850",
+          "3504",
+          "8137"
+        ]
       },
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "5432",
+          "0106",
+          "6122",
+          "0131",
+          "9604",
+          "9234",
+          "4527",
+          "5260",
+          "0153",
+          "0246",
+          "8798",
+          "0274",
+          "7671",
+          "5005",
+          "1858",
+          "7474",
+          "6312",
+          "6850"
+        ]
       },
       {
         "tier": "7th Prize",
