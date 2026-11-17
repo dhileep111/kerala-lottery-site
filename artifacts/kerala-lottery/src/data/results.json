@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-17T09:45:44.813706Z",
-    "summary": "Result for Sthree Sakthi SS-546. 5/10 tiers updated.",
+    "lastUpdated": "2026-11-17T09:50:46.143256Z",
+    "summary": "Result for Sthree Sakthi SS-546. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "SA 286401"
+          {
+            "ticket": "SA 286401",
+            "district": "Thrissur"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "SG 329117"
+          {
+            "ticket": "SG 329117",
+            "district": "Wayanad"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "SL 682449"
+          {
+            "ticket": "SL 682449",
+            "district": "Thiruvananthapuram"
+          }
         ]
       },
       {
@@ -76,12 +85,26 @@
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "0219",
+          "2521",
+          "2811",
+          "4640",
+          "6826",
+          "9900"
+        ]
       },
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "0666",
+          "5008",
+          "5621",
+          "1439",
+          "3036",
+          "1233"
+        ]
       },
       {
         "tier": "7th Prize",
