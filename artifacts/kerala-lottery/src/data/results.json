@@ -1,5 +1,86 @@
 [
   {
+    "lotterySlug": "dhanalekshmi",
+    "drawCode": "DL-78",
+    "drawDate": "2026-11-18",
+    "displayDate": "November 18, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-11-18T09:40:48.383877Z",
+    "summary": "Result for Dhanalekshmi DL-78. 4/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹1,00,00,000",
+        "numbers": [
+          "DO 359523"
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "DN 359523",
+          "DP 359523",
+          "DR 359523",
+          "DS 359523",
+          "DT 359523",
+          "DU 359523",
+          "DV 359523",
+          "DW 359523",
+          "DX 359523",
+          "DY 359523",
+          "DZ 359523"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹30,00,000",
+        "numbers": [
+          "DX 475747"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "DU 475774"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹5,000",
+        "numbers": []
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹200",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹100",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "sthree-sakthi",
     "drawCode": "SS-546",
     "drawDate": "2026-11-17",
