@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-18T09:40:48.383877Z",
-    "summary": "Result for Dhanalekshmi DL-78. 4/10 tiers updated.",
+    "lastUpdated": "2026-11-18T09:45:47.654365Z",
+    "summary": "Result for Dhanalekshmi DL-78. 5/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -51,7 +51,27 @@
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0476",
+          "2100",
+          "2135",
+          "2557",
+          "2766",
+          "2824",
+          "2950",
+          "3502",
+          "4363",
+          "4698",
+          "4725",
+          "5269",
+          "5923",
+          "7012",
+          "7703",
+          "8250",
+          "8593",
+          "9433",
+          "9673"
+        ]
       },
       {
         "tier": "5th Prize",
