@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-19T09:40:48.638932Z",
-    "summary": "Result for Karunya Plus KN-650. 4/10 tiers updated.",
+    "lastUpdated": "2026-11-19T09:45:54.455645Z",
+    "summary": "Result for Karunya Plus KN-650. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -51,12 +51,39 @@
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
-        "numbers": []
+        "numbers": [
+          "0913",
+          "1328",
+          "1495",
+          "2689",
+          "2925",
+          "3014",
+          "3910",
+          "4019",
+          "4150",
+          "4661",
+          "4795",
+          "7730",
+          "7882",
+          "7978",
+          "8659",
+          "9068",
+          "9733",
+          "9964",
+          "9973"
+        ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "2045",
+          "2904",
+          "4320",
+          "4604",
+          "7635",
+          "9963"
+        ]
       },
       {
         "tier": "6th Prize",
