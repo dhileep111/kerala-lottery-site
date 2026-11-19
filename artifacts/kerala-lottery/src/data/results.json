@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-19T09:45:54.455645Z",
-    "summary": "Result for Karunya Plus KN-650. 6/10 tiers updated.",
+    "lastUpdated": "2026-11-19T09:50:49.890085Z",
+    "summary": "Result for Karunya Plus KN-650. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "PS 554896"
+          {
+            "ticket": "PS 554896",
+            "district": "Kollam"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "PO 325992"
+          {
+            "ticket": "PO 325992",
+            "district": "Thrissur"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "PP 557100"
+          {
+            "ticket": "PP 557100",
+            "district": "Kottayam"
+          }
         ]
       },
       {
@@ -88,7 +97,26 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "6560",
+          "9824",
+          "7751",
+          "3152",
+          "4111",
+          "4758",
+          "1968",
+          "9072",
+          "2342",
+          "6425",
+          "8761",
+          "6610",
+          "7074",
+          "0054",
+          "6232",
+          "0007",
+          "4546",
+          "5249"
+        ]
       },
       {
         "tier": "7th Prize",
