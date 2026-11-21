@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-21T09:45:46.559175Z",
-    "summary": "Result for Karunya KR-777. 5/10 tiers updated.",
+    "lastUpdated": "2026-11-21T09:50:51.079871Z",
+    "summary": "Result for Karunya KR-777. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "KU 400365"
+          {
+            "ticket": "KU 400365",
+            "district": "Pathanamthitta"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹25,00,000",
         "numbers": [
-          "KS 182163"
+          {
+            "ticket": "KS 182163",
+            "district": "Ernakulam"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹10,00,000",
         "numbers": [
-          "KY 404441"
+          {
+            "ticket": "KY 404441",
+            "district": "Kannur"
+          }
         ]
       },
       {
@@ -76,7 +85,14 @@
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "1393",
+          "1897",
+          "2491",
+          "2962",
+          "3974",
+          "4205"
+        ]
       },
       {
         "tier": "6th Prize",
