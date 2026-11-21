@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-21T09:50:51.079871Z",
-    "summary": "Result for Karunya KR-777. 6/10 tiers updated.",
+    "lastUpdated": "2026-11-21T09:55:38.923754Z",
+    "summary": "Result for Karunya KR-777. 8/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -97,12 +97,57 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "1250",
+          "1674",
+          "1979",
+          "2102",
+          "2573",
+          "2689",
+          "3850",
+          "4160",
+          "4273",
+          "4368",
+          "4495",
+          "4943",
+          "5312",
+          "6059",
+          "6562",
+          "6980",
+          "7396",
+          "7541",
+          "7891",
+          "8712",
+          "8797",
+          "8852",
+          "9317",
+          "9465",
+          "9902"
+        ]
       },
       {
         "tier": "7th Prize",
         "amount": "₹500",
-        "numbers": []
+        "numbers": [
+          "1919",
+          "5475",
+          "2124",
+          "9071",
+          "0663",
+          "8420",
+          "3746",
+          "3841",
+          "5852",
+          "4414",
+          "0981",
+          "3081",
+          "8580",
+          "2986",
+          "7223",
+          "8013",
+          "9386",
+          "2004"
+        ]
       },
       {
         "tier": "8th Prize",
