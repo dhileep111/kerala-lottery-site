@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-22T09:41:04.666713Z",
-    "summary": "Result for Samrudhi SM-82. 5/10 tiers updated.",
+    "lastUpdated": "2026-11-22T09:45:53.627593Z",
+    "summary": "Result for Samrudhi SM-82. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -52,29 +52,38 @@
         "tier": "4th Prize",
         "amount": "₹5,000",
         "numbers": [
+          "0606",
           "1547",
+          "1813",
+          "2626",
           "2958",
+          "2987",
           "3412",
+          "3483",
+          "3735",
           "3746",
-          "8304",
+          "4156",
           "4373",
           "5581",
-          "9840",
+          "6852",
           "7020",
-          "1813",
-          "9686",
-          "2987",
-          "2626",
-          "3483",
+          "8304",
           "8994",
-          "4156",
-          "6852"
+          "9686",
+          "9840"
         ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "5323",
+          "5867",
+          "6706",
+          "7671",
+          "8383",
+          "8543"
+        ]
       },
       {
         "tier": "6th Prize",
