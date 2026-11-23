@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-23T09:45:58.501659Z",
+    "lastUpdated": "2026-11-23T09:51:00.007104Z",
     "summary": "Result for Bhagyathara BT-81. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "BE 573685"
+          {
+            "ticket": "BE 573685",
+            "district": "Kollam"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "BC 983748"
+          {
+            "ticket": "BC 983748",
+            "district": "Thiruvananthapuram"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "BF 784740"
+          {
+            "ticket": "BF 784740",
+            "district": "Thiruvananthapuram"
+          }
         ]
       },
       {
