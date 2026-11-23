@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-23T09:40:49.577965Z",
-    "summary": "Result for Bhagyathara BT-81. 5/10 tiers updated.",
+    "lastUpdated": "2026-11-23T09:45:58.501659Z",
+    "summary": "Result for Bhagyathara BT-81. 6/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -21,8 +21,17 @@
         "tier": "Consolation Prize",
         "amount": "₹5,000",
         "numbers": [
-          "BR 573685",
-          "BT 573685"
+          "BA 573685",
+          "BB 573685",
+          "BC 573685",
+          "BD 573685",
+          "BF 573685",
+          "BG 573685",
+          "BH 573685",
+          "BJ 573685",
+          "BK 573685",
+          "BL 573685",
+          "BM 573685"
         ]
       },
       {
@@ -43,29 +52,38 @@
         "tier": "4th Prize",
         "amount": "₹5,000",
         "numbers": [
-          "3924",
-          "4402",
-          "8860",
           "0307",
           "0538",
-          "6783",
-          "9969",
           "0830",
+          "1115",
           "1836",
-          "3591",
-          "3494",
           "2320",
-          "2868",
           "2357",
           "2602",
-          "1115",
-          "8452"
+          "2868",
+          "3494",
+          "3591",
+          "3671",
+          "3924",
+          "4402",
+          "6783",
+          "8452",
+          "8860",
+          "9822",
+          "9969"
         ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "2847",
+          "4563",
+          "4837",
+          "6997",
+          "7302",
+          "7999"
+        ]
       },
       {
         "tier": "6th Prize",
