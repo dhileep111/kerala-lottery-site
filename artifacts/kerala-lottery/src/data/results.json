@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-24T09:45:50.588799Z",
-    "summary": "Result for Sthree Sakthi SS-547. 6/10 tiers updated.",
+    "lastUpdated": "2026-11-24T09:50:53.386204Z",
+    "summary": "Result for Sthree Sakthi SS-547. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "SW 890947"
+          {
+            "ticket": "SW 890947",
+            "district": "Alappuzha"
+          }
         ]
       },
       {
@@ -38,14 +41,20 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "SO 882442"
+          {
+            "ticket": "SO 882442",
+            "district": "Kasaragod"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "ST 136427"
+          {
+            "ticket": "ST 136427",
+            "district": "Kollam"
+          }
         ]
       },
       {
@@ -88,7 +97,26 @@
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "7628",
+          "4052",
+          "4522",
+          "5985",
+          "7878",
+          "3677",
+          "8693",
+          "9909",
+          "3649",
+          "4412",
+          "0993",
+          "6093",
+          "0082",
+          "9767",
+          "1180",
+          "5550",
+          "5586",
+          "7810"
+        ]
       },
       {
         "tier": "7th Prize",
