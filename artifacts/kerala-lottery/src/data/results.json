@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-25T09:50:49.796224Z",
-    "summary": "Result for Dhanalekshmi DL-79. 7/10 tiers updated.",
+    "lastUpdated": "2026-11-25T09:55:45.486621Z",
+    "summary": "Result for Dhanalekshmi DL-79. 8/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -98,17 +98,54 @@
         "tier": "6th Prize",
         "amount": "₹1,000",
         "numbers": [
+          "0449",
+          "0675",
+          "1186",
+          "1223",
+          "1525",
+          "1966",
+          "2904",
+          "3999",
+          "4553",
           "4633",
-          "4930",
+          "4837",
           "4909",
+          "4917",
+          "4930",
+          "5001",
           "5096",
-          "1966"
+          "5100",
+          "5659",
+          "6198",
+          "7006",
+          "7579",
+          "7630",
+          "8344",
+          "9265",
+          "9315"
         ]
       },
       {
         "tier": "7th Prize",
         "amount": "₹500",
-        "numbers": []
+        "numbers": [
+          "1375",
+          "8052",
+          "6134",
+          "3698",
+          "7676",
+          "1913",
+          "2719",
+          "5518",
+          "7445",
+          "7132",
+          "7595",
+          "2194",
+          "8447",
+          "7742",
+          "2375",
+          "0114"
+        ]
       },
       {
         "tier": "8th Prize",
