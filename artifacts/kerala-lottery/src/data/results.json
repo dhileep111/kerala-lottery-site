@@ -1,5 +1,78 @@
 [
   {
+    "lotterySlug": "bumper",
+    "drawCode": "BR-112",
+    "drawDate": "2026-11-27",
+    "displayDate": "November 27, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-11-27T19:28:33.597325Z",
+    "summary": "Result for Kerala Bumper BR-112. 2/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹12,00,00,000",
+        "numbers": [
+          {
+            "ticket": "JD 545542",
+            "district": "Palakkad"
+          }
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹1,00,000",
+        "numbers": [
+          "JA 545542",
+          "JB 545542",
+          "JC 545542",
+          "JE 545542"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹50,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹3,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,00,000",
+        "numbers": []
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹5,000",
+        "numbers": []
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹300",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "suvarna-keralam",
     "drawCode": "SK-79",
     "drawDate": "2026-11-27",
