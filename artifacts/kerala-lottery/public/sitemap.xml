@@ -32,7 +32,7 @@
   </url>
   <url>
     <loc>https://keralaticketresults.in/bumper</loc>
-    <lastmod>2026-10-30</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.90</priority>
   </url>
@@ -164,9 +164,15 @@
   </url>
   <url>
     <loc>https://keralaticketresults.in/results/bumper</loc>
-    <lastmod>2026-10-30</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://keralaticketresults.in/results/bumper/br-112</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://keralaticketresults.in/results/suvarna-keralam/sk-79</loc>
@@ -1364,7 +1370,7 @@
   </url>
   <url>
     <loc>https://keralaticketresults.in/ta/bumper</loc>
-    <lastmod>2026-10-30</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.90</priority>
   </url>
@@ -1496,9 +1502,15 @@
   </url>
   <url>
     <loc>https://keralaticketresults.in/ta/results/bumper</loc>
-    <lastmod>2026-10-30</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://keralaticketresults.in/ta/results/bumper/br-112</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://keralaticketresults.in/ta/results/suvarna-keralam/sk-79</loc>
@@ -2696,7 +2708,7 @@
   </url>
   <url>
     <loc>https://keralaticketresults.in/ml/bumper</loc>
-    <lastmod>2026-10-30</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.90</priority>
   </url>
@@ -2828,9 +2840,15 @@
   </url>
   <url>
     <loc>https://keralaticketresults.in/ml/results/bumper</loc>
-    <lastmod>2026-10-30</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://keralaticketresults.in/ml/results/bumper/br-112</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://keralaticketresults.in/ml/results/suvarna-keralam/sk-79</loc>
@@ -4028,7 +4046,7 @@
   </url>
   <url>
     <loc>https://keralaticketresults.in/hi/bumper</loc>
-    <lastmod>2026-10-30</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.90</priority>
   </url>
@@ -4160,9 +4178,15 @@
   </url>
   <url>
     <loc>https://keralaticketresults.in/hi/results/bumper</loc>
-    <lastmod>2026-10-30</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://keralaticketresults.in/hi/results/bumper/br-112</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://keralaticketresults.in/hi/results/suvarna-keralam/sk-79</loc>
@@ -5360,7 +5384,7 @@
   </url>
   <url>
     <loc>https://keralaticketresults.in/kn/bumper</loc>
-    <lastmod>2026-10-30</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.90</priority>
   </url>
@@ -5492,9 +5516,15 @@
   </url>
   <url>
     <loc>https://keralaticketresults.in/kn/results/bumper</loc>
-    <lastmod>2026-10-30</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://keralaticketresults.in/kn/results/bumper/br-112</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://keralaticketresults.in/kn/results/suvarna-keralam/sk-79</loc>
