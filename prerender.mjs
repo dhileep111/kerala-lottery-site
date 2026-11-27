@@ -1725,9 +1725,14 @@ function makeHtml(route, { noindex = false } = {}) {
   // ── KEY FIX: Inject real content into <div id="root"> ──
   // This is what Google actually reads — not the JS bundle
   if (route.content) {
+    // Keep intrinsic table width inside its own scroll area before React loads.
+    const content = route.content.replace(
+      /<table\b[^>]*>[\s\S]*?<\/table>/gi,
+      '<div class="table-wrap">$&</div>',
+    );
     html = html.replace(
       '<div id="root"></div>',
-      `<div id="root">${route.content}</div>`
+      `<div id="root">${content}</div>`
     );
   }
 

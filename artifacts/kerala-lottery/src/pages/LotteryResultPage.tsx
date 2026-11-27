@@ -24,7 +24,7 @@ function BumperUpcoming({ up, lang }: { up: Required<UpcomingBumper>; lang: Lang
   return (
     <section className="content-card">
       <h2>{t(lang, 'bumperNextBumper')}: {up.name} ({up.code})</h2>
-      <table className="table">
+      <div className="table-wrap"><table className="table">
         <tbody>
           <tr><td>{t(lang, 'date')}</td><td>{up.drawDateLabel} · {up.drawTime} IST</td></tr>
           <tr><td>{t(lang, 'bumperVenue')}</td><td>{up.venue}</td></tr>
@@ -32,7 +32,7 @@ function BumperUpcoming({ up, lang }: { up: Required<UpcomingBumper>; lang: Lang
           <tr><td>{t(lang, 'ticketPrice')}</td><td>{up.ticketPrice}</td></tr>
           <tr><td>{t(lang, 'bumperSeries')}</td><td>{up.series}</td></tr>
         </tbody>
-      </table>
+      </table></div>
       <p>Results appear here on draw day, live from {up.drawTime} IST.</p>
       {!cd.done && (
         <p>

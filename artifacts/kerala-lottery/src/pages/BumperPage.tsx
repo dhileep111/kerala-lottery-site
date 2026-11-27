@@ -82,13 +82,13 @@ export default function BumperPage() {
             </p>
           )}
 
-          <table className="table" style={{ width: '100%' }}>
+          <div className="table-wrap"><table className="table" style={{ width: '100%' }}>
             <tbody>
               <tr><td>{t(lang, 'ticketPrice')}</td><td>{up.ticketPrice}</td></tr>
               <tr><td>{t(lang, 'bumperSeries')}</td><td>{up.series}</td></tr>
               <tr><td>{t(lang, 'bumperVenue')}</td><td>{up.venue}</td></tr>
             </tbody>
-          </table>
+          </table></div>
         </div>
       )}
 
