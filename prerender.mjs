@@ -139,7 +139,18 @@ const HOME_FALLBACK = {
   kn: { title: 'ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶ ಇಂದು — ಮಧ್ಯಾಹ್ನ 3 ಗಂಟೆ', desc: 'ಇಂದು ಮಧ್ಯಾಹ್ನ 3 ಗಂಟೆಗೆ ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶ — ಕಾರುಣ್ಯ, ಭಾಗ್ಯತಾರ, ಸ್ತ್ರೀ ಶಕ್ತಿ, ಧನಲಕ್ಷ್ಮಿ, ಕಾರುಣ್ಯ ಪ್ಲಸ್, ಸ್ವರ್ಣ ಕೇರಳ, ಸಮೃದ್ಧಿ.' },
 };
 
+function homeBumperToday() {
+  const up = bumpers.upcoming;
+  const today = new Date(Date.now() + 330 * 60000).toISOString().slice(0, 10);
+  return up?.announced && up.drawDateISO?.slice(0, 10) === today ? up : null;
+}
+
 function buildHomeTitleDesc(lang) {
+  const bumper = homeBumperToday();
+  if (bumper) {
+    const title = `${homeLotteryName(lang, 'bumper')} — ${bumper.name} ${bumper.code}`;
+    return { title, desc: `${title} · ${localizedDrawDate(lang, bumper.drawDateISO.slice(0, 10))} · ${bumper.drawTime} IST · ${bumper.firstPrize}` };
+  }
   const latest = getLatestHomeDraw();
   if (!latest) return HOME_FALLBACK[lang] ?? HOME_FALLBACK.en;
 
@@ -888,6 +899,15 @@ function buildGuessingHowMadeHtml(lang) {
 }
 
 function buildHomeContent(lang = 'en', { extras = false } = {}) {
+  const bumper = homeBumperToday();
+  if (bumper) {
+    const prefix = lang === 'en' ? '' : '/' + lang;
+    const latest = getLatestHomeDraw();
+    const published = latest?.drawCode === bumper.code;
+    const target = published ? drawHref(latest) : '/bumper';
+    const label = buildHomeTitleDesc(lang).title;
+    return `<main><h1>${e(label)}</h1><p><a href="${ea(prefix + target)}">${e(bumper.name)} ${e(bumper.code)}</a> · ${e(bumper.drawTime)} IST</p>${extras && published ? buildHomeExtrasEn() : ''}</main>`;
+  }
   const taH1  = 'கேரளா லாட்டரி ரிசல்ட் டுடே — கேரளா ரிசல்ட் இன்று — Kerala Lottery Result Today';
   const enH1  = 'Kerala Lottery Result Today';
   const taLead = 'இன்று மதியம் 3:00 மணி கேரளா லாட்டரி ரிசல்ட் இங்கே புதுப்பிக்கப்படும். ';
@@ -1234,7 +1254,7 @@ const STATIC_ML_OVERRIDES = [
   { title: 'കേരള ലോട്ടറി ചാർട്ട് 2026 — എല്ലാ ഫലങ്ങളും',
     desc: 'എല്ലാ ദിവസത്തെയും ലോട്ടറി ഒന്നാം സമ്മാനം ഒരു നോട്ടത്തിൽ, ഏറ്റവും പുതിയത് ആദ്യം.',
     h1: 'കേരള ലോട്ടറി ചാർട്ട്' },
-  { ...buildHomeTitleDesc('ml'), content: buildHomeContent() },
+  { ...buildHomeTitleDesc('ml'), content: buildHomeContent('ml') },
   { title: 'കേരള ലോട്ടറി ടിക്കറ്റ് നമ്പർ പരിശോധന',
     desc: 'നിങ്ങളുടെ ടിക്കറ്റ് നമ്പർ വിജയിച്ചോ എന്ന് പരിശോധിക്കുക.',
     content: `<main><h1>കേരള ലോട്ടറി ടിക്കറ്റ് പരിശോധന</h1><p>നിങ്ങളുടെ ടിക്കറ്റ് നമ്പർ നൽകി, സമീപകാല കേരള ലോട്ടറി ഫലങ്ങളിൽ വിജയിച്ചോ എന്ന് പരിശോധിക്കുക.</p></main>` },
@@ -1302,7 +1322,7 @@ const STATIC_HI_OVERRIDES = [
   { title: 'केरल लॉटरी चार्ट 2026 — सभी परिणाम',
     desc: 'हर दिन की लॉटरी का पहला पुरस्कार एक नज़र में, नवीनतम पहले।',
     h1: 'केरल लॉटरी चार्ट' },
-  { ...buildHomeTitleDesc('hi'), content: buildHomeContent() },
+  { ...buildHomeTitleDesc('hi'), content: buildHomeContent('hi') },
   { title: 'केरल लॉटरी टिकट नंबर जांच',
     desc: 'अपना टिकट नंबर डालकर जांचें कि आप जीते हैं या नहीं।',
     content: `<main><h1>केरल लॉटरी टिकट जांच</h1><p>अपना टिकट नंबर डालकर हाल के केरल लॉटरी परिणामों में जीत की जांच करें।</p></main>` },
@@ -1369,7 +1389,7 @@ const STATIC_KN_OVERRIDES = [
   { title: 'ಕೇರಳ ಲಾಟರಿ ಚಾರ್ಟ್ 2026 — ಎಲ್ಲಾ ಫಲಿತಾಂಶಗಳು',
     desc: 'ಪ್ರತಿ ದಿನದ ಲಾಟರಿಯ ಮೊದಲ ಬಹುಮಾನ ಒಂದೇ ನೋಟದಲ್ಲಿ, ಇತ್ತೀಚಿನದು ಮೊದಲು.',
     h1: 'ಕೇರಳ ಲಾಟರಿ ಚಾರ್ಟ್' },
-  { ...buildHomeTitleDesc('kn'), content: buildHomeContent() },
+  { ...buildHomeTitleDesc('kn'), content: buildHomeContent('kn') },
   { title: 'ಕೇರಳ ಲಾಟರಿ ಟಿಕೆಟ್ ಸಂಖ್ಯೆ ಪರಿಶೀಲನೆ',
     desc: 'ನಿಮ್ಮ ಟಿಕೆಟ್ ಸಂಖ್ಯೆ ಗೆದ್ದಿದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಿ.',
     content: `<main><h1>ಕೇರಳ ಲಾಟರಿ ಟಿಕೆಟ್ ಪರಿಶೀಲನೆ</h1><p>ನಿಮ್ಮ ಟಿಕೆಟ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ, ಇತ್ತೀಚಿನ ಕೇರಳ ಲಾಟರಿ ಫಲಿತಾಂಶಗಳಲ್ಲಿ ಗೆದ್ದಿದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಿ.</p></main>` },

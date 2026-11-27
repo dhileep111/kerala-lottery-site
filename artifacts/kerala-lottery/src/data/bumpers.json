@@ -10,6 +10,18 @@
     "firstPrize": "₹12 Crore",
     "ticketPrice": "₹300",
     "series": "JA, JB, JC, JD, JE",
-    "venue": "Gorky Bhavan, Thiruvananthapuram"
+    "venue": "Gorky Bhavan, Thiruvananthapuram",
+    "prizeTiers": [
+      {"tier": "1st Prize", "amount": "₹12,00,00,000"},
+      {"tier": "Consolation Prize", "amount": "₹1,00,000"},
+      {"tier": "2nd Prize", "amount": "₹50,00,000"},
+      {"tier": "3rd Prize", "amount": "₹5,00,000"},
+      {"tier": "4th Prize", "amount": "₹3,00,000"},
+      {"tier": "5th Prize", "amount": "₹2,00,000"},
+      {"tier": "6th Prize", "amount": "₹5,000"},
+      {"tier": "7th Prize", "amount": "₹1,000"},
+      {"tier": "8th Prize", "amount": "₹500"},
+      {"tier": "9th Prize", "amount": "₹300"}
+    ]
   }
 }

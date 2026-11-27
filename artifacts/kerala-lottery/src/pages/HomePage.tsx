@@ -8,7 +8,9 @@ import { RecentResults } from '../components/RecentResults';
 import { ShareResultButton } from '../components/ShareResultButton';
 import { getLatestResult, getLottery, getResultWithLottery, lotteries, site, getTodayHoliday } from '../data';
 import NextDrawCountdown from '../components/NextDrawCountdown';
-import { useLang, t, getLotteryName } from '../lib/i18n';
+import { useLang, t, getLotteryName, withLang } from '../lib/i18n';
+import { getTodayLottery } from '../data';
+import { upcoming } from '../data/bumpers.json';
 
 // Per-lottery accent colors
 const LOTTERY_COLORS: Record<string, { primary: string; light: string; border: string; text: string }> = {
@@ -27,8 +29,6 @@ function getLotteryColor(slug: string) {
 }
 
 // Day of week helper
-const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-function getTodayDayIndex() { return new Date(Date.now() + 5.5 * 3600e3).getUTCDay(); }
 
 // Which lottery draws next, IST-aware. Before ~4 PM IST it's today's lottery
 // (counting down to / publishing the 3 PM draw); after the result window it's tomorrow's.
@@ -36,22 +36,20 @@ function getUpcomingLottery() {
   const now = new Date();
   const minsFromUtcMidnightIST = now.getUTCHours() * 60 + now.getUTCMinutes() + 330; // IST = UTC+5:30
   const istMinutes = minsFromUtcMidnightIST % 1440;
-  const istDay = (now.getUTCDay() + Math.floor(minsFromUtcMidnightIST / 1440)) % 7;
   const drawWindowEndMins = 15 * 60 + 60; // 3:00 PM + 60-min result window
-  const targetDay = istMinutes < drawWindowEndMins ? istDay : (istDay + 1) % 7;
-  return lotteries.find(l => !l.isBumper && l.drawDayIndex === targetDay);
+  return getTodayLottery(new Date(now.getTime() + (istMinutes < drawWindowEndMins ? 0 : 86400000)));
 }
 
 function LotterySelector({ selected, onSelect }: { selected: string; onSelect: (slug: string) => void }) {
   const lang = useLang();
-  const todayIdx = getTodayDayIndex();
-  const mainLotteries = lotteries.filter(l => l.slug !== 'bumper');
+  const today = getTodayLottery();
+  const mainLotteries = lotteries.filter(l => !l.isBumper || today.isBumper);
 
   return (
     <div className="lottery-selector">
       {mainLotteries.map(lottery => {
         const color    = getLotteryColor(lottery.slug);
-        const isToday  = lottery.drawDayIndex === todayIdx;
+        const isToday  = lottery.slug === today.slug;
         const isActive = lottery.slug === selected;
         const latest   = getLatestResult(lottery.slug);
         const status   = latest?.status ?? 'pending';
@@ -90,9 +88,12 @@ function LotterySelector({ selected, onSelect }: { selected: string; onSelect: (
 export default function HomePage() {
   const lang = useLang();
   const defaultLatest = getResultWithLottery();
-  const [selectedSlug, setSelectedSlug] = useState(defaultLatest?.lottery.slug ?? 'karunya');
+  const bumperToday = getTodayLottery().isBumper;
+  const [selectedSlug, setSelectedSlug] = useState(bumperToday ? 'bumper' : defaultLatest?.lottery.slug ?? 'karunya');
 
-  const selectedResult  = getLatestResult(selectedSlug);
+  const latest = getLatestResult(selectedSlug);
+  const selectedResult = bumperToday && selectedSlug === 'bumper' && latest?.drawCode !== upcoming.code ? undefined : latest;
+  const bumperLink = <Link href={withLang('/bumper', lang)}>{upcoming.name} {upcoming.code} · {upcoming.drawTime} IST</Link>;
   const selectedLottery = getLottery(selectedSlug);
   const color           = getLotteryColor(selectedSlug);
   const todayHoliday    = getTodayHoliday();
@@ -109,7 +110,7 @@ export default function HomePage() {
               : <strong>{t(lang, 'homeHolidayNotice').replace('{name}', todayHoliday)}</strong>}
           </div>
         )}
-        {lang === 'ta' ? (
+        {bumperToday ? <div className="notice">{bumperLink}</div> : lang === 'ta' ? (
           <div className="notice">கேரளா லாட்டரி ரிசல்ட் (கேரளா ரிசல்ட்) தினமும் மதியம் 3 மணிக்கு இங்கே புதுப்பிக்கப்படும். உங்கள் லாட்டரியைத் தேர்ந்தெடுத்து இன்றைய முடிவைப் பாருங்கள்.</div>
         ) : (
           <div className="notice">{t(lang, 'homeNotice')}</div>
@@ -140,7 +141,7 @@ export default function HomePage() {
             <div className="selected-result-panel">
               <div style={{ padding: '32px 24px', textAlign: 'center', color: '#6b7280' }}>
                 <div style={{ fontSize: 32, marginBottom: 8 }}>⏳</div>
-                <strong>{getLotteryName(selectedLottery.slug, selectedLottery.name, lang)}</strong> {t(lang, 'homeDrawsEvery')} {selectedLottery.drawDay} {t(lang, 'homeAt')} {selectedLottery.drawTime}.<br />
+                {selectedLottery.isBumper ? bumperLink : <><strong>{getLotteryName(selectedLottery.slug, selectedLottery.name, lang)}</strong> {t(lang, 'homeDrawsEvery')} {selectedLottery.drawDay} {t(lang, 'homeAt')} {selectedLottery.drawTime}.</>}<br />
                 {t(lang, 'homeNoResultYet')}
               </div>
               <div style={{ textAlign: 'center', paddingBottom: 24 }}>
@@ -153,7 +154,7 @@ export default function HomePage() {
 
           {/* Live countdown to the next daily 3 PM IST draw */}
           <div style={{ marginTop: 24 }}>
-            <NextDrawCountdown lotteryName={getUpcomingLottery()?.name} />
+            {getUpcomingLottery()?.isBumper ? bumperLink : <NextDrawCountdown lotteryName={getUpcomingLottery()?.name} />}
           </div>
         </section>
 
