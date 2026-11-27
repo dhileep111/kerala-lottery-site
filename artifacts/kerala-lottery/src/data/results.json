@@ -7,14 +7,17 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-27T09:45:49.018904Z",
-    "summary": "Result for Suvarna Keralam SK-79. 5/10 tiers updated.",
+    "lastUpdated": "2026-11-27T09:50:51.130606Z",
+    "summary": "Result for Suvarna Keralam SK-79. 7/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
         "amount": "₹1,00,00,000",
         "numbers": [
-          "RK 661942"
+          {
+            "ticket": "RK 661942",
+            "district": "Kannur"
+          }
         ]
       },
       {
@@ -38,43 +41,70 @@
         "tier": "2nd Prize",
         "amount": "₹30,00,000",
         "numbers": [
-          "RL 708944"
+          {
+            "ticket": "RL 708944",
+            "district": "Ernakulam"
+          }
         ]
       },
       {
         "tier": "3rd Prize",
         "amount": "₹5,00,000",
         "numbers": [
-          "RC 964140"
+          {
+            "ticket": "RC 964140",
+            "district": "Kollam"
+          }
         ]
       },
       {
         "tier": "4th Prize",
         "amount": "₹5,000",
         "numbers": [
+          "0079",
           "0713",
+          "0849",
+          "2652",
+          "3220",
+          "3840",
+          "3950",
+          "4011",
+          "4012",
+          "4337",
           "4431",
+          "4538",
+          "4966",
           "5527",
           "6410",
-          "4966",
+          "6582",
+          "8499",
           "9147",
-          "9297",
-          "0079",
-          "3840",
-          "4538",
-          "4337",
-          "2652"
+          "9297"
         ]
       },
       {
         "tier": "5th Prize",
         "amount": "₹2,000",
-        "numbers": []
+        "numbers": [
+          "0072",
+          "5254",
+          "6033",
+          "6554",
+          "7461",
+          "8527"
+        ]
       },
       {
         "tier": "6th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "4399",
+          "8213",
+          "5677",
+          "3069",
+          "0707",
+          "2414"
+        ]
       },
       {
         "tier": "7th Prize",
