@@ -617,6 +617,12 @@ def main():
 
     is_bumper = lottery['slug'] == 'bumper'
     bumper_info = get_bumper_info() if is_bumper else None
+    if is_bumper and bumper_info.get('drawDateISO'):
+        draw_at = datetime.datetime.fromisoformat(bumper_info['drawDateISO'])
+        if now < draw_at:
+            print(f"  {draw_code} is scheduled for {draw_at:%H:%M IST} — waiting for the draw")
+            return
+
 
     sources = [("Direct", lambda: try_direct_url(draw_code))]
     if is_bumper:
@@ -640,6 +646,11 @@ def main():
         h = fn()
         if not h or len(h) <= 2000:
             continue
+        if is_bumper and name == "Goodreturns" and re.search(
+            r"\bresults will be published today after\b", html_to_text(h), re.IGNORECASE
+        ):
+            print("  Goodreturns: bumper results are still pending — skipping historical numbers")
+            continue
 
         print(f"  Got HTML from {name} ({len(h):,} bytes)")
         parsed = parse_prizes(h, draw_code, is_bumper)
@@ -660,6 +671,9 @@ def main():
             continue
 
         stale_draw = own_past_prizes.get(p1_ticket.upper())
+        if draw_code == 'BR-112' and p1_ticket.strip().upper() == 'JD 545542':
+            # BR-106 was absent from the local archive when Goodreturns leaked its winner.
+            stale_draw = 'BR-106'
         if stale_draw:
             print(f"  ⚠ {name}: 1st prize '{p1_ticket}' matches {lottery['name']}'s already-published {stale_draw} — stale page, skipping")
             continue

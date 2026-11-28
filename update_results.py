@@ -19,7 +19,7 @@ full_results format (newline or ' / ' separated):
 """
 
 import json, os, re, sys, urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 DATA_DIR       = Path("artifacts/kerala-lottery/src/data")
@@ -288,6 +288,7 @@ def main():
         and not is_et_mode  # ET workflow sets ET_MODE=true so we use env vars even on schedule
     )
     now          = datetime.now(timezone.utc)
+    draw_day     = now.astimezone(timezone(timedelta(hours=5, minutes=30)))
 
     if manual_lot and not is_scheduled:
         lottery = next((l for l in lotteries if l["slug"]==manual_lot),None)
@@ -296,7 +297,7 @@ def main():
         draw_code   = (manual_draw or f"{lottery['code']}-XXX").strip()  # strip accidental spaces
         first_prize = manual_prize or "PENDING"
     else:
-        lottery     = find_today_lottery(lotteries, now.weekday())
+        lottery     = find_today_lottery(lotteries, draw_day.weekday())
         print(f"🤖 Scheduled: {lottery['name']}")
         draw_code   = scrape_draw_code(lottery["code"])
         first_prize = "PENDING"
@@ -314,8 +315,8 @@ def main():
     result = {
         "lotterySlug": slug,
         "drawCode":    draw_code,
-        "drawDate":    now.strftime("%Y-%m-%d"),
-        "displayDate": now.strftime("%B %d, %Y"),
+        "drawDate":    draw_day.strftime("%Y-%m-%d"),
+        "displayDate": draw_day.strftime("%B %d, %Y"),
         "status":      status,
         "sourceName":  "ET auto scraper" if is_et_mode else ("Manual admin update" if manual_prize else "Awaiting official publication"),
         "sourceUrl":   "https://statelottery.kerala.gov.in/",
