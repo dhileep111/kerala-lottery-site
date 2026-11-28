@@ -7,8 +7,8 @@
     "status": "live",
     "sourceName": "ET auto scraper",
     "sourceUrl": "https://statelottery.kerala.gov.in/",
-    "lastUpdated": "2026-11-28T09:01:19.221089Z",
-    "summary": "Result for Kerala Bumper BR-112. 7/10 tiers updated.",
+    "lastUpdated": "2026-11-28T09:05:38.643186Z",
+    "summary": "Result for Kerala Bumper BR-112. 8/10 tiers updated.",
     "prizes": [
       {
         "tier": "1st Prize",
@@ -93,18 +93,49 @@
         "tier": "6th Prize",
         "amount": "₹5,000",
         "numbers": [
-          "2515",
-          "5044",
+          "0463",
+          "0696",
           "1242",
+          "1253",
+          "2436",
+          "2515",
+          "2799",
+          "3981",
+          "4396",
+          "4596",
+          "5044",
+          "5449",
+          "6132",
           "6252",
-          "9717",
-          "2799"
+          "6882",
+          "6916",
+          "7305",
+          "9717"
         ]
       },
       {
         "tier": "7th Prize",
         "amount": "₹1,000",
-        "numbers": []
+        "numbers": [
+          "7898",
+          "4140",
+          "2847",
+          "3883",
+          "3414",
+          "8775",
+          "6430",
+          "2057",
+          "1423",
+          "2383",
+          "7133",
+          "6155",
+          "4609",
+          "4573",
+          "3957",
+          "4903",
+          "0676",
+          "6919"
+        ]
       },
       {
         "tier": "8th Prize",
