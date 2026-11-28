@@ -1,5 +1,124 @@
 [
   {
+    "lotterySlug": "bumper",
+    "drawCode": "BR-112",
+    "drawDate": "2026-11-28",
+    "displayDate": "November 28, 2026",
+    "status": "live",
+    "sourceName": "ET auto scraper",
+    "sourceUrl": "https://statelottery.kerala.gov.in/",
+    "lastUpdated": "2026-11-28T09:01:19.221089Z",
+    "summary": "Result for Kerala Bumper BR-112. 7/10 tiers updated.",
+    "prizes": [
+      {
+        "tier": "1st Prize",
+        "amount": "₹12,00,00,000",
+        "numbers": [
+          {
+            "ticket": "JC 234427",
+            "district": "Palakkad"
+          }
+        ]
+      },
+      {
+        "tier": "Consolation Prize",
+        "amount": "₹1,00,000",
+        "numbers": [
+          "JA 234427",
+          "JB 234427",
+          "JD 234427",
+          "JE 234427"
+        ]
+      },
+      {
+        "tier": "2nd Prize",
+        "amount": "₹50,00,000",
+        "numbers": [
+          "JA 400634",
+          "JA 969347",
+          "JB 346893",
+          "JB 866718",
+          "JC 648565",
+          "JC 682550",
+          "JD 304468",
+          "JD 766007",
+          "JE 324064",
+          "JE 632364"
+        ]
+      },
+      {
+        "tier": "3rd Prize",
+        "amount": "₹5,00,000",
+        "numbers": [
+          "JA 228134",
+          "JA 869182",
+          "JB 380564",
+          "JB 684041",
+          "JC 780335",
+          "JC 968355",
+          "JD 269757",
+          "JD 688447",
+          "JE 450449",
+          "JE 861047"
+        ]
+      },
+      {
+        "tier": "4th Prize",
+        "amount": "₹3,00,000",
+        "numbers": [
+          "JA 312845",
+          "JB 663775",
+          "JC 783309",
+          "JD 762643",
+          "JE 830356"
+        ]
+      },
+      {
+        "tier": "5th Prize",
+        "amount": "₹2,00,000",
+        "numbers": [
+          "JA 730208",
+          "JA 930367",
+          "JB 869787",
+          "JB 981606",
+          "JC 142529",
+          "JC 566963",
+          "JD 893147",
+          "JD 906642",
+          "JE 482746",
+          "JE 576040"
+        ]
+      },
+      {
+        "tier": "6th Prize",
+        "amount": "₹5,000",
+        "numbers": [
+          "2515",
+          "5044",
+          "1242",
+          "6252",
+          "9717",
+          "2799"
+        ]
+      },
+      {
+        "tier": "7th Prize",
+        "amount": "₹1,000",
+        "numbers": []
+      },
+      {
+        "tier": "8th Prize",
+        "amount": "₹500",
+        "numbers": []
+      },
+      {
+        "tier": "9th Prize",
+        "amount": "₹300",
+        "numbers": []
+      }
+    ]
+  },
+  {
     "lotterySlug": "suvarna-keralam",
     "drawCode": "SK-79",
     "drawDate": "2026-11-27",
